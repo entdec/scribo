@@ -37,7 +37,7 @@ module Scribo
     private
 
     def set_objects
-      @current_site = Site.first
+      @current_site = current_site
       @content = if params[:id]
                    @current_site.contents.where(kind: 'asset').find(params[:id])
                  else
