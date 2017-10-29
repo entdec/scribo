@@ -1,0 +1,10 @@
+= simple_form_for([:admin, @content], url: @content.new_record? ? admin_assets_path : admin_asset_path, html: {multipart: true}) do |f|
+  = f.input :name
+  = f.input :path
+  = f.input :title
+  = f.input :caption
+  = f.input :keywords
+  = f.input :description
+  = f.input :data, as: :file
+  = f.button :button, 'Save', name: 'commit', value: 'save', class: 'btn-primary', data: { disable_with: 'Save' }
+  = f.button :button, 'Continue', name: 'commit', value: 'continue', data: { disable_with: 'Continue' }
