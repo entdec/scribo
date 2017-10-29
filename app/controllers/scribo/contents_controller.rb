@@ -1,4 +1,6 @@
-require_dependency "scribo/application_controller"
+# frozen_string_literal: true
+
+require_dependency 'scribo/application_controller'
 
 module Scribo
   class ContentsController < ApplicationController

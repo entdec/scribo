@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Scribo::Engine.routes.draw do
   namespace :admin do
     resources :assets

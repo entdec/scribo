@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_dependency "scribo/application_controller"
+require_dependency 'scribo/application_controller'
 
 module Scribo
   class Admin::AssetsController < ApplicationController
@@ -19,11 +19,11 @@ module Scribo
     end
 
     def index
-      @contents = Scribo::Site.first.contents.where(kind: 'asset')
+      @contents = Site.first.contents.where(kind: 'asset')
     end
 
     def edit
-      @content = Scribo::Content.find(params[:id])
+      @content = Content.find(params[:id])
     end
 
     def update

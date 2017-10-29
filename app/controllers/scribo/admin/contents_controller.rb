@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-require_dependency "scribo/application_controller"
+require_dependency 'scribo/application_controller'
 
 module Scribo
   class Admin::ContentsController < ApplicationController
     before_action :authenticate_user!
     before_action :set_objects, except: [:index]
-    authorize_resource
+    authorize_resource class: Content
 
     add_breadcrumb I18n.t('breadcrumbs.admin.contents'), :admin_contents_path
 
@@ -19,11 +19,11 @@ module Scribo
     end
 
     def index
-      @contents = Scribo::Site.first.contents.where(kind: 'content')
+      @contents = Site.first.contents.where(kind: 'content')
     end
 
     def edit
-      @content = Scribo::Content.find(params[:id])
+      @content = Content.find(params[:id])
     end
 
     def update
@@ -37,14 +37,14 @@ module Scribo
     private
 
     def set_objects
-      @current_site = Scribo::Site.first
+      @current_site = Site.first
       @content = if params[:id]
                    @current_site.contents.where(kind: 'content').find(params[:id])
                  else
                    params[:content] ? @current_site.contents.new(content_params) : @current_site.contents.new
                  end
       @layouts = @current_site.contents.where(kind: 'content').where.not(identifier: nil).where.not(id: @content.id)
-      @content_types = Scribo::Content::SUPPORTED_MIME_TYPES[:text]
+      @content_types = Content::SUPPORTED_MIME_TYPES[:text]
     end
 
     def content_params

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Scribo
   module ContentHelper
     def render_with_liquid(identifier, yield_content, additional_context = {})

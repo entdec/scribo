@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_dependency "scribo/application_record"
+require_dependency 'scribo/application_record'
 
 require 'liquid'
 
@@ -9,8 +9,8 @@ module Scribo
   class Content < ApplicationRecord
     acts_as_tree
 
-    belongs_to :site, class_name: 'Scribo::Site', foreign_key: 'scribo_site_id'
-    belongs_to :layout, class_name: 'Scribo::Content'
+    belongs_to :site, class_name: Site, foreign_key: 'scribo_site_id'
+    belongs_to :layout, class_name: Content
 
     # TODO: Validate that layout_id is not the same as id
     SUPPORTED_MIME_TYPES = {

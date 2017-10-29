@@ -1,5 +1,3 @@
-![Scribo](logo.svg)
-
 # Scribo
 A simple, embeddable CMS for Ruby on Rails. Scribo is designed to work with your models and renders your content inside customer designed layouts.
 
