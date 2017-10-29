@@ -28,6 +28,14 @@ Tell scribable which models can have sites by adding the following line to your 
   scribable
 ```
 
+So say you have a 'Domain' class, which can have multiple sites, you would do the following:
+
+```ruby
+model Domain
+  scribable
+end
+```
+
 You may need to add the following method to your ApplicationController:
 
 ```ruby
@@ -38,6 +46,16 @@ end
 ```
 
 It should return which site should currently be shown.
+By default scribo will take the first site available, this may be fine for development or for your situation, but be aware. 
+
+So again, say you have a 'Domain' class, which can have multiple sites, you could something similar to the following:
+
+```ruby
+# Defines which site should be shown
+def current_site
+  Domain.sites.named(request.env['SERVER_NAME']).first  
+end
+```
 
 Then add Scribo to the bottom of your routes file:
 

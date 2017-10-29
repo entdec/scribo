@@ -7,5 +7,9 @@ module Scribo
     belongs_to :scribable, polymorphic: true
 
     has_many :contents, class_name: 'Content', foreign_key: 'scribo_site_id'
+
+    def self.named(name)
+      where(name: name)
+    end
   end
 end
