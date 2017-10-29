@@ -24,8 +24,8 @@ Gem::Specification.new do |s|
   s.add_dependency 'commonmarker', '~> 0.17.4'
   s.add_dependency 'acts_as_tree', '~> 2.6'
   s.add_dependency 'simple_form', '~> 3.5'
+  s.add_dependency 'pg'
 
-  s.add_development_dependency 'pg'
   s.add_development_dependency 'rubocop', '~> 0.49'
   s.add_development_dependency 'minitest', '~> 5.0'
   s.add_development_dependency 'minitest-reporters', '~> 1.1.0'
