@@ -1,5 +1,6 @@
 # Scribo
-A simple, embeddable CMS for Ruby on Rails. Scribo is designed to work with your models and renders your content inside customer designed layouts.
+A simple, embeddable CMS for Ruby on Rails. 
+Scribo is designed to work with your models and can also render your content inside customer designed layouts.
 
 ## Usage
 How to use my plugin.
