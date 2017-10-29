@@ -28,20 +28,16 @@ Tell scribable which models can have sites by adding the following line to your 
   scribable
 ```
 
-Add two methods to your ApplicationController:
+You may need to add the following method to your ApplicationController:
 
 ```ruby
 # Defines which site should be shown
 def current_site
   
 end
-
-# Defines which sites should be seen in maintenance
-def available_sites
-
-end
-
 ```
+
+It should return which site should currently be shown.
 
 Then add Scribo to the bottom of your routes file:
 
