@@ -9,8 +9,8 @@ module Scribo
   class Content < ApplicationRecord
     acts_as_tree
 
-    belongs_to :site, class_name: Site, foreign_key: 'scribo_site_id'
-    belongs_to :layout, class_name: Content
+    belongs_to :site, class_name: 'Site', foreign_key: 'scribo_site_id'
+    belongs_to :layout, class_name: 'Content'
 
     # TODO: Validate that layout_id is not the same as id
     SUPPORTED_MIME_TYPES = {
