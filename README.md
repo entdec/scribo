@@ -56,13 +56,14 @@ model Domain
 end
 ```
 
-You may need to add the following method to your ApplicationController:
+You may need to add the following method to your ApplicationController and make it available as a helper:
 
 ```ruby
 # Defines which site should be shown
 def current_site
   
 end
+helper_method :current_site
 ```
 
 It should return which site should currently be shown.
