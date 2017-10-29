@@ -51,17 +51,17 @@ module Scribo
       sql = <<-SQL
       WITH RECURSIVE recursive_contents(id, cpath) AS (
         SELECT id, ARRAY[path]
-        FROM contents
+        FROM scribo_contents
         WHERE parent_id IS NULL
         UNION ALL
-        SELECT contents.id, cpath || contents.path
+        SELECT scribo_contents.id, cpath || scribo_contents.path
         FROM recursive_contents
-          JOIN contents ON contents.parent_id=recursive_contents.id
-        WHERE NOT contents.path = ANY(cpath)
+          JOIN scribo_contents ON scribo_contents.parent_id=recursive_contents.id
+        WHERE NOT scribo_contents.path = ANY(cpath)
       )
       SELECT id FROM recursive_contents WHERE ARRAY_TO_STRING(cpath, '') = '#{path}'
       SQL
-      where("id IN (#{sql})")
+      published.where("id IN (#{sql})")
     end
 
     def self.identified(identifier)
