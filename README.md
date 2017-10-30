@@ -84,6 +84,16 @@ Then add Scribo to the bottom of your routes file:
 mount Scribo::Engine, at: '/'
 ```
 
+## Rendering your content within a scribo layout
+
+You can define a regular layout, which will be picked up by your controller and add the following:
+```slim
+= layout_with_scribo('customer_layout', yield, domain: @domain)
+```
+
+This will look for content with *identifier* 'customer_layout' and render your content in that.
+Here we also pass an additional context so that 'domain' becomes available for liquid to use.
+
 ## Contributing
 Contribution directions go here.
 
