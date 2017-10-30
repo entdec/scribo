@@ -29,10 +29,18 @@ Allow content types to be added easily
 
 ##### add request information to the context of liquid
 
-So we can find out current path, see if content is active etc.
+~~So we can find out current path, see if content is active etc.~~
 
 ##### add export and import of sites
 
 Export to zip, import from zip.
+Partially done in Site.rb
 
 ##### add way to do redirects
+
+##### how to separate sites
+
+##### add properties/configuration to sites
+
+##### fix issue with streaming mp4
+See: https://stackoverflow.com/questions/28008564/streaming-mp4-in-chrome-with-rails-nginx-and-send-file

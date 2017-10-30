@@ -26,6 +26,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'acts_as_tree', '~> 2.6'
   s.add_dependency 'simple_form', '~> 3.5'
   s.add_dependency 'state_machines-activerecord', '~> 0.5'
+  s.add_dependency 'rubyzip', '~> 1.2'
 
   s.add_development_dependency 'rubocop', '~> 0.49'
   s.add_development_dependency 'minitest', '~> 5.0'
