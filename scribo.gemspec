@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.authors     = ['Tom de Grunt']
   s.email       = ['tom@degrunt.nl']
   s.homepage    = 'https://gitlab.com/tdegrunt/scribo'
-  s.summary     = 'A simple, embeddable CMS for Ruby on Rails'
+  s.summary     = 'An easy to use, embeddable CMS for Ruby on Rails'
   s.description = 'Scribo is designed to work with your models and renders your content inside customer designed layouts.'
   s.license     = 'MIT'
 

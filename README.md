@@ -51,7 +51,7 @@ Tell scribable which models can have sites by adding the following line to your 
 So say you have a 'Domain' class, which can have multiple sites, you would do the following:
 
 ```ruby
-model Domain
+def Domain
   scribable
 end
 ```
