@@ -2,10 +2,10 @@
 
 To keep the CMS easy to use and not have to much impact on your existing database, 
 all content is kept in one model: `Content`.
-The field 'kind' is used to make a distinction between text-based content (content) and binary content (assets).
+The field 'kind' is used to make a distinction between text-based content (text) and binary content (assets).
 
 ## Content
-Text based content or (content) is meant for things like:
+Text based content (kind: text) is meant for things like:
 - Text (text/plain)
 - HTML (text/html)
 - JavaScript
@@ -16,7 +16,7 @@ Text based content or (content) is meant for things like:
 Text based content is always going through the liquid templating processor.
 
 ## Assets
-Binary content (assets) is meant for things like:
+Binary content (kind: assets) is meant for things like:
 - Images
 - Audio
 - Video
@@ -28,7 +28,7 @@ Assets will always be served in the same way they are stored in the database.
 
 ## Fields
 
-- kind: content or asset
+- kind: text or asset
 - path: needs to be unique per site, indicates where content can be found
 - content_type: content type of the content
 - filter: how the content should be filtered (only for 'content' kind) - see: [Tilt](https://github.com/rtomayko/tilt)

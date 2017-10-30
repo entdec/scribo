@@ -33,7 +33,7 @@ module Scribo
       event :review do
         transition any => :reviewed
       end
-      
+
       event :hide do
         transition any => :hidden
       end
@@ -75,12 +75,12 @@ module Scribo
       where(state: 'published').where('published_at IS NULL OR published_at <= :now', now: Time.current.utc)
     end
 
-    def render
+    def render(context = {})
       case kind
       when 'asset'
         data
-      when 'content'
-        render_with_liquid(self, '_yield' => { '' => '' }, 'content' => self)
+      when 'text'
+        render_with_liquid(self, context.merge({'_yield' => { '' => '' }, 'content' => self}))
       end
     end
 

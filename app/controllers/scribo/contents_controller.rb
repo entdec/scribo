@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_dependency 'scribo/application_controller'
+require_dependency 'scribo/action_dispatch/request_drop'
 
 module Scribo
   class ContentsController < ApplicationController
@@ -10,7 +11,7 @@ module Scribo
 
       if @content
         if stale?(last_modified: @content.updated_at, public: true)
-          render body: @content.render, content_type: @content.content_type, layout: false
+          render body: @content.render(request: ActionDispatch::RequestDrop.new(request)), content_type: @content.content_type, layout: false
         end
       else
         render body: '404 Not Found', status: 404

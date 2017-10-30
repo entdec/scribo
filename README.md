@@ -84,6 +84,7 @@ You can define a regular layout, which will be picked up by your controller and 
 
 This will look for content with *identifier* 'customer_layout' and render your content in that.
 Here we also pass an additional context so that 'domain' becomes available for liquid to use.
+On top of your own context, we also pass 'request' and 'content' as context.
 
 ## Contributing
 
