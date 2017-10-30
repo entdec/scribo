@@ -7,6 +7,5 @@ Scribo::Engine.routes.draw do
   end
 
   root to: 'contents#show'
-
   get '(*path)', to: 'contents#show'
 end

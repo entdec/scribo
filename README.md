@@ -7,23 +7,11 @@ Scribo is designed to be easy to use and we try to keep it as simple as possible
 It's designed to have the least possible impact on your database, we only use two models/tables (Site and Content).
 It comes feature packed though:
 
-### Shared path per site
-All content within one site shares a path to be as similar to a regular site as possible.
-This means your index.html can refer to a /img/logo.png just like you normally would.
-
-### Nested layouts
-Your blog articles can have an article layout, but still use your site-layout.
-
-### [Liquid](http://liquidmarkup.org) templating
-All text-based content is rendered through [liquid](http://liquidmarkup.org)
-This means you can do powerful things with your pages, layouts but even stylesheets.
-
-### Filters
-Because we use [Slim](http://slim-lang.com) and [Tilt](https://github.com/rtomayko/tilt), all text-based content can be run through additional filters like Markdown, Slim, Haml and Sass. 
-
-### Nested content (not enabled)
-Content can have child content, this allows for blog-like structure (rendering is done by parent).
-Child content will inherit the path of the parent.
+- Shared path per site
+- Nested layouts
+- [Liquid](http://liquidmarkup.org) templating
+- Filters
+- Nested content (not enabled)
 
 ## Installation
 Add this line to your application's Gemfile:
