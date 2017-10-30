@@ -12,6 +12,8 @@ module Scribo
     belongs_to :site, class_name: 'Site', foreign_key: 'scribo_site_id'
     belongs_to :layout, class_name: 'Content'
 
+    before_save :nilify_blanks
+
     # TODO: Validate that layout_id is not the same as id
     SUPPORTED_MIME_TYPES = {
       image:    %w[image/gif image/png image/jpeg image/bmp image/webp],
@@ -31,11 +33,7 @@ module Scribo
       event :review do
         transition any => :reviewed
       end
-
-      event :draft do
-        transition any => :scheduled
-      end
-
+      
       event :hide do
         transition any => :hidden
       end
@@ -109,6 +107,14 @@ module Scribo
 
     def self.content_type_supported?(content_type)
       Content::SUPPORTED_MIME_TYPES.values.flatten.include?(content_type)
+    end
+
+    private
+
+    def nilify_blanks
+      self.class.columns.map(&:name).each do |c|
+        send(c + '=', nil) if send(c).respond_to?(:blank?) && send(c).blank?
+      end
     end
   end
 end
