@@ -46,10 +46,11 @@ module Scribo
                  end
       @layouts = @current_site.contents.where(kind: 'content').where.not(identifier: nil).where.not(id: @content.id)
       @content_types = Content::SUPPORTED_MIME_TYPES[:text]
+      @states = Scribo::Content.state_machine.states.map(&:value)
     end
 
     def content_params
-      params.require(:content).permit(:path, :content_type, :layout_id, :breadcrumb, :name, :identifier, :filter, :title, :keywords, :description, :data).tap do |w|
+      params.require(:content).permit(:state, :path, :content_type, :layout_id, :breadcrumb, :name, :identifier, :filter, :title, :keywords, :description, :data).tap do |w|
         w[:kind] = 'content' if w[:kind].blank?
       end
     end

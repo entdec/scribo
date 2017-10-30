@@ -1,6 +1,12 @@
 = simple_form_for([:admin, @content], url: @content.new_record? ? admin_assets_path : admin_asset_path, html: {multipart: true}) do |f|
-  = f.input :name
-  = f.input :path
+  .row
+    .col-sm-4
+      = f.input :path
+    .col-sm-4
+      = f.input :name
+    .col-sm-4
+      = f.input :state, collection: @states, selected: @content.state, include_blank: true
+
   = f.input :title
   = f.input :caption
   = f.input :keywords
