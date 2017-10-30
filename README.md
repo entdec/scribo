@@ -14,6 +14,9 @@ It comes feature packed though:
 - Nested content (not enabled)
 
 ## Installation
+
+Scribo depends on `commonmarker`, which needs `cmake` to compile, make sure you have this installed.
+
 Add this line to your application's Gemfile:
 
 ```ruby
