@@ -1,5 +1,7 @@
 # TODO
 
+## Content 
+
 ##### content-parts
 
 - Based on 'name' and children content allow automatic content_for (content-part functionality)
@@ -12,24 +14,18 @@
         
 - Add content-part, replacing part of the content model, possibly making above first idea easier.
 
-##### controller, view and path overrides
-
-Allow users to override controllers and views (like devise), describe how this should be done.
-This to enable admin pages with authentication, or regular content with authentication.
-Or specific admin page requirements.
-
-##### allow application helpers to be used in liquid
+##### allow application helpers to be used in liquid content
 
 Starting with URL helpers to be able to more tightly integrate cms and app.
-
-##### add configuration
-
-This should enable the recursive lookups for content
-Allow content types to be added easily
 
 ##### add request information to the context of liquid
 
 ~~So we can find out current path, see if content is active etc.~~
+
+##### fix issue with streaming mp4
+See: https://stackoverflow.com/questions/28008564/streaming-mp4-in-chrome-with-rails-nginx-and-send-file
+
+## Site
 
 ##### add export and import of sites
 
@@ -40,7 +36,19 @@ Partially done in Site.rb
 
 ##### how to separate sites
 
+##### add site maintenance
+
 ##### add properties/configuration to sites
 
-##### fix issue with streaming mp4
-See: https://stackoverflow.com/questions/28008564/streaming-mp4-in-chrome-with-rails-nginx-and-send-file
+## Other
+
+##### controller, view and path overrides
+
+Allow users to override controllers and views (like devise), describe how this should be done.
+This to enable admin pages with authentication, or regular content with authentication.
+Or specific admin page requirements.
+
+##### add configuration
+
+This should enable the recursive lookups for content
+Allow content types to be added easily
