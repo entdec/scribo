@@ -109,6 +109,16 @@ module Scribo
       Content::SUPPORTED_MIME_TYPES.values.flatten.include?(content_type)
     end
 
+    def redirect_options
+      options = data.split
+      if options.length == 2
+        options[0] = options[0].to_i
+      else
+        options.unshift 302
+      end
+      options
+    end
+
     private
 
     def nilify_blanks

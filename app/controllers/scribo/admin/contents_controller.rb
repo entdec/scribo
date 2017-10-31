@@ -19,7 +19,7 @@ module Scribo
     end
 
     def index
-      @contents = Site.first.contents.where(kind: 'text')
+      @contents = Site.first.contents.where(kind: %w[text redirect])
     end
 
     def edit
@@ -39,17 +39,18 @@ module Scribo
     def set_objects
       @current_site  = current_site
       @content       = if params[:id]
-                         @current_site.contents.where(kind: 'text').find(params[:id])
+                         @current_site.contents.where(kind: %w[text redirect]).find(params[:id])
                        else
                          params[:content] ? @current_site.contents.new(content_params) : @current_site.contents.new
                        end
-      @layouts       = @current_site.contents.where(kind: 'text').where.not(identifier: nil).where.not(id: @content.id)
+      @layouts       = @current_site.contents.where(kind: %w[text redirect]).where.not(identifier: nil).where.not(id: @content.id)
       @content_types = Content::SUPPORTED_MIME_TYPES[:text]
       @states        = Scribo::Content.state_machine.states.map(&:value)
+      @kinds         = %w[text redirect]
     end
 
     def content_params
-      params.require(:content).permit(:state, :path, :content_type, :layout_id, :breadcrumb, :name, :identifier, :filter, :title, :keywords, :description, :data).tap do |w|
+      params.require(:content).permit(:kind, :state, :path, :content_type, :layout_id, :breadcrumb, :name, :identifier, :filter, :title, :keywords, :description, :data).tap do |w|
         w[:kind] = 'text' if w[:kind].blank?
       end
     end

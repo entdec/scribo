@@ -25,14 +25,14 @@ Starting with URL helpers to be able to more tightly integrate cms and app.
 ##### fix issue with streaming mp4
 See: https://stackoverflow.com/questions/28008564/streaming-mp4-in-chrome-with-rails-nginx-and-send-file
 
+~~add way to do redirects~~
+
 ## Site
 
 ##### add export and import of sites
 
 Export to zip, import from zip.
 Partially done in Site.rb
-
-##### add way to do redirects
 
 ##### how to separate sites
 

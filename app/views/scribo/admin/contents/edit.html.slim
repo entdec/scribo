@@ -1,22 +1,27 @@
 = simple_form_for([:admin, @content], html: {multipart: true}) do |f|
   .row
-    .col-sm-3
+    .col-sm-4
       = f.input :path
-    .col-sm-3
+    .col-sm-4
       = f.input :content_type, collection: @content_types, include_blank: false
-    .col-sm-3
-      = f.association :layout, collection: @layouts, selected: @content.layout_id, label_method: :identifier, include_blank: true
-    .col-sm-3
+    .col-sm-4
       = f.input :state, collection: @states, selected: @content.state, include_blank: true
   .row
-    .col-sm-3
+    .col-sm-4
+      = f.association :layout, collection: @layouts, selected: @content.layout_id, label_method: :identifier, include_blank: true
+    .col-sm-4
       = f.input :filter
-    .col-sm-3
+    .col-sm-4
+      = f.input :kind, collection: @kinds, selected: @content.kind
+
+  .row
+    .col-sm-4
       = f.input :name
-    .col-sm-3
+    .col-sm-4
       = f.input :identifier
-    .col-sm-3
+    .col-sm-4
       = f.input :breadcrumb
+
   = f.input :title
   = f.input :keywords
   = f.input :description

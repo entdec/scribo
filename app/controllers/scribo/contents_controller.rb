@@ -10,7 +10,9 @@ module Scribo
       @content ||= current_site.contents.located('/404').first
 
       if @content
-        if stale?(last_modified: @content.updated_at, public: true)
+        if @content.kind == 'redirect'
+          redirect_to @content.redirect_options.last, status: @content.redirect_options.first
+        elsif stale?(last_modified: @content.updated_at, public: true)
           render body: @content.render(request: ActionDispatch::RequestDrop.new(request)), content_type: @content.content_type, layout: false
         end
       else
