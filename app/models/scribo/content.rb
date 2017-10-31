@@ -80,7 +80,7 @@ module Scribo
       when 'asset'
         data
       when 'text'
-        render_with_liquid(self, context.merge({'_yield' => { '' => '' }, 'content' => self}))
+        render_with_liquid(self, context.merge({ '_yield' => { '' => '' }, 'content' => self }))
       end
     end
 
