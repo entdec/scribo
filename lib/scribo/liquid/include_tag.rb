@@ -4,11 +4,11 @@
 #
 # {% include 'navigation' %}
 class IncludeTag < Liquid::Tag
-  Syntax = /(#{Liquid::QuotedFragment})/o
+  SYNTAX = /(#{Liquid::QuotedFragment})/o
 
   def initialize(tag_name, markup, options)
     super
-    if markup =~ Syntax
+    if markup =~ SYNTAX
       @identifier = Liquid::Expression.parse(Regexp.last_match[1])
     else
       raise SyntaxError, "Syntax Error in 'include' - Valid syntax: include 'identifier'"
@@ -17,7 +17,7 @@ class IncludeTag < Liquid::Tag
 
   def render(_context)
     content = Scribo::Content.identified(@identifier).first
-    content.render if content
+    content&.render
   end
 end
 

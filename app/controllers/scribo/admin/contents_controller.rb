@@ -4,7 +4,6 @@ require_dependency 'scribo/application_controller'
 
 module Scribo
   class Admin::ContentsController < ApplicationController
-
     before_action :authenticate_user!
     before_action :set_objects, except: [:index]
     authorize_resource class: Content

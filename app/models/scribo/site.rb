@@ -16,16 +16,15 @@ module Scribo
       Zip::File.open('site_untitled.zip') do |zip_file|
         # Find specific entry
         meta_info_entry = zip_file.glob('site_*/._site.json').first
-        return unless meta_info_entry
+        break unless meta_info_entry
 
         meta_info_site = JSON.parse(meta_info_entry.get_input_stream.read)
         # TODO: Check version numbers
         site = Site.where(scribable_type: meta_info_site['scribable_type'], scribable_id: meta_info_site['scribable_id'])
-                 .where(name: meta_info_site['name']).first
+                   .where(name: meta_info_site['name']).first
         site ||= Site.create(scribable_type: meta_info_site['scribable_type'], scribable_id: meta_info_site['scribable_id'], name: meta_info_site['name'])
 
         zip_file.glob('**/*').reject { |e| File.basename(e.name)[0..1] == '._' }.each do |entry|
-
           import_path = entry.name[entry.name.index('/')..-1].chomp('.html')
 
           meta_info_name  = File.dirname(entry.name) + '/._' + File.basename(entry.name) + '.json'
@@ -39,7 +38,6 @@ module Scribo
                       site.contents.find_or_create_by(site: site, name: meta_info['name'])
                     else
                       site.contents.find_or_create_by(site: site, path: import_path)
-
                     end
 
           content.data         = entry.get_input_stream.read
@@ -56,7 +54,6 @@ module Scribo
           content.properties   = meta_info['properties']
           content.published_at = meta_info['published_at']
           content.save
-
         end
       end
 
@@ -134,6 +131,5 @@ module Scribo
         zip_path
       end
     end
-
   end
 end

@@ -5,11 +5,11 @@
 # {% content_for 'sidebar' %}
 # {% endcontent_for %}
 class ContentForTag < Liquid::Block
-  Syntax = /(#{Liquid::QuotedFragment})/o
+  SYNTAX = /(#{Liquid::QuotedFragment})/o
 
   def initialize(tag_name, markup, options)
     super
-    if markup =~ Syntax
+    if markup =~ SYNTAX
       @to = Liquid::Expression.parse(Regexp.last_match[1])
     else
       raise SyntaxError, "Syntax Error in 'content_for' - Valid syntax: content_for 'name'"

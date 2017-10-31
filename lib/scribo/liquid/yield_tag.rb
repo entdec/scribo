@@ -5,11 +5,11 @@
 # {% yield %}
 # {% yield 'sidebar' %}
 class YieldTag < Liquid::Tag
-  Syntax = /(#{Liquid::QuotedFragment})?/o
+  SYNTAX = /(#{Liquid::QuotedFragment})?/o
 
   def initialize(tag_name, markup, tokens)
     super
-    if markup =~ Syntax
+    if markup =~ SYNTAX
       @name = Liquid::Expression.parse(Regexp.last_match[1]).to_s
     else
       raise SyntaxError, "Syntax Error in 'yield' - Valid syntax: yield ['name']"

@@ -4,11 +4,11 @@
 #
 # {% asset 'test.png' %}
 class AssetTag < Liquid::Tag
-  Syntax = /(#{Liquid::QuotedFragment})/o
+  SYNTAX = /(#{Liquid::QuotedFragment})/o
 
   def initialize(tag_name, markup, options)
     super
-    if markup =~ Syntax
+    if markup =~ SYNTAX
       @name = Liquid::Expression.parse(Regexp.last_match[1])
     else
       raise SyntaxError, "Syntax Error in 'asset' - Valid syntax: asset 'name'"
