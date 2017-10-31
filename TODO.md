@@ -36,6 +36,8 @@ Partially done in Site.rb
 
 ##### how to separate sites
 
+This is pretty much left up to the user, because it depends per application, but perhaps we should offer default?
+
 ##### add site maintenance
 
 ##### add properties/configuration to sites
