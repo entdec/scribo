@@ -1,17 +1,12 @@
 # Importing and exporting
 
 Scribo allows you to easily import and export sites, 
-if you want to work with the content outside the maintenance.
+if you want to work with the content outside the web-based maintenance.
 
 Importing and exporting is done using zip files, which contains one zipped site.
+All content in the zip will be in a folder with the same base-name as the zip.  
 
 ## Meta information 
-The zip-files are annotated using zip-comments, which contain meta information encoded as JSON.
-
-You can see the meta information with `unzip -l site_untitled.zip`
-
-## Using the exported ZIP
-
-You don't want to completely create a new zip, this way you will lose meta information.
-Instead it's best to update the zip, which is done as follows: `zip -ur site_untitled.zip site_untitled`
+The files in the zip are annotated using json files, which contain meta information encoded.
+The JSON files have the same name as the normal file name, but start with `._`
 
