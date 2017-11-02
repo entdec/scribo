@@ -6,8 +6,8 @@ require_dependency 'scribo/action_dispatch/request_drop'
 module Scribo
   class ContentsController < ApplicationController
     def show
-      @content = current_site.contents.located(request.path).first
-      @content ||= current_site.contents.located('/404').first
+      @content = current_site&.contents&.located(request.path)&.first
+      @content ||= current_site&.contents&.located('/404')&.first
 
       if @content
         if @content.kind == 'redirect'
