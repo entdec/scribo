@@ -5,7 +5,7 @@ Scribo is designed to work with your models and can also render your content ins
 ## Features
 Scribo is designed to be easy to use and we try to keep it as simple as possible.
 It's designed to have the least possible impact on your database, we only use two models/tables (Site and Content).
-It comes feature packed though:
+It also makes no assumptions about your data models, it does come feature packed though:
 
 - Shared path per site
 - Nested layouts
