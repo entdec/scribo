@@ -1,13 +1,12 @@
 # frozen_string_literal: true
 
-require_dependency 'scribo/application_controller'
 require_dependency 'scribo/action_dispatch/request_drop'
 
 module Scribo
   class ContentsController < ApplicationController
     def show
-      @content = current_site&.contents&.located(request.path)&.first
-      @content ||= current_site&.contents&.located('/404')&.first
+      @content = scribo_current_site&.contents&.located(request.path)&.first
+      @content ||= scribo_current_site&.contents&.located('/404')&.first
 
       if @content
         if @content.kind == 'redirect'
