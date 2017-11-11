@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_dependency File.expand_path(File.join(File.dirname(__FILE__), '..', 'application_drop.rb'))
+require File.expand_path(File.join(File.dirname(__FILE__), '..', 'application_drop.rb'))
 
 module Scribo
   class ActionDispatch::RequestDrop < ApplicationDrop

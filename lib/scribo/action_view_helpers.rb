@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_dependency File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'app', 'drops', 'scribo', 'action_dispatch', 'request_drop.rb'))
+require File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'app', 'drops', 'scribo', 'action_dispatch', 'request_drop.rb'))
 
 module ActionViewHelpers
   def layout_with_scribo(identifier, yield_content, additional_context = {})

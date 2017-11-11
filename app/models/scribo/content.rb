@@ -80,6 +80,8 @@ module Scribo
       when 'asset'
         data
       when 'text'
+        # TODO: Switch _yield to registers:
+        # https://github.com/Shopify/liquid/wiki/Liquid-for-Programmers#difference-between-assigns-and-registers
         render_with_liquid(self, context.merge('_yield' => { '' => '' }, 'content' => self))
       end
     end
