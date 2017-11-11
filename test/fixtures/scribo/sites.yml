@@ -1,5 +1,5 @@
-one:
-  name: One
+main:
+  name: main
 
-two:
-  name: Two
+second:
+  name: second

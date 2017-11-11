@@ -4,7 +4,7 @@ require 'test_helper'
 
 module Scribo
   class ContentTest < ActiveSupport::TestCase
-    test 'renders text content' do
+    test 'renders simple text content' do
       subject = scribo_contents(:index)
       result = subject.render
 
