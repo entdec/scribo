@@ -17,9 +17,9 @@ class ContentForTag < Liquid::Block
   end
 
   def render(context)
-    output                                    = super
-    context.environments.first['_yield']      = {} unless context.environments.first['_yield']
-    context.environments.first['_yield'][@to] = output
+    output                           = super
+    context.registers['_yield']      = {} unless context.registers['_yield']
+    context.registers['_yield'][@to] = output
     ''
   end
 end

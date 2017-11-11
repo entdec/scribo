@@ -4,3 +4,10 @@ index:
   content_type: text/html
   data: Test index
   path: /
+
+layout:
+  site: main
+  kind: text
+  content_type: text/html
+  data: layout{%yield%}layout
+  identifier: layout

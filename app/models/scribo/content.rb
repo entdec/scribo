@@ -75,25 +75,23 @@ module Scribo
       where(state: 'published').where('published_at IS NULL OR published_at <= :now', now: Time.current.utc)
     end
 
-    def render(context = {})
+    def render(assigns = {}, registers = {})
       case kind
       when 'asset'
         data
       when 'text'
-        # TODO: Switch _yield to registers:
-        # https://github.com/Shopify/liquid/wiki/Liquid-for-Programmers#difference-between-assigns-and-registers
-        render_with_liquid(self, context.merge('_yield' => { '' => '' }, 'content' => self))
+        render_with_liquid(self, assigns.merge('content' => self), registers.merge({ '_yield' => { '' => '' } }))
       end
     end
 
-    def render_with_liquid(content, context)
-      # result  = Tilt['liquid'].new { content.data }.render(context) - This doesn't work, 'content' overwritten by tilt :(
-      result  = Liquid::Template.parse(content.data).render(context)
-      result  = Tilt[content.filter].new { result }.render if content.filter.present?
-      context = context.stringify_keys
+    def render_with_liquid(content, assigns, registers)
+      result    = Liquid::Template.parse(content.data).render(assigns, registers: registers)
+      result    = Tilt[content.filter].new { result }.render if content.filter.present?
+      assigns   = assigns.stringify_keys
+      registers = registers.stringify_keys
       if content.layout
-        context['_yield'][''] = result
-        result                = render_with_liquid(content.layout, context)
+        registers['_yield'][''] = result
+        result                  = render_with_liquid(content.layout, assigns, registers)
       end
       result
     end

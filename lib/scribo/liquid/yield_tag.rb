@@ -24,7 +24,7 @@ class YieldTag < Liquid::Tag
   end
 
   def render(context)
-    yield_content = lookup(context, '_yield')
+    yield_content = lookup(context.registers, '_yield')
     yield_content&.[](@name)&.to_s
   end
 end
