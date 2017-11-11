@@ -80,7 +80,7 @@ module Scribo
       when 'asset'
         data
       when 'text'
-        render_with_liquid(self, assigns.merge('content' => self), registers.merge({ '_yield' => { '' => '' } }))
+        render_with_liquid(self, assigns.merge('content' => self), registers)
       end
     end
 
@@ -90,6 +90,7 @@ module Scribo
       assigns   = assigns.stringify_keys
       registers = registers.stringify_keys
       if content.layout
+        registers['_yield']     = {} unless registers['_yield']
         registers['_yield'][''] = result
         result                  = render_with_liquid(content.layout, assigns, registers)
       end
