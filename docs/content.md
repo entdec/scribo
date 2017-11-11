@@ -15,6 +15,12 @@ Text based content (kind: text) is meant for things like:
 
 Text based content is always going through the liquid templating processor.
 
+### Identified, named and located content
+
+Some content has a path, namely content that should be directly available through a url or path, 
+but some content doesn't need to be directly available (like layouts or included content), this is where the identifier comes into play.
+Then there's named content, which is for future use and is for nested content elements (like sidebar, etc)
+
 ## Assets
 Binary content (kind: assets) is meant for things like:
 - Images
