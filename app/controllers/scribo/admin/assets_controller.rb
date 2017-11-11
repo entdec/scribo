@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require_dependency 'scribo/application_controller'
-
 module Scribo
   class Admin::AssetsController < ApplicationController
     before_action :authenticate_user!
@@ -37,7 +35,7 @@ module Scribo
     private
 
     def set_objects
-      @current_site = current_site
+      @current_site = scribo_current_site
       @content = if params[:id]
                    @current_site.contents.where(kind: 'asset').find(params[:id])
                  else
