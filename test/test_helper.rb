@@ -17,5 +17,8 @@ if ActiveSupport::TestCase.respond_to?(:fixture_path=)
   ActiveSupport::TestCase.fixtures :all
 end
 
+ActiveSupport::TestCase.set_fixture_class :site => Scribo::Site
+ActiveSupport::TestCase.set_fixture_class :content => Scribo::Content
+
 require 'minitest/reporters'
 MiniTest::Reporters.use!

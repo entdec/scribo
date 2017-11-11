@@ -7,7 +7,7 @@ module Scribo
     include Engine.routes.url_helpers
 
     test 'should get new' do
-      get admin_assets_new_url
+      get new_admin_asset_url
       assert_response :success
     end
   end

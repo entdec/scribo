@@ -7,7 +7,7 @@ module Scribo
     include Engine.routes.url_helpers
 
     test 'should get show' do
-      get contents_show_url
+      get root_url
       assert_response :success
     end
   end

@@ -165,10 +165,19 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  acts_as_tree (~> 2.6)
+  commonmarker (~> 0.17.4)
+  liquid (~> 4.0.0)
   minitest (~> 5.0)
   minitest-reporters (~> 1.1.0)
+  pg
+  rails (~> 5.1.4)
   rubocop (~> 0.49)
+  rubyzip (~> 1.1)
   scribo!
+  simple_form (~> 3.5)
+  slim (~> 3.0.8)
+  state_machines-activerecord (~> 0.5)
 
 BUNDLED WITH
-   1.15.4
+   1.16.0
