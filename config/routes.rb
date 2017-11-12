@@ -2,6 +2,7 @@
 
 Scribo::Engine.routes.draw do
   namespace :admin do
+    resources :sites
     resources :assets
     resources :contents
   end

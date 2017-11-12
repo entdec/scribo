@@ -8,7 +8,7 @@ module Scribo
     before_action :set_objects, except: [:index]
     authorize_resource class: Content
 
-    add_breadcrumb I18n.t('breadcrumbs.admin.assets'), :admin_assets_path
+    add_breadcrumb I18n.t('scribo.breadcrumbs.admin.assets'), :admin_assets_path
 
     def new
       render :edit
