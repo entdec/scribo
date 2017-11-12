@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require_dependency 'scribo/application_controller'
 require_dependency 'scribo/action_dispatch/request_drop'
 
 module Scribo

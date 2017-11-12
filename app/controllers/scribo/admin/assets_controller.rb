@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_dependency 'scribo/application_controller'
+
 module Scribo
   class Admin::AssetsController < ApplicationController
     before_action :authenticate_user!
