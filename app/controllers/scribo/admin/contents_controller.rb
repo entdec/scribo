@@ -17,7 +17,7 @@ module Scribo
     end
 
     def index
-      @contents = Content.where(kind: %w[text redirect])
+      @contents = Content.where(kind: %w[text redirect]).order(:scribo_site_id)
     end
 
     def edit
@@ -37,11 +37,11 @@ module Scribo
     def set_objects
       @current_site  = scribo_current_site
       @content       = if params[:id]
-                         @current_site.contents.where(kind: %w[text redirect]).find(params[:id])
+                         Content.where(kind: %w[text redirect]).find(params[:id])
                        else
                          params[:content] ? @current_site.contents.new(content_params) : @current_site.contents.new
                        end
-      @layouts       = @current_site.contents.where(kind: %w[text redirect]).where.not(identifier: nil).where.not(id: @content.id)
+      @layouts       = Content.where(kind: %w[text redirect]).where.not(identifier: nil).where.not(id: @content.id)
       @content_types = Content::SUPPORTED_MIME_TYPES[:text]
       @states        = Scribo::Content.state_machine.states.map(&:value)
       @kinds         = %w[text redirect]
