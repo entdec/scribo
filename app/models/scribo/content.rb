@@ -85,10 +85,13 @@ module Scribo
     end
 
     def render_with_liquid(content, assigns, registers)
-      result    = Liquid::Template.parse(content.data).render(assigns, registers: registers)
+      template = Liquid::Template.parse(content.data)
+      result   = template.render(assigns, registers: registers)
+
+      assigns   = template.assigns.stringify_keys
+      registers = template.registers.stringify_keys
+
       result    = Tilt[content.filter].new { result }.render if content.filter.present?
-      assigns   = assigns.stringify_keys
-      registers = registers.stringify_keys
       if content.layout
         registers['_yield']     = {} unless registers['_yield']
         registers['_yield'][''] = result
