@@ -8,6 +8,8 @@ module Scribo
 
     has_many :contents, class_name: 'Content', foreign_key: 'scribo_site_id'
 
+    attr_accessor :zip_file
+
     def self.named(name)
       where(name: name)
     end
@@ -29,23 +31,23 @@ module Scribo
       end
     end
 
-    def self.import
-      Zip::File.open('site_main.zip') do |zip_file|
+    def self.import(path)
+      Zip::File.open(path) do |zip_file|
         # Find specific entry
         meta_info_entry = zip_file.glob('site_*/scribo_site.json').first
-        break unless meta_info_entry
+        return false unless meta_info_entry
 
         meta_info_site = JSON.parse(meta_info_entry.get_input_stream.read)
         # TODO: Check version numbers
         site = Site.where(scribable_type: meta_info_site['scribable_type'], scribable_id: meta_info_site['scribable_id'])
-                 .where(name: meta_info_site['name']).first
+                   .where(name: meta_info_site['name']).first
         site ||= Site.create(scribable_type: meta_info_site['scribable_type'], scribable_id: meta_info_site['scribable_id'], name: meta_info_site['name'])
 
         base_path = "site_#{meta_info_site['name']}"
 
         meta_info_site['contents'].each do |meta_info|
           entry_path = base_path + '/' + content_path_for_zip(meta_info['path'], meta_info['identifier'], meta_info['name'])
-          entry = zip_file.find_entry(entry_path)
+          entry      = zip_file.find_entry(entry_path)
 
           content = if meta_info['identifier']
                       site.contents.find_or_create_by(site: site, identifier: meta_info['identifier'])
@@ -71,8 +73,7 @@ module Scribo
           content.save
         end
       end
-
-      nil
+      true
     end
 
     def export
@@ -96,10 +97,7 @@ module Scribo
         zio.write JSON.pretty_generate(meta_info)
       end
 
-      # TODO: Just return string and use this elsewhere
-      open(zip_name + '.zip', 'wb') do |file|
-        file.write stringio.string
-      end
+      [zip_name + '.zip', stringio.string]
     end
 
     private

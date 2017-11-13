@@ -5,7 +5,8 @@ table
   tbody
     - for site in @sites
       tr
-        td = link_to site.name || '-', edit_admin_site_url(site)
+        td = link_to site.name || '-', edit_admin_site_path(site)
 
 - content_for :context_menu do
-  =< link_to(t('context_menu.add'), new_admin_site_path, class: 'btn btn-primary')
+  =< link_to(t('scribo.context_menu.add'), new_admin_site_path, class: 'btn btn-primary')
+  =< link_to(t('scribo.context_menu.import'), import_admin_sites_path, class: 'btn btn-default')

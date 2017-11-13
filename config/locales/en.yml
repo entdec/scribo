@@ -5,3 +5,8 @@ en:
         sites: Sites
         contents: Contents
         assets: Assets
+    context_menu:
+      add: Add
+      import: Import
+      export: Export
+

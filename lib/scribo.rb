@@ -6,7 +6,6 @@ require 'scribo/active_record_helpers'
 require 'scribo/action_view_helpers'
 
 module Scribo
-
   # Include helpers
   ActiveSupport.on_load(:active_record) do
     include ActiveRecordHelpers

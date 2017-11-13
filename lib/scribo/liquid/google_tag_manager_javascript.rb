@@ -15,7 +15,7 @@ class GoogleTagManagerJavascriptTag < Liquid::Tag
     end
   end
 
-  def render(context)
+  def render(_)
     return unless Rails.env == 'production'
     Rails.logger.warn "Inserting google tag manager with code: #{@code}"
     %(<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':

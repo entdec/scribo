@@ -2,7 +2,15 @@
 
 Scribo::Engine.routes.draw do
   namespace :admin do
-    resources :sites
+    resources :sites do
+      member do
+        get 'export'
+      end
+      collection do
+        get 'import'
+        post 'import'
+      end
+    end
     resources :assets
     resources :contents
   end

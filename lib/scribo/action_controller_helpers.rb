@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Scribo
   module ActionControllerHelpers
     extend ActiveSupport::Concern

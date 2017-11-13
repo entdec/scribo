@@ -34,6 +34,17 @@ module Scribo
       redirect_to :edit_admin_site
     end
 
+    def import
+      if request.post?
+        flash_and_redirect Site.import(params[:site][:zip_file].path), admin_sites_url, 'Site imported successfully', 'There were problems importing the site'
+      end
+    end
+
+    def export
+      name, data = @site.export
+      send_data data, type: 'application/zip', filename: name
+    end
+
     private
 
     def set_objects
