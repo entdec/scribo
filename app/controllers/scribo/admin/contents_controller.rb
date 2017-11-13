@@ -46,11 +46,12 @@ module Scribo
       @layouts       = Content.where(kind: %w[text redirect]).where.not(identifier: nil).where.not(id: @content.id)
       @content_types = Content::SUPPORTED_MIME_TYPES[:text]
       @states        = Scribo::Content.state_machine.states.map(&:value)
+      @sites         = Scribo::Site.order(:name)
       @kinds         = %w[text redirect]
     end
 
     def content_params
-      params.require(:content).permit(:kind, :state, :path, :content_type, :layout_id, :breadcrumb, :name, :identifier, :filter, :title, :keywords, :description, :data).tap do |w|
+      params.require(:content).permit(:scribo_site_id, :kind, :state, :path, :content_type, :layout_id, :breadcrumb, :name, :identifier, :filter, :title, :keywords, :description, :data).tap do |w|
         w[:kind] = 'text' if w[:kind].blank?
       end
     end

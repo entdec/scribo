@@ -1,4 +1,7 @@
 = simple_form_for([:admin, @content], html: {multipart: true}) do |f|
+
+  = f.association :site, collection: @sites, selected: @content.scribo_site_id, label_method: :name, include_blank: false
+
   .row
     .col-sm-4
       = f.input :path
