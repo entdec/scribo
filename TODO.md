@@ -62,3 +62,5 @@ http://wymeditor.github.io/wymeditor/
 ##### Switch to nested set
 
 https://github.com/collectiveidea/awesome_nested_set
+
+##### Additional files in zip (import) should be added automatically
