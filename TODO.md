@@ -64,3 +64,5 @@ http://wymeditor.github.io/wymeditor/
 https://github.com/collectiveidea/awesome_nested_set
 
 ##### Additional files in zip (import) should be added automatically
+
+##### Add whitlisting for controller liquid assigns
