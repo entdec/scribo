@@ -7,6 +7,11 @@ module ActionViewHelpers
     content = scribo_current_site.contents.identified(identifier).first if scribo_current_site
     if content
       assigns = { 'content' => content, 'request' => ActionDispatch::RequestDrop.new(request) }.merge(assigns).stringify_keys
+
+      controller.instance_variables.reject { |i| i.to_s.starts_with?('@_') }.each do |i|
+        assigns[i.to_s[1..-1]] = controller.instance_variable_get(i)
+      end
+
       registers = { '_yield' => { '' => yield_content }, 'controller' => controller }.merge(registers).stringify_keys
       content.render_with_liquid(content, assigns, registers).html_safe
     else
