@@ -19,7 +19,7 @@ module Scribo
     end
 
     def index
-      @contents = Site.first.contents.where(kind: 'asset')
+      @contents = Content.where(kind: 'asset')
     end
 
     def edit
@@ -39,7 +39,7 @@ module Scribo
     def set_objects
       @current_site = scribo_current_site
       @content = if params[:id]
-                   @current_site.contents.where(kind: 'asset').find(params[:id])
+                   Content.where(kind: 'asset').find(params[:id])
                  else
                    params[:content] ? @current_site.contents.new(content_params) : @current_site.contents.new
                  end

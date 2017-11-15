@@ -5,6 +5,7 @@ require_dependency 'scribo/action_dispatch/request_drop'
 
 module Scribo
   class ContentsController < ApplicationController
+    protect_from_forgery except: :show
     def show
       @content = scribo_current_site&.contents&.located(request.path)&.first
       @content ||= scribo_current_site&.contents&.located('/404')&.first
