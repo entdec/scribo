@@ -12,7 +12,11 @@ Scribo::Engine.routes.draw do
       end
     end
     resources :assets
-    resources :contents
+    resources :contents do
+      member do
+        post :preview
+      end
+    end
   end
 
   root to: 'contents#show'

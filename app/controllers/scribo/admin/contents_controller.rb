@@ -34,6 +34,12 @@ module Scribo
       redirect_to :edit_admin_content
     end
 
+    def preview
+      @content = Content.find(params[:id])
+      @content.data = params[:data]
+      render body: @content.render(request: ActionDispatch::RequestDrop.new(request)), content_type: @content.content_type, layout: false
+    end
+
     private
 
     def set_objects
