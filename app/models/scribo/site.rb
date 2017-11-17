@@ -109,6 +109,7 @@ module Scribo
     def site_meta_information
       { version:        Scribo::VERSION,
         name:           name,
+        host_name:      host_name,
         scribable_type: scribable_type,
         scribable_id:   scribable_id,
         properties:     {},
