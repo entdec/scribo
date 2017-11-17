@@ -12,7 +12,8 @@ module ActionViewHelpers
         assigns[i.to_s[1..-1]] = controller.instance_variable_get(i)
       end
 
-      registers = { '_yield' => { '' => yield_content }, 'controller' => controller }.merge(registers).stringify_keys
+      application_js = content_for?(:js) && content_for(:js)
+      registers = { _yield: { '' => yield_content }, controller: controller, application_assets: scribo_application_assets, application_js: application_js }.merge(registers).stringify_keys
       content.render_with_liquid(content, assigns, registers).html_safe
     else
       yield_content

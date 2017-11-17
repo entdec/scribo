@@ -5,14 +5,10 @@ module Scribo
     extend ActiveSupport::Concern
 
     included do
-      attr_accessor :scribo_value_site, :scribo_value_layout
+      attr_accessor :scribo_value_site, :scribo_value_layout, :scribo_value_application_assets
 
       if respond_to? :helper_method
-        helper_method :scribo_layout_identifier, :scribo_current_site
-      end
-
-      def scribo_determines_the_layout
-        'scribo'
+        helper_method :scribo_layout_identifier, :scribo_current_site, :scribo_application_assets
       end
 
       def scribo_current_site
@@ -21,6 +17,10 @@ module Scribo
 
       def scribo_layout_identifier
         scribo_value_for(scribo_value_layout)
+      end
+
+      def scribo_application_assets
+        scribo_value_for(scribo_value_application_assets)
       end
 
       private
@@ -33,12 +33,18 @@ module Scribo
     end
 
     class_methods do
+      def scribo_application_assets(scribo_value_application_assets)
+        before_action do |controller|
+          controller.send(:scribo_value_application_assets=, scribo_value_application_assets)
+        end
+      end
+
       def scribo_layout(scribo_value_layout)
         before_action do |controller|
           controller.send(:scribo_value_layout=, scribo_value_layout)
         end
 
-        layout :scribo_determines_the_layout
+        layout 'scribo'
       end
 
       def scribo_site(scribo_value_site)
