@@ -47,7 +47,7 @@ module Scribo
       @content       = if params[:id]
                          Content.where(kind: %w[text redirect]).find(params[:id])
                        else
-                         params[:content] ? @current_site.contents.new(content_params) : @current_site.contents.new
+                         params[:content] ? Content.new(content_params) : Content.new
                        end
       @layouts       = Content.where(kind: %w[text redirect]).where.not(identifier: nil).where.not(id: @content.id)
       @content_types = Content::SUPPORTED_MIME_TYPES[:text]
