@@ -56,7 +56,7 @@ module Scribo
     end
 
     def site_params
-      params.require(:site).permit(:name)
+      params.require(:site).permit(:name, :host_name)
     end
   end
 end

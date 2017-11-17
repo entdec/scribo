@@ -76,6 +76,10 @@ module Scribo
       true
     end
 
+    def self.site_for_hostname(host_name)
+      where('? ~ host_name', host_name).first
+    end
+
     def export
       return unless contents.count.positive?
 
