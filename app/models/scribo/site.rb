@@ -43,6 +43,9 @@ module Scribo
                    .where(name: meta_info_site['name']).first
         site ||= Site.create(scribable_type: meta_info_site['scribable_type'], scribable_id: meta_info_site['scribable_id'], name: meta_info_site['name'])
 
+        site.host_name = meta_info_site['host_name']
+        site.save
+
         base_path = "site_#{meta_info_site['name']}"
 
         meta_info_site['contents'].each do |meta_info|
