@@ -79,7 +79,7 @@ module Scribo
       case kind
       when 'asset'
         data
-      when 'text'
+      when 'text', 'redirect'
         render_with_liquid(self, assigns.merge('content' => self), registers)
       end
     end
@@ -113,8 +113,8 @@ module Scribo
       Content::SUPPORTED_MIME_TYPES.values.flatten.include?(content_type)
     end
 
-    def redirect_options
-      options = data.split
+    def self.redirect_options(redirect_data)
+      options = redirect_data.split
       if options.length == 2
         options[0] = options[0].to_i
       else

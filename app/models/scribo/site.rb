@@ -43,6 +43,9 @@ module Scribo
                    .where(name: meta_info_site['name']).first
         site ||= Site.create(scribable_type: meta_info_site['scribable_type'], scribable_id: meta_info_site['scribable_id'], name: meta_info_site['name'])
 
+        site.host_name = meta_info_site['host_name']
+        site.save
+
         base_path = "site_#{meta_info_site['name']}"
 
         meta_info_site['contents'].each do |meta_info|
@@ -76,6 +79,10 @@ module Scribo
       true
     end
 
+    def self.site_for_hostname(host_name)
+      where('? ~ host_name', host_name).first
+    end
+
     def export
       return unless contents.count.positive?
 
@@ -105,6 +112,7 @@ module Scribo
     def site_meta_information
       { version:        Scribo::VERSION,
         name:           name,
+        host_name:      host_name,
         scribable_type: scribable_type,
         scribable_id:   scribable_id,
         properties:     {},
