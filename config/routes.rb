@@ -3,18 +3,18 @@
 Scribo::Engine.routes.draw do
   namespace :admin do
     resources :sites do
+      resources :assets, controller: 'sites/assets'
+      resources :contents, controller: 'sites/contents' do
+        member do
+          post :preview
+        end
+      end
       member do
         get 'export'
       end
       collection do
         get 'import'
         post 'import'
-      end
-    end
-    resources :assets
-    resources :contents do
-      member do
-        post :preview
       end
     end
   end

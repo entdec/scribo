@@ -3,23 +3,21 @@
 require_dependency 'scribo/application_controller'
 
 module Scribo
-  class Admin::ContentsController < ApplicationController
+  class Admin::Sites::ContentsController < ApplicationController
     before_action :authenticate_user!
-    before_action :set_objects, except: [:index]
+    before_action :set_objects
     authorize_resource class: Content
-
-    add_breadcrumb I18n.t('scribo.breadcrumbs.admin.contents'), :admin_contents_path
 
     def new
       render :edit
     end
 
     def create
-      flash_and_redirect @content.save, admin_contents_url, 'Content created successfully', 'There were problems creating the content'
+      flash_and_redirect @content.save, admin_site_contents_url(@site), 'Content created successfully', 'There were problems creating the content'
     end
 
     def index
-      @contents = Content.where(kind: %w[text redirect]).order(:scribo_site_id)
+      @contents = @site.contents.where(kind: %w[text redirect]).order(:path, :identifier)
     end
 
     def edit
@@ -27,7 +25,7 @@ module Scribo
     end
 
     def update
-      flash_and_redirect @content.update(content_params), admin_contents_url, 'Content updated successfully', 'There were problems updating the content'
+      flash_and_redirect @content.update(content_params), admin_site_contents_url(@site), 'Content updated successfully', 'There were problems updating the content'
     end
 
     def show
@@ -43,9 +41,9 @@ module Scribo
     private
 
     def set_objects
-      @current_site  = scribo_current_site
+      @site          = Scribo::Site.find(params[:site_id])
       @content       = if params[:id]
-                         Content.where(kind: %w[text redirect]).find(params[:id])
+                         Content.where(site: params[:site_id]).where(kind: %w[text redirect]).find(params[:id])
                        else
                          params[:content] ? Content.new(content_params) : Content.new
                        end
@@ -54,6 +52,8 @@ module Scribo
       @states        = Scribo::Content.state_machine.states.map(&:value)
       @sites         = Scribo::Site.order(:name)
       @kinds         = %w[text redirect]
+
+      add_breadcrumb I18n.t('scribo.breadcrumbs.admin.contents'), admin_site_contents_url(@site)
     end
 
     def content_params
