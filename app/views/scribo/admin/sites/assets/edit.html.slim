@@ -1,4 +1,4 @@
-= simple_form_for([:admin, @content], url: @content.new_record? ? admin_assets_path : admin_asset_path, html: { multipart: true }) do |f|
+= simple_form_for([:admin, @site, @content], url: @content.new_record? ? admin_site_assets_path(@site) : admin_site_asset_path(@site), html: { multipart: true }) do |f|
   .row
     .col-sm-4
       = f.input :path

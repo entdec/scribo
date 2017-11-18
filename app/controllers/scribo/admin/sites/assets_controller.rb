@@ -5,21 +5,19 @@ require_dependency 'scribo/application_controller'
 module Scribo
   class Admin::Sites::AssetsController < ApplicationController
     before_action :authenticate_user!
-    before_action :set_objects, except: [:index]
+    before_action :set_objects
     authorize_resource class: Content
-
-    add_breadcrumb I18n.t('scribo.breadcrumbs.admin.assets'), :admin_assets_path
 
     def new
       render :edit
     end
 
     def create
-      flash_and_redirect @content.save, admin_assets_url, 'Asset created successfully', 'There were problems creating the asset'
+      flash_and_redirect @content.save, admin_site_assets_url(@site), 'Asset created successfully', 'There were problems creating the asset'
     end
 
     def index
-      @contents = Content.where(kind: 'asset')
+      @contents = @site.contents.where(kind: 'asset').order(:path, :identifier)
     end
 
     def edit
@@ -27,7 +25,7 @@ module Scribo
     end
 
     def update
-      flash_and_redirect @content.update(content_params), admin_assets_url, 'Asset updated successfully', 'There were problems updating the asset'
+      flash_and_redirect @content.update(content_params), admin_site_assets_url(@site), 'Asset updated successfully', 'There were problems updating the asset'
     end
 
     def show
@@ -37,12 +35,14 @@ module Scribo
     private
 
     def set_objects
-      @current_site = scribo_current_site
+      @site    = Site.find(params[:site_id])
       @content = if params[:id]
-                   Content.where(kind: 'asset').find(params[:id])
+                   @site.contents.where(kind: 'asset').find(params[:id])
                  else
-                   params[:content] ? @current_site.contents.new(content_params) : @current_site.contents.new
+                   params[:content] ? @site.contents.new(content_params) : @site.contents.new
                  end
+
+      add_breadcrumb I18n.t('scribo.breadcrumbs.admin.assets'), admin_site_assets_path(@site)
     end
 
     def content_params
