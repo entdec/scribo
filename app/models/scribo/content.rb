@@ -16,7 +16,7 @@ module Scribo
 
     # TODO: Validate that layout_id is not the same as id
     SUPPORTED_MIME_TYPES = {
-      image:    %w[image/gif image/png image/jpeg image/bmp image/webp],
+      image:    %w[image/gif image/png image/jpeg image/bmp image/webp image/svg+xml],
       text:     %w[text/plain text/html text/css text/javascript application/javascript application/json application/xml],
       audio:    %w[audio/midi audio/mpeg audio/webm audio/ogg audio/wav],
       video:    %w[video/webm video/ogg video/mp4],
@@ -80,7 +80,7 @@ module Scribo
       when 'asset'
         data
       when 'text', 'redirect'
-        render_with_liquid(self, assigns.merge('content' => self), registers)
+        render_with_liquid(self, assigns.merge('content' => self), registers.merge('content' => self))
       end
     end
 
