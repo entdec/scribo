@@ -29,7 +29,7 @@ module Scribo
     end
 
     def show
-      redirect_to :edit_admin_asset
+      redirect_to admin_site_assets_path(@site)
     end
 
     private
@@ -41,6 +41,7 @@ module Scribo
                  else
                    params[:content] ? @site.contents.new(content_params) : @site.contents.new
                  end
+      @states  = Scribo::Content.state_machine.states.map(&:value)
 
       add_breadcrumb I18n.t('scribo.breadcrumbs.admin.assets'), admin_site_assets_path(@site)
     end

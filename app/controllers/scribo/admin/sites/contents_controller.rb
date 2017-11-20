@@ -29,7 +29,7 @@ module Scribo
     end
 
     def show
-      redirect_to :edit_admin_content
+      redirect_to admin_site_contents_path(@site)
     end
 
     def preview
