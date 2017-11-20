@@ -4,7 +4,13 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'app', 'd
 
 module ActionViewHelpers
   def layout_with_scribo(identifier, yield_content, assigns = {}, registers = {})
-    content = scribo_current_site.contents.identified(identifier).first if scribo_current_site
+    current_site = if scribo_current_site
+                     scribo_current_site
+                   else
+                     Scribo::Site.site_for_hostname(request.headers['SERVER_NAME'])
+                   end
+
+    content = current_site.contents.identified(identifier).first
     if content
       assigns = { 'content' => content, 'request' => ActionDispatch::RequestDrop.new(request) }.merge(assigns).stringify_keys
 
@@ -13,7 +19,7 @@ module ActionViewHelpers
       end
 
       application_js = content_for?(:js) && content_for(:js)
-      registers = { _yield: { '' => yield_content }, controller: controller, application_assets: scribo_application_assets, application_js: application_js }.merge(registers).stringify_keys
+      registers = { _yield: { '' => yield_content }, controller: controller, application_assets: scribo_application_assets, application_js: application_js, content: content }.merge(registers).stringify_keys
       content.render_with_liquid(content, assigns, registers).html_safe
     else
       yield_content
