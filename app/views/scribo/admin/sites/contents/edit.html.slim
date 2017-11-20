@@ -30,16 +30,17 @@
   = f.input :description
 
   .row
-    .col-sm-5= f.input :data, as: :code_mirror, input_html: {data: { height: '800px', lang: 'text/html'}}
-    .col-sm-6
+    .col-sm-8= f.input :data, as: :code_mirror, input_html: {data: { height: '800px', lang: 'text/html'}}
+    .col-sm-4
       .preview style="border: 1px solid #f0f0f0; width: 100%; overflow: scroll"
   = f.button :button, 'Save', name: 'commit', value: 'save', class: 'btn-primary', data: { disable_with: 'Save' }
   = f.button :button, 'Continue', name: 'commit', value: 'continue', data: { disable_with: 'Continue' }
 
-javascript:
-    $.ajaxSetup({ beforeSend: function(xhr) { xhr.setRequestHeader('X-CSRF-Token',$('meta[name="csrf-token"]').attr('content')); } });
+- unless @content.new_record?
+  javascript:
+      $.ajaxSetup({ beforeSend: function(xhr) { xhr.setRequestHeader('X-CSRF-Token',$('meta[name="csrf-token"]').attr('content')); } });
 
-    var editor = CodeMirror.getAllInstances().first();
-    editor.change(function() {
-      $('.preview').load( "#{preview_admin_site_content_path(@site, @content)}", { data: $('#content_data').val() } );
-    });
+      var editor = CodeMirror.getAllInstances().first();
+      editor.change(function() {
+        $('.preview').load( "#{preview_admin_site_content_path(@site, @content)}", { data: $('#content_data').val() } );
+      });
