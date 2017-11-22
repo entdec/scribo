@@ -33,42 +33,6 @@ And migrate your database:
 $ bin/rails db:migrate
 ```
 
-Tell scribable which models can have sites by adding the following line to your model:
-
-```ruby
-  scribable
-```
-
-So say you have a 'Domain' class, which can have multiple sites, you would do the following:
-
-```ruby
-def Domain
-  scribable
-end
-```
-
-You may need to add the following method to your ApplicationController and make it available as a helper:
-
-```ruby
-# Defines which site should be shown
-def current_site
-  
-end
-helper_method :current_site
-```
-
-It should return which site should currently be shown.
-By default scribo will take the first site available, this may be fine for development or for your situation, but be aware. 
-
-So again, say you have a 'Domain' class, which can have multiple sites, you could something similar to the following:
-
-```ruby
-# Defines which site should be shown
-def current_site
-  Domain.sites.named(request.env['SERVER_NAME']).first  
-end
-```
-
 Then add Scribo to the bottom of your routes file:
 
 ```ruby
@@ -77,9 +41,22 @@ mount Scribo::Engine, at: '/'
 
 ## Rendering your content within a scribo layout
 
-You can define a regular layout, which will be picked up by your controller and add the following:
-```slim
-= layout_with_scribo('customer_layout', yield, domain: @domain)
+In your controller add the following:
+```ruby
+scribo_layout 'generic'
+```
+
+This will look for content with *identifier* 'generic' and render your content in that.
+
+You'll get all your controller's class variables as additional context and those become available for liquid to use.
+On top this, we also pass 'request' and 'content' as context.
+
+The easiest possible layout would be:
+```html
+<html>
+<head></head>
+<body>{%yield%}</body>
+</html>
 ```
 
 ## Testing
@@ -87,11 +64,6 @@ You can define a regular layout, which will be picked up by your controller and 
 bin/rails db:drop
 bin/rails db:create
 bin/rails db:migrate
-
-
-This will look for content with *identifier* 'customer_layout' and render your content in that.
-Here we also pass an additional context so that 'domain' becomes available for liquid to use.
-On top of your own context, we also pass 'request' and 'content' as context.
 
 ## Contributing
 
