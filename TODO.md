@@ -29,17 +29,6 @@ See: https://stackoverflow.com/questions/28008564/streaming-mp4-in-chrome-with-r
 
 ## Site
 
-##### add export and import of sites
-
-Export to zip, import from zip.
-Partially done in Site.rb
-
-##### how to separate sites
-
-This is pretty much left up to the user, because it depends per application, but perhaps we should offer default?
-
-##### add site maintenance
-
 ##### add properties/configuration to sites
 
 ## Other
@@ -63,6 +52,4 @@ http://wymeditor.github.io/wymeditor/
 
 https://github.com/collectiveidea/awesome_nested_set
 
-##### Additional files in zip (import) should be added automatically
-
-##### Add whitlisting for controller liquid assigns
+##### Add whitelisting for controller liquid assigns
