@@ -14,6 +14,33 @@ module Scribo
       where(name: name)
     end
 
+    def self.guess_info_for_entry_name(prefill, entry_name)
+      meta_info                 = prefill
+      meta_info['state']        = 'published'
+      meta_info['content_type'] = MIME::Types.type_for(entry_name).find { |mt| Content.content_type_supported?(mt.simplified) }&.content_type
+      meta_info['kind']         = Content::SUPPORTED_MIME_TYPES[:text].include?(meta_info['content_type']) ? 'text' : 'asset'
+      meta_info['published_at'] = Time.new
+      meta_info
+    end
+
+    def self.meta_info_for_entry_name(meta_info_site, base_path, entry_name)
+      if entry_name.start_with?(base_path + '/_identified/')
+        identifier = entry_name[(base_path + '/_identified/').size..-1].gsub(/\.html$/, '').tr('_', '/')
+        meta_info  = meta_info_site['contents'].find { |m| m['identifier'] == identifier }
+        meta_info  ||= guess_info_for_entry_name({ 'identifier' => identifier }, entry_name)
+      elsif entry_name.start_with?(base_path + '/_named/')
+        name      = entry_name[(base_path + '/_named/').size..-1].gsub(/\.html$/, '').tr('_', '/')
+        meta_info = meta_info_site['contents'].find { |m| m['name'] == name }
+        meta_info ||= guess_info_for_entry_name({ 'name' => name }, entry_name)
+      else
+        path      = entry_name[base_path.size..-1].gsub(/\.html$/, '')
+        path      = '/' if path == '/index'
+        meta_info = meta_info_site['contents'].find { |m| m['path'] == path }
+        meta_info ||= guess_info_for_entry_name({ 'path' => path }, entry_name)
+      end
+      meta_info
+    end
+
     def self.content_path_for_zip(path, identifier, name)
       if path.present?
         zip_path = path[0] == '/' ? path[1..-1] : path
@@ -48,9 +75,10 @@ module Scribo
 
         base_path = "site_#{meta_info_site['name']}"
 
-        meta_info_site['contents'].each do |meta_info|
-          entry_path = base_path + '/' + content_path_for_zip(meta_info['path'], meta_info['identifier'], meta_info['name'])
-          entry      = zip_file.find_entry(entry_path)
+        zip_file.glob('**/*').reject { |e| e.name == "#{base_path}/scribo_site.json" || e.name.start_with?('__MACOSX/') || e.name.end_with?('/.DS_Store') || !e.get_input_stream.respond_to?(:read) }.each do |entry|
+          meta_info = meta_info_for_entry_name(meta_info_site, base_path, entry.name)
+          Rails.logger.warn "Scribo: Not importing #{entry.name} it's a non-supported content-type!" unless meta_info['content_type']
+          next unless meta_info['content_type']
 
           content = if meta_info['identifier']
                       site.contents.find_or_create_by(site: site, identifier: meta_info['identifier'])
