@@ -3,59 +3,61 @@
 require_dependency 'scribo/application_controller'
 
 module Scribo
-  class Admin::Sites::AssetsController < ApplicationController
-    before_action :authenticate_user!
-    before_action :set_objects
-    authorize_resource class: Content
+  module Admin
+    class Sites::AssetsController < ApplicationController
+      before_action :authenticate_user!
+      before_action :set_objects
+      authorize_resource class: Content
 
-    def new
-      render :edit
-    end
+      def new
+        render :edit
+      end
 
-    def create
-      flash_and_redirect @content.save, admin_site_assets_url(@site), 'Asset created successfully', 'There were problems creating the asset'
-    end
+      def create
+        flash_and_redirect @content.save, admin_site_assets_url(@site), 'Asset created successfully', 'There were problems creating the asset'
+      end
 
-    def index
-      @contents = @site.contents.where(kind: 'asset').order(:path, :identifier)
-    end
+      def index
+        @contents = @site.contents.where(kind: 'asset').order(:path, :identifier)
+      end
 
-    def edit
-      @content = Content.find(params[:id])
-    end
+      def edit
+        @content = Content.find(params[:id])
+      end
 
-    def update
-      flash_and_redirect @content.update(content_params), admin_site_assets_url(@site), 'Asset updated successfully', 'There were problems updating the asset'
-    end
+      def update
+        flash_and_redirect @content.update(content_params), admin_site_assets_url(@site), 'Asset updated successfully', 'There were problems updating the asset'
+      end
 
-    def show
-      redirect_to admin_site_assets_path(@site)
-    end
+      def show
+        redirect_to admin_site_assets_path(@site)
+      end
 
-    private
+      private
 
-    def set_objects
-      @site    = Site.find(params[:site_id])
-      @content = if params[:id]
-                   @site.contents.where(kind: 'asset').find(params[:id])
-                 else
-                   params[:content] ? @site.contents.new(content_params) : @site.contents.new
-                 end
-      @states  = Scribo::Content.state_machine.states.map(&:value)
+      def set_objects
+        @site    = Site.find(params[:site_id])
+        @content = if params[:id]
+                     @site.contents.where(kind: 'asset').find(params[:id])
+                   else
+                     params[:content] ? @site.contents.new(content_params) : @site.contents.new
+                   end
+        @states  = Scribo::Content.state_machine.states.map(&:value)
 
-      add_breadcrumb I18n.t('scribo.breadcrumbs.admin.assets'), admin_site_assets_path(@site)
-    end
+        add_breadcrumb I18n.t('scribo.breadcrumbs.admin.assets'), admin_site_assets_path(@site)
+      end
 
-    def content_params
-      params.require(:content).permit(:state, :name, :path, :title, :caption, :keywords, :description, :data).tap do |w|
-        w[:kind] = 'asset' if w[:kind].blank?
-        if w[:data]
-          w[:content_type] = w[:data].content_type
-          if Content.content_type_supported?(w[:content_type])
-            w[:name] = w[:data].original_filename if w[:name].blank?
-            w[:data] = w[:data].read
-          else
-            w.delete(:data)
+      def content_params
+        params.require(:content).permit(:state, :name, :path, :title, :caption, :keywords, :description, :data).tap do |w|
+          w[:kind] = 'asset' if w[:kind].blank?
+          if w[:data]
+            w[:content_type] = w[:data].content_type
+            if Content.content_type_supported?(w[:content_type])
+              w[:name] = w[:data].original_filename if w[:name].blank?
+              w[:data] = w[:data].read
+            else
+              w.delete(:data)
+            end
           end
         end
       end
