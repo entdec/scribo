@@ -4,6 +4,7 @@ require 'scribo/engine'
 require 'scribo/action_controller_helpers'
 require 'scribo/active_record_helpers'
 require 'scribo/action_view_helpers'
+require 'scribo/version'
 
 module Scribo
   # Include helpers

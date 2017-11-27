@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require_dependency 'scribo/application_record'
-require_dependency 'scribo/version'
 
 module Scribo
   class Site < ApplicationRecord
