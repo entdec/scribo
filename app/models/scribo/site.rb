@@ -80,16 +80,19 @@ module Scribo
           Rails.logger.warn "Scribo: Not importing #{entry.name} it's a non-supported content-type!" unless meta_info['content_type']
           next unless meta_info['content_type']
 
-          content = if meta_info['identifier']
-                      site.contents.find_or_create_by(site: site, identifier: meta_info['identifier'])
+          content = if meta_info['path']
+                      site.contents.find_or_create_by(site: site, path: meta_info['path'])
                     elsif meta_info['name']
                       site.contents.find_or_create_by(site: site, name: meta_info['name'])
-                    else
-                      site.contents.find_or_create_by(site: site, path: meta_info['path'])
+                    elsif meta_info['identifier']
+                      site.contents.find_or_create_by(site: site, identifier: meta_info['identifier'])
                     end
 
           content.data         = entry.get_input_stream.read
           content.kind         = meta_info['kind']
+          content.path         = meta_info['path']
+          content.name         = meta_info['name']
+          content.identifier   = meta_info['identifier']
           content.content_type = meta_info['content_type']
           content.title        = meta_info['title']
           content.description  = meta_info['description']
