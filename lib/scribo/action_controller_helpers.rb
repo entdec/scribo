@@ -39,7 +39,10 @@ module Scribo
         end
       end
 
-      def scribo_layout(scribo_value_layout)
+      def scribo_layout(scribo_value_layout, options = {})
+        if options[:if].is_a? Proc
+          return unless instance_exec(&options[:if])
+        end
         before_action do |controller|
           controller.send(:scribo_value_layout=, scribo_value_layout)
         end
