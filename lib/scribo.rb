@@ -7,6 +7,10 @@ require 'scribo/action_view_helpers'
 require 'scribo/version'
 
 module Scribo
+  # Configuration
+  # What should be the base controller for the admin-side
+  mattr_accessor :base_controller
+
   # Include helpers
   ActiveSupport.on_load(:active_record) do
     include ActiveRecordHelpers
