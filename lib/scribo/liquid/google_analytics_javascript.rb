@@ -16,7 +16,7 @@ class GoogleAnalyticsJavascriptTag < Liquid::Tag
   end
 
   def render(context)
-    code = @code.render(context)
+    code = @code.evaluate(context)
     return unless Rails.env == 'production'
     return unless code
     Rails.logger.warn "Inserting google analytics with code: #{code}"
