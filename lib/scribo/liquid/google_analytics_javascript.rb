@@ -4,19 +4,16 @@
 #
 # {% google_analytics_javascript 'UA-000000-01' %}
 class GoogleAnalyticsJavascriptTag < Liquid::Tag
-  SYNTAX = /(#{Liquid::QuotedFragment})?/o
-
   def initialize(tag_name, markup, tokens)
     super
-    if markup =~ SYNTAX
-      @code = Liquid::Expression.parse(Regexp.last_match[1])
-    else
+    @code = Liquid::Expression.parse(markup.strip)
+    unless @code
       raise SyntaxError, "Syntax Error in 'google_analytics_javascript' - Valid syntax: yield 'tracking_id'"
     end
   end
 
   def render(context)
-    code = @code.evaluate(context)
+    code = [Liquid::RangeLookup, Liquid::VariableLookup].include?(@code.class) ? @code.evaluate(context) : @code
     return unless Rails.env == 'production'
     return unless code
     Rails.logger.warn "Inserting google analytics with code: #{code}"

@@ -1,5 +1,7 @@
 main:
   name: main
+  host_name: www.example.com
 
 second:
   name: second
+  host_name: second.example.com

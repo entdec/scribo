@@ -4,6 +4,7 @@ index:
   content_type: text/html
   data: Test index
   path: /
+  state: published
 
 layout:
   site: main
@@ -11,3 +12,4 @@ layout:
   content_type: text/html
   data: layout{%yield%}layout
   identifier: layout
+  state: published
