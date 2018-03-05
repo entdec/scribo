@@ -28,7 +28,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'slim', '~> 3.0.8'
   s.add_dependency 'state_machines-activerecord', '~> 0.5'
 
-  s.add_development_dependency 'minitest', '~> 5.0'
-  s.add_development_dependency 'minitest-reporters', '~> 1.1.0'
+  s.add_development_dependency 'minitest', '~> 5.11'
+  s.add_development_dependency 'minitest-reporters', '~> 1.1'
   s.add_development_dependency 'rubocop', '~> 0.49'
 end
