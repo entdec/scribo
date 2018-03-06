@@ -12,6 +12,7 @@ module Scribo
       add_breadcrumb I18n.t('scribo.breadcrumbs.admin.sites'), :admin_sites_path
 
       def new
+        add_breadcrumb("New site", :new_admin_site_path)
         render :edit
       end
 
@@ -25,6 +26,7 @@ module Scribo
 
       def edit
         @site = Site.find(params[:id])
+        add_breadcrumb(@site.name, :edit_admin_site_path)
       end
 
       def update

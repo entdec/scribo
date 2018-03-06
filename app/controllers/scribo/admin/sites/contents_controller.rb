@@ -10,6 +10,7 @@ module Scribo
       authorize_resource class: Content
 
       def new
+        add_breadcrumb("New content", new_admin_site_content_path(@site))
         render :edit
       end
 
@@ -22,6 +23,7 @@ module Scribo
       end
 
       def edit
+        add_breadcrumb(@content.name || @content.identifier || @content.path, edit_admin_site_content_path(@site, @content))
         @content = Content.find(params[:id])
       end
 
@@ -46,7 +48,7 @@ module Scribo
         @content       = if params[:id]
                            Content.where(site: params[:site_id]).where(kind: %w[text redirect]).find(params[:id])
                          else
-                           params[:content] ? Content.new(content_params) : Content.new
+                           params[:content] ? @site.contents.new(content_params) : @site.contents.new
                          end
         @layouts       = Content.where(kind: %w[text redirect]).where.not(identifier: nil).where.not(id: @content.id)
         @content_types = Content::SUPPORTED_MIME_TYPES[:text]
@@ -54,11 +56,13 @@ module Scribo
         @sites         = Scribo::Site.order(:name)
         @kinds         = %w[text redirect]
 
+        add_breadcrumb I18n.t('scribo.breadcrumbs.admin.sites'), :admin_sites_path
+        add_breadcrumb(@site.name, edit_admin_site_path(@site))
         add_breadcrumb I18n.t('scribo.breadcrumbs.admin.contents'), admin_site_contents_url(@site)
       end
 
       def content_params
-        params.require(:content).permit(:scribo_site_id, :kind, :state, :path, :content_type, :layout_id, :breadcrumb, :name, :identifier, :filter, :title, :keywords, :description, :data).tap do |w|
+        params.require(:content).permit(:kind, :state, :path, :content_type, :layout_id, :breadcrumb, :name, :identifier, :filter, :title, :keywords, :description, :data).tap do |w|
           w[:kind] = 'text' if w[:kind].blank?
         end
       end

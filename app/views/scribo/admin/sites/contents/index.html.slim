@@ -1,7 +1,6 @@
-table
+table.table
   thead
     tr
-      th Site
       th Path
       th Name
       th Identifier
@@ -10,7 +9,6 @@ table
   tbody
     - for content in @contents
       tr
-        td = content.site.name
         td = link_to content.path || '-', edit_admin_site_content_url(content.site, content)
         td = link_to content.name || '-', edit_admin_site_content_url(content.site, content)
         td = link_to content.identifier || '-', edit_admin_site_content_url(content.site, content)
