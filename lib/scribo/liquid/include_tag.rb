@@ -26,7 +26,7 @@ class IncludeTag < Liquid::Tag
     current_content = lookup(context.registers, 'content')
 
     content = current_content.site.contents.identified(@identifier).first
-    content&.render(context, context.registers)
+    content&.render(context.environments.first, context.registers)
   end
 end
 
