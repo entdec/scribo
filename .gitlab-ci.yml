@@ -1,0 +1,64 @@
+image: ruby:2.4.2
+services:
+  # mdillon__postgis - also check database.yml.gitlab
+  - mdillon/postgis:latest
+  - redis
+
+variables:
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: ""
+  RAILS_BEANSTALKD_URL: beanstalk://schickling__beanstalkd
+  RAILS_REDIS_URL: redis://redis:6379/0/cache
+
+before_script:
+  # Use UTF8
+  - export LC_ALL=en_US.UTF-8
+  - export LANG=en_US.UTF-8
+  - export LANGUAGE=en_US.UTF-8
+
+  # Set to UTC
+  - export TZ='Etc/UTC'
+
+  # Install ssh-agent if not already installed, it is required by Docker.
+  # (change apt-get to yum if you use a CentOS-based image)
+  - which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )
+
+  # Run ssh-agent (inside the build environment)
+  - eval $(ssh-agent -s)
+
+  # Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
+  - ssh-add <(echo "$SSH_PRIVATE_KEY")
+
+  # For Docker builds disable host key checking. Be aware that by adding that
+  # you are suspectible to man-in-the-middle attacks.
+  # WARNING: Use this only with the Docker executor, if you use it with shell
+  # you will overwrite your user's SSH config.
+  - mkdir -p ~/.ssh
+  - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+
+  # Add new dependencies below
+  - curl -sL https://deb.nodesource.com/setup_8.x | bash -
+  - apt-get update -y && apt-get install libproj-dev nodejs cmake -y
+  - npm install -g yarn
+
+  - gem install bundler --no-document
+  - cp test/dummy/config/database.yml.gitlab test/dummy/config/database.yml
+  - bundle install --jobs $(nproc) "${FLAGS[@]}"
+
+stages:
+  - test
+
+test:
+  stage: test
+  script:
+    # Install phantomjs
+    #    - ln -s /builds/boxture/server/bin/phantomjs /usr/bin/phantomjs
+    #    - phantomjs --version
+    - bundle exec rails db:setup RAILS_ENV=test
+    - bundle exec rails app:assets:precompile RAILS_ENV=test
+    - bundle exec rails test
+
+rubocop:
+  stage: test
+  script:
+    - bundle exec rubocop
