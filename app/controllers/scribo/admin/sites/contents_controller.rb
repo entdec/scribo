@@ -23,6 +23,7 @@ module Scribo
       end
 
       def edit
+        @contents = @site.contents.where(kind: %w[text redirect]).order(:path, :identifier)
         add_breadcrumb(@content.name || @content.identifier || @content.path, edit_admin_site_content_path(@site, @content))
         @content = Content.find(params[:id])
       end

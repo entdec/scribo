@@ -4,35 +4,41 @@
     .col-sm-4
       = f.input :path
     .col-sm-4
-      = f.input :content_type, collection: @content_types, include_blank: false
     .col-sm-4
-      = f.input :state, collection: @states, selected: @content.state, include_blank: true
-  .row
-    .col-sm-4
-      = f.association :layout, collection: @layouts, selected: @content.layout_id, label_method: :identifier, include_blank: true
-    .col-sm-4
-      = f.input :filter
-    .col-sm-4
-      = f.input :kind, collection: @kinds, selected: @content.kind
+      .actions.float-right
+        = f.button :button, 'Save', name: 'commit', value: 'save', class: 'btn-primary', data: { disable_with: 'Save' }
+        = f.button :button, 'Continue', name: 'commit', value: 'continue', data: { disable_with: 'Continue' }
+        a.btn data-toggle='collapse' data-target='#advancedContainer' Advanced
 
-  .row
-    .col-sm-4
-      = f.input :name
-    .col-sm-4
-      = f.input :identifier
-    .col-sm-4
-      = f.input :breadcrumb
 
-  = f.input :title
-  = f.input :keywords
-  = f.input :description
+  .collapse#advancedContainer
+    .row
+      .col-sm-4
+        = f.input :content_type, collection: @content_types, include_blank: false
+      .col-sm-4
+        = f.input :state, collection: @states, selected: @content.state, include_blank: true
+    .row
+      .col-sm-4
+        = f.association :layout, collection: @layouts, selected: @content.layout_id, label_method: :identifier, include_blank: true
+      .col-sm-4
+        = f.input :filter
+      .col-sm-4
+        = f.input :kind, collection: @kinds, selected: @content.kind
 
-  .row
-    .col-sm-8= f.input :data, as: :code_mirror, input_html: {data: { height: '800px', lang: 'text/html'}}
-    .col-sm-4
-      .preview style="border: 1px solid #f0f0f0; width: 100%; overflow: scroll"
-  = f.button :button, 'Save', name: 'commit', value: 'save', class: 'btn-primary', data: { disable_with: 'Save' }
-  = f.button :button, 'Continue', name: 'commit', value: 'continue', data: { disable_with: 'Continue' }
+    .row
+      .col-sm-4
+        = f.input :name
+      .col-sm-4
+        = f.input :identifier
+      .col-sm-4
+        = f.input :breadcrumb
+
+    = f.input :title
+    = f.input :keywords
+    = f.input :description
+
+  = f.input :data, as: :code_mirror, input_html: {data: { height: '800px', lang: 'text/html'}}
+
 
 - unless @content.new_record?
   javascript:
@@ -42,3 +48,5 @@
       editor.change(function() {
         $('.preview').load( "#{preview_admin_site_content_path(@site, @content)}", { data: $('#content_data').val() } );
       });
+
+= render 'table'
