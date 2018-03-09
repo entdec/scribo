@@ -25,6 +25,9 @@ before_script:
   # Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
   - ssh-add <(echo "$SSH_PRIVATE_KEY")
 
+  # Add new dependencies below
+  - apt-get update -y && apt-get install cmake -y
+
   - gem install bundler --no-document
   - cp test/dummy/config/database.yml.gitlab test/dummy/config/database.yml
   - bundle install --jobs $(nproc) "${FLAGS[@]}"
