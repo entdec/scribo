@@ -94,7 +94,7 @@ module Scribo
       result    = Tilt[content.filter].new { result }.render if content.filter.present?
       if content.layout
         registers['_yield']     = {} unless registers['_yield']
-        registers['_yield'][''] = result
+        registers['_yield'][''] = result.delete("\n")
         result                  = render_with_liquid(content.layout, assigns, registers)
       end
       result
