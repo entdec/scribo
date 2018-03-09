@@ -10,7 +10,7 @@ module Scribo
       add_breadcrumb I18n.t('scribo.breadcrumbs.admin.sites'), :admin_sites_path if defined? add_breadcrumb
 
       def new
-        add_breadcrumb("New site", :new_admin_site_path) if defined? add_breadcrumb
+        add_breadcrumb('New site', :new_admin_site_path) if defined? add_breadcrumb
         render :edit
       end
 

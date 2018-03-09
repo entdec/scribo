@@ -8,7 +8,7 @@ module Scribo
       before_action :set_objects
 
       def new
-        add_breadcrumb("New asset", new_admin_site_asset_path(@site)) if defined? add_breadcrumb
+        add_breadcrumb('New asset', new_admin_site_asset_path(@site)) if defined? add_breadcrumb
         render :edit
       end
 
