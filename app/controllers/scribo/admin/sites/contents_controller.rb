@@ -51,7 +51,7 @@ module Scribo
                          end
         @layouts       = Content.where(kind: %w[text redirect]).where.not(identifier: nil).where.not(id: @content.id)
         @content_types = Content::SUPPORTED_MIME_TYPES[:text]
-        @states        = Scribo::Content.state_machine.states.map(&:value)
+        @states        = Scribo::Content.aasm.states.map(&:name)
         @sites         = Scribo::Site.order(:name)
         @kinds         = %w[text redirect]
 

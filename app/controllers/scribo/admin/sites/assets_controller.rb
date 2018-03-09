@@ -42,7 +42,7 @@ module Scribo
                    else
                      params[:content] ? @site.contents.new(content_params) : @site.contents.new
                    end
-        @states  = Scribo::Content.state_machine.states.map(&:value)
+        @states  = Scribo::Content.aasm.states.map(&:name)
 
         add_breadcrumb I18n.t('scribo.breadcrumbs.admin.sites'), :admin_sites_path if defined? add_breadcrumb
         add_breadcrumb(@site.name, edit_admin_site_path(@site)) if defined? add_breadcrumb

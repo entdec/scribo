@@ -26,7 +26,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'rubyzip', '~> 1.1'
   s.add_dependency 'simple_form', '~> 3.5'
   s.add_dependency 'slim', '~> 3.0.8'
-  s.add_dependency 'state_machines-activerecord', '~> 0.5'
+  s.add_dependency 'aasm'
 
   s.add_development_dependency 'minitest', '~> 5.11'
   s.add_development_dependency 'minitest-reporters', '~> 1.1'

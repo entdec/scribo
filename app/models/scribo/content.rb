@@ -2,11 +2,10 @@
 
 require_dependency 'scribo/application_record'
 
-require 'liquid'
-
 module Scribo
   # Represents any content in the system
   class Content < ApplicationRecord
+    include AASM
     acts_as_tree
 
     belongs_to :site, class_name: 'Site', foreign_key: 'scribo_site_id'
@@ -25,17 +24,20 @@ module Scribo
       other:    %w[application/octet-stream]
     }.freeze
 
-    state_machine initial: :draft do
+    aasm column: :state do
+      state :draft, initial: true
+      state :published
+      state :reviewed
+      state :hidden
+
       event :publish do
-        transition any => :published
+        transitions to: :published
       end
-
       event :review do
-        transition any => :reviewed
+        transitions to: :reviewed
       end
-
       event :hide do
-        transition any => :hidden
+        transitions to: :hidden
       end
     end
 

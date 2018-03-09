@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     scribo (0.1.5)
+      aasm
       acts_as_tree (~> 2.6)
       commonmarker (~> 0.17.4)
       liquid (~> 4.0.0)
@@ -10,11 +11,12 @@ PATH
       rubyzip (~> 1.1)
       simple_form (~> 3.5)
       slim (~> 3.0.8)
-      state_machines-activerecord (~> 0.5)
 
 GEM
   remote: https://rubygems.org/
   specs:
+    aasm (4.12.3)
+      concurrent-ruby (~> 1.0)
     actioncable (5.1.4)
       actionpack (= 5.1.4)
       nio4r (~> 2.0)

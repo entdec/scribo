@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require 'aasm'
+require 'liquid'
+
 require 'scribo/engine'
 require 'scribo/action_controller_helpers'
 require 'scribo/active_record_helpers'
