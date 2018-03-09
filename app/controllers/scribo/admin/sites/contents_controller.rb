@@ -17,11 +17,10 @@ module Scribo
       end
 
       def index
-        @contents = @site.contents.where(kind: %w[text redirect]).order(:path, :identifier)
+        # nothing here
       end
 
       def edit
-        @contents = @site.contents.where(kind: %w[text redirect]).order(:path, :identifier)
         add_breadcrumb(@content.name || @content.identifier || @content.path, edit_admin_site_content_path(@site, @content)) if defined? add_breadcrumb
         @content = Content.find(params[:id])
       end
@@ -44,6 +43,7 @@ module Scribo
 
       def set_objects
         @site          = Scribo::Site.find(params[:site_id])
+        @contents      = @site.contents.where(kind: %w[text redirect]).order(:path, :identifier)
         @content       = if params[:id]
                            Content.where(site: params[:site_id]).where(kind: %w[text redirect]).find(params[:id])
                          else
