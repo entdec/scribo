@@ -67,6 +67,10 @@ module Scribo
       where(state: 'published').where('published_at IS NULL OR published_at <= :now', now: Time.current.utc)
     end
 
+    def self.content_group(group)
+      where(content_type: Scribo.supported_mime_types[group])
+    end
+
     def render(assigns = {}, registers = {})
       case kind
       when 'asset'
@@ -115,6 +119,10 @@ module Scribo
         options.unshift 302
       end
       options
+    end
+
+    def to_data_url
+      "data:#{content_type};base64," + Base64.strict_encode64(data)
     end
 
     private

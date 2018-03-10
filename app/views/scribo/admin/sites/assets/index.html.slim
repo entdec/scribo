@@ -1,19 +1,18 @@
-table.table
-  thead
-    tr
-      th Name
-      th Path
-      th Content type
-      th Title
-      th Description
-  tbody
-    - for content in @contents
-      tr
-        td = link_to content.name || '-', edit_admin_site_asset_url(content.site, content)
-        td = link_to content.path || '-', edit_admin_site_asset_url(content.site, content)
-        td = content.content_type
-        td = link_to content.title || '-', edit_admin_site_asset_url(content.site, content)
-        td = content.description
-
 - content_for :context_menu do
   =< link_to(t('scribo.context_menu.add'), new_admin_site_asset_path(@site), class: 'btn btn-primary')
+
+ul#myTab.nav.nav-tabs.nav-tabs-fillup.nav-tabs-primary role="tablist"
+  - Scribo.supported_mime_types.keys.reject {|i| i == :text }.each_with_index do |cg, index|
+    li.nav-item
+      a aria-controls="#{cg}" aria-expanded="true" data-toggle="tab" href="##{cg}" role="tab" class="#{index == 0 ? 'active' : ''}" id="#{cg}-tab" = cg
+#myTabContent.tab-content
+  - Scribo.supported_mime_types.keys.reject {|i| i == :text }.each_with_index do |cg, index|
+    .tab-pane.fade.show aria-expanded="true" aria-labelledby="home-tab" role="tabpanel" id="#{cg}" class="#{index == 0 ? 'active' : ''}"
+      - @contents.content_group(cg).each_slice(6) do |contents|
+        .row
+          - contents.each do |content|
+            .content class="col-sm-#{12 / 6}"
+              = link_to edit_admin_site_asset_url(content.site, content) do
+                = image_tag content.to_data_url, size: "100%"
+                small = content.path
+
