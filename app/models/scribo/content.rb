@@ -92,6 +92,7 @@ module Scribo
       result
     end
 
+    # Returns the group of a certain content_type (text/plain => text, image/gif => image)
     def content_type_group
       Scribo.supported_mime_types.find { |_, v| v.include?(content_type) }.first.to_s
     end
@@ -101,6 +102,7 @@ module Scribo
       self_and_ancestors.reverse.map(&:path).join
     end
 
+    # Is the content_type in the supported list?
     def self.content_type_supported?(content_type)
       Scribo.supported_mime_types.values.flatten.include?(content_type)
     end
