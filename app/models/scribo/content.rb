@@ -12,17 +12,7 @@ module Scribo
     belongs_to :layout, class_name: 'Content'
 
     before_save :nilify_blanks
-
-    # TODO: Validate that layout_id is not the same as id
-    SUPPORTED_MIME_TYPES = {
-      image:    %w[image/gif image/png image/jpeg image/bmp image/webp image/svg+xml],
-      text:     %w[text/plain text/html text/css text/javascript application/javascript application/json application/xml],
-      audio:    %w[audio/midi audio/mpeg audio/webm audio/ogg audio/wav],
-      video:    %w[video/webm video/ogg video/mp4],
-      document: %w[application/msword application/vnd.ms-powerpoint application/vnd.ms-excel application/pdf application/zip],
-      font:     %w[font/collection font/otf font/sfnt font/ttf font/woff font/woff2 application/font-ttf application/vnd.ms-fontobject application/font-woff],
-      other:    %w[application/octet-stream]
-    }.freeze
+    validate :layout_cant_be_current_content
 
     aasm column: :state do
       state :draft, initial: true
@@ -103,7 +93,7 @@ module Scribo
     end
 
     def content_type_group
-      Content::SUPPORTED_MIME_TYPES.find { |_, v| v.include?(content_type) }.first.to_s
+      Scribo.supported_mime_types.find { |_, v| v.include?(content_type) }.first.to_s
     end
 
     # Use this in ContentDrop
@@ -112,7 +102,7 @@ module Scribo
     end
 
     def self.content_type_supported?(content_type)
-      Content::SUPPORTED_MIME_TYPES.values.flatten.include?(content_type)
+      Scribo.supported_mime_types.values.flatten.include?(content_type)
     end
 
     def self.redirect_options(redirect_data)
@@ -131,6 +121,10 @@ module Scribo
       self.class.columns.map(&:name).each do |c|
         send(c + '=', nil) if send(c).respond_to?(:blank?) && send(c).blank?
       end
+    end
+
+    def layout_cant_be_current_content
+      errors.add(:layout_id, "can't be current content") if layout_id == id
     end
   end
 end
