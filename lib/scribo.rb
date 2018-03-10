@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# rubocop:disable Style/ClassVars
+
 require 'aasm'
 require 'liquid'
 
@@ -13,6 +15,7 @@ module Scribo
   # Configuration
   # What should be the base controller for the admin-side
   mattr_accessor :base_controller
+  @@base_controller = '::ApplicationController'
 
   mattr_accessor :supported_mime_types
   @@supported_mime_types = {
@@ -38,3 +41,5 @@ module Scribo
     include ActionControllerHelpers
   end
 end
+
+# rubocop:enable Style/ClassVars
