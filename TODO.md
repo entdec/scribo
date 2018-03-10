@@ -46,8 +46,6 @@ Allow content types to be added easily
 
 ##### GUI/WYSIWYG
 
-http://wymeditor.github.io/wymeditor/
-
 ##### Switch to nested set
 
 https://github.com/collectiveidea/awesome_nested_set
