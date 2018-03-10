@@ -37,7 +37,6 @@ Or specific admin page requirements.
 ##### add configuration
 
 This should enable the recursive lookups for content
-Allow content types to be added easily
 
 ##### GUI/WYSIWYG
 
