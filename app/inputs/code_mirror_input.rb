@@ -11,7 +11,7 @@ class CodeMirrorInput < SimpleForm::Inputs::TextInput
   def input(wrapper_options = nil)
     template.content_tag(:div, class: 'code-mirror-input') do
       template.concat super
-      template.concat template.content_tag('span', 'cmd/ctrl-F for search and alt-g to goto line')
+      template.concat template.content_tag('span', '⌘-F/⌃-f: search; ⌥-g: goto line, ⌃-space: autocomplete')
     end
   end
 end
