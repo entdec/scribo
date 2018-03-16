@@ -5,12 +5,10 @@ require_dependency 'scribo/application_controller'
 module Scribo
   module Admin
     class Sites::AssetsController < ApplicationController
-      before_action :authenticate_user!
       before_action :set_objects
-      authorize_resource class: Content
 
       def new
-        add_breadcrumb("New asset", new_admin_site_asset_path(@site))
+        add_breadcrumb('New asset', new_admin_site_asset_path(@site)) if defined? add_breadcrumb
         render :edit
       end
 
@@ -23,7 +21,7 @@ module Scribo
       end
 
       def edit
-        add_breadcrumb(@content.name || @content.identifier || @content.path, edit_admin_site_asset_path(@site, @content))
+        add_breadcrumb(@content.name || @content.identifier || @content.path, edit_admin_site_asset_path(@site, @content)) if defined? add_breadcrumb
         @content = Content.find(params[:id])
       end
 
@@ -44,11 +42,11 @@ module Scribo
                    else
                      params[:content] ? @site.contents.new(content_params) : @site.contents.new
                    end
-        @states  = Scribo::Content.state_machine.states.map(&:value)
+        @states  = Scribo::Content.aasm.states.map(&:name)
 
-        add_breadcrumb I18n.t('scribo.breadcrumbs.admin.sites'), :admin_sites_path
-        add_breadcrumb(@site.name, edit_admin_site_path(@site))
-        add_breadcrumb I18n.t('scribo.breadcrumbs.admin.assets'), admin_site_assets_path(@site)
+        add_breadcrumb I18n.t('scribo.breadcrumbs.admin.sites'), :admin_sites_path if defined? add_breadcrumb
+        add_breadcrumb(@site.name, edit_admin_site_path(@site)) if defined? add_breadcrumb
+        add_breadcrumb I18n.t('scribo.breadcrumbs.admin.assets'), admin_site_assets_path(@site) if defined? add_breadcrumb
       end
 
       def content_params

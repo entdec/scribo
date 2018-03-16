@@ -9,7 +9,7 @@ AllCops:
     - 'spec/**/*'
     - 'lib/generators/**/*'
     - 'node_modules/**/*'
-    - 'test/dummy/db/**/*'
+    - 'test/dummy/**/*'
     - 'test/dummy/config/**/*'
 
 Metrics:

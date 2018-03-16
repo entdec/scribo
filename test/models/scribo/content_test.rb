@@ -35,5 +35,11 @@ module Scribo
 
       assert_equal '<section>bla</section><body>test</body>', result
     end
+
+    test 'layout cant be current content' do
+      subject = scribo_contents(:index)
+      subject.layout = scribo_contents(:index)
+      assert_not subject.valid?
+    end
   end
 end

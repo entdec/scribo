@@ -4,7 +4,7 @@ require_dependency 'scribo/application_record'
 
 module Scribo
   class Site < ApplicationRecord
-    belongs_to :scribable, polymorphic: true
+    # belongs_to :scribable, polymorphic: true
 
     has_many :contents, class_name: 'Content', foreign_key: 'scribo_site_id'
 
@@ -18,7 +18,7 @@ module Scribo
       meta_info                 = prefill
       meta_info['state']        = 'published'
       meta_info['content_type'] = MIME::Types.type_for(entry_name).find { |mt| Content.content_type_supported?(mt.simplified) }&.content_type
-      meta_info['kind']         = Content::SUPPORTED_MIME_TYPES[:text].include?(meta_info['content_type']) ? 'text' : 'asset'
+      meta_info['kind']         = Scribo.supported_mime_types[:text].include?(meta_info['content_type']) ? 'text' : 'asset'
       meta_info['published_at'] = Time.new
       meta_info
     end
@@ -27,7 +27,7 @@ module Scribo
       if entry_name.start_with?(base_path + '/_identified/')
         identifier = entry_name[(base_path + '/_identified/').size..-1].gsub(/\.html$/, '').tr('_', '/')
         meta_info  = meta_info_site['contents'].find { |m| m['identifier'] == identifier }
-        meta_info  ||= guess_info_for_entry_name({ 'identifier' => identifier }, entry_name)
+        meta_info ||= guess_info_for_entry_name({ 'identifier' => identifier }, entry_name)
       elsif entry_name.start_with?(base_path + '/_named/')
         name      = entry_name[(base_path + '/_named/').size..-1].gsub(/\.html$/, '').tr('_', '/')
         meta_info = meta_info_site['contents'].find { |m| m['name'] == name }

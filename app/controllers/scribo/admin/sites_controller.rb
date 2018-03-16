@@ -5,14 +5,12 @@ require_dependency 'scribo/application_controller'
 module Scribo
   module Admin
     class SitesController < ApplicationController
-      before_action :authenticate_user!
       before_action :set_objects, except: [:index]
-      authorize_resource class: Site
 
-      add_breadcrumb I18n.t('scribo.breadcrumbs.admin.sites'), :admin_sites_path
+      add_breadcrumb I18n.t('scribo.breadcrumbs.admin.sites'), :admin_sites_path if defined? add_breadcrumb
 
       def new
-        add_breadcrumb("New site", :new_admin_site_path)
+        add_breadcrumb('New site', :new_admin_site_path) if defined? add_breadcrumb
         render :edit
       end
 
@@ -27,7 +25,7 @@ module Scribo
       def edit
         @site = Site.find(params[:id])
         @contents = @site.contents.where(kind: %w[text redirect]).order(:path, :identifier)
-        add_breadcrumb(@site.name, :edit_admin_site_path)
+        add_breadcrumb(@site.name, :edit_admin_site_path) if defined? add_breadcrumb
       end
 
       def update
