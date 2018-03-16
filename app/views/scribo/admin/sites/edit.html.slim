@@ -5,6 +5,18 @@
   = f.button :button, 'Continue', name: 'commit', value: 'continue', data: { disable_with: 'Continue' }
 
 
+ul.nav.nav-tabs role='tablist'
+  li.nav-item
+    a.nav-link.active href="#contents" role="tab" Contents
+  li.nav-item
+    a.nav-link.active href="#assets" role="tab" Assets
+
+.tab-content#details
+  .tab-pane.fade.show.active#contents role='tabpanel'
+    = render '/scribo/admin/sites/contents/table'
+  .tab-pane.fade#assets role='tabpanel'
+    / = render '/scribo/admin/sites/assets/table'
+
 - content_for :context_menu do
   - unless @site.new_record?
     =< link_to(t('scribo.context_menu.export'), export_admin_site_path, class: 'btn btn-primary', 'data-turbolinks' => 'false')
