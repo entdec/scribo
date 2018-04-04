@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require_dependency 'scribo/application_controller'
+require_dependency 'scribo/contents_base_controller'
 require_dependency 'scribo/action_dispatch/request_drop'
 
 module Scribo
-  class ContentsController < ApplicationController
+  class ContentsController < ContentsBaseController
     protect_from_forgery except: :show
 
     def show
