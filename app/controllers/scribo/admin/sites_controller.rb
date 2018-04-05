@@ -19,7 +19,6 @@ module Scribo
       end
 
       def index
-        binding.pry
         @sites = Site.order(:name)
       end
 

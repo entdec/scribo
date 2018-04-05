@@ -3,7 +3,8 @@
 require_dependency 'concerns/maintenance_standards'
 
 module Scribo
-  class ApplicationAdminController < Scribo.admin_base_controller.constantize
+  # TODO: This doesn't work properly at the moment
+  class ApplicationAdminController < ApplicationController # Scribo.admin_base_controller.constantize
     include MaintenanceStandards
   end
 end
