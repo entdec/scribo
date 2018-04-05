@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require_dependency 'scribo/base_controller'
+require_dependency 'scribo/application_admin_controller'
 
 module Scribo
   module Admin
-    class Sites::AssetsController < BaseController
+    class Sites::AssetsController < ApplicationAdminController
       before_action :set_objects
 
       def new

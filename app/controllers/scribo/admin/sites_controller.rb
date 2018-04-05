@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require_dependency 'scribo/base_controller'
+require_dependency 'scribo/application_admin_controller'
 
 module Scribo
   module Admin
-    class SitesController < BaseController
+    class SitesController < ApplicationAdminController
       before_action :set_objects, except: [:index]
 
       add_breadcrumb I18n.t('scribo.breadcrumbs.admin.sites'), :admin_sites_path if defined? add_breadcrumb
@@ -19,6 +19,7 @@ module Scribo
       end
 
       def index
+        binding.pry
         @sites = Site.order(:name)
       end
 

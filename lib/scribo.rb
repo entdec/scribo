@@ -14,13 +14,13 @@ require 'scribo/version'
 module Scribo
   # Configuration
   # What should be the base controller for the admin-side
-  mattr_accessor :base_controller
-  @@base_controller = '::ApplicationController'
+  mattr_accessor :admin_base_controller
+  @@admin_base_controller = '::ApplicationController'
 
   # Configuration
   # What should be the base controller for the content-rendering
-  mattr_accessor :contents_base_controller
-  @@contents_base_controller = '::ApplicationController'
+  mattr_accessor :base_controller
+  @@base_controller = '::ApplicationController'
 
   mattr_accessor :supported_mime_types
   @@supported_mime_types = {
