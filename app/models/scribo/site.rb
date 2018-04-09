@@ -18,7 +18,7 @@ module Scribo
       meta_info                 = prefill
       meta_info['state']        = 'published'
       meta_info['content_type'] = MIME::Types.type_for(entry_name).find { |mt| Content.content_type_supported?(mt.simplified) }&.content_type
-      meta_info['kind']         = Scribo.supported_mime_types[:text].include?(meta_info['content_type']) ? 'text' : 'asset'
+      meta_info['kind']         = Scribo.config.supported_mime_types[:text].include?(meta_info['content_type']) ? 'text' : 'asset'
       meta_info['published_at'] = Time.new
       meta_info
     end

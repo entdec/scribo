@@ -2,11 +2,11 @@
   =< link_to(t('scribo.context_menu.add'), new_admin_site_asset_path(@site), class: 'btn btn-primary')
 
 ul#myTab.nav.nav-tabs.nav-tabs-fillup.nav-tabs-primary role="tablist"
-  - Scribo.supported_mime_types.keys.reject {|i| i == :text }.each_with_index do |cg, index|
+  - Scribo.config.supported_mime_types.keys.reject {|i| i == :text }.each_with_index do |cg, index|
     li.nav-item
       a aria-controls="#{cg}" aria-expanded="true" data-toggle="tab" href="##{cg}" role="tab" class="#{index == 0 ? 'active' : ''}" id="#{cg}-tab" = cg
 #myTabContent.tab-content
-  - Scribo.supported_mime_types.keys.reject {|i| i == :text }.each_with_index do |cg, index|
+  - Scribo.config.supported_mime_types.keys.reject {|i| i == :text }.each_with_index do |cg, index|
     .tab-pane.fade.show aria-expanded="true" aria-labelledby="home-tab" role="tabpanel" id="#{cg}" class="#{index == 0 ? 'active' : ''}"
       - @contents.content_group(cg).each_slice(6) do |contents|
         .row

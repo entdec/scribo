@@ -68,7 +68,7 @@ module Scribo
     end
 
     def self.content_group(group)
-      where(content_type: Scribo.supported_mime_types[group])
+      where(content_type: Scribo.config.supported_mime_types[group])
     end
 
     def render(assigns = {}, registers = {})
@@ -98,7 +98,7 @@ module Scribo
 
     # Returns the group of a certain content_type (text/plain => text, image/gif => image)
     def content_type_group
-      Scribo.supported_mime_types.find { |_, v| v.include?(content_type) }.first.to_s
+      Scribo.config.supported_mime_types.find { |_, v| v.include?(content_type) }.first.to_s
     end
 
     # Use this in ContentDrop
@@ -108,7 +108,7 @@ module Scribo
 
     # Is the content_type in the supported list?
     def self.content_type_supported?(content_type)
-      Scribo.supported_mime_types.values.flatten.include?(content_type)
+      Scribo.config.supported_mime_types.values.flatten.include?(content_type)
     end
 
     def self.redirect_options(redirect_data)
