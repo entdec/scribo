@@ -24,13 +24,13 @@ module Scribo
       @logger.level = Logger::INFO
       @base_controller = '::ApplicationController'
       @supported_mime_types = {
-          image:    %w[image/gif image/png image/jpeg image/bmp image/webp image/svg+xml],
-          text:     %w[text/plain text/html text/css text/javascript application/javascript application/json application/xml],
-          audio:    %w[audio/midi audio/mpeg audio/webm audio/ogg audio/wav],
-          video:    %w[video/webm video/ogg video/mp4],
-          document: %w[application/msword application/vnd.ms-powerpoint application/vnd.ms-excel application/pdf application/zip],
-          font:     %w[font/collection font/otf font/sfnt font/ttf font/woff font/woff2 application/font-ttf application/vnd.ms-fontobject application/font-woff],
-          other:    %w[application/octet-stream]
+        image:    %w[image/gif image/png image/jpeg image/bmp image/webp image/svg+xml],
+        text:     %w[text/plain text/html text/css text/javascript application/javascript application/json application/xml],
+        audio:    %w[audio/midi audio/mpeg audio/webm audio/ogg audio/wav],
+        video:    %w[video/webm video/ogg video/mp4],
+        document: %w[application/msword application/vnd.ms-powerpoint application/vnd.ms-excel application/pdf application/zip],
+        font:     %w[font/collection font/otf font/sfnt font/ttf font/woff font/woff2 application/font-ttf application/vnd.ms-fontobject application/font-woff],
+        other:    %w[application/octet-stream]
       }
     end
 
