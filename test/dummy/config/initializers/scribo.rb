@@ -1,3 +1,5 @@
 # frozen_string_literal: true
 
-Scribo.base_controller = '::ApplicationController'
+Scribo.setup do |config|
+  config.base_controller = '::ApplicationController'
+end
