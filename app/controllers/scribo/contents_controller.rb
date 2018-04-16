@@ -15,6 +15,13 @@ module Scribo
                      end
 
       @content = current_site&.contents&.located(request.path)&.first
+      if request.path == '/humans.txt'
+        @content = Content.new(kind: 'text', content_type: 'text/plain', data: Scribo.config.default_humans_txt)
+      elsif request.path == '/robots.txt'
+        @content = Content.new(kind: 'text', content_type: 'text/plain', data: Scribo.config.default_robots_txt)
+      elsif request.path == '/favicon.ico'
+        @content = Content.new(kind: 'asset', content_type: 'image/x-icon', data: Base64.decode64(Scribo.config.default_favicon_ico))
+      end
       @content ||= current_site&.contents&.located('/404')&.first
 
       if @content
@@ -34,7 +41,7 @@ module Scribo
           render body: @content.render(assigns, registers), content_type: @content.content_type, layout: false
         end
       else
-        render body: '404 Not Found', status: 404
+        render body: Scribo.config.default_404_txt, status: 404
       end
     end
   end

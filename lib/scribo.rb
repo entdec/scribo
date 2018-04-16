@@ -18,6 +18,10 @@ module Scribo
     attr_accessor :base_controller
     attr_accessor :supported_mime_types
     attr_writer   :logger
+    attr_accessor   :default_404_txt
+    attr_accessor   :default_humans_txt
+    attr_accessor   :default_robots_txt
+    attr_accessor :default_favicon_ico
 
     def initialize
       @logger = Logger.new(STDOUT)
@@ -32,6 +36,37 @@ module Scribo
         font:     %w[font/collection font/otf font/sfnt font/ttf font/woff font/woff2 application/font-ttf application/vnd.ms-fontobject application/font-woff],
         other:    %w[application/octet-stream]
       }
+      @default_404_txt = '404 Not Found'
+      @default_humans_txt = <<~EOF_HUMANS_TXT
+        /* TEAM */
+        Your title: Your name.
+        Site: email, link to a contact form, etc.
+        Twitter: your Twitter username.
+        Location: City, Country.
+                         
+                                [...]
+        						
+        /* THANKS */
+        Name: name or url
+                         
+                                [...]
+                                
+        /* SITE */
+        Last update: YYYY/MM/DD 
+        Standards: HTML5, CSS3,..
+        Components: Modernizr, jQuery, etc.
+        Software: Software used for the development
+      EOF_HUMANS_TXT
+      @default_robots_txt = <<~EOF_ROBOTS_TXT
+        # See http://www.robotstxt.org/robotstxt.html for documentation on how to use the robots.txt file
+        #
+        # To ban all spiders from the entire site uncomment the next two lines:
+        User-agent: *
+        Disallow: /
+      EOF_ROBOTS_TXT
+
+      # Base64 encoded image/x-icon
+      @default_favicon_ico = "AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAQA\nAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\nAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\nAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\nAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\nAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\nAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\nAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAA\nAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\nAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAAAAAAA/wAAAAAAAAAAAAAAAAAAAAAA\nAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAA\nAAAAAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\nAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAAAAAAAP8AAAAAAAAAAAAAAAAAAAAA\nAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA7wAAAP8A\nAAAAAAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\nAAAAAAAAAAAAAAAAAAAAAADtAAAA/wAAAAAAAAC7AAAAAAAAAAAAAAAAAAAA\nAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC8\nAAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\nAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\nAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\nAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\nAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\nAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\nAAAAAAAA//8AAP//AAD//wAA//8AAPf/AAD5/wAA+v8AAP1/AAD+vwAA/l8A\nAP8vAAD/zwAA//8AAP//AAD//wAA//8AAA==\n"
     end
 
     # Config: logger [Object].
