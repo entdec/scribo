@@ -134,7 +134,7 @@ module Scribo
     end
 
     def layout_cant_be_current_content
-      errors.add(:layout_id, "can't be current content") if layout_id == id
+      errors.add(:layout_id, "can't be current content") if layout_id == id && id.present?
     end
   end
 end
