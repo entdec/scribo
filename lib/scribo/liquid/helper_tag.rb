@@ -12,7 +12,7 @@ class HelperTag < Liquid::Tag
       @options = JSON.parse(Regexp.last_match(1))
       @markup = @markup.gsub(Regexp.last_match(1), '').strip
     end
-    
+
     @variables = @markup.split(' ')
     @helper = @variables.shift.to_sym
 
