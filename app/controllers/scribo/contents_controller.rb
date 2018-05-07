@@ -34,7 +34,7 @@ module Scribo
 
         registers = { 'controller' => self }.stringify_keys
 
-        Rails.logger.info "Scribo: rendering #{@content.id} last-updated #{@content.last_updated_at} cache-key #{@content.cache_key} path #{@content.path} identifier #{@content.identifier}"
+        Rails.logger.info "Scribo: rendering #{@content.id} last-updated #{@content.updated_at} cache-key #{@content.cache_key} path #{@content.path} identifier #{@content.identifier}"
         if @content.kind == 'redirect'
           redirect_options = Content.redirect_options(@content.render(assigns, registers))
           redirect_to redirect_options.last, status: redirect_options.first
