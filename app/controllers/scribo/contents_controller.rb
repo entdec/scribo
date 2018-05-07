@@ -37,7 +37,7 @@ module Scribo
         if @content.kind == 'redirect'
           redirect_options = Content.redirect_options(@content.render(assigns, registers))
           redirect_to redirect_options.last, status: redirect_options.first
-        elsif stale?(last_modified: @content.updated_at, public: true)
+        elsif stale?(@content)
           render body: @content.render(assigns, registers), content_type: @content.content_type, layout: false
         end
       else
