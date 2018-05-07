@@ -12,6 +12,7 @@ module ActionViewHelpers
 
     content = current_site.contents.identified(identifier).first
     if content
+      Rails.logger.info "Scribo: layout for '#{identifier}'' content #{content.id} identifier #{content.identifier}"
       assigns = { 'content' => content, 'request' => ActionDispatch::RequestDrop.new(request) }.merge(assigns).stringify_keys
 
       controller.instance_variables.reject { |i| i.to_s.starts_with?('@_') }.each do |i|

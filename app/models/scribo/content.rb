@@ -55,6 +55,7 @@ module Scribo
     end
 
     def self.identified(identifier)
+      # return none unless identifier.present?
       published.where(identifier: identifier)
     end
 
