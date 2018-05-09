@@ -32,12 +32,15 @@ module Scribo
     end
 
     def self.located(path)
+      return none unless path.present?
       published.where(path: path)
     end
 
     # Could be used to locate 'child' content like /articles/article1, where /articles is the
     # index page of all articles and /article1 is the first article
     def self.recursive_located(path)
+      return none unless path.present?
+
       sql = <<-SQL
       WITH RECURSIVE recursive_contents(id, cpath) AS (
         SELECT id, ARRAY[path]
@@ -55,12 +58,13 @@ module Scribo
     end
 
     def self.identified(identifier)
-      # return none unless identifier.present?
+      return none unless identifier.present?
       published.where(identifier: identifier)
     end
 
     # Named content, only non-child content
     def self.named(name)
+      return none unless name.present?
       published.where(parent_id: nil).where(name: name)
     end
 
