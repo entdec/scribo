@@ -5,17 +5,18 @@
   = f.button :button, 'Continue', name: 'commit', value: 'continue', data: { disable_with: 'Continue' }
 
 
-ul.nav.nav-tabs role='tablist'
-  li.nav-item
-    a.nav-link.active href="#contents" role="tab" Contents
-  li.nav-item
-    a.nav-link.active href="#assets" role="tab" Assets
+- unless @site.new_record?
+  ul.nav.nav-tabs role='tablist'
+    li.nav-item
+      a.nav-link.active href="#contents" role="tab" Contents
+    li.nav-item
+      a.nav-link.active href="#assets" role="tab" Assets
 
-.tab-content#details
-  .tab-pane.fade.show.active#contents role='tabpanel'
-    = render '/scribo/admin/sites/contents/table'
-  .tab-pane.fade#assets role='tabpanel'
-    / = render '/scribo/admin/sites/assets/table'
+  .tab-content#details
+    .tab-pane.fade.show.active#contents role='tabpanel'
+      = render '/scribo/admin/sites/contents/table'
+    .tab-pane.fade#assets role='tabpanel'
+      / = render '/scribo/admin/sites/assets/table'
 
 - content_for :context_menu do
   - unless @site.new_record?

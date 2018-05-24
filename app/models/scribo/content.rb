@@ -5,7 +5,6 @@ require_dependency 'scribo/application_record'
 module Scribo
   # Represents any content in the system
   class Content < ApplicationRecord
-    include AASM
     acts_as_tree
 
     belongs_to :site, class_name: 'Site', foreign_key: 'scribo_site_id'
@@ -14,20 +13,20 @@ module Scribo
     before_save :nilify_blanks
     validate :layout_cant_be_current_content
 
-    aasm column: :state do
-      state :draft, initial: true
+    state_machine initial: :draft do
+      state :draft
       state :published
       state :reviewed
       state :hidden
 
       event :publish do
-        transitions to: :published
+        transition to: :published
       end
       event :review do
-        transitions to: :reviewed
+        transition to: :reviewed
       end
       event :hide do
-        transitions to: :hidden
+        transition to: :hidden
       end
     end
 
