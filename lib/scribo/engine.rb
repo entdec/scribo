@@ -1,9 +1,5 @@
 # frozen_string_literal: true
 
-require 'liquid'
-require 'acts_as_tree'
-require 'state_machines'
-
 module Scribo
   class Engine < ::Rails::Engine
     isolate_namespace Scribo
