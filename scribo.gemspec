@@ -19,7 +19,6 @@ Gem::Specification.new do |s|
   s.files = Dir['{app,config,db,lib}/**/*', 'MIT-LICENSE', 'Rakefile', 'README.md']
 
   s.add_dependency 'acts_as_tree', '~> 2.6'
-  s.add_dependency 'state_machines-activerecord', '~> 0.5'
   s.add_dependency 'commonmarker', '~> 0.17.4'
   s.add_dependency 'liquid', '~> 4.0.0'
   s.add_dependency 'pg'
@@ -27,6 +26,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'rubyzip', '~> 1.1'
   s.add_dependency 'simple_form', '~> 3'
   s.add_dependency 'slim', '~> 3.0'
+  s.add_dependency 'state_machines-activerecord', '~> 0.5'
 
   s.add_development_dependency 'minitest', '~> 5.11'
   s.add_development_dependency 'minitest-reporters', '~> 1.1'
