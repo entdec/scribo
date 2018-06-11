@@ -5,10 +5,16 @@ require_dependency 'scribo/application_record'
 module Scribo
   class Site < ApplicationRecord
     belongs_to :scribable, polymorphic: true
+    validates :scribable, presence: true
 
     has_many :contents, class_name: 'Content', foreign_key: 'scribo_site_id'
 
     attr_accessor :zip_file
+
+    def self.owned
+      objects = Scribo.config.scribable_objects
+      where(scribable: objects)
+    end
 
     def self.named(name)
       where(name: name)

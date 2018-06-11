@@ -19,7 +19,7 @@ module Scribo
       end
 
       def index
-        @sites = Scribo.config.scribable_scope.order(:name)
+        @sites = Site.owned.order(:name)
       end
 
       def edit
@@ -51,14 +51,16 @@ module Scribo
 
       def set_objects
         @site = if params[:id]
-                  Scribo.config.scribable_scope.find(params[:id])
+                  Site.owned.find(params[:id])
                 else
-                  params[:site] ? Site.new(site_params.merge(scribable: Scribo.config.scribable_object)) : Site.new(scribable: Scribo.config.scribable_object)
+                  params[:site] ? Site.new(site_params) : Site.new
                 end
       end
 
       def site_params
-        params.require(:site).permit(:name, :host_name)
+        params.require(:site).permit(:name, :host_name, :scribable_id).tap do |whitelisted|
+          whitelisted[:scribable] = GlobalID::Locator.locate_signed(whitelisted[:scribable_id])
+        end
       end
     end
   end
