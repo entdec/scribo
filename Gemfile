@@ -15,12 +15,3 @@ gemspec
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
 
-gem 'acts_as_tree', '~> 2.6'
-gem 'commonmarker', '~> 0.17.4'
-gem 'liquid', '~> 4.0.0'
-gem 'pg'
-gem 'rails', '~> 5.1'
-gem 'rubyzip', '~> 1.1'
-gem 'simple_form', '> 3.0'
-gem 'slim', '~> 3.0.8'
-gem 'state_machines-activerecord', '~> 0.5'

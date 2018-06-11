@@ -8,7 +8,7 @@ PATH
       pg
       rails (~> 5)
       rubyzip (~> 1.1)
-      simple_form (~> 3)
+      simple_form (> 3)
       slim (~> 3.0)
       state_machines-activerecord (~> 0.5)
 
@@ -166,19 +166,10 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  acts_as_tree (~> 2.6)
-  commonmarker (~> 0.17.4)
-  liquid (~> 4.0.0)
   minitest (~> 5.11)
   minitest-reporters (~> 1.1)
-  pg
-  rails (~> 5.1)
   rubocop (~> 0.49)
-  rubyzip (~> 1.1)
   scribo!
-  simple_form (> 3.0)
-  slim (~> 3.0.8)
-  state_machines-activerecord (~> 0.5)
 
 BUNDLED WITH
    1.16.1
