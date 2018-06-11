@@ -9,6 +9,7 @@ module Scribo
     attr_accessor   :default_robots_txt
     attr_accessor :default_favicon_ico
     attr_writer   :scribable_scope
+    attr_writer   :scribable_object
 
     def initialize
       @logger = Logger.new(STDOUT)
@@ -63,9 +64,15 @@ module Scribo
 
     # By default all users can see all sites.
     # scribable_scope, provides you with the site-scope and allows you to tighten that visibility
-    def scribable_scope(scope)
+    def scribable_scope(scope = nil)
       scope = Scribo::Site.all unless scope
       scope = instance_exec(scope, &@scribable_scope) if @scribable_scope
+    end
+
+    # By default all users can see all sites.
+    # scribable_object is called when creating a new site, you can return your own object
+    def scribable_object
+      instance_exec(&@scribable_object) if @scribable_object
     end
   end
 end

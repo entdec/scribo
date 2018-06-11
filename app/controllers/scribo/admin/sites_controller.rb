@@ -19,7 +19,7 @@ module Scribo
       end
 
       def index
-        @sites = Site.order(:name)
+        @sites = Scribo.config.scribable_scope.order(:name)
       end
 
       def edit
@@ -51,9 +51,9 @@ module Scribo
 
       def set_objects
         @site = if params[:id]
-                  Site.find(params[:id])
+                  Scribo.config.scribable_scope.find(params[:id])
                 else
-                  params[:site] ? Site.new(site_params) : Site.new
+                  params[:site] ? Site.new(site_params.merge(scribable: Scribo.config.scribable_object)) : Site.new(scribable: Scribo.config.scribable_object)
                 end
       end
 
