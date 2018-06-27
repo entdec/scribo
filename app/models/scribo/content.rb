@@ -8,7 +8,7 @@ module Scribo
     acts_as_tree
 
     belongs_to :site, class_name: 'Site', foreign_key: 'scribo_site_id'
-    belongs_to :layout, class_name: 'Content'
+    belongs_to :layout, class_name: 'Content', optional: true
 
     before_save :nilify_blanks
     validate :layout_cant_be_current_content
