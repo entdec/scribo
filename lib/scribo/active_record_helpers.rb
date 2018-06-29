@@ -4,7 +4,7 @@ module ActiveRecordHelpers
   extend ActiveSupport::Concern
 
   class_methods do
-    def scribable(options = {})
+    def scribable
       has_many :sites, as: :scribable, class_name: 'Scribo::Site'
     end
   end

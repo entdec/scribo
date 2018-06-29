@@ -33,7 +33,6 @@ module Scribo
     end
 
     class_methods do
-
       def scribo(*args)
         options = args.extract_options!
 
