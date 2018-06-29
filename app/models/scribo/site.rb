@@ -20,6 +20,10 @@ module Scribo
       where(name: name)
     end
 
+    def self.purposed(purpose)
+      where(purpose: purpose)
+    end
+
     def self.guess_info_for_entry_name(prefill, entry_name)
       meta_info                 = prefill
       meta_info['state']        = 'published'
@@ -114,10 +118,6 @@ module Scribo
         end
       end
       true
-    end
-
-    def self.site_for_hostname(host_name)
-      where('? ~ host_name', host_name).first
     end
 
     def export

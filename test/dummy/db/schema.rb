@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180309202732) do
+ActiveRecord::Schema.define(version: 20180629104612) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -57,7 +57,7 @@ ActiveRecord::Schema.define(version: 20180309202732) do
     t.uuid "scribable_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "host_name", default: ".*"
+    t.string "purpose", default: "site"
     t.index ["scribable_type", "scribable_id"], name: "index_scribo_sites_on_scribable_type_and_scribable_id"
   end
 

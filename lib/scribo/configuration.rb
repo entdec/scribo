@@ -9,6 +9,7 @@ module Scribo
     attr_accessor   :default_robots_txt
     attr_accessor :default_favicon_ico
     attr_writer   :scribable_objects
+    attr_writer   :scribo_site
 
     def initialize
       @logger = Logger.new(STDOUT)
@@ -65,6 +66,11 @@ module Scribo
     # scribable_object is called when creating a new site, you can return your own object
     def scribable_objects
       [*instance_exec(&@scribable_objects)] if @scribable_objects
+    end
+
+    # Which site to use when scribo content controller is called directly
+    def scribo_site(host_name)
+      instance_exec(host_name, &@scribo_site) if @scribo_site
     end
   end
 end

@@ -3,6 +3,7 @@
 require 'liquid'
 require 'acts_as_tree'
 require 'state_machines-activerecord'
+require 'simple_form'
 
 require 'scribo/engine'
 require 'scribo/configuration'

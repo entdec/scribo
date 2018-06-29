@@ -3,12 +3,8 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'app', 'drops', 'scribo', 'action_dispatch', 'request_drop.rb'))
 
 module ActionViewHelpers
-  def layout_with_scribo(identifier, yield_content, assigns = {}, registers = {})
-    current_site = if scribo_current_site
-                     scribo_current_site
-                   else
-                     Scribo::Site.site_for_hostname(request.headers['SERVER_NAME'])
-                   end
+  def layout_with_scribo(identifier, yield_content)
+    current_site = Scribo.config.scribo_site(request.env['SERVER_NAME'], purpose)
 
     content = current_site.contents.identified(identifier).first
     if content
