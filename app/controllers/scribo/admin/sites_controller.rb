@@ -24,7 +24,6 @@ module Scribo
 
       def edit
         @site = Site.find(params[:id])
-        @contents = @site.contents.where(kind: %w[text redirect]).order(:path, :identifier)
         add_breadcrumb(@site.name, :edit_admin_site_path) if defined? add_breadcrumb
       end
 
@@ -55,10 +54,11 @@ module Scribo
                 else
                   params[:site] ? Site.new(site_params) : Site.new
                 end
+        @contents = @site.contents.where(kind: %w[text redirect]).order(:path, :identifier) if @site
       end
 
       def site_params
-        params.require(:site).permit(:name, :host_name, :scribable_id).tap do |whitelisted|
+        params.require(:site).permit(:name, :purpose, :scribable_id).tap do |whitelisted|
           whitelisted[:scribable] = GlobalID::Locator.locate_signed(whitelisted[:scribable_id])
         end
       end
