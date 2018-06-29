@@ -8,7 +8,7 @@ module Scribo
     protect_from_forgery except: :show
 
     def show
-      current_site = Scribo.config.scribo_site(request.env['SERVER_NAME'])
+      current_site = Scribo.config.site_for_hostname(request.env['SERVER_NAME'])
 
       @content = current_site&.contents&.located(request.path)&.first
       if request.path == '/humans.txt'
