@@ -5,18 +5,18 @@ module Scribo
     extend ActiveSupport::Concern
 
     included do
-      attr_accessor :scribo_value_site, :scribo_value_layout, :scribo_value_application_assets
+      attr_accessor :scribo_value_purpose, :scribo_value_layout, :scribo_value_application_assets
 
       if respond_to? :helper_method
-        helper_method :scribo_layout_identifier, :scribo_current_site, :scribo_application_assets
-      end
-
-      def scribo_current_site
-        scribo_value_for(scribo_value_site)
+        helper_method :scribo_layout_identifier, :scribo_application_assets, :scribo_purpose
       end
 
       def scribo_layout_identifier
         scribo_value_for(scribo_value_layout)
+      end
+
+      def scribo_purpose
+        scribo_value_for(scribo_value_purpose)
       end
 
       def scribo_application_assets
@@ -33,26 +33,18 @@ module Scribo
     end
 
     class_methods do
-      def scribo_application_assets(scribo_value_application_assets)
-        before_action do |controller|
-          controller.send(:scribo_value_application_assets=, scribo_value_application_assets)
-        end
-      end
 
-      def scribo_layout(scribo_value_layout, options = {})
-        if options[:if].is_a? Proc
-          return unless instance_exec(&options[:if])
-        end
-        before_action do |controller|
-          controller.send(:scribo_value_layout=, scribo_value_layout)
-        end
+      def scribo(*args)
+        options = args.extract_options!
 
-        layout 'scribo'
-      end
+        if options.present?
+          prepend_before_action do |controller|
+            controller.send(:scribo_value_layout=, options[:layout]) if options[:layout]
+            controller.send(:scribo_value_purpose=, options[:purpose]) if options[:purpose]
+            controller.send(:scribo_value_application_assets=, options[:assets])
+          end
 
-      def scribo_site(scribo_value_site)
-        before_action do |controller|
-          controller.send(:scribo_value_site=, scribo_value_site)
+          layout 'scribo' if options[:layout]
         end
       end
     end
