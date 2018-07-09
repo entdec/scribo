@@ -4,6 +4,8 @@ require_dependency 'scribo/application_record'
 
 module Scribo
   class Site < ApplicationRecord
+    settable if defined?(settable) # Vario
+
     belongs_to :scribable, polymorphic: true
     validates :scribable, presence: true
 

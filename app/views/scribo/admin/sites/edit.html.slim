@@ -20,6 +20,8 @@
 
 - content_for :context_menu do
   - unless @site.new_record?
+    - if Vario
+      =< link_to(t('scribo.context_menu.translations'), vario.settings_path(settable: @site.to_sgid(for: 'Scribo').to_s), class: 'btn btn-default', 'data-turbolinks' => 'false')
     =< link_to(t('scribo.context_menu.export'), export_admin_site_path, class: 'btn btn-primary', 'data-turbolinks' => 'false')
     =< link_to(t('scribo.context_menu.contents'), admin_site_contents_path(@site), class: 'btn btn-default', 'data-turbolinks' => 'false')
     =< link_to(t('scribo.context_menu.assets'), admin_site_assets_path(@site), class: 'btn btn-default', 'data-turbolinks' => 'false')
