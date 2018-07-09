@@ -7,23 +7,27 @@ variables:
   POSTGRES_PASSWORD: ""
 
 before_script:
-  # Use UTF8 and UTC
+  # Use UTF8
   - export LC_ALL=en_US.UTF-8
   - export LANG=en_US.UTF-8
   - export LANGUAGE=en_US.UTF-8
+
+  # Set to UTC
   - export TZ='Etc/UTC'
-  # Install deploy key from SSH_PRIVATE_KEY variable from gitlab to docker instance.
-  # See:
-  # https://gitlab.com/<group>/<project>/settings/ci_cd
-  # https://stackoverflow.com/questions/25689231/getting-gitlab-ci-to-clone-private-repositories
-   - which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )
-   - eval $(ssh-agent -s)
-   - ssh-add <(echo "$SSH_PRIVATE_KEY")
-  - mkdir -p ~/.ssh
-  - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+
+  # Install ssh-agent if not already installed, it is required by Docker.
+  # (change apt-get to yum if you use a CentOS-based image)
+  - which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )
+
+  # Run ssh-agent (inside the build environment)
+  - eval $(ssh-agent -s)
+
+#   # Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
+#   - ssh-add <(echo "$SSH_PRIVATE_KEY")
+
   # Add new dependencies below
   - apt-get update -y && apt-get install cmake -y
-  # Actually do stuff
+
   - gem install bundler --no-document
   - cp test/dummy/config/database.yml.gitlab test/dummy/config/database.yml
   - bundle install --jobs $(nproc) "${FLAGS[@]}"
