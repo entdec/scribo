@@ -11,6 +11,9 @@ module Scribo
         helper_method :scribo_layout_identifier, :scribo_application_assets, :scribo_purpose
       end
 
+      before_action :prepopulate_translations
+      after_action :save_translations
+
       def scribo_layout_identifier
         scribo_value_for(scribo_value_layout)
       end
@@ -29,6 +32,16 @@ module Scribo
         return instance_eval(&value) if value.is_a? Proc
         return send(value) if value.is_a? Symbol
         value
+      end
+
+      def prepopulate_translations
+        Vario.config.translation_settable&.settings_prepopulate_cache
+      end
+
+      # Translations generated in ROLLBACKed transactions should also be saved
+      def save_translations
+        return unless defined?(Vario)
+        Vario.config.translation_settable&.settings_save_unsaved
       end
     end
 
