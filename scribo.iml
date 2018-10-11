@@ -55,6 +55,8 @@
     <orderEntry type="library" scope="PROVIDED" name="minitest-reporters (v1.2.0, rbenv: 2.4.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="nio4r (v2.1.0, rbenv: 2.4.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="nokogiri (v1.8.1, rbenv: 2.4.2) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="parallel (v1.12.0, rbenv: 2.4.2) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="parser (v2.4.0.0, rbenv: 2.4.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="pg (v1.0.0, rbenv: 2.4.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="powerpack (v0.1.1, rbenv: 2.4.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rack (v2.0.3, rbenv: 2.4.2) [gem]" level="application" />
@@ -68,11 +70,14 @@
     <orderEntry type="library" scope="PROVIDED" name="rubocop (v0.58.0, rbenv: 2.4.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ruby-enum (v0.7.1, rbenv: 2.4.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ruby-progressbar (v1.9.0, rbenv: 2.4.2) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="rubyzip (v1.2.1, rbenv: 2.4.2) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rubyzip (v1.2.2, rbenv: 2.4.2) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="simple_form (v3.5.0, rbenv: 2.4.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="slim (v3.0.9, rbenv: 2.4.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sprockets (v3.7.1, rbenv: 2.4.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sprockets-rails (v3.2.1, rbenv: 2.4.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="state_machines (v0.5.0, rbenv: 2.4.2) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="state_machines-activemodel (v0.5.0, rbenv: 2.4.2) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="state_machines-activerecord (v0.5.0, rbenv: 2.4.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="temple (v0.8.0, rbenv: 2.4.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="thor (v0.20.0, rbenv: 2.4.2) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="thread_safe (v0.3.6, rbenv: 2.4.2) [gem]" level="application" />
