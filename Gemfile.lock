@@ -131,7 +131,7 @@ GEM
     ruby-enum (0.7.1)
       i18n
     ruby-progressbar (1.9.0)
-    rubyzip (1.2.1)
+    rubyzip (1.2.2)
     simple_form (3.5.0)
       actionpack (> 4, < 5.2)
       activemodel (> 4, < 5.2)
@@ -182,4 +182,4 @@ DEPENDENCIES
   state_machines-activerecord (~> 0.5)
 
 BUNDLED WITH
-   1.16.1
+   1.16.5
