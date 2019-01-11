@@ -35,12 +35,15 @@ module Scribo
       end
 
       def prepopulate_translations
+        return unless defined?(Vario)
+
         Vario.config.translation_settable&.settings_prepopulate_cache
       end
 
       # Translations generated in ROLLBACKed transactions should also be saved
       def save_translations
         return unless defined?(Vario)
+
         Vario.config.translation_settable&.settings_save_unsaved
       end
     end
