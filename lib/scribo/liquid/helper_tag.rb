@@ -31,7 +31,7 @@ class HelperTag < Liquid::Tag
       [Liquid::RangeLookup, Liquid::VariableLookup].include?(v.class) ? v.evaluate(context) : v
     end
     vars << @options
-    context.registers['controller'].helpers.send(@helper, *vars) if context.registers['controller'].helpers.respond_to? @helper
+    context.registers['controller'].helpers.send(@helper, *vars) # Seems never the case: if context.registers['controller'].helpers.respond_to? @helper
   end
 end
 
