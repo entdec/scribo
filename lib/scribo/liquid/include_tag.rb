@@ -16,7 +16,7 @@ class IncludeTag < Liquid::Tag
   end
 
   def render(context)
-    current_content = Liquid::VariableLookup.parse('content').evaluate(context.registers)
+    current_content = context.registers['content']
 
     content = current_content.site.contents.identified(@identifier).first
     content&.render(context, context.registers)
