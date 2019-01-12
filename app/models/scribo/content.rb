@@ -88,8 +88,8 @@ module Scribo
       template = Liquid::Template.parse(content.data)
       result   = template.render(assigns, registers: registers)
 
-      assigns   = template.assigns.stringify_keys
-      registers = template.registers.stringify_keys
+      assigns   = template.assigns.stringify_keys.merge(assigns)
+      registers = template.registers.stringify_keys.merge(registers)
 
       result    = Tilt[content.filter].new { result }.render if content.filter.present?
       if content.layout
