@@ -35,7 +35,11 @@ module Scribo
           redirect_options = Content.redirect_options(@content.render(assigns, registers))
           redirect_to redirect_options.last, status: redirect_options.first
         elsif stale?(@content)
-          render body: @content.render(assigns, registers), content_type: @content.content_type, layout: false
+          if @content.kind == 'asset'
+            send_data(@content.render(assigns, registers), type: @content.content_type, disposition: 'inline')
+          else
+            render body: @content.render(assigns, registers), content_type: @content.content_type, layout: false
+          end
         end
       else
         render body: Scribo.config.default_404_txt, status: 404
