@@ -88,6 +88,9 @@ module Scribo
       template = Liquid::Template.parse(content.data)
       result   = template.render(assigns, registers: registers)
 
+      errors = template.errors.map { |error| error.try(:cause)&.message }.join(', ')
+      Scribo.config.logger.error "Template rendering error on #{content.id}: #{errors}" if errors.present?
+
       assigns   = template.assigns.stringify_keys.merge(assigns)
       registers = template.registers.stringify_keys.merge(registers)
 
@@ -127,6 +130,22 @@ module Scribo
 
     def to_data_url
       "data:#{content_type};base64," + Base64.strict_encode64(data)
+    end
+
+    def translation_scope
+      scope = []
+      scope << site.name.underscore.tr(' ', '_')
+      if name.present?
+        scope << "named"
+        scope << name
+      elsif identifier.present?
+        scope << "identified"
+        scope << identifier
+      else
+        p = path.tr('/', '.')[1..-1]
+        scope << p.present? ? p : 'index'
+      end
+      scope.join('.')
     end
 
     private
