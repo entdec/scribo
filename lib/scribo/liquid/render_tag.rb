@@ -2,7 +2,7 @@
 
 # Renders content
 #
-# {% render variable%}
+# {%render variable%}
 class RenderTag < Liquid::Tag
   def initialize(tag_name, markup, options)
     super

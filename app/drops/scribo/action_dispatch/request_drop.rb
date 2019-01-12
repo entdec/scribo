@@ -4,6 +4,10 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', 'application_dr
 
 module Scribo
   class ActionDispatch::RequestDrop < ApplicationDrop
-    delegate :fullpath, :headers, :ip, :media_type, :query_parameters, :uuid, :request_method, to: :@object
+    delegate :fullpath, :ip, :media_type, :query_parameters, :uuid, :request_method, to: :@object
+
+    def headers
+      @object.headers.to_h
+    end
   end
 end
