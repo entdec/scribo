@@ -12,6 +12,7 @@ class SetLocaleTag < Liquid::Tag
   def render(context)
     value = Liquid::VariableLookup.parse(@name).evaluate(context)
     I18n.locale = value.to_sym
+    context.registers['controller'].session[:locale] = I18n.locale
     nil
   end
 end
