@@ -34,7 +34,7 @@ module Scribo
         if @content.kind == 'redirect'
           redirect_options = Content.redirect_options(@content.render(assigns, registers))
           redirect_to redirect_options.last, status: redirect_options.first
-        elsif stale?(@content)
+        elsif stale?(etag: @content.cache_key, public: true)
           if @content.kind == 'asset'
             send_data(@content.render(assigns, registers), type: @content.content_type, disposition: 'inline')
           else

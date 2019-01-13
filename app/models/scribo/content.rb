@@ -148,6 +148,10 @@ module Scribo
       scope.join('.')
     end
 
+    def cache_key
+      super + '-' + I18n.locale.to_s
+    end
+
     private
 
     def nilify_blanks
