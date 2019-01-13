@@ -12,7 +12,12 @@ ul#myTab.nav.nav-tabs.nav-tabs-fillup.nav-tabs-primary role="tablist"
         .row
           - contents.each do |content|
             .content class="col-sm-#{12 / 6}"
-              = link_to edit_admin_site_asset_url(content.site, content) do
-                = image_tag content.to_data_url, size: "100%"
-                small = content.path
+              - if content.path
+                = link_to edit_admin_site_asset_url(content.site, content), class: 'thumbnail' do
+                  = image_tag content.path, width: '100px', alt: content.description
+                  small = content.path
+              - else
+                = link_to edit_admin_site_asset_url(content.site, content), class: 'thumbnail' do
+                  = image_tag content.to_data_url, width: '100px', alt: content.description
+                  small = content.name
 
