@@ -11,6 +11,10 @@ module Scribo
       current_site = Scribo.config.site_for_hostname(request.env['SERVER_NAME'])
 
       @content = current_site&.contents&.located(request.path)&.first
+      if !@content && request.path[1..-1].length == 36
+        @content = current_site&.contents&.find(request.path[1..-1])
+      end
+
       if request.path == '/humans.txt'
         @content = Content.new(kind: 'text', content_type: 'text/plain', data: Scribo.config.default_humans_txt)
       elsif request.path == '/robots.txt'
