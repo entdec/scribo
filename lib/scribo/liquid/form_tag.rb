@@ -11,7 +11,7 @@ class FormTag < Liquid::Block
 
   def render(context)
     obj = context.find_variable(@args[:argv1])
-    result = %[<form#{attr_str(:url, @args[:url])}>]
+    result = %[<form#{attr_str(:action, @args[:action])}>]
     context.stack do
       context['form_model'] = obj
       result += super
