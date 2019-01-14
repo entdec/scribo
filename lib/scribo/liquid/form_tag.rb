@@ -1,29 +1,24 @@
-class FormTag < Liquid::Block
-  Syntax = /\s*([^\s]+)\s*/
+# frozen_string_literal: true
 
-  def initialize(tag, args, tokens)
-    @args = Liquid::Tag::Parser.new(args).args
-    @raw_args = args
-    @tag = tag.to_sym
-    @tokens = tokens
-    super
-  end
+require_relative './liquid_helpers'
+
+# Allows you to add forms to your pages
+#
+# {% form channel action="/admin/channels"%}
+# {% endform %}
+class FormTag < Liquid::Block
+  include Scribo::LiquidHelpers
 
   def render(context)
-    obj = context.find_variable(@args[:argv1])
+    @form_model = context.find_variable(@args[:argv1])
+
     result = %[<form#{attr_str(:action, @args[:action])}>]
     context.stack do
-      context['form_model'] = obj
+      context['form_model'] = @form_model
       result += super
     end
-    result += "</form>"
+    result += %[</form>]
     result
-  end
-
-  private
-
-  def attr_str(attr, value)
-    value.present? ? " #{attr}=\"#{value}\"" : ""
   end
 end
 
