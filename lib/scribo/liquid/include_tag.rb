@@ -1,15 +1,24 @@
 # frozen_string_literal: true
 
-# Include tag, includes content by identifier
+# Include tag, includes content by identifier, passes variables/values to the included template
 #
-# {% include 'navigation' %}
+# {% include 'navigation' title="Test"%}
 class IncludeTag < Liquid::Tag
-  SYNTAX = /(#{Liquid::QuotedFragment})/o
+  SYNTAX = /(\"|\')(?<identifier>[^\"\']+)(\"|\')\s?(?<attrs>((([a-z_]+)\=\"([^\"]*)\")\s?)*)/o
 
   def initialize(tag_name, markup, options)
     super
     if markup =~ SYNTAX
-      @identifier = Liquid::Expression.parse(Regexp.last_match[1])
+      @identifier = Regexp.last_match[:identifier]
+
+      attr_re = /(?<name>\b\w+\b)\s*=\s*("(?<value>[^"]*)"|'(?<value>[^']*)'|(?<value>[^"'<> \s]+)\s*)+/
+
+      attrs = Regexp.last_match[:attrs]
+
+      @assigns = {}
+      attrs.scan(attr_re).collect do |match|
+        @assigns[match[0]] = match[1]
+      end
     else
       raise SyntaxError, "Syntax Error in 'include' - Valid syntax: include 'identifier'"
     end
@@ -19,7 +28,7 @@ class IncludeTag < Liquid::Tag
     current_content = context.registers['content']
 
     content = current_content.site.contents.identified(@identifier).first
-    content&.render(context, context.registers)
+    content&.render(context.merge(@assigns), context.registers)
   end
 end
 
