@@ -1,17 +1,12 @@
 # frozen_string_literal: true
 
 module TranslateFilter
-  # Translate keys
+  # Translate text
   #
-  # Usage:
+  # Example:
+  #   <div class="summary">{{'.title' | t}}</div>
   #
-  # {{key | translate: locale}}
-  # {{key | t: locale}}
-  # {{key | t}}
-  #
-  # Examples:
-  #
-  # {{'.next' | translate: 'en'}}
+  # provide optional locale to translate the text in, if you don't pass it it will use I18n.locale
   #
   def translate(input, locale = I18n.locale)
     content = @context.registers['content']

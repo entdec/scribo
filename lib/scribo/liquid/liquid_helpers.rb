@@ -14,12 +14,29 @@ module Scribo
       Scribo.config.logger.info "@raw_args: #{@raw_args}"
       Scribo.config.logger.info "@tag: #{@tag}"
       Scribo.config.logger.info "@tokens: #{@tokens}"
+      send(:validate) if respond_to?(:validate)
       super
     end
 
-    def attr_str(attr, value, default = nil)
-      v = value || default
+    # Returns an attribute string if the attribute has a value, for use in making HTML
+    #
+    # @param [Object] context
+    # @param [Symbol] attr
+    # @param [Object] value
+    # @param [Object] default
+    # @return [String]
+    def attr_str(context, attr, value, default = nil)
+      v = lookup(context, value) || default
       v.present? ? " #{attr}=\"#{v}\"" : ""
+    end
+
+    # Lookup allows access to the assigned variables through the tag context
+    def lookup(context, name)
+      return unless name
+
+      lookup = context
+      name.split('.').each { |value| lookup = lookup[value] }
+      lookup
     end
   end
 end

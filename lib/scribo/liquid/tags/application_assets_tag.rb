@@ -3,13 +3,7 @@
 # ApplicationAssets tag
 #
 # {% application_assets %}
-class ApplicationAssetsTag < Liquid::Tag
-  def lookup(context, name)
-    lookup = context
-    name.split('.').each { |value| lookup = lookup[value] }
-    lookup
-  end
-
+class ApplicationAssetsTag < ScriboTag
   def render(context)
     lookup(context.registers, 'application_assets')
   end

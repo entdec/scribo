@@ -3,13 +3,7 @@
 # ApplicationAssets tag
 #
 # {% application_js %}
-class ApplicationJsTag < Liquid::Tag
-  def lookup(context, name)
-    lookup = context
-    name.split('.').each { |value| lookup = lookup[value] }
-    lookup
-  end
-
+class ApplicationJsTag < ScriboTag
   def render(context)
     js = lookup(context.registers, 'application_js')
     "<script>#{js}</script>" if js

@@ -2,18 +2,17 @@
 
 # Adds a Google Tag Manager Javascript block
 #
-# {% google_tag_manager_javascript 'GTM-XXXXXXX' %}
+# == Basic usage:
+#    {%google_tag_manager_javascript 'GTM-XXXXXXX'%}
+#
+# Where 'GTM-XXXXXXX' is your container id
 class GoogleTagManagerJavascriptTag < Liquid::Tag
-  def initialize(tag_name, markup, tokens)
-    super
-    @code = Liquid::Expression.parse(markup.strip)
-    unless @code
-      raise SyntaxError, "Syntax Error in 'google_tag_manager_javascript' - Valid syntax: yield 'container_id'"
-    end
+  def validate
+    raise SyntaxError, "Missing google tag manager code" unless @args[:argv1]
   end
 
   def render(context)
-    code = [Liquid::RangeLookup, Liquid::VariableLookup].include?(@code.class) ? @code.evaluate(context) : @code
+    code = lookup(context, @args[:argv1])
     return unless Rails.env == 'production'
     return unless code
     Rails.logger.warn "Inserting google tag manager with code: #{code}"

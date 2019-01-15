@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
-# Asset tag
+# Adds CSRF meta tags
 #
-# {% csrf_meta_tags %}
-class CsrfMetaTagsTag < Liquid::Tag
+# == Basic usage:
+#    {%csrf_meta_tags%}
+#
+class CsrfMetaTagsTag < ScriboTag
   def render(context)
     context.registers['controller'].helpers.csrf_meta_tags
   end

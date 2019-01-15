@@ -13,6 +13,9 @@ require 'scribo/action_controller_helpers'
 require 'scribo/active_record_helpers'
 require 'scribo/action_view_helpers'
 require 'scribo/version'
+require 'scribo/liquid/liquid_helpers'
+require 'scribo/liquid/scribo_block'
+require 'scribo/liquid/scribo_tag'
 
 module Scribo
   # Configuration
