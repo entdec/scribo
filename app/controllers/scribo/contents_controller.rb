@@ -12,7 +12,7 @@ module Scribo
 
       @content = current_site&.contents&.located(request.path)&.first
       if !@content && request.path[1..-1].length == 36
-        @content = current_site&.contents&.find(request.path[1..-1])
+        @content = current_site&.contents&.published&.find(request.path[1..-1])
       end
 
       if request.path == '/humans.txt'
