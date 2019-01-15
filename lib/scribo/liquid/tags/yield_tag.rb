@@ -8,7 +8,7 @@
 class YieldTag < ScriboTag
   def render(context)
     yield_content = lookup(context.registers, '_yield')
-    yield_content&.[](@argv1)&.to_s
+    yield_content&.[](@argv1.to_s)&.to_s
   end
 end
 
