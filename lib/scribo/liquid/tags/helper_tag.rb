@@ -1,37 +1,23 @@
 # frozen_string_literal: true
 
-# Helper tag
+# Allow you to use helpers
 #
-# {% helper user_index_path %}
-class HelperTag < Liquid::Tag
-  def initialize(tag_name, markup, tokens)
-    super
+# == Basic usage:
+#    {%helper 'user_index_path'%}
+#
+# == Advanced usage:
+#    {%helper 'user_index_path' user%}
+#
 
-    @markup = markup
-    if @markup =~ /({.*})/
-      @options = JSON.parse(Regexp.last_match(1))
-      @markup = @markup.gsub(Regexp.last_match(1), '').strip
-    end
-
-    @variables = @markup.split(' ')
-    @helper = @variables.shift.to_sym
-
-    @variables = @variables.map do |v|
-      if v.include? ':'
-        key, val = v.split(':')
-        @options[key] = val
-      else
-        Liquid::Expression.parse(v.strip)
-      end
-    end
-  end
-
+class HelperTag < ScriboTag
   def render(context)
+    # Grab the ones without a value
+    @variables = @args.select{|_k,v|v.nil?}.keys.map(&:to_s)
+
     vars = @variables.map do |v|
-      [Liquid::RangeLookup, Liquid::VariableLookup].include?(v.class) ? v.evaluate(context) : v
+      lookup(context, v)
     end
-    vars << @options
-    context.registers['controller'].helpers.send(@helper, *vars) # Seems never the case: if context.registers['controller'].helpers.respond_to? @helper
+    context.registers['controller'].helpers.send(@argv1, *vars)
   end
 end
 

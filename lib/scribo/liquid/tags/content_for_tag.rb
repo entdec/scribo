@@ -13,7 +13,7 @@ class ContentForTag < ScriboBlock
   def render(context)
     output = super
     context.registers['_yield'] = {} unless context.registers['_yield']
-    context.registers['_yield'][@args[:argv1]] = output
+    context.registers['_yield'][@argv1] = output
     ''
   end
 end

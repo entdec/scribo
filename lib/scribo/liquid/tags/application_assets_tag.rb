@@ -2,7 +2,8 @@
 
 # ApplicationAssets tag
 #
-# {% application_assets %}
+# == Basic usage:
+#    {%application_assets%}
 class ApplicationAssetsTag < ScriboTag
   def render(context)
     lookup(context.registers, 'application_assets')

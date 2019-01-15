@@ -5,14 +5,17 @@
 # == Basic usage:
 #    {%google_analytics_javascript 'UA-000000-01'%}
 #
+# == Advanced usage:
+#    {%google_analytics_javascript retailer.code%}
+#
 # Where 'UA-000000-01' is your analytics id
-class GoogleAnalyticsJavascriptTag < Liquid::Tag
+class GoogleAnalyticsJavascriptTag < ScriboTag
   def validate
-    raise SyntaxError, "Missing google analytics code" unless @args[:argv1]
+    raise SyntaxError, "Missing google analytics code" unless @argv1
   end
 
   def render(context)
-    code = lookup(context, @args[:argv1])
+    code = lookup(context, @argv1, true)
     return unless Rails.env == 'production'
     return unless code
     Scribo.config.logger.warn "Inserting google analytics with code: #{code}"

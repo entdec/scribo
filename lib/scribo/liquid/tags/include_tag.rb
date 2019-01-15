@@ -15,7 +15,7 @@ class IncludeTag < ScriboTag
     current_content = context.registers['content']
 
     assigns = @args.reject{|k| k == :argv1}.stringify_keys
-    content = current_content.site.contents.published.identified(@args[:argv1]).first
+    content = current_content.site.contents.published.identified(@argv1).first
     content&.render(context.merge(assigns), context.registers)
   end
 end

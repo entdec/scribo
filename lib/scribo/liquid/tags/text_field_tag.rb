@@ -5,12 +5,22 @@
 # {% text_field name %}
 class TextFieldTag < ScriboTag
   def render(context)
-    @form_model = context.find_variable('form_model')
+    @form_model = lookup(context, 'form_model')
 
-    value = @form_model.send(@args[:argv1].to_sym) if @form_model && @args[:argv1]
-    name = "#{@form_model.class.name.tr('Drop', '').underscore}[#{@args[:argv1]}]" if @form_model && @args[:argv1]
+    %[<input] + attr_str(context, :name, @args[:name], input_name(@form_model, @argv1)) +
+      attr_str(context, :value, @args[:value], input_value(@form_model, @argv1)) + %[>]
+  end
 
-    %[<input#{attr_str(context, :name, @args[:name], name)}#{attr_str(context, :value, @args[:value], value)}>]
+  def input_name(form_model, name)
+    return unless form_model && name
+
+    "#{form_model.class.name.tr('Drop', '').underscore}[#{name}]"
+  end
+
+  def input_value(form_model, name)
+    return unless form_model && name
+
+    form_model.send(name.to_sym) if form_model && name
   end
 end
 

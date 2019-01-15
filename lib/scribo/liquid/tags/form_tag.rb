@@ -19,9 +19,9 @@
 #
 class FormTag < ScriboBlock
   def render(context)
-    result = %[<form#{attr_str(context, :action, @args[:action])}>]
+    result = %[<form] + attr_str(context, :action, @args[:action]) + %[>]
     context.stack do
-      context['form_model'] = context.find_variable(@args[:argv1])
+      context['form_model'] = lookup(context, @argv1)
       result += super
     end
     result += %[</form>]

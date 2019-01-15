@@ -5,14 +5,17 @@
 # == Basic usage:
 #    {%google_tag_manager_javascript 'GTM-XXXXXXX'%}
 #
+# == Advanced usage:
+#    {%google_tag_manager_javascript retailer.code%}
+#
 # Where 'GTM-XXXXXXX' is your container id
-class GoogleTagManagerJavascriptTag < Liquid::Tag
+class GoogleTagManagerJavascriptTag < ScriboTag
   def validate
-    raise SyntaxError, "Missing google tag manager code" unless @args[:argv1]
+    raise SyntaxError, "Missing google tag manager code" unless @argv1
   end
 
   def render(context)
-    code = lookup(context, @args[:argv1])
+    code = lookup(context, @argv1, true)
     return unless Rails.env == 'production'
     return unless code
     Rails.logger.warn "Inserting google tag manager with code: #{code}"

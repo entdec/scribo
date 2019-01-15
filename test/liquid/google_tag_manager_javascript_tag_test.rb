@@ -26,7 +26,7 @@ class GoogleTagManagerJavascriptTagTest < ActiveSupport::TestCase
   test 'works with plain passed string' do
     rails_env_stub :production do
       d = DummyObject.new('dummy')
-      template_data = "{% google_tag_manager_javascript 'GTM-XXXXXXX' %}"
+      template_data = "{%google_tag_manager_javascript 'GTM-XXXXXXX'%}"
 
       template = Liquid::Template.parse(template_data)
       result   = template.render('dummy' => d)
@@ -37,7 +37,7 @@ class GoogleTagManagerJavascriptTagTest < ActiveSupport::TestCase
   test 'works with passed variable' do
     rails_env_stub :production do
       d = DummyObject.new('dummy')
-      template_data = '{% google_tag_manager_javascript dummy.dummy_attr %}'
+      template_data = '{%google_tag_manager_javascript dummy.dummy_attr%}'
 
       template = Liquid::Template.parse(template_data)
       result   = template.render('dummy' => d)

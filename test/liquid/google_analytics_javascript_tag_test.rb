@@ -26,7 +26,7 @@ class GoogleAnalyticsJavascriptTagTest < ActiveSupport::TestCase
   test 'works with plain passed string' do
     rails_env_stub :production do
       d = DummyObject.new('dummy')
-      template_data = "{% google_analytics_javascript 'foobar' %}"
+      template_data = "{%google_analytics_javascript 'foobar'%}"
 
       template = Liquid::Template.parse(template_data)
       result   = template.render('dummy' => d)

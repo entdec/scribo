@@ -21,9 +21,6 @@ end
 ActiveSupport::TestCase.set_fixture_class site: Scribo::Site
 ActiveSupport::TestCase.set_fixture_class content: Scribo::Content
 
-require 'minitest/reporters'
-MiniTest::Reporters.use!
-
 def rails_env_stub(env)
   old_env = Rails.env
   Rails.instance_variable_set('@_env', ActiveSupport::StringInquirer.new(env.to_s))

@@ -2,7 +2,8 @@
 
 # ApplicationAssets tag
 #
-# {% application_js %}
+# == Basic usage:
+#    {%application_js%}
 class ApplicationJsTag < ScriboTag
   def render(context)
     js = lookup(context.registers, 'application_js')

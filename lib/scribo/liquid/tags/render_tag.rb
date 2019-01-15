@@ -1,17 +1,13 @@
 # frozen_string_literal: true
 
-# Renders content
+# Render content from variable
 #
-# {%render variable%}
-class RenderTag < Liquid::Tag
-  def initialize(tag_name, markup, options)
-    super
-    @name = markup.strip
-  end
-
+# == Basic usage:
+#    {%render product.description}
+#
+class RenderTag < ScriboTag
   def render(context)
-    value = Liquid::VariableLookup.parse(@name).evaluate(context)
-    template = Liquid::Template.parse(value)
+    template = Liquid::Template.parse(lookup(context, @argv1))
     template.render(context, registers: context.registers)
   end
 end

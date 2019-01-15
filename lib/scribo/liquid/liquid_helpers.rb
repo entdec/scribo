@@ -10,10 +10,14 @@ module Scribo
       @raw_args = args
       @tag = tag.to_sym
       @tokens = tokens
+      @argv = @args.select{|_k,v|v.nil?}.keys.map(&:to_s)
+      @argv1 = @args[:argv1]
       Scribo.config.logger.info "@args: #{@args}"
       Scribo.config.logger.info "@raw_args: #{@raw_args}"
       Scribo.config.logger.info "@tag: #{@tag}"
       Scribo.config.logger.info "@tokens: #{@tokens}"
+      Scribo.config.logger.info "@argv: #{@argv}"
+      Scribo.config.logger.info "@argv1: #{@argv1}"
       send(:validate) if respond_to?(:validate)
       super
     end
@@ -30,13 +34,11 @@ module Scribo
       v.present? ? " #{attr}=\"#{v}\"" : ""
     end
 
-    # Lookup allows access to the assigned variables through the tag context
-    def lookup(context, name)
+    # Lookup allows access to the assigned variables through the tag context or returns name itself
+    def lookup(context, name, allow_name_itself = false)
       return unless name
 
-      lookup = context
-      name.split('.').each { |value| lookup = lookup[value] }
-      lookup
+      context[name] || (allow_name_itself && name)
     end
   end
 end
