@@ -18,7 +18,7 @@ class TextFieldTag < ScriboTag
     %[<input] + attribute(context, :name, @args[:name], input(:name, @argv1)) +
       attribute(context, :id, @args[:id], input(:id, @argv1)) +
       attribute(context, :value, @args[:value], input(:value, @argv1)) +
-      attributes(context, :disabled, :maxlength, :placeholder) + %[>]
+      attributes(context, :disabled, :maxlength, :placeholder) + %[ type="text">]
   end
 end
 
