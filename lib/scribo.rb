@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'liquid'
-require 'liquid/tag/parser'
+#require 'liquid/tag/parser'
 require 'acts_as_tree'
 require 'state_machines-activerecord'
 require 'simple_form'
@@ -16,6 +16,7 @@ require 'scribo/version'
 require 'scribo/liquid/liquid_helpers'
 require 'scribo/liquid/scribo_block'
 require 'scribo/liquid/scribo_tag'
+require 'scribo/liquid/parser'
 
 module Scribo
   # Configuration
