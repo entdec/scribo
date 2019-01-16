@@ -62,6 +62,8 @@ module Scribo
       when :name
         # The original class's name dictates the name of the fields
         "#{@form_class_name.underscore}[#{name}]"
+      when :checked
+        'checked' if (input(:value, name) ? 1 : 0) == 1
       end
     end
   end

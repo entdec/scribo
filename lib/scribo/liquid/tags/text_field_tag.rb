@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Add a text_field, either specifying everything manually or using a model object on the form
+# Add a text-field, either specifying everything manually or using a model object on the form
 #
 # == Basic usage:
 #    {%text_field name="name" value="Pencil"%}
@@ -18,7 +18,7 @@ class TextFieldTag < ScriboTag
     %[<input] + attribute(context, :name, @args[:name], input(:name, @argv1)) +
       attribute(context, :id, @args[:id], input(:id, @argv1)) +
       attribute(context, :value, @args[:value], input(:value, @argv1)) +
-      attributes(context, :disabled, :maxlength, :placeholder) + %[ type="text">]
+      attributes(context, :disabled, :maxlength, :placeholder) + %[ type="text"/>]
   end
 end
 
