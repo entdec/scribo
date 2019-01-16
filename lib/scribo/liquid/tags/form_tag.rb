@@ -15,13 +15,18 @@
 #
 # == Available variables:
 #
-# form_model:: model specified
+# form.model:: model specified
+# form.class_name:: class name of the model specified (original name, not the drop)
 #
+
+require_relative '../drops/form_drop'
+
 class FormTag < ScriboBlock
   def render(context)
     result = %[<form] + attribute(context, :action, @args[:action]) + %[>]
     context.stack do
       context['form_model'] = lookup(context, @argv1)
+      context['form'] = FormDrop.new(lookup(context, @argv1))
       result += super
     end
     result += %[</form>]
