@@ -48,5 +48,21 @@ module Scribo
 
       context[name] || (allow_name_itself && name)
     end
+
+    # For use with forms and inputs
+    def input(purpose, name)
+      return unless @form_model && @form_class_name && name
+
+      case purpose
+      when :id
+        "#{@form_class_name.underscore}_#{name}"
+      when :value
+        # This is executed on the drop, drops provide the values for the form
+        @form_model.send(name.to_sym)
+      when :name
+        # The original class's name dictates the name of the fields
+        "#{@form_class_name.underscore}[#{name}]"
+      end
+    end
   end
 end
