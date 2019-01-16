@@ -11,9 +11,9 @@
 #
 class ButtonTag < ScriboBlock
   def render(context)
-    %[<button] + attr_str(context, :type, @argv1, 'submit') +
-      attr_str(context, :name, @args[:name], 'commit') +
-      attr_str(context, :value, @args[:value]) +
+    %[<button] + attribute(context, :type, @argv1, 'submit') +
+      attribute(context, :name, @args[:name], 'commit') +
+      attribute(context, :value, @args[:value]) +
       %[>] + super(context) + %[</button>]
   end
 end

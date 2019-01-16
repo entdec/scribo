@@ -18,7 +18,7 @@ class AssetTag < ScriboTag
     case content.content_type_group
     when 'image'
       path = content.path ? content.path : context.registers['controller'].helpers.content_url(content)
-      %[<img #{attr_str(context, :src, path)}#{attr_str(context, :alt, content.title, content.name)}#{attr_str(context, :title, content.caption, content.name)}#{attr_str(context, :width, @args[:width])}#{attr_str(context, :height, @args[:height])}#{attr_str(context, :style, @args[:style])}/>]
+      %[<img #{attribute(context, :src, path)}#{attribute(context, :alt, content.title, content.name)}#{attribute(context, :title, content.caption, content.name)}#{attribute(context, :width, @args[:width])}#{attribute(context, :height, @args[:height])}#{attribute(context, :style, @args[:style])}/>]
     end
   end
 end

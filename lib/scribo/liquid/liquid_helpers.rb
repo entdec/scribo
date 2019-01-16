@@ -29,9 +29,17 @@ module Scribo
     # @param [Object] value
     # @param [Object] default
     # @return [String]
-    def attr_str(context, attr, value, default = nil)
+    def attribute(context, attr, value, default = nil)
       v = lookup(context, value) || default
       v.present? ? " #{attr}=\"#{v}\"" : ""
+    end
+
+    def attributes(context, *attrs)
+      result = []
+      attrs.each do |attr|
+        result << attribute(context, attr, @args[attr])
+      end
+      result.join
     end
 
     # Lookup allows access to the assigned variables through the tag context or returns name itself
