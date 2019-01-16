@@ -5,12 +5,12 @@
 #
 # == Basic usage:
 #    {%form%}
-#      {%text_field name="name" value="Pencil"}
+#      {%text_field name="name" value="Pencil"%}
 #    {%endform%}
 #
 # == Advanced usage:
 #    {%form product%}
-#      {%text_field name}
+#      {%text_field name%}
 #    {%endform%}
 #
 # == Available variables:
@@ -18,7 +18,6 @@
 # form.model:: model specified
 # form.class_name:: class name of the model specified (original name, not the drop)
 #
-
 require_relative '../drops/form_drop'
 
 class FormTag < ScriboBlock

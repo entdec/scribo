@@ -1,8 +1,15 @@
 # frozen_string_literal: true
 
-# text field
+# Add a text_field, either specifying everything manually or using a model object on the form
 #
-# {% text_field name %}
+# == Basic usage:
+#    {%text_field name="name" value="Pencil"%}
+#
+# == Advanced usage:
+#    {%text_field name%}
+#
+# This last usage requires a model on the form
+#
 class TextFieldTag < ScriboTag
   def render(context)
     @form_model = lookup(context, 'form.model')
