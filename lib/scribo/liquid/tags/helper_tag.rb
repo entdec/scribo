@@ -11,10 +11,7 @@
 
 class HelperTag < ScriboTag
   def render(context)
-    # Grab the ones without a value
-    @variables = @args.select{|_k,v|v.nil?}.keys.map(&:to_s)
-
-    vars = @variables.map do |v|
+    vars = @argv.map do |v|
       lookup(context, v)
     end
     context.registers['controller'].helpers.send(@argv1, *vars)
