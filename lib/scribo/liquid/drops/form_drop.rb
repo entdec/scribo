@@ -11,4 +11,3 @@ class FormDrop < Liquid::Drop
     model.class.name.gsub(/Drop$/, '')
   end
 end
-

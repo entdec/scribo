@@ -21,15 +21,16 @@ Gem::Specification.new do |s|
   s.add_dependency 'acts_as_tree', '~> 2.6'
   s.add_dependency 'commonmarker', '~> 0.17.4'
   s.add_dependency 'liquid', '~> 4.0.0'
-  # s.add_dependency 'liquid-tag-parser', '~> 1.9'
   s.add_dependency 'pg'
   s.add_dependency 'rails', '~> 5'
   s.add_dependency 'rubyzip', '~> 1.1'
   s.add_dependency 'simple_form', '> 3'
-  s.add_dependency 'slim', '~> 3.0'
+  s.add_dependency 'slim-rails', '~> 3.2.0'
   s.add_dependency 'state_machines-activerecord', '~> 0.5'
 
   s.add_development_dependency 'minitest', '~> 5.11'
   s.add_development_dependency 'minitest-reporters', '~> 1.1'
+  s.add_development_dependency 'pry'
+  s.add_development_dependency 'pry-rails', '~> 0.3'
   s.add_development_dependency 'rubocop', '~> 0.60'
 end

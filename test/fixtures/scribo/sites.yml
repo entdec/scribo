@@ -1,7 +1,10 @@
 main:
   name: main
   purpose: site
+  scribable: one (Account)
 
 second:
   name: second
   purpose: site
+  scribable: two (Account)
+

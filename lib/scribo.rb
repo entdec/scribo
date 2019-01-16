@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 require 'liquid'
-#require 'liquid/tag/parser'
 require 'acts_as_tree'
 require 'state_machines-activerecord'
 require 'simple_form'
+require 'slim-rails'
 require 'zip'
 
 require 'scribo/engine'
