@@ -8,7 +8,9 @@
 class RenderTag < ScriboTag
   def render(context)
     var = lookup(context, @argv1)
-    template = Liquid::Template.parse(var) if var
+    return unless var
+
+    template = Liquid::Template.parse(var)
     template.render(context, registers: context.registers)
   end
 end
