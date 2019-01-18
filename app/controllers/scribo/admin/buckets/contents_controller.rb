@@ -42,7 +42,7 @@ module Scribo
       private
 
       def set_objects
-        @bucket          = Scribo::Bucket.find(params[:bucket_id])
+        @bucket = Scribo::Bucket.find(params[:bucket_id])
         @contents      = @bucket.contents.where(kind: %w[text redirect]).order(:path, :identifier)
         @content       = if params[:id]
                            Content.where(bucket: params[:bucket_id]).where(kind: %w[text redirect]).find(params[:id])
@@ -52,8 +52,8 @@ module Scribo
         @layouts       = Content.where(kind: %w[text redirect]).where.not(identifier: nil).where.not(id: @content.id)
         @content_types = Scribo.config.supported_mime_types[:text]
         @states        = Scribo::Content.state_machine.states.map(&:value)
-        @buckets         = Scribo::Bucket.order(:name)
-        @kinds         = %w[text redirect]
+        @buckets = Scribo::Bucket.order(:name)
+        @kinds = %w[text redirect]
 
         add_breadcrumb I18n.t('scribo.breadcrumbs.admin.buckets'), :admin_buckets_path if defined? add_breadcrumb
         add_breadcrumb(@bucket.name, edit_admin_bucket_path(@bucket)) if defined? add_breadcrumb

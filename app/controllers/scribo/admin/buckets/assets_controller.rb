@@ -36,7 +36,7 @@ module Scribo
       private
 
       def set_objects
-        @bucket    = Bucket.find(params[:bucket_id])
+        @bucket = Bucket.find(params[:bucket_id])
         @content = if params[:id]
                      @bucket.contents.where(kind: 'asset').find(params[:id])
                    else

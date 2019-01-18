@@ -2,26 +2,6 @@
 
 require 'test_helper'
 
-class DummyObjectDrop < Liquid::Drop
-  delegate :dummy_attr, to: :@object
-
-  def initialize(object)
-    @object = object
-  end
-end
-
-class DummyObject
-  attr_accessor :dummy_attr
-
-  def initialize(da)
-    @dummy_attr = da
-  end
-
-  def to_liquid
-    DummyObjectDrop.new(self)
-  end
-end
-
 class GoogleAnalyticsJavascriptTagTest < ActiveSupport::TestCase
   test 'works with plain passed string' do
     rails_env_stub :production do

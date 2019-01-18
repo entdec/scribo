@@ -79,7 +79,7 @@ module Scribo
         meta_info_bucket = JSON.parse(meta_info_entry.get_input_stream.read)
         # TODO: Check version numbers
         bucket = Bucket.where(scribable_type: meta_info_bucket['scribable_type'], scribable_id: meta_info_bucket['scribable_id'])
-                   .where(name: meta_info_bucket['name']).first
+                       .where(name: meta_info_bucket['name']).first
         bucket ||= Bucket.create(scribable_type: meta_info_bucket['scribable_type'], scribable_id: meta_info_bucket['scribable_id'], name: meta_info_bucket['name'])
 
         bucket.purpose = meta_info_bucket['purpose']
@@ -133,6 +133,7 @@ module Scribo
         contents.each do |content|
           content_path = content_path_for_zip(content.path, content.identifier, content.name)
           next unless content_path
+
           zio.put_next_entry(base_path + content_path)
           zio.write content.data
 
@@ -149,30 +150,30 @@ module Scribo
     private
 
     def bucket_meta_information
-      { version:        Scribo::VERSION,
-        name:           name,
-        purpose:        purpose,
+      { version: Scribo::VERSION,
+        name: name,
+        purpose: purpose,
         scribable_type: scribable_type,
-        scribable_id:   scribable_id,
-        properties:     {},
-        contents:       [] }.reject { |_, v| v.nil? }
+        scribable_id: scribable_id,
+        properties: {},
+        contents: [] }.reject { |_, v| v.nil? }
     end
 
     def content_meta_information(content)
-      { path:         content.path,
-        kind:         content.kind,
+      { path: content.path,
+        kind: content.kind,
         content_type: content.content_type,
-        title:        content.title,
-        description:  content.description,
-        filter:       content.filter,
-        caption:      content.caption,
-        breadcrumb:   content.breadcrumb,
-        keywords:     content.keywords,
-        state:        content.state,
-        layout:       content.layout&.identifier,
-        identifier:   content.identifier,
-        name:         content.name,
-        properties:   content.properties,
+        title: content.title,
+        description: content.description,
+        filter: content.filter,
+        caption: content.caption,
+        breadcrumb: content.breadcrumb,
+        keywords: content.keywords,
+        state: content.state,
+        layout: content.layout&.identifier,
+        identifier: content.identifier,
+        name: content.name,
+        properties: content.properties,
         published_at: content.published_at }.reject { |_, v| v.nil? }
     end
 

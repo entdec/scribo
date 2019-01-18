@@ -27,3 +27,5 @@ def rails_env_stub(env)
   yield
   Rails.instance_variable_set('@_env', ActiveSupport::StringInquirer.new(old_env))
 end
+
+require 'support/drops'

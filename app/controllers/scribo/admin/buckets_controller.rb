@@ -36,9 +36,7 @@ module Scribo
       end
 
       def import
-        if request.post?
-          flash_and_redirect Bucket.import(params[:bucket][:zip_file].path), admin_buckets_path, 'Bucket imported successfully', 'There were problems importing the bucket'
-        end
+        flash_and_redirect Bucket.import(params[:bucket][:zip_file].path), admin_buckets_path, 'Bucket imported successfully', 'There were problems importing the bucket' if request.post?
       end
 
       def export
@@ -50,10 +48,10 @@ module Scribo
 
       def set_objects
         @bucket = if params[:id]
-                  Bucket.owned.find(params[:id])
-                else
-                  params[:bucket] ? Bucket.new(bucket_params) : Bucket.new
-                end
+                    Bucket.owned.find(params[:id])
+                  else
+                    params[:bucket] ? Bucket.new(bucket_params) : Bucket.new
+                  end
         @contents = @bucket.contents.where(kind: %w[text redirect]).order(:path, :identifier) if @bucket
       end
 
