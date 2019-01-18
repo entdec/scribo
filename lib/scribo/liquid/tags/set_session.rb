@@ -9,7 +9,7 @@
 # {%set_session coupon_code 'beyou'%}
 class SetSessionTag < ScriboTag
   def render(context)
-    value = lookup(context, @argv.first, true)
+    value = lookup(context, @raw_args.gsub(/#{@argv1}/, '').strip, true)
     context.registers['controller'].session[@argv1] = value
     nil
   end
