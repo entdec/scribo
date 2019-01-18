@@ -8,6 +8,8 @@
 class YieldTag < ScriboTag
   def render(context)
     yield_content = lookup(context.registers, '_yield')
+    return unless yield_content
+
     yield_content&.[](@argv1.to_s)&.to_s
   end
 end
