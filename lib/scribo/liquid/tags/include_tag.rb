@@ -13,10 +13,12 @@
 class IncludeTag < ScriboTag
   def render(context)
     current_content = context.registers['content']
-
     assigns = @args.reject{|k| k == :argv1}.stringify_keys
     content = current_content.bucket.contents.published.identified(@argv1).first
-    content&.render(context.merge(assigns), context.registers)
+
+    return unless content
+
+    content&.render(context.environments.first.merge(assigns), context.registers)
   end
 end
 
