@@ -12,15 +12,15 @@ module Scribo
     end
 
     test 'renders content with layout' do
-      subject = scribo_sites(:main).contents.create(kind: 'text', path: '/test', data: 'test', content_type: 'text/html', layout: scribo_contents(:layout))
+      subject = scribo_buckets(:main).contents.create(kind: 'text', path: '/test', data: 'test', content_type: 'text/html', layout: scribo_contents(:layout))
       result = subject.render
 
       assert_equal 'layouttestlayout', result
     end
 
     test 'renders content_for within layout' do
-      layout1 = scribo_sites(:main).contents.create(kind: 'text', data: "<section>{%yield 'section'%}</section><body>{%yield%}</body>", content_type: 'text/html')
-      subject = scribo_sites(:main).contents.create(kind: 'text', path: '/test', data: "{%content_for 'section'%}bla{%endcontent_for%}test", content_type: 'text/html', layout: layout1)
+      layout1 = scribo_buckets(:main).contents.create(kind: 'text', data: "<section>{%yield 'section'%}</section><body>{%yield%}</body>", content_type: 'text/html')
+      subject = scribo_buckets(:main).contents.create(kind: 'text', path: '/test', data: "{%content_for 'section'%}bla{%endcontent_for%}test", content_type: 'text/html', layout: layout1)
 
       result = subject.render
 
@@ -28,8 +28,8 @@ module Scribo
     end
 
     test 'renders content_for within layout, registers not available in template' do
-      layout1 = scribo_sites(:main).contents.create(kind: 'text', data: "{{_yield['']}}<section>{%yield 'section'%}</section><body>{%yield%}</body>{{_yield['section']}}", content_type: 'text/html')
-      subject = scribo_sites(:main).contents.create(kind: 'text', path: '/test', data: "{%content_for 'section'%}bla{%endcontent_for%}test", content_type: 'text/html', layout: layout1)
+      layout1 = scribo_buckets(:main).contents.create(kind: 'text', data: "{{_yield['']}}<section>{%yield 'section'%}</section><body>{%yield%}</body>{{_yield['section']}}", content_type: 'text/html')
+      subject = scribo_buckets(:main).contents.create(kind: 'text', path: '/test', data: "{%content_for 'section'%}bla{%endcontent_for%}test", content_type: 'text/html', layout: layout1)
 
       result = subject.render
 

@@ -4,8 +4,8 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'app', 'd
 
 module ActionViewHelpers
   def layout_with_scribo(identifier, yield_content)
-    current_site = Scribo.config.site_for_hostname(request.env['SERVER_NAME'])
-    content = current_site.contents.identified(identifier).first
+    current_bucket = Scribo.config.bucket_for_hostname(request.env['SERVER_NAME'])
+    content = current_bucket.contents.identified(identifier).first
     if content
       Rails.logger.info "Scribo: layout for '#{identifier}' content #{content.id} identifier #{content.identifier}"
       assigns = { 'content' => content, 'request' => ActionDispatch::RequestDrop.new(request) }.stringify_keys

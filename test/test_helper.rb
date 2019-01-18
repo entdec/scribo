@@ -18,7 +18,7 @@ if ActiveSupport::TestCase.respond_to?(:fixture_path=)
   ActiveSupport::TestCase.fixtures :all
 end
 
-ActiveSupport::TestCase.set_fixture_class site: Scribo::Site
+ActiveSupport::TestCase.set_fixture_class bucket: Scribo::Bucket
 ActiveSupport::TestCase.set_fixture_class content: Scribo::Content
 
 def rails_env_stub(env)

@@ -1,9 +1,9 @@
 # Importing and exporting
 
-Scribo allows you to easily import and export sites, 
+Scribo allows you to easily import and export buckets, 
 if you want to work with the content outside the web-based maintenance.
 
-Importing and exporting is done using zip files, which contains one zipped site.
+Importing and exporting is done using zip files, which contains one zipped bucket.
 All content in the zip will be in a folder with the same base-name as the zip.  
 
 ## Meta information 

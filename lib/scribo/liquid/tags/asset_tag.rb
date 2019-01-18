@@ -14,7 +14,7 @@ class AssetTag < ScriboTag
   def render(context)
     current_content = context.registers['content']
 
-    content = current_content.site.contents.published.named(@argv1).first
+    content = current_content.bucket.contents.published.named(@argv1).first
     case content.content_type_group
     when 'image'
       path = content.path ? content.path : context.registers['controller'].helpers.content_path(content)

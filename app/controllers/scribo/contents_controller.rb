@@ -8,11 +8,11 @@ module Scribo
     protect_from_forgery except: :show
 
     def show
-      current_site = Scribo.config.site_for_hostname(request.env['SERVER_NAME'])
+      current_bucket = Scribo.config.bucket_for_hostname(request.env['SERVER_NAME'])
 
-      @content = current_site&.contents&.located(request.path)&.first
+      @content = current_bucket&.contents&.located(request.path)&.first
       if !@content && request.path[1..-1].length == 36
-        @content = current_site&.contents&.published&.find(request.path[1..-1])
+        @content = current_bucket&.contents&.published&.find(request.path[1..-1])
       end
 
       if request.path == '/humans.txt'
@@ -22,7 +22,7 @@ module Scribo
       elsif request.path == '/favicon.ico'
         @content = Content.new(kind: 'asset', content_type: 'image/x-icon', data: Base64.decode64(Scribo.config.default_favicon_ico))
       end
-      @content ||= current_site&.contents&.located('/404')&.first
+      @content ||= current_bucket&.contents&.located('/404')&.first
 
       if @content
 

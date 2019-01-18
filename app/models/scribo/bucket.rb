@@ -3,13 +3,13 @@
 require_dependency 'scribo/application_record'
 
 module Scribo
-  class Site < ApplicationRecord
+  class Bucket < ApplicationRecord
     settable if defined?(settable) # Vario
 
     belongs_to :scribable, polymorphic: true
     validates :scribable, presence: true
 
-    has_many :contents, class_name: 'Content', foreign_key: 'scribo_site_id'
+    has_many :contents, class_name: 'Content', foreign_key: 'scribo_bucket_id'
 
     attr_accessor :zip_file
 
@@ -35,19 +35,19 @@ module Scribo
       meta_info
     end
 
-    def self.meta_info_for_entry_name(meta_info_site, base_path, entry_name)
+    def self.meta_info_for_entry_name(meta_info_bucket, base_path, entry_name)
       if entry_name.start_with?(base_path + '/_identified/')
         identifier = entry_name[(base_path + '/_identified/').size..-1].gsub(/\.html$/, '').tr('_', '/')
-        meta_info  = meta_info_site['contents'].find { |m| m['identifier'] == identifier }
+        meta_info  = meta_info_bucket['contents'].find { |m| m['identifier'] == identifier }
         meta_info ||= guess_info_for_entry_name({ 'identifier' => identifier }, entry_name)
       elsif entry_name.start_with?(base_path + '/_named/')
         name      = entry_name[(base_path + '/_named/').size..-1].gsub(/\.html$/, '').tr('_', '/')
-        meta_info = meta_info_site['contents'].find { |m| m['name'] == name }
+        meta_info = meta_info_bucket['contents'].find { |m| m['name'] == name }
         meta_info ||= guess_info_for_entry_name({ 'name' => name }, entry_name)
       else
         path      = entry_name[base_path.size..-1].gsub(/\.html$/, '')
         path      = '/' if path == '/index'
-        meta_info = meta_info_site['contents'].find { |m| m['path'] == path }
+        meta_info = meta_info_bucket['contents'].find { |m| m['path'] == path }
         meta_info ||= guess_info_for_entry_name({ 'path' => path }, entry_name)
       end
       meta_info
@@ -73,31 +73,31 @@ module Scribo
     def self.import(path)
       Zip::File.open(path) do |zip_file|
         # Find specific entry
-        meta_info_entry = zip_file.glob('site_*/scribo_site.json').first
+        meta_info_entry = zip_file.glob('bucket_*/scribo_bucket.json').first
         return false unless meta_info_entry
 
-        meta_info_site = JSON.parse(meta_info_entry.get_input_stream.read)
+        meta_info_bucket = JSON.parse(meta_info_entry.get_input_stream.read)
         # TODO: Check version numbers
-        site = Site.where(scribable_type: meta_info_site['scribable_type'], scribable_id: meta_info_site['scribable_id'])
-                   .where(name: meta_info_site['name']).first
-        site ||= Site.create(scribable_type: meta_info_site['scribable_type'], scribable_id: meta_info_site['scribable_id'], name: meta_info_site['name'])
+        bucket = Bucket.where(scribable_type: meta_info_bucket['scribable_type'], scribable_id: meta_info_bucket['scribable_id'])
+                   .where(name: meta_info_bucket['name']).first
+        bucket ||= Bucket.create(scribable_type: meta_info_bucket['scribable_type'], scribable_id: meta_info_bucket['scribable_id'], name: meta_info_bucket['name'])
 
-        site.purpose = meta_info_site['purpose']
-        site.save
+        bucket.purpose = meta_info_bucket['purpose']
+        bucket.save
 
-        base_path = "site_#{meta_info_site['name']}"
+        base_path = "bucket_#{meta_info_bucket['name']}"
 
-        zip_file.glob('**/*').reject { |e| e.name == "#{base_path}/scribo_site.json" || e.name.start_with?('__MACOSX/') || e.name.end_with?('/.DS_Store') || !e.get_input_stream.respond_to?(:read) }.each do |entry|
-          meta_info = meta_info_for_entry_name(meta_info_site, base_path, entry.name)
+        zip_file.glob('**/*').reject { |e| e.name == "#{base_path}/scribo_bucket.json" || e.name.start_with?('__MACOSX/') || e.name.end_with?('/.DS_Store') || !e.get_input_stream.respond_to?(:read) }.each do |entry|
+          meta_info = meta_info_for_entry_name(meta_info_bucket, base_path, entry.name)
           Rails.logger.warn "Scribo: Not importing #{entry.name} it's a non-supported content-type!" unless meta_info['content_type']
           next unless meta_info['content_type']
 
           content = if meta_info['path']
-                      site.contents.find_or_create_by(site: site, path: meta_info['path'])
+                      bucket.contents.find_or_create_by(bucket: bucket, path: meta_info['path'])
                     elsif meta_info['name']
-                      site.contents.find_or_create_by(site: site, name: meta_info['name'])
+                      bucket.contents.find_or_create_by(bucket: bucket, name: meta_info['name'])
                     elsif meta_info['identifier']
-                      site.contents.find_or_create_by(site: site, identifier: meta_info['identifier'])
+                      bucket.contents.find_or_create_by(bucket: bucket, identifier: meta_info['identifier'])
                     end
 
           content.data         = entry.get_input_stream.read
@@ -113,7 +113,7 @@ module Scribo
           content.breadcrumb   = meta_info['breadcrumb']
           content.keywords     = meta_info['keywords']
           content.state        = meta_info['state']
-          content.layout       = site.contents.find_by(identifier: meta_info['layout']) if meta_info['layout']
+          content.layout       = bucket.contents.find_by(identifier: meta_info['layout']) if meta_info['layout']
           content.properties   = meta_info['properties']
           content.published_at = meta_info['published_at']
           content.save
@@ -125,10 +125,10 @@ module Scribo
     def export
       return unless contents.count.positive?
 
-      zip_name  = 'site_' + (name || 'untitled')
+      zip_name  = 'bucket_' + (name || 'untitled')
       base_path = zip_name + '/'
       stringio  = Zip::OutputStream.write_buffer do |zio|
-        meta_info = site_meta_information
+        meta_info = bucket_meta_information
 
         contents.each do |content|
           content_path = content_path_for_zip(content.path, content.identifier, content.name)
@@ -139,7 +139,7 @@ module Scribo
           meta_info[:contents] << content_meta_information(content)
         end
 
-        zio.put_next_entry(base_path + 'scribo_site.json')
+        zio.put_next_entry(base_path + 'scribo_bucket.json')
         zio.write JSON.pretty_generate(meta_info)
       end
 
@@ -148,7 +148,7 @@ module Scribo
 
     private
 
-    def site_meta_information
+    def bucket_meta_information
       { version:        Scribo::VERSION,
         name:           name,
         purpose:        purpose,

@@ -9,7 +9,8 @@ module Scribo
     attr_accessor   :default_robots_txt
     attr_accessor :default_favicon_ico
     attr_writer   :scribable_objects
-    attr_writer   :site_for_hostname
+    attr_writer   :bucket_for_hostname
+    attr_writer   :admin_mount_point
 
     def initialize
       @logger = Logger.new(STDOUT)
@@ -62,15 +63,20 @@ module Scribo
       @logger.is_a?(Proc) ? instance_exec(&@logger) : @logger
     end
 
-    # By default all users can see all sites.
-    # scribable_object is called when creating a new site, you can return your own object
+    # admin_mount_point [String].
+    def admin_mount_point
+      @admin_mount_point ||= '/scribo'
+    end
+
+    # By default all users can see all buckets.
+    # scribable_object is called when creating a new bucket, you can return your own object
     def scribable_objects
       [*instance_exec(&@scribable_objects)] if @scribable_objects
     end
 
-    # Which site to use for a certain host_name
-    def site_for_hostname(host_name)
-      instance_exec(host_name, &@site_for_hostname) if @site_for_hostname
+    # Which bucket to use for a certain host_name
+    def bucket_for_hostname(host_name)
+      instance_exec(host_name, &@bucket_for_hostname) if @bucket_for_hostname
     end
   end
 end

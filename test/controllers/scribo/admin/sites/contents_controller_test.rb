@@ -4,11 +4,11 @@ require 'test_helper'
 
 module Scribo
   module Admin
-    class Sites::ContentsControllerTest < ActionDispatch::IntegrationTest
+    class Buckets::ContentsControllerTest < ActionDispatch::IntegrationTest
       include Engine.routes.url_helpers
 
       test 'should get new' do
-        get new_admin_site_content_url(site_id: scribo_sites(:main))
+        get new_admin_bucket_content_url(bucket_id: scribo_buckets(:main))
         assert_response :success
       end
     end

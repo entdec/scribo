@@ -7,7 +7,7 @@ module Scribo
   class Content < ApplicationRecord
     acts_as_tree
 
-    belongs_to :site, class_name: 'Site', foreign_key: 'scribo_site_id'
+    belongs_to :bucket, class_name: 'Bucket', foreign_key: 'scribo_bucket_id'
     belongs_to :layout, class_name: 'Content', optional: true
 
     before_save :nilify_blanks
@@ -134,7 +134,7 @@ module Scribo
 
     def translation_scope
       scope = []
-      scope << site.name.underscore.tr(' ', '_')
+      scope << bucket.name.underscore.tr(' ', '_')
       if name.present?
         scope << "named"
         scope << name

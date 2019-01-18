@@ -1,5 +1,5 @@
 - content_for :context_menu do
-  =< link_to(t('scribo.context_menu.add'), new_admin_site_asset_path(@site), class: 'btn btn-primary')
+  =< link_to(t('scribo.context_menu.add'), new_admin_bucket_asset_path(@bucket), class: 'btn btn-primary')
 
 ul#myTab.nav.nav-tabs.nav-tabs-fillup.nav-tabs-primary role="tablist"
   - Scribo.config.supported_mime_types.keys.reject {|i| i == :text }.each_with_index do |cg, index|
@@ -13,11 +13,11 @@ ul#myTab.nav.nav-tabs.nav-tabs-fillup.nav-tabs-primary role="tablist"
           - contents.each do |content|
             .content class="col-sm-#{12 / 6}"
               - if content.path
-                = link_to edit_admin_site_asset_url(content.site, content), class: 'thumbnail' do
+                = link_to edit_admin_bucket_asset_url(content.bucket, content), class: 'thumbnail' do
                   = image_tag content.path, width: '100px', alt: content.description
                   small = content.path
               - else
-                = link_to edit_admin_site_asset_url(content.site, content), class: 'thumbnail' do
+                = link_to edit_admin_bucket_asset_url(content.bucket, content), class: 'thumbnail' do
                   = image_tag content.to_data_url, width: '100px', alt: content.description
                   small = content.name
 

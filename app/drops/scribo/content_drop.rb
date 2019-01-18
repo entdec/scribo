@@ -6,7 +6,7 @@ module Scribo
   class ContentDrop < ApplicationDrop
     delegate :name, :path, :content_type, :title, :breadcrumb, :keywords, :description, to: :@object
     # Boxture specific
-    delegate :site, to: :@object
+    delegate :bucket, to: :@object
 
     def children
       @object.children.to_a

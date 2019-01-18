@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
 Scribo::Engine.routes.draw do
-  namespace :admin do
-    resources :sites do
-      resources :assets, controller: 'sites/assets'
-      resources :contents, controller: 'sites/contents' do
+  namespace :admin, path: Scribo.config.admin_mount_point do
+    root to: 'buckets#index'
+    resources :buckets do
+      resources :assets, controller: 'buckets/assets'
+      resources :contents, controller: 'buckets/contents' do
         member do
           post :preview
         end

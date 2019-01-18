@@ -5,7 +5,7 @@ module ActiveRecordHelpers
 
   class_methods do
     def scribable
-      has_many :sites, as: :scribable, class_name: 'Scribo::Site'
+      has_many :buckets, as: :scribable, class_name: 'Scribo::Bucket'
     end
   end
 end

@@ -2,7 +2,7 @@ en:
   scribo:
     breadcrumbs:
       admin:
-        sites: Sites
+        buckets: Buckets
         contents: Contents
         assets: Assets
     context_menu:
