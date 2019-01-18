@@ -14,11 +14,11 @@ class AssetTag < ScriboTag
   def render(context)
     current_content = context.registers['content']
 
-    content = current_content.site.contents.published.named(@name).first
+    content = current_content.site.contents.published.named(@argv1).first
     case content.content_type_group
     when 'image'
-      path = content.path ? content.path : context.registers['controller'].helpers.content_url(content)
-      %[<img #{attribute(context, :src, path)}#{attribute(context, :alt, content.title, content.name)}#{attribute(context, :title, content.caption, content.name)}#{attribute(context, :width, @args[:width])}#{attribute(context, :height, @args[:height])}#{attribute(context, :style, @args[:style])}/>]
+      path = content.path ? content.path : context.registers['controller'].helpers.content_path(content)
+      %[<img #{attribute(context, :src, nil, path)}#{attribute(context, :alt, content.title, content.name)}#{attribute(context, :title, content.caption, content.name)}#{attribute(context, :width, @args[:width])}#{attribute(context, :height, @args[:height])}#{attribute(context, :style, @args[:style])}/>]
     end
   end
 end
