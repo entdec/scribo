@@ -11,6 +11,7 @@ module Scribo
       @tag = tag.to_sym
       @tokens = tokens
       @argv = @args.select { |_k, v| v.nil? }.keys.map(&:to_s)
+      @attrs = @args.reject { |k, v| v.nil? || k == :argv1 }
       @argv1 = @args[:argv1]
       Scribo.config.logger.info "@args: #{@args}"
       Scribo.config.logger.info "@raw_args: #{@raw_args}"

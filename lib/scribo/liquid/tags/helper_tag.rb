@@ -10,11 +10,21 @@
 #
 
 class HelperTag < ScriboTag
+  include Rails.application.routes.url_helpers
+
   def render(context)
     vars = @argv.map do |v|
-      lookup(context, v)
+      lookup(context, v, true)
     end
-    context.registers['controller'].helpers.send(@argv1, *vars)
+    attrs = {}
+    @attrs.each{ |key,v| attrs[key] = lookup(context, v, true) }
+
+    vars = vars.push(attrs) if @attrs.present?
+    if respond_to?(@argv1.to_sym)
+      send(@argv1.to_sym, *vars)
+    else
+      context.registers['controller'].helpers.send(@argv1.to_sym, *vars)
+    end
   end
 end
 

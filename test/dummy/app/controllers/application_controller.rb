@@ -16,4 +16,8 @@ class ApplicationController < ActionController::Base
   def cleanup_authentication
     Account.reset_current!
   end
+
+  def default_url_options
+    { :host => "example.com" }
+  end
 end
