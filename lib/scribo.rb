@@ -19,6 +19,8 @@ require 'scribo/liquid/scribo_block'
 require 'scribo/liquid/scribo_tag'
 require 'scribo/liquid/parser'
 
+require 'scribo/action_controller_renderers'
+
 module Scribo
   # Configuration
   class Error < StandardError; end
@@ -39,6 +41,9 @@ module Scribo
 
   ActiveSupport.on_load(:action_view) do
     include ActionViewHelpers
+
+    # ActionView::Template.register_template_handler :scribo, Scribo::Rails::TemplateHandler.new
+    # ActionView::Template.register_default_template_handler :scribo, Scribo::Rails::TemplateHandler.new
   end
 
   ActiveSupport.on_load(:action_controller) do

@@ -18,6 +18,10 @@ module Scribo
       where(scribable: objects)
     end
 
+    def self.owned_by(owner)
+      where(scribable: owner)
+    end
+
     def self.named(name)
       where(name: name)
     end

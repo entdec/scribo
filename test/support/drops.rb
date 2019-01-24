@@ -11,8 +11,8 @@ end
 class DummyObject
   attr_accessor :dummy_attr
 
-  def initialize(da)
-    @dummy_attr = da
+  def initialize(dummy_attr)
+    @dummy_attr = dummy_attr
   end
 
   def to_liquid

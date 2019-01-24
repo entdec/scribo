@@ -22,7 +22,23 @@ require_relative '../drops/form_drop'
 
 class FormTag < ScriboBlock
   def render(context)
-    result = %[<form] + attribute(context, :action, @args[:action]) + %[>]
+    method = @args[:method].to_s.downcase || 'post'
+    rails_method = nil
+    unless %w[get post].include? method
+      rails_method = method
+      method = 'post'
+    end
+
+    result = %[<form] +
+             attribute(context, :action, @args[:action]) +
+             attribute(context, :method, method) +
+             %[>]
+
+    if context.registers['controller']
+      result += %[<input name="_method" type="hidden" value="#{rails_method}"/>] if rails_method
+      result += %[<input name="authenticity_token" type="hidden" value="#{context.registers['controller'].session['_csrf_token']}"/>]
+    end
+
     context.stack do
       context['form_model'] = lookup(context, @argv1)
       context['form'] = FormDrop.new(lookup(context, @argv1))

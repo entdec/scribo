@@ -15,7 +15,7 @@ class HelperTagTest < ActiveSupport::TestCase
 
   test 'allows to call url helpers' do
     d = DummyObject.new('dummy')
-    template_data = "{%helper new_accounts_path%}"
+    template_data = '{%helper new_accounts_path%}'
 
     template = Liquid::Template.parse(template_data)
     result = template.render({ 'dummy' => d }, registers: { 'controller' => ApplicationController.new })
@@ -35,7 +35,7 @@ class HelperTagTest < ActiveSupport::TestCase
 
   test 'allows to call url helpers, with url from variable' do
     d = DummyObject.new('dummy')
-    template_data = "{%helper new_accounts_url host=host%}"
+    template_data = '{%helper new_accounts_url host=host%}'
 
     template = Liquid::Template.parse(template_data)
     result = template.render({ 'dummy' => d, 'host' => 'www.example.com' }, registers: { 'controller' => ApplicationController.new })

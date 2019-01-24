@@ -31,7 +31,7 @@ module Scribo
     # @param [Object] default
     # @return [String]
     def attribute(context, attr, value, default = nil)
-      v = lookup(context, value) || default
+      v = lookup(context, value, true) || default
       v.present? ? " #{attr}=\"#{v}\"" : ""
     end
 
