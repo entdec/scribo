@@ -103,17 +103,27 @@ module Scribo
 
     # For use with forms and inputs
     def input(purpose, name)
-      return unless @form_model && @form_class_name && name
+
+      form_model = lookup(@context, 'form.model')
+      form_class_name = lookup(@context, 'form.class_name')
+
+      parts = @context.scopes.select { |scope| scope.key? 'form' }.map do |scope|
+        scope['form'].attribute ? "#{scope['form'].attribute}_attributes" : scope['form'].class_name.underscore
+      end
+      parts = parts.unshift(argv1.to_s).reverse
+
+      return unless form_model && form_class_name && name
 
       case purpose
       when :id
-        "#{@form_class_name.underscore}_#{name}"
+        parts.join('_')
       when :value
         # This is executed on the drop, drops provide the values for the form
-        @form_model.send(name.to_sym)
+        form_model.send(name.to_sym)
       when :name
         # The original class's name dictates the name of the fields
-        "#{@form_class_name.underscore}[#{name}]"
+        parts.first + "[" + parts.slice(1..-1).join("][") + "]"
+
       when :checked
         'checked' if (input(:value, name) ? 1 : 0) == 1
       end

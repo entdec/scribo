@@ -14,9 +14,6 @@ class TextFieldTag < ScriboTag
   def render(context)
     super
 
-    @form_model = lookup(context, 'form.model')
-    @form_class_name = lookup(context, 'form.class_name')
-
     %[<input] + attr_str(:name, arg(:name), input(:name, argv1)) +
       attr_str(:id, arg(:id), input(:id, argv1)) +
       attr_str(:value, arg(:value), input(:value, argv1)) +
