@@ -7,6 +7,8 @@
 #
 class CsrfMetaTagsTag < ScriboTag
   def render(context)
+    super
+
     context.registers['controller'].helpers.csrf_meta_tags
   end
 end

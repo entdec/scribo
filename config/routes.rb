@@ -20,6 +20,6 @@ Scribo::Engine.routes.draw do
     end
   end
 
-  # root to: 'contents#show'
+  root to: 'contents#show'
   get '(*path)', to: 'contents#show', as: 'content', constraints: ->(request) { !request.path.starts_with?('/rails') }
 end

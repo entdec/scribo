@@ -12,10 +12,12 @@
 #
 class LabelTag < ScriboBlock
   def render(context)
+    super
+
     @form_model = lookup(context, 'form.model')
     @form_class_name = lookup(context, 'form.class_name')
 
-    %[<label] + attribute(context, :for, @args[:for], input(:id, @argv1)) + %[>] + super + %[</label>]
+    %[<label] + attr_str(:for, arg(:for), input(:id, argv1)) + %[>] + render_body + %[</label>]
   end
 end
 

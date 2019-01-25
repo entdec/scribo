@@ -12,13 +12,15 @@
 #
 class TextFieldTag < ScriboTag
   def render(context)
+    super
+
     @form_model = lookup(context, 'form.model')
     @form_class_name = lookup(context, 'form.class_name')
 
-    %[<input] + attribute(context, :name, @args[:name], input(:name, @argv1)) +
-      attribute(context, :id, @args[:id], input(:id, @argv1)) +
-      attribute(context, :value, @args[:value], input(:value, @argv1)) +
-      attributes(context, :disabled, :maxlength, :placeholder) + %[ type="text"/>]
+    %[<input] + attr_str(:name, arg(:name), input(:name, argv1)) +
+      attr_str(:id, arg(:id), input(:id, argv1)) +
+      attr_str(:value, arg(:value), input(:value, argv1)) +
+      attrs_str(:disabled, :maxlength, :placeholder) + %[ type="text"/>]
   end
 end
 

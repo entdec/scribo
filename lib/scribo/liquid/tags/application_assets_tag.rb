@@ -6,6 +6,7 @@
 #    {%application_assets%}
 class ApplicationAssetsTag < ScriboTag
   def render(context)
+    super
     lookup(context.registers, 'application_assets')
   end
 end

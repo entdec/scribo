@@ -49,7 +49,7 @@ module Scribo
                          else
                            params[:content] ? @bucket.contents.new(content_params) : @bucket.contents.new
                          end
-        @layouts       = Content.where(kind: %w[text redirect]).where.not(identifier: nil).where.not(id: @content.id)
+        @layouts       = @bucket.contents.where(kind: %w[text redirect]).where.not(identifier: nil).where.not(id: @content.id)
         @content_types = Scribo.config.supported_mime_types[:text]
         @states        = Scribo::Content.state_machine.states.map(&:value)
         @buckets = Scribo::Bucket.order(:name)

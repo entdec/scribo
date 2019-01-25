@@ -12,7 +12,7 @@ module Scribo
 
       @content = current_bucket&.contents&.located(request.path)&.first
       if !@content && request.path[1..-1].length == 36
-        @content = current_bucket&.contents&.published&.find(request.path[1..-1])
+        @content = Content&.published&.find(request.path[1..-1])
       end
 
       if request.path == '/humans.txt'

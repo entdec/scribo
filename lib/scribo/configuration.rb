@@ -18,7 +18,9 @@ module Scribo
       @base_controller = '::ApplicationController'
       @supported_mime_types = {
           image:    %w[image/gif image/png image/jpeg image/bmp image/webp image/svg+xml],
-          text:     %w[text/plain text/html text/css text/javascript application/javascript application/json application/xml],
+          text:     %w[text/plain text/html application/json application/xml],
+          style:    %w[text/css],
+          script:   %w[text/javascript application/javascript ],
           audio:    %w[audio/midi audio/mpeg audio/webm audio/ogg audio/wav],
           video:    %w[video/webm video/ogg video/mp4],
           document: %w[application/msword application/vnd.ms-powerpoint application/vnd.ms-excel application/pdf application/zip],

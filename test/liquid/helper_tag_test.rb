@@ -10,7 +10,6 @@ class HelperTagTest < ActiveSupport::TestCase
     template = Liquid::Template.parse(template_data)
     result = template.render({ 'dummy' => d }, registers: { 'controller' => ApplicationController.new })
     assert_equal '<p>Hello world</p>', result
-    puts result
   end
 
   test 'allows to call url helpers' do
@@ -20,7 +19,6 @@ class HelperTagTest < ActiveSupport::TestCase
     template = Liquid::Template.parse(template_data)
     result = template.render({ 'dummy' => d }, registers: { 'controller' => ApplicationController.new })
     assert_equal '/accounts/new', result
-    puts result
   end
 
   test 'allows to call url helpers, with url' do
@@ -30,7 +28,6 @@ class HelperTagTest < ActiveSupport::TestCase
     template = Liquid::Template.parse(template_data)
     result = template.render({ 'dummy' => d }, registers: { 'controller' => ApplicationController.new })
     assert_equal 'http://www.example.com/accounts/new', result
-    puts result
   end
 
   test 'allows to call url helpers, with url from variable' do
@@ -40,6 +37,5 @@ class HelperTagTest < ActiveSupport::TestCase
     template = Liquid::Template.parse(template_data)
     result = template.render({ 'dummy' => d, 'host' => 'www.example.com' }, registers: { 'controller' => ApplicationController.new })
     assert_equal 'http://www.example.com/accounts/new', result
-    puts result
   end
 end

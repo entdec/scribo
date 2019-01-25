@@ -22,7 +22,9 @@ require_relative '../drops/form_drop'
 
 class FormTag < ScriboBlock
   def render(context)
-    method = @args[:method].to_s.downcase || 'post'
+    super
+
+    method = arg(:method).to_s.downcase || 'post'
     rails_method = nil
     unless %w[get post].include? method
       rails_method = method
@@ -30,8 +32,8 @@ class FormTag < ScriboBlock
     end
 
     result = %[<form] +
-             attribute(context, :action, @args[:action]) +
-             attribute(context, :method, method) +
+             attr_str(:action, arg(:action)) +
+             attr_str(:method, method) +
              %[>]
 
     if context.registers['controller']
@@ -40,9 +42,9 @@ class FormTag < ScriboBlock
     end
 
     context.stack do
-      context['form_model'] = lookup(context, @argv1)
-      context['form'] = FormDrop.new(lookup(context, @argv1))
-      result += super
+      context['form_model'] = argv1
+      context['form'] = FormDrop.new(argv1)
+      result += render_body
     end
     result += %[</form>]
     result

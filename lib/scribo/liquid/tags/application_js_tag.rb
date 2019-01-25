@@ -6,6 +6,8 @@
 #    {%application_js%}
 class ApplicationJsTag < ScriboTag
   def render(context)
+    super
+
     js = lookup(context.registers, 'application_js')
     "<script>#{js}</script>" if js
   end

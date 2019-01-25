@@ -11,9 +11,11 @@
 #
 class ContentForTag < ScriboBlock
   def render(context)
-    output = super
+    super
+
+    output = render_body
     context.registers['_yield'] = {} unless context.registers['_yield']
-    context.registers['_yield'][@argv1] = output
+    context.registers['_yield'][argv1] = output
     ''
   end
 end
