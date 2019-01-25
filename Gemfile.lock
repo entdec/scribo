@@ -1,11 +1,22 @@
+GIT
+  remote: git@code.entropydecelerator.com:components/liquor.git
+  revision: a3302ea6c3b05f024de921f2f1049b23a1083f2d
+  branch: master
+  specs:
+    liquor (0.1.0)
+      commonmarker (~> 0.17.4)
+      liquid (~> 4.0.0)
+      parslet
+      pg
+      rails (~> 5)
+      slim-rails (~> 3.2.0)
+
 PATH
   remote: .
   specs:
     scribo (0.1.5)
       acts_as_tree (~> 2.6)
-      commonmarker (~> 0.17.4)
-      liquid (~> 4.0.0)
-      parslet
+      liquor
       pg
       rails (~> 5)
       rubyzip (~> 1.1)
@@ -186,6 +197,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  liquor!
   minitest (~> 5.11)
   minitest-reporters (~> 1.1)
   pry

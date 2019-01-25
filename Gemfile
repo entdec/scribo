@@ -15,3 +15,6 @@ gemspec
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
 
+# bundle config --delete local.liquor
+# bundle config local.liquor ../../components/liquor
+gem 'liquor', git: 'git@code.entropydecelerator.com:components/liquor.git', branch: :master

@@ -80,27 +80,8 @@ module Scribo
       when 'asset'
         data
       when 'text', 'redirect'
-        render_with_liquid(self, assigns.merge('content' => self), registers.merge('content' => self))
+        Liquor.render(data, assigns: assigns.merge('content' => self), registers: registers.merge('content' => self), filter: filter, layout: layout&.data)
       end
-    end
-
-    def render_with_liquid(content, assigns, registers)
-      template = Liquid::Template.parse(content.data)
-      result   = template.render(assigns, registers: registers)
-
-      errors = template.errors.map { |error| error.try(:cause)&.message }.join(', ')
-      Scribo.config.logger.error "Template rendering error on #{content.id}: #{errors}" if errors.present?
-
-      assigns   = template.assigns.stringify_keys.merge(assigns)
-      registers = template.registers.stringify_keys.merge(registers)
-
-      result    = Tilt[content.filter].new { result }.render if content.filter.present?
-      if content.layout
-        registers['_yield']     = {} unless registers['_yield']
-        registers['_yield'][''] = result.delete("\n")
-        result                  = render_with_liquid(content.layout, assigns, registers)
-      end
-      result
     end
 
     # Returns the group of a certain content_type (text/plain => text, image/gif => image)

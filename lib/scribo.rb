@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'liquid'
+require 'liquor'
 require 'acts_as_tree'
 require 'state_machines-activerecord'
 require 'simple_form'
@@ -13,13 +14,6 @@ require 'scribo/action_controller_helpers'
 require 'scribo/active_record_helpers'
 require 'scribo/action_view_helpers'
 require 'scribo/version'
-require 'scribo/liquid/drops/active_model/errors_drop'
-require 'scribo/liquid/liquid_helpers'
-require 'scribo/liquid/liquid_template_extensions'
-require 'scribo/liquid/scribo_block'
-require 'scribo/liquid/scribo_tag'
-require 'scribo/liquid/parser'
-
 require 'scribo/action_controller_renderers'
 
 module Scribo
@@ -42,9 +36,6 @@ module Scribo
 
   ActiveSupport.on_load(:action_view) do
     include ActionViewHelpers
-
-    # ActionView::Template.register_template_handler :scribo, Scribo::Rails::TemplateHandler.new
-    # ActionView::Template.register_default_template_handler :scribo, Scribo::Rails::TemplateHandler.new
   end
 
   ActiveSupport.on_load(:action_controller) do
