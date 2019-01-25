@@ -42,7 +42,6 @@ class FormTag < ScriboBlock
     end
 
     context.stack do
-      context['form_model'] = argv1
       context['form'] = FormDrop.new(argv1)
       result += render_body
     end
