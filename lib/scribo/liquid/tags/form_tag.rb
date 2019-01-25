@@ -17,6 +17,7 @@
 #
 # form.model:: model specified
 # form.class_name:: class name of the model specified (original name, not the drop)
+# form.errors:: errors of the exposed object
 #
 require_relative '../drops/form_drop'
 

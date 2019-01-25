@@ -1,22 +1,17 @@
 # frozen_string_literal: true
 
-# Form adds a form tag, when you specify a model it will use and expose that to nested fields.
-# Exposing a model will ease the creation of nested fields.
+# Exposes additional model objects, similar to form, but it doesn't create a form-tag.
 #
 # == Basic usage:
-#    {%form%}
-#      {%text_field name="name" value="Pencil"%}
-#    {%endform%}
-#
-# == Advanced usage:
-#    {%form product%}
-#      {%text_field name%}
+#    {%fields_for location%}
+#      {%text_field city%}
 #    {%endform%}
 #
 # == Available variables:
 #
 # form.model:: model specified
 # form.class_name:: class name of the model specified (original name, not the drop)
+# form.errors:: errors of the exposed object
 #
 require_relative '../drops/form_drop'
 
