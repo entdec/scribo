@@ -16,6 +16,7 @@ class ButtonTag < ScriboBlock
     %[<button] + attr_str(:type, argv1, 'submit') +
       attr_str(:name, arg(:name), 'commit') +
       attr_str(:value, arg(:value)) +
+      attr_str(:class, arg(:class)) +
       %[>] + render_body + %[</button>]
   end
 end
