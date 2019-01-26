@@ -1,6 +1,6 @@
 GIT
   remote: git@code.entropydecelerator.com:components/liquor.git
-  revision: f9ca9f48fe33cec239dba202b6b931ce36773234
+  revision: a2fe728b28d064ee40beaa39b77203c237fe77c5
   branch: master
   specs:
     liquor (0.1.0)
