@@ -1,6 +1,6 @@
 GIT
   remote: git@code.entropydecelerator.com:components/liquor.git
-  revision: a3302ea6c3b05f024de921f2f1049b23a1083f2d
+  revision: f9ca9f48fe33cec239dba202b6b931ce36773234
   branch: master
   specs:
     liquor (0.1.0)
@@ -9,6 +9,7 @@ GIT
       parslet
       pg
       rails (~> 5)
+      sassc (~> 2.0.0)
       slim-rails (~> 3.2.0)
 
 PATH
@@ -80,6 +81,7 @@ GEM
     concurrent-ruby (1.1.4)
     crass (1.0.4)
     erubi (1.8.0)
+    ffi (1.9.25)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
     i18n (1.5.3)
@@ -158,6 +160,9 @@ GEM
       i18n
     ruby-progressbar (1.9.0)
     rubyzip (1.2.2)
+    sassc (2.0.0)
+      ffi (~> 1.9.6)
+      rake
     simple_form (4.1.0)
       actionpack (>= 5.0)
       activemodel (>= 5.0)
