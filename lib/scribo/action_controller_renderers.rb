@@ -14,7 +14,7 @@ module ActionController::Renderers
     raise 'No bucket found' unless current_bucket
 
     content = current_bucket.contents
-    content = content.named(options[:name]) if options[:name]
+    content = content.identified(options[:identifier]) if options[:identifier]
     content = content.located(options[:path]) if options[:path]
     content = content.first
 
