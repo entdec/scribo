@@ -18,14 +18,20 @@ module ActionController::Renderers
     content = content.located(options[:path]) if options[:path]
     content = content.first
 
-    # Prepare assigns and registers
-    assigns = { 'request' => ActionDispatch::RequestDrop.new(request) }
-    instance_variables.reject { |i| i.to_s.starts_with?('@_') }.each do |i|
-      assigns[i.to_s[1..-1]] = instance_variable_get(i)
-    end
-    registers = { 'controller' => self }.stringify_keys
+    content ||= current_bucket&.contents&.located('/404')&.first
 
-    self.content_type ||= content.content_type
-    content.render(assigns, registers)
+    if content
+      # Prepare assigns and registers
+      assigns = { 'request' => ActionDispatch::RequestDrop.new(request) }
+      instance_variables.reject { |i| i.to_s.starts_with?('@_') }.each do |i|
+        assigns[i.to_s[1..-1]] = instance_variable_get(i)
+      end
+      registers = { 'controller' => self }.stringify_keys
+
+      self.content_type ||= content.content_type
+      content.render(assigns, registers)
+    else
+      render body: Scribo.config.default_404_txt, status: 404
+    end
   end
 end
