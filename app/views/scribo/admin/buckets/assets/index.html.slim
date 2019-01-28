@@ -11,13 +11,4 @@ ul#myTab.nav.nav-tabs.nav-tabs-fillup.nav-tabs-primary role="tablist"
       - @contents.content_group(cg).each_slice(6) do |contents|
         .row
           - contents.each do |content|
-            .content class="col-sm-#{12 / 6}"
-              - if content.path
-                = link_to edit_admin_bucket_asset_url(content.bucket, content), class: 'thumbnail' do
-                  = image_tag content.path, width: '100px', alt: content.description
-                  small = content.path
-              - else
-                = link_to edit_admin_bucket_asset_url(content.bucket, content), class: 'thumbnail' do
-                  = image_tag content.to_data_url, width: '100px', alt: content.description
-                  small = content.name
-
+            = render partial: 'content', locals: { content: content }

@@ -11,6 +11,9 @@
   = f.input :caption
   = f.input :keywords
   = f.input :description
-  = f.input :data, as: :file
+  - if %w[style script].include? @content.content_type_group
+    = f.input :data, as: :code_mirror, input_html: { data: { height: '800px', lang: 'text/html', mode: { name: 'liquid', base: 'text/html' } } }
+  - else
+    = f.input :data, as: :file
   = f.button :button, 'Save', name: 'commit', value: 'save', class: 'btn-primary', data: { disable_with: 'Save' }
   = f.button :button, 'Continue', name: 'commit', value: 'continue', data: { disable_with: 'Continue' }

@@ -10,6 +10,7 @@ module Scribo
     belongs_to :bucket, class_name: 'Bucket', foreign_key: 'scribo_bucket_id'
     belongs_to :layout, class_name: 'Content', optional: true
 
+    before_save :nilify_blanks
     validate :layout_cant_be_current_content
 
     state_machine initial: :draft do
@@ -133,6 +134,12 @@ module Scribo
     end
 
     private
+
+    def nilify_blanks
+      self.path = nil if path.blank?
+      self.name = nil if name.blank?
+      self.identifier = nil if identifier.blank?
+    end
 
     def layout_cant_be_current_content
       errors.add(:layout_id, "can't be current content") if layout_id == id && id.present?

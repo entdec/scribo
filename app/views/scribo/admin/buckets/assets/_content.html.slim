@@ -1,0 +1,10 @@
+= link_to edit_admin_bucket_asset_url(content.bucket, content) do
+  .content class="col-sm-#{12 / 6}"
+    - if content.content_type_group == 'image'
+      .thumbnail
+        = image_tag content.to_data_url, width: '100px', alt: content.description
+      - if content.caption
+        .caption
+          = content.caption
+    .name
+      small = content.name || content.path || content.identifier
