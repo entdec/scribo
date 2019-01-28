@@ -1,23 +1,8 @@
-GIT
-  remote: git@code.entropydecelerator.com:components/liquor.git
-  revision: 7642e9c950d71b261b225cb32efbf2099c9e2e9d
-  branch: master
-  specs:
-    liquor (0.1.0)
-      commonmarker (~> 0.17.4)
-      liquid (~> 4.0.0)
-      parslet
-      pg
-      rails (~> 5)
-      sassc (~> 2.0.0)
-      slim-rails (~> 3.2.0)
-
 PATH
   remote: .
   specs:
     scribo (0.1.5)
       acts_as_tree (~> 2.6)
-      liquor
       pg
       rails (~> 5)
       rubyzip (~> 1.1)
@@ -27,6 +12,7 @@ PATH
 
 GEM
   remote: https://rubygems.org/
+  remote: http://code.entropydecelerator.com:9292/
   specs:
     actioncable (5.2.2)
       actionpack (= 5.2.2)
@@ -88,6 +74,14 @@ GEM
       concurrent-ruby (~> 1.0)
     jaro_winkler (1.5.2)
     liquid (4.0.1)
+    liquor (0.1.0)
+      commonmarker (~> 0.17.4)
+      liquid (~> 4.0.0)
+      parslet
+      pg
+      rails (~> 5)
+      sassc (~> 2.0.0)
+      slim-rails (~> 3.2.0)
     loofah (2.2.3)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -100,7 +94,7 @@ GEM
     mini_mime (1.0.1)
     mini_portile2 (2.4.0)
     minitest (5.11.3)
-    minitest-reporters (1.1.17)
+    minitest-reporters (1.3.6)
       ansi
       builder
       minitest (>= 5.0)
@@ -108,8 +102,8 @@ GEM
     nio4r (2.3.1)
     nokogiri (1.10.1)
       mini_portile2 (~> 2.4.0)
-    parallel (1.12.1)
-    parser (2.5.3.0)
+    parallel (1.13.0)
+    parser (2.6.0.0)
       ast (~> 2.4.0)
     parslet (1.8.2)
     pg (1.1.4)
@@ -117,7 +111,7 @@ GEM
     pry (0.12.2)
       coderay (~> 1.1.0)
       method_source (~> 0.9.0)
-    pry-rails (0.3.7)
+    pry-rails (0.3.9)
       pry (>= 0.10.4)
     rack (2.0.6)
     rack-test (1.1.0)
@@ -148,7 +142,7 @@ GEM
       thor (>= 0.19.0, < 2.0)
     rainbow (3.0.0)
     rake (12.3.2)
-    rubocop (0.62.0)
+    rubocop (0.63.1)
       jaro_winkler (~> 1.5.1)
       parallel (~> 1.10)
       parser (>= 2.5, != 2.5.1.1)
@@ -158,7 +152,7 @@ GEM
       unicode-display_width (~> 1.4.0)
     ruby-enum (0.7.2)
       i18n
-    ruby-progressbar (1.9.0)
+    ruby-progressbar (1.10.0)
     rubyzip (1.2.2)
     sassc (2.0.0)
       ffi (~> 1.9.6)
@@ -202,7 +196,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  liquor!
+  liquor (~> 0.1)!
   minitest (~> 5.11)
   minitest-reporters (~> 1.1)
   pry

@@ -17,4 +17,4 @@ gemspec
 
 # bundle config --delete local.liquor
 # bundle config local.liquor ../../components/liquor
-gem 'liquor', git: 'git@code.entropydecelerator.com:components/liquor.git', branch: :master
+gem 'liquor', '~> 0.1', source: 'http://code.entropydecelerator.com:9292'

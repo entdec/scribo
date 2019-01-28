@@ -19,7 +19,6 @@ Gem::Specification.new do |s|
   s.files = Dir['{app,config,db,lib}/**/*', 'MIT-LICENSE', 'Rakefile', 'README.md']
 
   s.add_dependency 'acts_as_tree', '~> 2.6'
-  s.add_dependency 'liquor'
   s.add_dependency 'pg'
   s.add_dependency 'rails', '~> 5'
   s.add_dependency 'rubyzip', '~> 1.1'
