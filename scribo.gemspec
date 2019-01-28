@@ -19,11 +19,12 @@ Gem::Specification.new do |s|
   s.files = Dir['{app,config,db,lib}/**/*', 'MIT-LICENSE', 'Rakefile', 'README.md']
 
   s.add_dependency 'acts_as_tree', '~> 2.6'
+  s.add_dependency 'liquor', '~> 0.1'
   s.add_dependency 'pg'
   s.add_dependency 'rails', '~> 5'
   s.add_dependency 'rubyzip', '~> 1.1'
   s.add_dependency 'simple_form', '> 3'
-  s.add_dependency 'slim-rails', '~> 3.2.0'
+  s.add_dependency 'slim-rails', '~> 3.2'
   s.add_dependency 'state_machines-activerecord', '~> 0.5'
 
   s.add_development_dependency 'minitest', '~> 5.11'
