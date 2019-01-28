@@ -8,12 +8,13 @@ require 'simple_form'
 require 'slim-rails'
 require 'zip'
 
+require 'scribo/version'
 require 'scribo/engine'
 require 'scribo/configuration'
 require 'scribo/action_controller_helpers'
 require 'scribo/active_record_helpers'
+require 'scribo/bucket_i18n_backend'
 require 'scribo/action_view_helpers'
-require 'scribo/version'
 require 'scribo/action_controller_renderers'
 
 module Scribo

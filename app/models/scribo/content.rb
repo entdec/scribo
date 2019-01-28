@@ -115,7 +115,7 @@ module Scribo
 
     def translation_scope
       scope = []
-      scope << bucket.name.underscore.tr(' ', '_')
+      # scope << bucket.name.underscore.tr(' ', '_')
       if name.present?
         scope << "named"
         scope << name
