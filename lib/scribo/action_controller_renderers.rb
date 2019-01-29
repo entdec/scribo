@@ -18,6 +18,18 @@ module ActionController::Renderers
     content = content.located(options[:path]) if options[:path]
     content = content.first
 
+    content ||= current_bucket&.contents&.located(options[:path])&.first
+    if !content && options[:path] && options[:path][1..-1].length == 36
+      content = Scribo::Content&.published&.find(options[:path][1..-1])
+    end
+
+    if options[:path] == '/humans.txt'
+      content = Scribo::Content.new(kind: 'text', content_type: 'text/plain', data: Scribo.config.default_humans_txt)
+    elsif options[:path] == '/robots.txt'
+      content = Scribo::Content.new(kind: 'text', content_type: 'text/plain', data: Scribo.config.default_robots_txt)
+    elsif options[:path] == '/favicon.ico'
+      content = Scribo::Content.new(kind: 'asset', content_type: 'image/x-icon', data: Base64.decode64(Scribo.config.default_favicon_ico))
+    end
     content ||= current_bucket&.contents&.located('/404')&.first
 
     if content
@@ -29,7 +41,20 @@ module ActionController::Renderers
       registers = { 'controller' => self }.stringify_keys
 
       self.content_type ||= content.content_type
-      content.render(assigns, registers)
+
+      Scribo.config.logger.info "Scribo: rendering #{content.id} last-updated #{content.updated_at} cache-key #{content.cache_key} path #{content.path} identifier #{content.identifier}"
+      if content.kind == 'redirect'
+        redirect_options = Scribo::Content.redirect_options(content.render(assigns, registers))
+        redirect_to redirect_options.last, status: redirect_options.first
+      elsif stale?(etag: content.cache_key, public: true)
+        if content.kind == 'asset'
+          send_data(content.render(assigns, registers), type: content.content_type, disposition: 'inline')
+        else
+          content.render(assigns, registers)
+        end
+      else
+        head 304
+      end
     else
       render body: Scribo.config.default_404_txt, status: 404
     end
