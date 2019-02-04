@@ -86,7 +86,7 @@ module Scribo
 
     # Returns the group of a certain content_type (text/plain => text, image/gif => image)
     def content_type_group
-      Scribo.config.supported_mime_types.find { |_, v| v.include?(content_type) }.first.to_s
+      Scribo.config.supported_mime_types.find { |_, v| v.include?(content_type) }&.first&.to_s
     end
 
     # Use this in ContentDrop
