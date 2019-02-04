@@ -50,7 +50,7 @@ module Scribo
       end
 
       def content_params
-        params.require(:content).permit(:state, :name, :path, :title, :caption, :keywords, :description, :data).tap do |w|
+        params.require(:content).permit(:state, :name, :identifier, :path, :title, :caption, :keywords, :description, :data).tap do |w|
           w[:kind] = 'asset' if w[:kind].blank?
           if w[:data].is_a? String
             # noop

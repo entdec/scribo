@@ -1,17 +1,19 @@
 = simple_form_for([:admin, @bucket, @content], url: @content.new_record? ? admin_bucket_assets_path(@bucket) : admin_bucket_asset_path(@bucket), html: { multipart: true }) do |f|
   .row
-    .col-sm-4
+    .col-sm-3
       = f.input :path
-    .col-sm-4
+    .col-sm-3
       = f.input :name
-    .col-sm-4
+    .col-sm-3
+      = f.input :identifier
+    .col-sm-3
       = f.input :state, collection: @states, selected: @content.state, include_blank: true
 
   = f.input :title
   = f.input :caption
   = f.input :keywords
   = f.input :description
-  - if %w[style script].include? @content.content_type_group
+  - if %w[style script].include? @content&.content_type_group
     = f.input :data, as: :code_mirror, input_html: { data: { height: '800px', lang: 'text/html', mode: { name: 'liquid', base: 'text/html' } } }
   - else
     = f.input :data, as: :file
