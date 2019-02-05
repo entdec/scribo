@@ -1,10 +1,12 @@
+p Translations
 table.table
   thead
     tr
-      th Key
-      th Value
+      th Language
+      th Translated %
   tbody
-    - @translations.each do |key, value|
+    - @languages.each do |lang, pct|
       tr
-        td = key
-        td = value
+        td
+          = link_to lang, edit_admin_bucket_translation_path(@bucket, lang)
+        td #{pct}%

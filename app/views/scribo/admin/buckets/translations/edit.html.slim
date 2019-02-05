@@ -1,0 +1,18 @@
+h1 Translations for #{@destination_language}
+
+= form_tag(admin_bucket_translation_path(@bucket, @destination_language), method: :patch) do
+  table.table
+    thead
+      tr
+        th Source
+        th Translations
+    tbody
+      - @translations.select { |t| t.start_with?('en.') }.each do |key, value|
+        ruby:
+          translate_key = key.gsub(/#{@source_language}\./, "#{@destination_language}.")
+          translate_value = @translations[translate_key]
+          field_name = "translations[" + translate_key.split('.').join('][') + ']'
+        tr
+          td = value
+          td = text_area_tag field_name, translate_value, class: 'form-control', rows: 3
+  = submit_tag

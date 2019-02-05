@@ -4,6 +4,7 @@ en:
       admin:
         buckets: Buckets
         contents: Contents
+        translations: Translations
         assets: Assets
     context_menu:
       add: Add
