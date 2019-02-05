@@ -8,7 +8,8 @@ module Scribo
 
     initializer 'scribo.config' do |_app|
       # FIXME: How to make this work with Scribo and Nuntius
-      I18n.backend = I18n::Backend::Chain.new(Scribo::BucketI18nBackend.new, I18n.backend) if defined? I18n::HashRefinements
+      I18n.backend = I18n::Backend::Chain.new(Scribo::BucketI18nBackend.new, I18n.backend)
+      I18n.backend.class.send(:include, I18n::Backend::Cascade)
     end
   end
 end

@@ -1,8 +1,6 @@
 module Scribo
   class BucketI18nBackend < I18n::Backend::Simple
 
-    include I18n::Backend::Cascade
-
     def translate(locale, key, options = {})
       return unless options[:bucket]
 
@@ -14,6 +12,8 @@ module Scribo
       total_key = [I18n.locale.to_s]
       total_key << options[:scope] if options[:scope].present?
       total_key = total_key.join('.') + key
+
+      Rails.logger.warn "total_key: #{total_key}"
 
       scribo_value = options[:bucket].translations.value_at_keypath(total_key) || super
       return unless scribo_value.present?
