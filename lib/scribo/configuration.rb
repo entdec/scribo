@@ -11,6 +11,7 @@ module Scribo
     attr_writer   :scribable_objects
     attr_writer   :bucket_for_hostname
     attr_writer   :admin_mount_point
+    attr_accessor :google_translate_api_key
 
     def initialize
       @logger = Logger.new(STDOUT)

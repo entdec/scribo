@@ -9,4 +9,6 @@ table.table
       tr
         td
           = link_to lang, edit_admin_bucket_translation_path(@bucket, lang)
-        td #{pct}%
+        td
+          .progress style="height: 20px;"
+            .progress-bar role="progressbar" style="width: #{pct}%;" aria-valuenow="#{pct}" aria-valuemin="0" aria-valuemax="100" #{pct}%

@@ -18,5 +18,17 @@ h1 Translations for #{@destination_language}
             br
             div style="font-size: 80%; color: grey;" = translate_key
 
-          td style="padding: 0;" = text_area_tag field_name, translate_value, class: 'form-control', rows: 3, placeholder: 'Enter translation here', style: "height: 100%; border: none;"
+          td
+            = text_area_tag field_name, translate_value, class: 'form-control', rows: 3, placeholder: 'Enter translation here', style: "border: none;"
+            div style="font-size: 80%; color: grey; text-align: right;"
+              = link_to "Easy translate", {action: :easy_translate, key: key}, remote: true, class: 'easy-translate', data: {target: "[name='#{field_name}']"}
   = submit_tag
+
+javascript:
+    document.body.addEventListener('ajax:success', function(event) {
+        console.log(event);
+        var data = event.detail[0], status = event.detail[1], xhr = event.detail[2];
+        var target = document.querySelector(event.srcElement.getAttribute('data-target'));
+
+        target.value = data.translation;
+    });

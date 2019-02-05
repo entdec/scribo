@@ -1,9 +1,16 @@
 # frozen_string_literal: true
 
 require_dependency 'scribo/application_admin_controller'
+require 'easy_translate'
 
 module Scribo
   module Admin
+    #
+    # IDEAS:
+    # - character count under textarea
+    # - search / filter for texts/keys
+    # - save per value to database / remotely
+    #
     class Buckets::TranslationsController < ApplicationAdminController
       before_action :set_objects
 
@@ -25,6 +32,10 @@ module Scribo
       def update
         @bucket.translations = @bucket.translations.deep_merge(translations_params)
         @bucket.save
+      end
+
+      def easy_translate
+        @translation = EasyTranslate.translate(@translations[params[:key]], from: @source_language, to: @destination_language, key: Scribo.config.google_translate_api_key)
       end
 
       private
