@@ -20,13 +20,13 @@ h1 Translations for #{@destination_language}
 
           td
             = text_area_tag field_name, translate_value, class: 'form-control', rows: 3, placeholder: 'Enter translation here', style: "border: none;"
-            div style="font-size: 80%; color: grey; text-align: right;"
-              = link_to "Easy translate", {action: :easy_translate, key: key}, remote: true, class: 'easy-translate', data: {target: "[name='#{field_name}']"}
+            div style="text-align: right;"
+              = link_to({ action: :easy_translate, key: key }, remote: true, class: 'easy-translate', data: { target: "[name='#{field_name}']" }) do
+                i class="fas fa-language"
   = submit_tag
 
 javascript:
-    document.body.addEventListener('ajax:success', function(event) {
-        console.log(event);
+    document.body.addEventListener('ajax:success', function (event) {
         var data = event.detail[0], status = event.detail[1], xhr = event.detail[2];
         var target = document.querySelector(event.srcElement.getAttribute('data-target'));
 
