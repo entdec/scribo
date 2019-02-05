@@ -13,6 +13,10 @@ h1 Translations for #{@destination_language}
           translate_value = @translations[translate_key]
           field_name = "translations[" + translate_key.split('.').join('][') + ']'
         tr
-          td = value
-          td = text_area_tag field_name, translate_value, class: 'form-control', rows: 3
+          td
+            = label_tag field_name, value
+            br
+            div style="font-size: 80%; color: grey;" = translate_key
+
+          td style="padding: 0;" = text_area_tag field_name, translate_value, class: 'form-control', rows: 3, placeholder: 'Enter translation here', style: "height: 100%; border: none;"
   = submit_tag
