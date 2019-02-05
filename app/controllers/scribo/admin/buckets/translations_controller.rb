@@ -8,7 +8,7 @@ module Scribo
     #
     # IDEAS:
     # - character count under textarea
-    # - search / filter for texts/keys
+    # - search / filter for texts/keys - see: https://translation.io/rails under features
     # - save per value to database / remotely
     #
     class Buckets::TranslationsController < ApplicationAdminController
