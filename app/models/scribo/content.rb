@@ -113,22 +113,6 @@ module Scribo
       "data:#{content_type};base64," + Base64.strict_encode64(data)
     end
 
-    def translation_scope
-      scope = []
-      # scope << bucket.name.underscore.tr(' ', '_')
-      if name.present?
-        scope << "named"
-        scope << name
-      elsif identifier.present?
-        scope << "identified"
-        scope << identifier
-      else
-        p = path.tr('/', '.')[1..-1]
-        scope << p.present? ? p : 'index'
-      end
-      scope.join('.')
-    end
-
     def cache_key
       super + '-' + I18n.locale.to_s
     end
