@@ -16,8 +16,7 @@ h1 Translations for #{@destination_language}
           td
             = label_tag field_name, value
             br
-            div style="font-size: 80%; color: grey;" = translate_key
-
+            div style="font-size: 80%; color: grey;" data-controller="copy" data-action="click->copy#copy" = translate_key.gsub(/#{@source_language}\./, ".")
           td
             = text_area_tag field_name, translate_value, class: 'form-control', rows: 3, placeholder: 'Enter translation here', style: "border: none;"
             div style="text-align: right;"
