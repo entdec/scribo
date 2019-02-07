@@ -16,7 +16,11 @@ module ActionController::Renderers
     content = current_bucket.contents
     content = content.identified(options[:identifier]) if options[:identifier]
     content = content.located(options[:path]) if options[:path]
-    content = content.first
+    content = if options[:root]
+                content.root
+              else
+                content.first
+              end
 
     content ||= current_bucket&.contents&.located(options[:path])&.first
     if !content && options[:path] && options[:path][1..-1].length == 36
