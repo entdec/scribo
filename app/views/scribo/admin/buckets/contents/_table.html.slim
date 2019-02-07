@@ -7,6 +7,8 @@ table.table
       th State
       th Content type
       th Layout
+      th Parent
+      th Position
   tbody
     - for content in @contents
       tr
@@ -16,6 +18,12 @@ table.table
         td = content.state
         td = content.content_type
         td = content.layout&.name
+        td
+          - if content.parent
+            = link_to content.parent&.path || content.parent&.name || content.parent&.identifier, edit_admin_bucket_content_url(content.bucket, content.parent)
+          - else
+            | -
+        td = content.position
 
 - content_for :context_menu do
   =< link_to(t('scribo.context_menu.add'), new_admin_bucket_content_path(@bucket), class: 'btn btn-primary')

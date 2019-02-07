@@ -19,7 +19,8 @@
       .col-sm-4
         = f.input :state, collection: @states, selected: @content.state, include_blank: true
       .col-sm-4
-        = f.association :layout, collection: @layouts, selected: @content.layout_id, label_method: :identifier, include_blank: true
+        = f.input :kind, collection: @kinds, selected: @content.kind
+
     .row
       .col-sm-4
         = f.input :name
@@ -30,12 +31,19 @@
 
     .row
       .col-sm-4
-        = f.input :kind, collection: @kinds, selected: @content.kind
-      .col-sm-8
+        = f.association :layout, collection: @layouts, selected: @content.layout_id, label_method: :identifier, include_blank: true
+      .col-sm-4
+        = f.association :parent, collection: @contents, selected: @content.parent_id, label_method: :identifier, include_blank: true
+      .col-sm-4
+        = f.input :position
+    .row
+      .col-sm-3
+        = f.input :title
+      .col-sm-6
+        = f.input :description
+      .col-sm-3
         = f.input :keywords
 
-    = f.input :title
-    = f.input :description
 
   = f.input :data, as: :code_mirror, input_html: {data: { height: '800px', lang: 'text/html', mode: {name: 'liquid', base: 'text/html'}}}
 
