@@ -4,7 +4,7 @@ require_dependency 'scribo/application_drop'
 
 module Scribo
   class ContentDrop < ApplicationDrop
-    delegate :name, :path, :content_type, :title, :breadcrumb, :keywords, :description, to: :@object
+    delegate :name, :path, :identifier, :content_type, :title, :breadcrumb, :keywords, :description, to: :@object
     # Boxture specific
     delegate :bucket, to: :@object
 
