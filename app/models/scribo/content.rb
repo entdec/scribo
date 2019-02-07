@@ -5,7 +5,7 @@ require_dependency 'scribo/application_record'
 module Scribo
   # Represents any content in the system
   class Content < ApplicationRecord
-    acts_as_tree
+    acts_as_tree order: :position
 
     belongs_to :bucket, class_name: 'Bucket', foreign_key: 'scribo_bucket_id'
     belongs_to :layout, class_name: 'Content', optional: true
