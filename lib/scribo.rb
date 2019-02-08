@@ -2,7 +2,7 @@
 
 require 'liquid'
 require 'liquor'
-require 'acts_as_tree'
+require 'awesome_nested_set'
 require 'state_machines-activerecord'
 require 'simple_form'
 require 'slim-rails'

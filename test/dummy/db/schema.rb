@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_27_142725) do
+ActiveRecord::Schema.define(version: 2019_02_07_131615) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -55,6 +55,7 @@ ActiveRecord::Schema.define(version: 2019_01_27_142725) do
     t.datetime "published_at", default: -> { "timezone('UTC'::text, CURRENT_TIMESTAMP)" }
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "position"
     t.index ["layout_id"], name: "index_scribo_contents_on_layout_id"
     t.index ["parent_id", "name"], name: "index_scribo_contents_on_parent_id_and_name", unique: true
     t.index ["parent_id"], name: "index_scribo_contents_on_parent_id"

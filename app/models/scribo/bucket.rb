@@ -10,6 +10,7 @@ module Scribo
     validates :scribable, presence: true
 
     has_many :contents, class_name: 'Content', foreign_key: 'scribo_bucket_id'
+    has_many :assets, class_name: 'Asset', foreign_key: 'scribo_bucket_id'
 
     attr_accessor :zip_file
 

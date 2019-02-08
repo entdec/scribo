@@ -35,7 +35,7 @@
       .col-sm-4
         = f.association :parent, collection: @contents, selected: @content.parent_id, label_method: :identifier, include_blank: true
       .col-sm-4
-        = f.input :position
+        /= f.input :position
     .row
       .col-sm-3
         = f.input :title

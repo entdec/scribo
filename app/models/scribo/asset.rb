@@ -4,11 +4,8 @@ require_dependency 'scribo/application_record'
 
 module Scribo
   # Represents any content in the system
-  class Content < ApplicationRecord
-    acts_as_nested_set
-
+  class Asset < ApplicationRecord
     belongs_to :bucket, class_name: 'Bucket', foreign_key: 'scribo_bucket_id'
-    belongs_to :layout, class_name: 'Content', optional: true
 
     before_save :nilify_blanks
     validate :layout_cant_be_current_content

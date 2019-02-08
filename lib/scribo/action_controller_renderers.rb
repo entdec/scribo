@@ -13,18 +13,25 @@ module ActionController::Renderers
 
     raise 'No bucket found' unless current_bucket
 
-    content = current_bucket.contents
-    content = content.identified(options[:identifier]) if options[:identifier]
-    content = content.located(options[:path]) if options[:path]
-    content = if options[:root]
-                content.root
-              else
-                content.first
-              end
+    content = options[:content] if options[:content]
+    if content.is_a? Scribo::Content
+      content
+    else
+      content = current_bucket.contents
+      content = content.identified(options[:identifier]) if options[:identifier]
+      content = content.located(options[:path]) if options[:path]
+      content = if options[:root]
+                  # bah
+                  content.roots.first
+                else
+                  content.first
+                end
 
-    content ||= current_bucket&.contents&.located(options[:path])&.first
-    if !content && options[:path] && options[:path][1..-1].length == 36
-      content = Scribo::Content&.published&.find(options[:path][1..-1])
+      content ||= current_bucket&.contents&.located(options[:path])&.first
+      if !content && options[:path] && options[:path][1..-1].length == 36
+        content = Scribo::Content&.published&.find(options[:path][1..-1])
+      end
+      content
     end
 
     if options[:path] == '/humans.txt'
