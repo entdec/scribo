@@ -43,7 +43,7 @@ module Scribo
 
       def set_objects
         @bucket = Scribo::Bucket.find(params[:bucket_id])
-        @contents      = @bucket.contents.where(kind: %w[text redirect]).order(:path, :identifier)
+        @contents      = @bucket.contents.where(kind: %w[text redirect]).order('lft ASC')
         @content       = if params[:id]
                            Content.where(bucket: params[:bucket_id]).where(kind: %w[text redirect]).find(params[:id])
                          else
