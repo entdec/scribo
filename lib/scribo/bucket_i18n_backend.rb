@@ -9,7 +9,14 @@ module Scribo
       # * store#[]=(key, value) - Used to set a value
       # * store#keys            - Used to get all keys
       #
-      scribo_value = options[:bucket].translations.value_at_keypath([I18n.locale.to_s + key].join('.')) || super
+      total_key = [I18n.locale.to_s]
+      total_key << options[:scope] if options[:scope].present?
+      total_key = total_key.join('.') + key
+
+      Rails.logger.warn "total_key: #{total_key}"
+
+      scribo_value = options[:bucket].translations.value_at_keypath(total_key)
+      scribo_value ||= options[:bucket].translations.value_at_keypath([I18n.locale.to_s + key].join('.')) || super
       return unless scribo_value.present?
 
       options.each do |key, value|
