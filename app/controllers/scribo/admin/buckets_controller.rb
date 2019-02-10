@@ -36,11 +36,11 @@ module Scribo
       end
 
       def import
-        flash_and_redirect Bucket.import(params[:bucket][:zip_file].path), admin_buckets_path, 'Bucket imported successfully', 'There were problems importing the bucket' if request.post?
+        flash_and_redirect Scribo::BucketImportService.new(params[:bucket][:zip_file].path).call, admin_buckets_path, 'Bucket imported successfully', 'There were problems importing the bucket' if request.post?
       end
 
       def export
-        name, data = @bucket.export
+        name, data = Scribo::BucketExportService.new(@bucket).call
         send_data data, type: 'application/zip', filename: name
       end
 
