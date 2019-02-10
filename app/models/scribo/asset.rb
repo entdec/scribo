@@ -29,6 +29,7 @@ module Scribo
 
     def self.located(path)
       return none unless path.present?
+
       published.where(path: path)
     end
 
@@ -55,12 +56,14 @@ module Scribo
 
     def self.identified(identifier)
       return none unless identifier.present?
+
       published.where(identifier: identifier)
     end
 
     # Named content, only non-child content
     def self.named(name)
       return none unless name.present?
+
       published.where(parent_id: nil).where(name: name)
     end
 

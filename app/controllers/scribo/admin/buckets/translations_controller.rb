@@ -16,9 +16,9 @@ module Scribo
 
       def index
         @languages = @bucket.translations.keys
-        keys_count = @translations.select { |t| t.start_with?("#{@source_language}.") }.keys.reduce(0) { |sum, key| sum + 1 }.to_f
+        keys_count = @translations.select { |t| t.start_with?("#{@source_language}.") }.keys.reduce(0) { |sum, _key| sum + 1 }.to_f
         @languages = @languages.map do |l|
-          translated_keys_count = @translations.select { |t| t.start_with?("#{l}.") }.keys.reduce(0) { |sum, key| sum + 1 if @translations[key].present? }
+          translated_keys_count = @translations.select { |t| t.start_with?("#{l}.") }.keys.reduce(0) { |sum, key| @translations[key].present? ? sum + 1 : sum }
           pct = ((translated_keys_count / keys_count) * 100).round(1)
           [l, pct]
         end
@@ -55,12 +55,12 @@ module Scribo
         add_breadcrumb I18n.t('scribo.breadcrumbs.admin.translations'), admin_bucket_translations_path(@bucket) if defined? add_breadcrumb
       end
 
-      def convert_hash(hash, path = "")
+      def convert_hash(hash, path = '')
         hash.each_with_object({}) do |(k, v), ret|
           key = path + k
 
           if v.is_a? Hash
-            ret.merge! convert_hash(v, key + ".")
+            ret.merge! convert_hash(v, key + '.')
           else
             ret[key] = v
           end

@@ -28,9 +28,7 @@ module ActionController::Renderers
                 end
 
       content ||= current_bucket&.contents&.located(options[:path])&.first
-      if !content && options[:path] && options[:path][1..-1].length == 36
-        content = Scribo::Content&.published&.find(options[:path][1..-1])
-      end
+      content = Scribo::Content&.published&.find(options[:path][1..-1]) if !content && options[:path] && options[:path][1..-1].length == 36
       content
     end
 

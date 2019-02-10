@@ -18,4 +18,4 @@ gemspec
 # bundle config --delete local.liquor
 # bundle config local.liquor ../../components/liquor
 
-gem "liquor", "~> 0.1", :source => "http://code.entropydecelerator.com:9292/"
+gem 'liquor', '~> 0.1', source: 'http://code.entropydecelerator.com:9292/'
