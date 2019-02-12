@@ -62,6 +62,7 @@ module Scribo
           content.keywords = meta_info['keywords']
           content.state = meta_info['state']
           content.layout = bucket.contents.find_by(identifier: meta_info['layout']) if meta_info['layout']
+          content.parent = bucket.contents.find_by(identifier: meta_info['parent']) if meta_info['parent']
           content.properties = meta_info['properties']
           content.published_at = meta_info['published_at']
           content.save
