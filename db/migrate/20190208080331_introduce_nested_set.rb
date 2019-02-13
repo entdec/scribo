@@ -7,7 +7,7 @@ class IntroduceNestedSet < ActiveRecord::Migration[5.2]
     add_column :scribo_contents, :depth, :integer
     add_column :scribo_contents, :children_count, :integer
 
-    remove_column :scribo_contents, :position, :integer
+    # remove_column :scribo_contents, :position, :integer
 
     Scribo::Content.reset_column_information
     Scribo::Content.rebuild!
