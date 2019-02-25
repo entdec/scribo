@@ -19,7 +19,6 @@ Gem::Specification.new do |s|
   s.files = Dir['{app,config,db,lib}/**/*', 'MIT-LICENSE', 'Rakefile', 'README.md']
 
   s.add_dependency 'awesome_nested_set', '~> 3.1'
-  s.add_dependency 'easy_translate'
   s.add_dependency 'liquor', '~> 0.1'
   s.add_dependency 'pg'
   s.add_dependency 'rails', '~> 5'

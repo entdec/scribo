@@ -10,11 +10,7 @@ Scribo::Engine.routes.draw do
           post :preview
         end
       end
-      resources :translations, controller: 'buckets/translations' do
-        member do
-          get :easy_translate
-        end
-      end
+
       member do
         get 'export'
       end
