@@ -15,6 +15,7 @@ require 'scribo/action_controller_helpers'
 require 'scribo/active_record_helpers'
 require 'scribo/action_view_helpers'
 require 'scribo/action_controller_renderers'
+require 'scribo/liquid/parser'
 
 module Scribo
   # Configuration
