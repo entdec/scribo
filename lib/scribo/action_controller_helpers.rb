@@ -11,9 +11,6 @@ module Scribo
         helper_method :scribo_layout_identifier, :scribo_application_assets, :scribo_purpose
       end
 
-      before_action :prepopulate_translations
-      after_action :save_translations
-
       def scribo_layout_identifier
         scribo_value_for(scribo_value_layout)
       end
