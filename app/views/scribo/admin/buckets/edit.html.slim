@@ -20,8 +20,6 @@
 
 - content_for :context_menu do
   - unless @bucket.new_record?
-    - if defined?(Vario)
-      =< link_to(t('scribo.context_menu.translations'), vario.settings_path(settable: @bucket.to_sgid(for: 'Vario').to_s), class: 'btn btn-default', 'data-turbolinks' => 'false')
     =< link_to(t('scribo.context_menu.export'), export_admin_bucket_path, class: 'btn btn-primary', 'data-turbolinks' => 'false')
     =< link_to(t('scribo.context_menu.contents'), admin_bucket_contents_path(@bucket), class: 'btn btn-default', 'data-turbolinks' => 'false')
     =< link_to(t('scribo.context_menu.assets'), admin_bucket_assets_path(@bucket), class: 'btn btn-default', 'data-turbolinks' => 'false')
