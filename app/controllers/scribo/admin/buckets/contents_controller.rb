@@ -63,6 +63,7 @@ module Scribo
       def content_params
         params.require(:content).permit(:kind, :state, :path, :content_type, :layout_id, :parent_id, :position, :breadcrumb, :name, :identifier, :filter, :title, :keywords, :description, :data).tap do |w|
           w[:kind] = 'text' if w[:kind].blank?
+          w[:properties] = YAML.safe_load(params[:content][:properties])
         end
       end
     end
