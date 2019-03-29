@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 source 'https://rubygems.org'
+git_source(:entdec) { |repo_name| "git@code.entropydecelerator.com:#{repo_name}.git" }
 
 # Declare your gem's dependencies in scribo.gemspec.
 # Bundler will treat runtime dependencies like base dependencies, and
@@ -18,4 +19,4 @@ gemspec
 # bundle config --delete local.liquor
 # bundle config local.liquor ../../components/liquor
 
-gem 'liquor', '~> 0.1', source: 'http://code.entropydecelerator.com:9292/'
+gem 'liquor', entdec: 'components/liquor', tag: '0.3.0'
