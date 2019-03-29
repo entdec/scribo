@@ -42,10 +42,10 @@ module Scribo
 
           content = if meta_info['path']
                       bucket.contents.find_or_create_by(bucket: bucket, path: meta_info['path'])
-                    elsif meta_info['name']
-                      bucket.contents.find_or_create_by(bucket: bucket, name: meta_info['name'])
                     elsif meta_info['identifier']
                       bucket.contents.find_or_create_by(bucket: bucket, identifier: meta_info['identifier'])
+                    elsif meta_info['name']
+                      bucket.contents.find_or_create_by(bucket: bucket, name: meta_info['name'])
                     end
 
           content.data = entry.get_input_stream.read
