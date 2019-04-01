@@ -26,12 +26,12 @@ module Scribo
 
         base_path = "bucket_#{meta_info_bucket['name']}"
 
-        bucket.translations = {}
-        zip_file.glob("#{base_path}/_locales/*.yml").each do |translation_file|
-          puts "translation_file: #{translation_file.name}"
-          locale = File.basename(translation_file.name, '.yml')
-          bucket.translations[locale] = YAML.safe_load(translation_file.get_input_stream.read)[locale]
-        end
+        # FIXME: Skip these for now - no place to put them atm
+        # bucket.translations = {}
+        # zip_file.glob("#{base_path}/_locales/*.yml").each do |translation_file|
+        #   locale = File.basename(translation_file.name, '.yml')
+        #   bucket.translations[locale] = YAML.safe_load(translation_file.get_input_stream.read)[locale]
+        # end
 
         bucket.save
 
