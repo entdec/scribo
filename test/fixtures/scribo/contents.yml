@@ -1,5 +1,5 @@
 index:
-  bucket: main
+  site: main
   kind: text
   content_type: text/html
   data: Test index
@@ -7,7 +7,7 @@ index:
   state: published
 
 layout:
-  bucket: main
+  site: main
   kind: text
   content_type: text/html
   data: layout{%yield%}layout

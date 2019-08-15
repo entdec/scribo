@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_07_131615) do
+ActiveRecord::Schema.define(version: 2019_08_15_175645) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,20 +22,8 @@ ActiveRecord::Schema.define(version: 2019_02_07_131615) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "scribo_buckets", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
-    t.string "name"
-    t.string "scribable_type"
-    t.uuid "scribable_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "purpose", default: "site"
-    t.jsonb "settings", default: {}, null: false
-    t.jsonb "translations", default: {}, null: false
-    t.index ["scribable_type", "scribable_id"], name: "index_scribo_buckets_on_scribable_type_and_scribable_id"
-  end
-
   create_table "scribo_contents", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
-    t.uuid "scribo_bucket_id"
+    t.uuid "scribo_site_id"
     t.string "kind"
     t.string "path"
     t.string "content_type"
@@ -56,15 +44,31 @@ ActiveRecord::Schema.define(version: 2019_02_07_131615) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "position"
+    t.integer "lft"
+    t.integer "rgt"
+    t.integer "depth"
+    t.integer "children_count"
     t.index ["layout_id"], name: "index_scribo_contents_on_layout_id"
     t.index ["parent_id", "name"], name: "index_scribo_contents_on_parent_id_and_name", unique: true
     t.index ["parent_id"], name: "index_scribo_contents_on_parent_id"
-    t.index ["scribo_bucket_id", "identifier"], name: "index_scribo_contents_identifier", unique: true
-    t.index ["scribo_bucket_id", "path"], name: "index_scribo_contents_path", unique: true
-    t.index ["scribo_bucket_id"], name: "index_scribo_contents_on_scribo_bucket_id"
+    t.index ["scribo_site_id", "identifier"], name: "index_scribo_contents_identifier", unique: true
+    t.index ["scribo_site_id", "path"], name: "index_scribo_contents_path", unique: true
+    t.index ["scribo_site_id"], name: "index_scribo_contents_on_scribo_site_id"
   end
 
-  add_foreign_key "scribo_contents", "scribo_buckets"
+  create_table "scribo_sites", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
+    t.string "name"
+    t.string "scribable_type"
+    t.uuid "scribable_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "purpose", default: "site"
+    t.jsonb "settings", default: {}, null: false
+    t.jsonb "translations", default: {}, null: false
+    t.index ["scribable_type", "scribable_id"], name: "index_scribo_sites_on_scribable_type_and_scribable_id"
+  end
+
   add_foreign_key "scribo_contents", "scribo_contents", column: "layout_id"
   add_foreign_key "scribo_contents", "scribo_contents", column: "parent_id"
+  add_foreign_key "scribo_contents", "scribo_sites"
 end

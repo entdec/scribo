@@ -38,7 +38,7 @@ Assets will always be served in the same way they are stored in the database.
 - path: needs to be unique per site, indicates where content can be found
 - content_type: content type of the content
 - filter: how the content should be filtered (only for 'content' kind) - see: [Tilt](https://github.com/rtomayko/tilt)
-- identifier: how the content can be identified, needs to be unique per bucket
+- identifier: how the content can be identified, needs to be unique per site
 - name: name of the content, needs to be unique per parent, useful for page parts
 - title: title of the content, can be used for your own purpose
 - caption: caption of the content, can be used for your own purpose

@@ -1,5 +1,5 @@
 - content_for :context_menu do
-  =< link_to(t('scribo.context_menu.add'), new_admin_bucket_asset_path(@bucket), class: 'btn btn-primary')
+  =< link_to(t('scribo.context_menu.add'), new_admin_site_asset_path(@site), class: 'btn btn-primary')
 
 ul#myTab.nav.nav-tabs.nav-tabs-fillup.nav-tabs-primary role="tablist"
   - Scribo.config.supported_mime_types.keys.reject {|i| i == :text }.each_with_index do |cg, index|

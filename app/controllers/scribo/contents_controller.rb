@@ -8,7 +8,7 @@ module Scribo
     protect_from_forgery except: :show
 
     def show
-      render scribo: Scribo.config.bucket_for_hostname(request.env['SERVER_NAME']), path: request.path
+      render scribo: Scribo.config.site_for_hostname(request.env['SERVER_NAME']), path: request.path
     end
   end
 end

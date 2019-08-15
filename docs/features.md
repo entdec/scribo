@@ -1,10 +1,10 @@
 # Features
-## Shared path per bucket
-All content within one bucket shares a path to be as similar to a regular site as possible.
+## Shared path per site
+All content within one site shares a path to be as similar to a regular site as possible.
 This means your index.html can refer to a /img/logo.png just like you normally would.
 
 ## Nested layouts
-Your blog articles can have an article layout, but still use your bucket-layout:
+Your blog articles can have an article layout, but still use your site-layout:
 
 Say you have an article.html and some layouts:
 

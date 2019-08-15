@@ -22,9 +22,9 @@ Starting with URL helpers to be able to more tightly integrate cms and app.
 See: https://stackoverflow.com/questions/28008564/streaming-mp4-in-chrome-with-rails-nginx-and-send-file
 
 
-## Bucket
+## Site
 
-##### add properties/configuration to buckets
+##### add properties/configuration to sites
 
 ## Other
 

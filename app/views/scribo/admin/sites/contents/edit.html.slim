@@ -1,4 +1,4 @@
-= simple_form_for([:admin, @bucket, @content], html: {multipart: true}) do |f|
+= simple_form_for([:admin, @site, @content], html: {multipart: true}) do |f|
 
   .row
     .col-sm-4
@@ -55,7 +55,7 @@
 
       // var editor = CodeMirror.getInstances().first();
       // editor.change(function() {
-      //   $('.preview').load( "#{preview_admin_bucket_content_path(@bucket, @content)}", { data: $('#content_data').val() } );
+      //   $('.preview').load( "#{preview_admin_site_content_path(@site, @content)}", { data: $('#content_data').val() } );
       // });
 
 = render 'table'

@@ -4,12 +4,12 @@ require_dependency 'scribo/application_record'
 require_dependency 'scribo/liquid/parser'
 
 module Scribo
-  class Bucket < ApplicationRecord
+  class Site < ApplicationRecord
     belongs_to :scribable, polymorphic: true
     validates :scribable, presence: true
 
-    has_many :contents, class_name: 'Content', foreign_key: 'scribo_bucket_id'
-    has_many :assets, class_name: 'Asset', foreign_key: 'scribo_bucket_id'
+    has_many :contents, class_name: 'Content', foreign_key: 'scribo_site_id'
+    has_many :assets, class_name: 'Asset', foreign_key: 'scribo_site_id'
 
     attr_accessor :zip_file
 
@@ -23,7 +23,7 @@ module Scribo
       def all_translation_keys
         parser = Scribo::LiquidParser.new
         result = {}
-        Scribo::Content.includes(:bucket).where(content_type: Scribo.config.supported_mime_types[:text]).each do |content|
+        Scribo::Content.includes(:site).where(content_type: Scribo.config.supported_mime_types[:text]).each do |content|
           parts = parser.parse(content.data)
           [*parts].select { |part| part.is_a?(Hash) && part[:filter] == 't' }.each do |part|
             result[content.translation_scope + part[:value].to_s] = part[:value].to_s[1..-1].humanize

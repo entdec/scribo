@@ -3,22 +3,22 @@
 require_dependency 'scribo/application_service'
 
 module Scribo
-  class BucketExportService < ApplicationService
-    attr_reader :bucket
+  class SiteExportService < ApplicationService
+    attr_reader :site
 
-    def initialize(bucket)
-      @bucket = bucket
+    def initialize(site)
+      @site = site
     end
 
     def perform
-      return unless bucket.contents.count.positive?
+      return unless site.contents.count.positive?
 
-      zip_name = 'bucket_' + (bucket.name || 'untitled')
+      zip_name = 'site_' + (site.name || 'untitled')
       base_path = zip_name + '/'
       stringio = Zip::OutputStream.write_buffer do |zio|
-        meta_info = bucket_meta_information
+        meta_info = site_meta_information
 
-        bucket.contents.each do |content|
+        site.contents.each do |content|
           content_path = content_path_for_zip(content)
           next unless content_path
 
@@ -28,12 +28,12 @@ module Scribo
           meta_info[:contents] << content_meta_information(content)
         end
 
-        bucket.translations.keys.each do |locale|
+        site.translations.keys.each do |locale|
           zio.put_next_entry(base_path + "_locales/#{locale}.yml")
-          zio.write YAML.dump(locale => bucket.translations[locale])
+          zio.write YAML.dump(locale => site.translations[locale])
         end
 
-        zio.put_next_entry(base_path + 'scribo_bucket.json')
+        zio.put_next_entry(base_path + 'scribo_site.json')
         zio.write JSON.pretty_generate(meta_info)
       end
 
@@ -42,12 +42,12 @@ module Scribo
 
     private
 
-    def bucket_meta_information
+    def site_meta_information
       { version: Scribo::VERSION,
-        name: bucket.name,
-        purpose: bucket.purpose,
-        scribable_type: bucket.scribable_type,
-        scribable_id: bucket.scribable_id,
+        name: site.name,
+        purpose: site.purpose,
+        scribable_type: site.scribable_type,
+        scribable_id: site.scribable_id,
         properties: {},
         contents: [] }.reject { |_, v| v.nil? }
     end

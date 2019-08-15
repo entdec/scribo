@@ -2,22 +2,22 @@
 
 # Add scribo as a renderer
 module ActionController::Renderers
-  add :scribo do |bucket, options|
-    current_bucket = if bucket.is_a? Scribo::Bucket
-                       bucket
+  add :scribo do |site, options|
+    current_site = if site.is_a? Scribo::Site
+                       site
                      else
-                       scope = Scribo::Bucket.named(bucket)
+                       scope = Scribo::Site.named(site)
                        scope = scope.owned_by(options[:owner]) if options[:owner]
                        scope.first
                      end
 
-    raise 'No bucket found' unless current_bucket
+    raise 'No site found' unless current_site
 
     content = options[:content] if options[:content]
     if content.is_a? Scribo::Content
       content
     else
-      content = current_bucket.contents
+      content = current_site.contents
       content = content.identified(options[:identifier]) if options[:identifier]
       content = content.located(options[:path]) if options[:path]
       content = if options[:root]
@@ -27,7 +27,7 @@ module ActionController::Renderers
                   content.first
                 end
 
-      content ||= current_bucket&.contents&.located(options[:path])&.first
+      content ||= current_site&.contents&.located(options[:path])&.first
       content = Scribo::Content&.published&.find(options[:path][1..-1]) if !content && options[:path] && options[:path][1..-1].length == 36
       content
     end
@@ -39,7 +39,7 @@ module ActionController::Renderers
     elsif options[:path] == '/favicon.ico'
       content = Scribo::Content.new(kind: 'asset', content_type: 'image/x-icon', data: Base64.decode64(Scribo.config.default_favicon_ico))
     end
-    content ||= current_bucket&.contents&.located('/404')&.first
+    content ||= current_site&.contents&.located('/404')&.first
 
     if content
       # Prepare assigns and registers

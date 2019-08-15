@@ -5,7 +5,7 @@ require_dependency 'scribo/application_record'
 module Scribo
   # Represents any content in the system
   class Asset < ApplicationRecord
-    belongs_to :bucket, class_name: 'Bucket', foreign_key: 'scribo_bucket_id'
+    belongs_to :site, class_name: 'Site', foreign_key: 'scribo_site_id'
 
     before_save :nilify_blanks
 
