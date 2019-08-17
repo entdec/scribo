@@ -5,7 +5,6 @@ require_dependency 'scribo/application_drop'
 module Scribo
   class SiteDrop < ApplicationDrop
     delegate :name, to: :@object
-    # Boxture specific
     delegate :scribable, :contents, to: :@object
 
     def children

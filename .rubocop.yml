@@ -27,9 +27,6 @@ Style/PercentLiteralDelimiters:
     '%W': '[]'
     '%x': '[]'
 
-Performance/Casecmp:
-  Enabled: false
-
 Style/Documentation:
   Enabled: false
 
