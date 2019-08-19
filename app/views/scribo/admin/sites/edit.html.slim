@@ -23,3 +23,48 @@
     =< link_to(t('scribo.context_menu.export'), export_admin_site_path, class: 'btn btn-primary', 'data-turbolinks' => 'false')
     =< link_to(t('scribo.context_menu.contents'), admin_site_contents_path(@site), class: 'btn btn-default', 'data-turbolinks' => 'false')
     =< link_to(t('scribo.context_menu.assets'), admin_site_assets_path(@site), class: 'btn btn-default', 'data-turbolinks' => 'false')
+
+
+ol.tree
+  li
+    label for="folder1"  Folder 1
+    input#folder1 checked="" disabled="" type="checkbox" /
+    ol
+      li.file
+        a href="document.html.pdf"  File 1
+      li
+        label for="subfolder1"  Subfolder 1
+        input#subfolder1 type="checkbox" /
+        ol
+          li.file
+            a href=""  Filey 1
+          li
+            label for="subsubfolder1"  Subfolder 1
+            input#subsubfolder1 type="checkbox" /
+            ol
+              li.file
+                a href=""  File 1
+              li
+                label for="subsubfolder2"  Subfolder 1
+                input#subsubfolder2 type="checkbox" /
+                ol
+                  li.file
+                    a href=""  Subfile 1
+                  li.file
+                    a href=""  Subfile 2
+                  li.file
+                    a href=""  Subfile 3
+                  li.file
+                    a href=""  Subfile 4
+                  li.file
+                    a href=""  Subfile 5
+                  li.file
+                    a href=""  Subfile 6
+          li.file
+            a href=""  File 3
+          li.file
+            a href=""  File 4
+          li.file
+            a href=""  File 5
+          li.file
+            a href=""  File 6
