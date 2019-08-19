@@ -7,7 +7,7 @@
   "license": "MIT",
   "files": [
     "frontend/dist/scribo.js",
-    "frontend/dist/scss"
+    "frontend/dist/scribo.css"
   ],
   "scripts": {
     "build": "webpack -p --config webpack.config.js --color",
