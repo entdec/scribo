@@ -1,10 +1,10 @@
 const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+// const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
-  entry: ['./frontend/src/javascript/scribo.js', './frontend/src/style/scribo.scss'],
+  entry: ['./frontend/src/javascript/scribo.js'],
   output: {
     path: __dirname + '/frontend/dist',
     filename: 'scribo.js',
@@ -19,10 +19,10 @@ module.exports = {
   //     ], { copyUnmodified: true }
   //   ),
     new CleanWebpackPlugin(['frontend/dist'],  {}),
-    new ExtractTextPlugin({ // define where to save the file
-      filename: 'scribo.css',
-      allChunks: true,
-    }),
+    // new ExtractTextPlugin({ // define where to save the file
+    //   filename: 'scribo.css',
+    //   allChunks: true,
+    // }),
   ],
   module: {
     rules: [
@@ -43,7 +43,7 @@ module.exports = {
       },
       { // sass / scss loader for webpack
         test: /\.(sass|scss)$/,
-        loader: ExtractTextPlugin.extract(['css-loader', 'sass-loader'])
+        loader: ['css-loader', 'sass-loader']
       },
       {
         test: /\.(|ttf|eot|svg|woff2?)(\?[\s\S]+)?$/,
