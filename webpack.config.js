@@ -3,7 +3,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 
 module.exports = {
-  entry: './frontend/src/scribo.js',
+  entry: './frontend/src/javascript/scribo.js',
   output: {
     path: __dirname + '/frontend/dist',
     filename: 'scribo.js',
@@ -14,7 +14,7 @@ module.exports = {
     // Dont compile or process the SCSS, let the user take care of that!
     new CopyWebpackPlugin(
       [
-        { from: 'frontend/src/**/*.scss', to: 'scss', transformPath (targetPath, absolutePath) { return targetPath.replace('frontend/src/', ''); } },
+        { from: 'frontend/src/style/**/*.scss', to: 'scss', transformPath (targetPath, absolutePath) { return targetPath.replace('frontend/src/style/', ''); } },
       ], { copyUnmodified: true }
     ),
     new CleanWebpackPlugin(['frontend/dist'],  {})
