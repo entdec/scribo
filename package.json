@@ -6,8 +6,7 @@
   "author": "Tom de Grunt <tom@degrunt.nl>",
   "license": "MIT",
   "files": [
-    "frontend/dist/scribo.js",
-    "frontend/dist/scribo.css"
+    "frontend/dist"
   ],
   "scripts": {
     "build": "webpack -p --config webpack.config.js --color",
