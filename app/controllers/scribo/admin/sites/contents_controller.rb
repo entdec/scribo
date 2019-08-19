@@ -21,12 +21,12 @@ module Scribo
       end
 
       def edit
-        add_breadcrumb(@content.name || @content.identifier || @content.path, edit_admin_site_content_path(@site, @content)) if defined? add_breadcrumb
+        # add_breadcrumb(@content.name || @content.identifier || @content.path, edit_admin_site_content_path(@site, @content)) if defined? add_breadcrumb
         @content = Content.find(params[:id])
       end
 
       def update
-        flash_and_redirect @content.update(content_params), admin_site_contents_url(@site), 'Content updated successfully', 'There were problems updating the content'
+        flash_and_redirect @content.update(content_params), edit_admin_site_content_url(@site, @content), 'Content updated successfully', 'There were problems updating the content'
       end
 
       def show
@@ -55,9 +55,11 @@ module Scribo
         @sites = Scribo::Site.order(:name)
         @kinds = %w[text redirect]
 
+        @assets = @site.contents.where(kind: 'asset').order(:path, :identifier) if @site
+
         add_breadcrumb I18n.t('scribo.breadcrumbs.admin.sites'), :admin_sites_path if defined? add_breadcrumb
         add_breadcrumb(@site.name, edit_admin_site_path(@site)) if defined? add_breadcrumb
-        add_breadcrumb I18n.t('scribo.breadcrumbs.admin.contents'), admin_site_contents_url(@site) if defined? add_breadcrumb
+        # add_breadcrumb I18n.t('scribo.breadcrumbs.admin.contents'), admin_site_contents_url(@site) if defined? add_breadcrumb
       end
 
       def content_params

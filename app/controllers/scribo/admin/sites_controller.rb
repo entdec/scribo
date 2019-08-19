@@ -53,6 +53,7 @@ module Scribo
                     params[:site] ? Site.new(site_params) : Site.new
                   end
         @contents = @site.contents.where(kind: %w[text redirect]).order(:path, :identifier) if @site
+        @assets = @site.contents.where(kind: 'asset').order(:path, :identifier) if @site
       end
 
       def site_params

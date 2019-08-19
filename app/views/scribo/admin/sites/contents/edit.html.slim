@@ -1,61 +1,43 @@
-= simple_form_for([:admin, @site, @content], html: {multipart: true}) do |f|
-
-  .row
-    .col-sm-4
-      = f.input :path
-    .col-sm-4
-      = f.input :identifier
-    .col-sm-4
-      .actions.float-right
-        = f.button :button, 'Save', name: 'commit', value: 'save', class: 'btn-primary', data: { disable_with: 'Save' }
-        = f.button :button, 'Continue', name: 'commit', value: 'continue', data: { disable_with: 'Continue' }
-        a.btn data-toggle='collapse' data-target='#advancedContainer' Advanced
-
-
-  .collapse#advancedContainer
-    .row
-      .col-sm-4
-        = f.input :content_type, collection: @content_types, include_blank: false
-      .col-sm-4
-        = f.input :state, collection: @states, selected: @content.state, include_blank: true
-      .col-sm-4
-        = f.input :kind, collection: @kinds, selected: @content.kind
+= render 'scribo/shared/ide' do
+  = simple_form_for([:admin, @site, @content], html: {multipart: true}) do |f|
 
     .row
       .col-sm-4
-        = f.input :name
+        = f.input :path
       .col-sm-4
-        = f.input :filter
+        = f.input :identifier
       .col-sm-4
-        = f.input :breadcrumb
+        .actions.float-right
+          = f.button :button, 'Save', name: 'commit', value: 'save', class: 'btn-primary', data: { disable_with: 'Save' }
+          a.btn data-toggle='collapse' data-target='#advancedContainer' Advanced
 
-    .row
-      .col-sm-4
-        = f.association :layout, collection: @layouts, selected: @content.layout_id, label_method: :identifier, include_blank: true
-      .col-sm-4
-        = f.association :parent, collection: @contents, selected: @content.parent_id, label_method: :identifier, include_blank: true
-      .col-sm-4
-        /= f.input :position
-    .row
-      .col-sm-3
-        = f.input :title
-      .col-sm-6
-        = f.input :description
-      .col-sm-3
-        = f.input :keywords
+    .collapse#advancedContainer
+      .row
+        .col-sm-4
+          = f.input :content_type, collection: @content_types, include_blank: false
+        .col-sm-4
+          = f.input :state, collection: @states, selected: @content.state, include_blank: true
+        .col-sm-4
+          = f.input :kind, collection: @kinds, selected: @content.kind
 
+      .row
+        .col-sm-4
+          = f.input :name
+        .col-sm-4
+          = f.input :filter
 
-  = f.input :properties, as: :code_mirror, input_html: {value: YAML.dump(f.object.properties), data: { height: '80px', lang: 'application/yaml', mode: {name: 'liquid', base: 'application/yaml'}}}
-  = f.input :data, as: :code_mirror, input_html: {data: { height: '800px', lang: 'text/html', mode: {name: 'liquid', base: 'text/html'}}}
+      .row
+        .col-sm-4
+          = f.association :layout, collection: @layouts, selected: @content.layout_id, label_method: :identifier, include_blank: true
+        .col-sm-4
+          = f.association :parent, collection: @contents, selected: @content.parent_id, label_method: :identifier, include_blank: true
+        .col-sm-4
+          /= f.input :position
+      .row
+        .col-sm-3
+          = f.input :title
 
+    = f.input :properties, as: :code_mirror, input_html: {value: YAML.dump(f.object.properties), data: { height: '80px', lang: 'application/yaml', mode: {name: 'liquid', base: 'application/yaml'}}}
+    = f.input :data, as: :code_mirror, input_html: {data: { height: '800px', lang: 'text/html', mode: {name: 'liquid', base: 'text/html'}}}
 
-- unless @content.new_record?
-  javascript:
-      // $.ajaxSetup({ beforeSend: function(xhr) { xhr.setRequestHeader('X-CSRF-Token',$('meta[name="csrf-token"]').attr('content')); } });
-
-      // var editor = CodeMirror.getInstances().first();
-      // editor.change(function() {
-      //   $('.preview').load( "#{preview_admin_site_content_path(@site, @content)}", { data: $('#content_data').val() } );
-      // });
-
-= render 'table'
+= render partial: 'scribo/shared/site_context'

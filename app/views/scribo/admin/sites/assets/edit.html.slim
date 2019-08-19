@@ -1,21 +1,20 @@
-= simple_form_for([:admin, @site, @content], url: @content.new_record? ? admin_site_assets_path(@site) : admin_site_asset_path(@site), html: { multipart: true }) do |f|
-  .row
-    .col-sm-3
-      = f.input :path
-    .col-sm-3
-      = f.input :name
-    .col-sm-3
-      = f.input :identifier
-    .col-sm-3
-      = f.input :state, collection: @states, selected: @content.state, include_blank: true
+= render 'scribo/shared/ide' do
+  = simple_form_for([:admin, @site, @content], url: @content.new_record? ? admin_site_assets_path(@site) : admin_site_asset_path(@site), html: { multipart: true }) do |f|
+    .row
+      .col-sm-3
+        = f.input :path
+      .col-sm-3
+        = f.input :name
+      .col-sm-3
+        = f.input :identifier
+      .col-sm-3
+        = f.input :state, collection: @states, selected: @content.state, include_blank: true
 
-  = f.input :title
-  = f.input :caption
-  = f.input :keywords
-  = f.input :description
-  - if %w[style script].include? @content&.content_type_group
-    = f.input :data, as: :code_mirror, input_html: { data: { height: '800px', lang: 'text/html', mode: { name: 'liquid', base: 'text/html' } } }
-  - else
-    = f.input :data, as: :file
-  = f.button :button, 'Save', name: 'commit', value: 'save', class: 'btn-primary', data: { disable_with: 'Save' }
-  = f.button :button, 'Continue', name: 'commit', value: 'continue', data: { disable_with: 'Continue' }
+    = f.input :title
+    - if %w[style script].include? @content&.content_type_group
+      = f.input :data, as: :code_mirror, input_html: { data: { height: '800px', lang: 'text/html', mode: { name: 'liquid', base: 'text/html' } } }
+    - else
+      = f.input :data, as: :file
+    = f.button :button, 'Save', name: 'commit', value: 'save', class: 'btn-primary', data: { disable_with: 'Save' }
+
+= render partial: 'scribo/shared/site_context'
