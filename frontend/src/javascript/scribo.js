@@ -1,3 +1,5 @@
+import "../style/scribo.scss";
+
 import { definitionsFromContext } from "stimulus/webpack-helpers"
 
 export class Scribo {
