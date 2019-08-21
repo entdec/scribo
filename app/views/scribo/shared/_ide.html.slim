@@ -1,25 +1,30 @@
 .ide.d-flex id="ide"
   .tree
     .heading
-    ol.ui-tree
-      li
-        label for="contents" Contents
-        input#contents checked="" type="checkbox" /
-        ol
-          - @contents.each do |content|
-            li.ui-file
-              = link_to(content.path || content.name || content.identifier, edit_admin_site_content_url(content.site, content), 'data-content-type' => "#{content.content_type}")
-        label for="assets" Assets
-        input#assets checked="" type="checkbox" /
-        ol
-          - Scribo.config.supported_mime_types.keys.reject {|i| i == :text }.each_with_index do |cg, index|
-            - if @assets.content_group(cg).count > 0
-              label for="#{cg}" =cg
-              input id="#{cg}" checked="" type="checkbox" /
-              ol
-                - @assets.content_group(cg).each_slice(6) do |assets|
-                  - assets.each do |content|
-                    li.ui-file
-                      = link_to(content.path || content.name || content.identifier, edit_admin_site_asset_url(content.site, content), 'data-content-type' => "#{content.content_type}")
+    .tree-view data-controller="tree-view"
+      ul
+        li.entry.directory.open
+          .list-item
+            span.name Contents
+          ul
+            - @contents.each do |content|
+              li.entry.file
+                = link_to(edit_admin_site_content_url(content.site, content), class: 'list-item') do
+                  span.name data-content-type="#{content.content_type}" = content.path || content.name || content.identifier
+        li.entry.directory.open
+          .list-item
+            span.name Assets
+          ul
+            - Scribo.config.supported_mime_types.keys.reject {|i| i == :text }.each_with_index do |cg, index|
+              - if @assets.content_group(cg).count > 0
+                li.entry.directory.open
+                  .list-item
+                    span.name =cg
+                  ul
+                    - @assets.content_group(cg).each_slice(6) do |assets|
+                      - assets.each do |content|
+                        li.entry.file
+                          = link_to(edit_admin_site_asset_url(content.site, content), class: 'list-item') do
+                            span.name data-content-type="#{content.content_type}" = content.path || content.name || content.identifier
   .editor-area
     = yield

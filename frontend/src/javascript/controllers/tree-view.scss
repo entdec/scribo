@@ -1,0 +1,136 @@
+.tree-view {
+  font-size: 14px;
+  user-select: none;
+  -webkit-user-select: none;
+  width: 300px;
+  overflow-x: scroll;
+}
+
+.tree-view ul {
+  margin: 0;
+  padding: 0;
+  padding-left: 13px;
+}
+
+.tree-view > ul {
+  padding-left: 0;
+}
+
+.tree-view li {
+  list-style-type: none;
+}
+
+.tree-view .list-item {
+  cursor: default;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.tree-view .name {
+  background-repeat: no-repeat;
+  background-position: 2px 50%;
+  padding-left: 25px;
+  line-height: 25px;
+  height: 25px;
+  margin-left: 15px;
+}
+
+.tree-view .file > .list-item .name {
+  background-image: url(../../images/file.svg);
+  background-size: 16px 16px;
+}
+
+.tree-view .directory > .list-item .name {
+  background-image: url(../../images/folder.svg);
+  background-size: 16px 16px;
+}
+
+.tree-view .entry.selected:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 25px;
+  background-color: #f5f5f5;
+  z-index: -1;
+}
+
+.tree-view .directory.open > .list-item:before {
+  content: '';
+  position: absolute;
+  width: 15px;
+  height: 25px;
+  background-image: url(../../images/caret-down.svg);
+  background-size: 16px 16px;
+  background-repeat: no-repeat;
+  background-position: 0 50%;
+}
+
+.tree-view .directory.closed > .list-item:before {
+  content: '';
+  position: absolute;
+  width: 15px;
+  height: 25px;
+  background-image: url(../../images/caret-right.svg);
+  background-size: 16px 16px;
+  background-repeat: no-repeat;
+  background-position: 0 50%;
+}
+
+.tree-view .file > .list-item:before {
+  content: '';
+  position: absolute;
+  width: 15px;
+  height: 25px;
+}
+
+.tree-view .directory.closed > ul {
+  display: none;
+}
+
+// text
+.tree-view .file > .list-item .name[data-content-type = 'text/plain']              {background-image: url(../../images/icons/txt.svg);}
+.tree-view .file > .list-item .name[data-content-type = 'text/html']               {background-image: url(../../images/icons/html.svg);}
+.tree-view .file > .list-item .name[data-content-type = 'application/json']        {background-image: url(../../images/icons/json.svg);}
+.tree-view .file > .list-item .name[data-content-type = 'application/xml']         {background-image: url(../../images/icons/xml.svg);}
+.tree-view .file > .list-item .name[data-content-type = 'text/css']                {background-image: url(../../images/icons/css.svg);}
+
+// script
+.tree-view .file > .list-item .name[data-content-type = 'text/javascript']         {background-image: url(../../images/icons/js.svg);}
+.tree-view .file > .list-item .name[data-content-type = 'application/javascript']  {background-image: url(../../images/icons/js.svg);}
+
+// image
+.tree-view .file > .list-item .name[data-content-type = 'image/png']     {background-image: url(../../images/icons/png.svg);}
+.tree-view .file > .list-item .name[data-content-type = 'image/gif']     {background-image: url(../../images/icons/gif.svg);}
+.tree-view .file > .list-item .name[data-content-type = 'image/bmp']     {background-image: url(../../images/icons/bmp.svg);}
+.tree-view .file > .list-item .name[data-content-type = 'image/webp']    {background-image: url(../../images/icons/webp.svg);}
+.tree-view .file > .list-item .name[data-content-type = 'image/jpeg']    {background-image: url(../../images/icons/jpg.svg);}
+.tree-view .file > .list-item .name[data-content-type = 'image/svg+xml'] {background-image: url(../../images/icons/svg.svg);}
+
+// video
+.tree-view .file > .list-item .name[data-content-type = 'video/webm'] {background-image: url(../../images/icons/webm.svg);}
+.tree-view .file > .list-item .name[data-content-type = 'video/ogg']  {background-image: url(../../images/icons/ogg.svg);}
+.tree-view .file > .list-item .name[data-content-type = 'video/mp4']  {background-image: url(../../images/icons/mp4.svg);}
+
+// audio
+.tree-view .file > .list-item .name[data-content-type = 'audio/midi'] {background-image: url(../../images/icons/midi.svg);}
+.tree-view .file > .list-item .name[data-content-type = 'audio/mpeg'] {background-image: url(../../images/icons/mpeg.svg);}
+.tree-view .file > .list-item .name[data-content-type = 'audio/webm'] {background-image: url(../../images/icons/webm.svg);}
+.tree-view .file > .list-item .name[data-content-type = 'audio/wav']  {background-image: url(../../images/icons/wav.svg);}
+
+// document
+.tree-view .file > .list-item .name[data-content-type = 'application/msword']            {background-image: url(../../images/icons/docx.svg);}
+.tree-view .file > .list-item .name[data-content-type = 'application/vnd.ms-powerpoint'] {background-image: url(../../images/icons/pptx.svg);}
+.tree-view .file > .list-item .name[data-content-type = 'application/vnd.ms-excel']      {background-image: url(../../images/icons/xlsx.svg);}
+.tree-view .file > .list-item .name[data-content-type = 'application/pdf']               {background-image: url(../../images/icons/pdf.svg);}
+.tree-view .file > .list-item .name[data-content-type = 'application/zip']               {background-image: url(../../images/icons/zip.svg);}
+
+// font
+.tree-view .file > .list-item .name[data-content-type = 'font/otf']                      {background-image: url(../../images/icons/otf.svg);}
+.tree-view .file > .list-item .name[data-content-type = 'font/ttf']                      {background-image: url(../../images/icons/ttf.svg);}
+.tree-view .file > .list-item .name[data-content-type = 'application/font-ttf']          {background-image: url(../../images/icons/ttf.svg);}
+.tree-view .file > .list-item .name[data-content-type = 'application/vnd.ms-fontobject'] {background-image: url(../../images/icons/ttf.svg);}
+.tree-view .file > .list-item .name[data-content-type = 'font/woff']                     {background-image: url(../../images/icons/woff.svg);}
+.tree-view .file > .list-item .name[data-content-type = 'application/font-woff']         {background-image: url(../../images/icons/woff.svg);}
+.tree-view .file > .list-item .name[data-content-type = 'font/woff2']                    {background-image: url(../../images/icons/woff2.svg);}

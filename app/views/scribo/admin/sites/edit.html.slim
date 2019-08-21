@@ -11,5 +11,4 @@
     =< link_to(t('scribo.context_menu.add_asset'), new_admin_site_asset_path(@site), class: 'btn btn-primary')
     =< link_to(t('scribo.context_menu.add_content'), new_admin_site_content_path(@site), class: 'btn btn-primary')
 - unless @site.new_record?
-  = render 'scribo/shared/ide' do
-    p Hi
+  = render 'scribo/shared/ide'

@@ -1,113 +1,3 @@
-/* CSS Tree menu styles */
-ol.ui-tree {
-  padding: 0 0 0 30px;
-  width: 300px;
-}
-
-li {
-  position: relative;
-  margin-left: -15px;
-  list-style: none;
-}
-
-li.ui-file {
-  margin-left: -1px !important;
-}
-
-li.ui-file a {
-  background: url(../images/file.svg) 0 0 no-repeat;
-  background-size: 16px 16px;
-  //color: #fff;
-  padding-left: 21px;
-  text-decoration: none;
-  display: block;
-}
-
-li.ui-file a[data-content-type = 'text/plain'] {
-  background: url(../images/icons/txt.svg) 0 0 no-repeat;
-  background-size: 16px 16px;
-}
-
-li.ui-file a[data-content-type = 'text/html'] {
-  background: url(../images/icons/html.svg) 0 0 no-repeat;
-  background-size: 16px 16px;
-}
-
-li.ui-file a[data-content-type = 'text/css'] {
-  background: url(../images/icons/css.svg) 0 0 no-repeat;
-  background-size: 16px 16px;
-}
-
-li.ui-file a[data-content-type = 'text/javascript'] {
-  background: url(../images/icons/js.svg) 0 0 no-repeat;
-  background-size: 16px 16px;
-}
-
-li.ui-file a[data-content-type = 'image/png'] {
-  background: url(../images/icons/png.svg) 0 0 no-repeat;
-  background-size: 16px 16px;
-}
-
-li.ui-file a[data-content-type = 'image/jpeg'] {
-  background: url(../images/icons/jpg.svg) 0 0 no-repeat;
-  background-size: 16px 16px;
-}
-
-li.ui-file a[data-content-type = 'application/pdf'] {
-  background: url(../images/icons/pdf.svg) 0 0 no-repeat;
-  background-size: 16px 16px;
-}
-
-li input {
-  position: absolute;
-  left: 0;
-  margin-left: 0;
-  opacity: 0;
-  z-index: 2;
-  cursor: pointer;
-  height: 1em;
-  width: 1em;
-  top: 0;
-}
-
-li input + ol {
-  background: url(../images/caret-right.svg) 40px 0 no-repeat;
-  background-size: 16px 16px;
-
-  margin: -0.938em 0 0 -44px; /* 15px */
-  height: 1em;
-}
-
-li input + ol > li {
-  display: none;
-  margin-left: -14px !important;
-  padding-left: 1px;
-}
-
-li label {
-  background: url(../images/folder.svg) 15px 1px no-repeat;
-  cursor: pointer;
-  display: block;
-  padding-left: 37px;
-}
-
-li input:checked + ol {
-  background: url(../images/caret-down.svg) 40px 5px no-repeat;
-  background-size: 16px 16px;
-  margin: -2em 0 0 -44px; /* 20px */
-  padding: 1.563em 0 0 80px;
-  height: auto;
-}
-
-li input:checked + ol > li {
-  display: block;
-  margin: 0 0 0.125em; /* 2px */
-}
-
-li input:checked + ol > li:last-child {
-  margin: 0 0 0.063em; /* 1px */
-}
-
 .ide {
   .heading {
     height: 25px;
@@ -122,5 +12,9 @@ li input:checked + ol > li:last-child {
       width: 100px;
       display: block;
     }
+  }
+
+  .editor-area {
+    width: 100%;
   }
 }
