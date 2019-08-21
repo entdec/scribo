@@ -1,7 +1,7 @@
 const path = require('path');
-const CopyWebpackPlugin = require('copy-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
-// const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   entry: ['./frontend/src/javascript/scribo.js'],
@@ -23,6 +23,9 @@ module.exports = {
     //   filename: 'scribo.css',
     //   allChunks: true,
     // }),
+    new MiniCssExtractPlugin({
+      filename: 'scribo.css'
+    }),
   ],
   module: {
     rules: [
@@ -38,12 +41,14 @@ module.exports = {
         }
       },
       {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
-      },
-      { // sass / scss loader for webpack
-        test: /\.(sass|scss)$/,
-        loader: ['css-loader', 'sass-loader']
+        test: /\.(sass|scss|css)$/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+          },
+          'css-loader?sourceMap=false',
+          'sass-loader?sourceMap=false'
+        ]
       },
       {
         test: /\.(|ttf|eot|svg|woff2?)(\?[\s\S]+)?$/,
