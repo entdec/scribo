@@ -4,7 +4,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
-  entry: ['./frontend/src/javascript/scribo.js'],
+  entry: ['./frontend/src/javascript/scribo.js','./frontend/src/style/scribo.scss'],
   output: {
     path: __dirname + '/frontend/dist',
     filename: 'scribo.js',
@@ -30,6 +30,16 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.(png|jp(e*)g|svg)$/,
+        use: [{
+          loader: 'url-loader',
+          options: {
+            limit: 8000, // Convert images < 8kb to base64 strings
+            // name: 'images/[hash]-[name].[ext]'
+          }
+        }]
+      },
+      {
         test: /\.js$/,
         exclude: /(node_modules|bower_components)/,
         use: {
@@ -49,11 +59,7 @@ module.exports = {
           'css-loader?sourceMap=false',
           'sass-loader?sourceMap=false'
         ]
-      },
-      {
-        test: /\.(|ttf|eot|svg|woff2?)(\?[\s\S]+)?$/,
-        use: 'file-loader',
-      },
+      }
     ]
   },
   resolve: {

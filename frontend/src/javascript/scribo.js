@@ -1,10 +1,3 @@
-import "../images/caret-down.svg";
-import "../images/caret-right.svg";
-import "../images/folder.svg";
-import "../images/icons";
-
-import "../style/scribo.scss";
-
 import { definitionsFromContext } from "stimulus/webpack-helpers"
 
 export class Scribo {

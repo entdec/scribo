@@ -1,5 +1,5 @@
 /* CSS Tree menu styles */
-ol.tree {
+ol.ui-tree {
   padding: 0 0 0 30px;
   width: 300px;
 }
@@ -10,32 +10,52 @@ li {
   list-style: none;
 }
 
-li.file {
+li.ui-file {
   margin-left: -1px !important;
 }
 
-li.file a {
+li.ui-file a {
   background: url(../images/file.svg) 0 0 no-repeat;
-  color: #fff;
+  background-size: 16px 16px;
+  //color: #fff;
   padding-left: 21px;
   text-decoration: none;
   display: block;
 }
 
-li.file a[href *= '.pdf'] {
-  background: url(../images/file.svg) 0 0 no-repeat;
+li.ui-file a[data-content-type = 'text/plain'] {
+  background: url(../images/icons/txt.svg) 0 0 no-repeat;
+  background-size: 16px 16px;
 }
 
-li.file a[href *= '.html'] {
-  background: url(../images/file.svg) 0 0 no-repeat;
+li.ui-file a[data-content-type = 'text/html'] {
+  background: url(../images/icons/html.svg) 0 0 no-repeat;
+  background-size: 16px 16px;
 }
 
-li.file a[href $= '.css'] {
-  background: url(../images/file.svg) 0 0 no-repeat;
+li.ui-file a[data-content-type = 'text/css'] {
+  background: url(../images/icons/css.svg) 0 0 no-repeat;
+  background-size: 16px 16px;
 }
 
-li.file a[href $= '.js'] {
-  background: url(../images/file.svg) 0 0 no-repeat;
+li.ui-file a[data-content-type = 'text/javascript'] {
+  background: url(../images/icons/js.svg) 0 0 no-repeat;
+  background-size: 16px 16px;
+}
+
+li.ui-file a[data-content-type = 'image/png'] {
+  background: url(../images/icons/png.svg) 0 0 no-repeat;
+  background-size: 16px 16px;
+}
+
+li.ui-file a[data-content-type = 'image/jpeg'] {
+  background: url(../images/icons/jpg.svg) 0 0 no-repeat;
+  background-size: 16px 16px;
+}
+
+li.ui-file a[data-content-type = 'application/pdf'] {
+  background: url(../images/icons/pdf.svg) 0 0 no-repeat;
+  background-size: 16px 16px;
 }
 
 li input {
@@ -52,6 +72,8 @@ li input {
 
 li input + ol {
   background: url(../images/caret-right.svg) 40px 0 no-repeat;
+  background-size: 16px 16px;
+
   margin: -0.938em 0 0 -44px; /* 15px */
   height: 1em;
 }
@@ -70,7 +92,8 @@ li label {
 }
 
 li input:checked + ol {
-  background: url(../images/caret-down.svg) 40px 5px no-repeat;
+  background: url(../images/caret-down.svg) 40px -6px no-repeat;
+  background-size: 16px 16px;
   margin: -1.25em 0 0 -44px; /* 20px */
   padding: 1.563em 0 0 80px;
   height: auto;
@@ -83,4 +106,21 @@ li input:checked + ol > li {
 
 li input:checked + ol > li:last-child {
   margin: 0 0 0.063em; /* 1px */
+}
+
+.ide {
+  .heading {
+    height: 25px;
+    display: block
+  }
+
+  .tabs {
+    height: 25px;
+    display: block;
+
+    .tab {
+      width: 100px;
+      display: block;
+    }
+  }
 }
