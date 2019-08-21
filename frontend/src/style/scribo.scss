@@ -92,9 +92,9 @@ li label {
 }
 
 li input:checked + ol {
-  background: url(../images/caret-down.svg) 40px -6px no-repeat;
+  background: url(../images/caret-down.svg) 40px 5px no-repeat;
   background-size: 16px 16px;
-  margin: -1.25em 0 0 -44px; /* 20px */
+  margin: -2em 0 0 -44px; /* 20px */
   padding: 1.563em 0 0 80px;
   height: auto;
 }

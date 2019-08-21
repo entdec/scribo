@@ -1,5 +1,5 @@
 const path = require('path');
-const CleanWebpackPlugin = require('clean-webpack-plugin')
+// const CleanWebpackPlugin = require('clean-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
@@ -12,7 +12,7 @@ module.exports = {
     libraryTarget: 'umd'
   },
   plugins: [
-    new CleanWebpackPlugin(['frontend/dist'],  {}),
+    // new CleanWebpackPlugin(['frontend/dist'],  {}),
     new MiniCssExtractPlugin({
       filename: 'scribo.css'
     }),
