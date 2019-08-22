@@ -3,9 +3,9 @@ import "./tree-view.scss";
 import "element-closest";
 
 /***
- * IDE controller
+ * Treeview controller
  *
- * Used to copy a bit of text
+ * Manages the tree view
  */
 export default class extends Controller {
 
