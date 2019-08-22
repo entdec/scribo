@@ -2,6 +2,11 @@
 # yarn lockfile v1
 
 
+"@gitlab/svgs@^1.68.0":
+  version "1.68.0"
+  resolved "https://registry.yarnpkg.com/@gitlab/svgs/-/svgs-1.68.0.tgz#d631bd84ea7907592240d8417e82ba66d6a54c0c"
+  integrity sha512-3JmIq0bHg4InjLooM+kQFPfg3d7B1Pye67pN9+12kZXIa0nRGuwKEq3WSbcS+ACdg5jcVPNPYqStItEO4teHdw==
+
 "@stimulus/core@^1.1.1":
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@stimulus/core/-/core-1.1.1.tgz#42b0cfe5b73ca492f41de64b77a03980bae92c82"
@@ -1986,6 +1991,11 @@ electron-to-chromium@^1.2.7, electron-to-chromium@^1.3.47:
   version "1.3.111"
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.111.tgz#9bde11c953425c1756f85c66e61de2b74ced75d0"
   integrity sha512-I2QjmmxWULp89fEHlFwRpKXSw4Y/Igo3u41py4MkzJTrgDOf/S4oq/IMuTUHze/5TTPpwem74oQiPMEgFtuDRA==
+
+element-closest@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/element-closest/-/element-closest-3.0.1.tgz#0b2000266ae43a800274401dc39486f5e4bfbce2"
+  integrity sha512-Wm8B0in+k6GsSCra8vLVnFIjIrff2T1s2b++jU6VL6mqIteP19THxDXwT5JDrmJPlqT3YifOK9cu28+uRGUdew==
 
 elliptic@^6.0.0:
   version "6.4.1"

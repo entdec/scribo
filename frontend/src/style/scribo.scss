@@ -1,20 +1,13 @@
 .ide {
-  .heading {
-    height: 25px;
-    display: block
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+
+  .explorer-pane {
+    flex: 0 0 340px;
   }
 
-  .tabs {
-    height: 25px;
-    display: block;
-
-    .tab {
-      width: 100px;
-      display: block;
-    }
-  }
-
-  .editor-area {
-    width: 100%;
+  .editor-pane {
+    flex: 1;
   }
 }

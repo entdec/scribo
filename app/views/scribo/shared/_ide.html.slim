@@ -1,10 +1,9 @@
-.ide.d-flex id="ide"
-  .tree
-    .heading
+.ide id="ide"
+  .explorer-pane
     .tree-view data-controller="tree-view"
       ul
         li.entry.directory.open
-          .list-item
+          a.list-item
             span.name Contents
           ul
             - @contents.each do |content|
@@ -12,13 +11,13 @@
                 = link_to(edit_admin_site_content_url(content.site, content), class: 'list-item') do
                   span.name data-content-type="#{content.content_type}" = content.path || content.name || content.identifier
         li.entry.directory.open
-          .list-item
+          a.list-item
             span.name Assets
           ul
             - Scribo.config.supported_mime_types.keys.reject {|i| i == :text }.each_with_index do |cg, index|
               - if @assets.content_group(cg).count > 0
                 li.entry.directory.open
-                  .list-item
+                  a.list-item
                     span.name =cg
                   ul
                     - @assets.content_group(cg).each_slice(6) do |assets|
@@ -26,5 +25,5 @@
                         li.entry.file
                           = link_to(edit_admin_site_asset_url(content.site, content), class: 'list-item') do
                             span.name data-content-type="#{content.content_type}" = content.path || content.name || content.identifier
-  .editor-area
+  .editor-pane
     = yield
