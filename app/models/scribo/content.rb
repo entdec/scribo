@@ -125,7 +125,7 @@ module Scribo
         scope << identifier
       else
         p = path.tr('/', '.')[1..-1]
-        scope << p.present? ? p : 'index'
+        scope << (p.present? ? p : 'index')
       end
       scope.join('.')
     end
