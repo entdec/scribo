@@ -92,6 +92,7 @@
 // script
 .tree-view .file > .list-item .name[data-content-type = 'text/javascript']         {background-image: url(../../images/icons/js.svg);}
 .tree-view .file > .list-item .name[data-content-type = 'application/javascript']  {background-image: url(../../images/icons/js.svg);}
+.tree-view .file > .list-item .name[data-content-type = 'application/x-javascript']{background-image: url(../../images/icons/js.svg);}
 
 // image
 .tree-view .file > .list-item .name[data-content-type = 'image/png']     {background-image: url(../../images/icons/png.svg);}
