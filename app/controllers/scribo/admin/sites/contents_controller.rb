@@ -42,7 +42,7 @@ module Scribo
       private
 
       def set_objects
-        @site = Scribo::Site.find(params[:site_id])
+        @site          = Scribo::Site.find(params[:site_id])
         @contents      = @site.contents.where(kind: %w[text redirect]).order('lft ASC')
         @content       = if params[:id]
                            Content.where(site: params[:site_id]).where(kind: %w[text redirect]).find(params[:id])
@@ -51,11 +51,13 @@ module Scribo
                          end
         @layouts       = @site.contents.where(kind: %w[text redirect]).where.not(identifier: nil).where.not(id: @content.id)
         @content_types = Scribo.config.supported_mime_types[:text]
+        @content_types += Scribo.config.supported_mime_types[:script]
+        @content_types += Scribo.config.supported_mime_types[:style]
         @states        = Scribo::Content.state_machine.states.map(&:value)
-        @sites = Scribo::Site.order(:name)
-        @kinds = %w[text redirect]
+        @sites         = Scribo::Site.order(:name)
+        @kinds         = %w[text redirect]
 
-        @assets = @site.contents.where(kind: 'asset').order(:path, :identifier) if @site
+        @assets        = @site.contents.where(kind: 'asset').order(:path, :identifier) if @site
 
         add_breadcrumb I18n.t('scribo.breadcrumbs.admin.sites'), :admin_sites_path if defined? add_breadcrumb
         add_breadcrumb(@site.name, edit_admin_site_path(@site)) if defined? add_breadcrumb
@@ -64,7 +66,7 @@ module Scribo
 
       def content_params
         params.require(:content).permit(:kind, :state, :path, :content_type, :layout_id, :parent_id, :position, :breadcrumb, :name, :identifier, :filter, :title, :keywords, :description, :data).tap do |w|
-          w[:kind] = 'text' if w[:kind].blank?
+          w[:kind]       = 'text' if w[:kind].blank?
           w[:properties] = YAML.safe_load(params[:content][:properties])
         end
       end
