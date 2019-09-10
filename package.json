@@ -14,7 +14,10 @@
   },
   "browserslist": "> 1%",
   "dependencies": {
+    "codemirror": "^5.30.0",
     "element-closest": "^3.0.1",
+    "monaco-editor": "^0.18.0",
+    "monaco-editor-webpack-plugin": "^1.7.0",
     "stimulus": "^1.1.0"
   },
   "devDependencies": {

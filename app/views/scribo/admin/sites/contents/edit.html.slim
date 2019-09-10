@@ -38,6 +38,7 @@
           = f.input :title
 
     = f.input :properties, as: :code_mirror, input_html: {value: YAML.dump(f.object.properties), data: { height: '80px', lang: 'application/yaml', mode: {name: 'liquid', base: 'application/yaml'}}}
-    = f.input :data, as: :code_mirror, input_html: {data: { height: '800px', lang: 'text/html', mode: {name: 'liquid', base: 'text/html'}}}
+    = f.input :data, as: :hidden, input_html: {data: { height: '800px', lang: 'text/html', mode: {name: 'liquid', base: 'text/html'}}}
+    div data-controller='editor'
 
 = render partial: 'scribo/shared/site_context'

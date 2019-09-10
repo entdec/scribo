@@ -6,9 +6,7 @@ Scribo::Engine.routes.draw do
     resources :sites do
       resources :assets, controller: 'sites/assets'
       resources :contents, controller: 'sites/contents' do
-        member do
-          post :preview
-        end
+        resources :parts, controller: 'sites/contents/parts'
       end
 
       member do

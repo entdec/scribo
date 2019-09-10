@@ -8,3 +8,4 @@ test/dummy/tmp/
 /.idea
 /.idea/*
 Gemfile.lock
+node_modules
