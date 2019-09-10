@@ -2,7 +2,6 @@ const path = require('path');
 // const CleanWebpackPlugin = require('clean-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 
 module.exports = {
   entry: './frontend/src/javascript/scribo.js',
@@ -16,8 +15,7 @@ module.exports = {
     // new CleanWebpackPlugin(['frontend/dist'],  {}),
     new MiniCssExtractPlugin({
       filename: 'scribo.css'
-    }),
-    new MonacoWebpackPlugin()
+    })
   ],
   module: {
     rules: [

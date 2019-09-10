@@ -1,5 +1,4 @@
 import { Controller } from "stimulus"
-import * as monaco from 'monaco-editor';
 
 /***
  * IDE controller
@@ -15,15 +14,6 @@ export default class extends Controller {
         console.log("ohai");
         console.log(self.editorTargets);
         console.log(self.tabTargets);
-
-        var editor = monaco.editor.create(self.editorTarget, {
-            value: [
-                'function x() {',
-                '\tconsole.log("Hello world!");',
-                '}'
-            ].join('\n'),
-            language: 'javascript'
-        });
 
     }
 
