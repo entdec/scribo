@@ -1,43 +1,36 @@
 = render 'scribo/shared/ide' do
   = simple_form_for([:admin, @site, @content], html: {multipart: true}) do |f|
 
-    .row
-      .col-sm-4
-        = f.input :path
-      .col-sm-4
-        = f.input :identifier
-      .col-sm-4
-        .actions.float-right
-          = f.button :button, 'Save', name: 'commit', value: 'save', class: 'btn-primary', data: { disable_with: 'Save' }
-          a.btn data-toggle='collapse' data-target='#advancedContainer' Advanced
+    .row style="position: absolute; width: 100%; height: 100%;"
+      .col-sm-10
+        textarea name='content[data]' data-controller="editor" data-editor-mode="#{@content.content_type}"
+          = @content.data
 
-    .collapse#advancedContainer
-      .row
-        .col-sm-4
-          = f.input :content_type, collection: @content_types, include_blank: false
-        .col-sm-4
-          = f.input :state, collection: @states, selected: @content.state, include_blank: true
-        .col-sm-4
-          = f.input :kind, collection: @kinds, selected: @content.kind
+      .col-sm-2
+        .row
+          .col-sm-12
+            button name='commit' value='save' class="btn btn-primary"
+              i.fas.fa-save
+            a.btn data-toggle='collapse' data-target='#advancedContainer'
+              i.fas.fa-info
 
-      .row
-        .col-sm-4
-          = f.input :name
-        .col-sm-4
-          = f.input :filter
+        .row
+          .col-sm-12
+            br
+            = f.input :path
+            = f.input :identifier
+            = f.association :layout, collection: @layouts, selected: @content.layout_id, label_method: :identifier, include_blank: true
 
-      .row
-        .col-sm-4
-          = f.association :layout, collection: @layouts, selected: @content.layout_id, label_method: :identifier, include_blank: true
-        .col-sm-4
-          = f.association :parent, collection: @contents, selected: @content.parent_id, label_method: :identifier, include_blank: true
-        .col-sm-4
-          /= f.input :position
-      .row
-        .col-sm-3
-          = f.input :title
+            = f.input :content_type, collection: @content_types, include_blank: false
+            = f.input :state, collection: @states, selected: @content.state, include_blank: true
+            = f.input :kind, collection: @kinds, selected: @content.kind
 
-    = f.input :properties, as: :code_mirror, input_html: {value: YAML.dump(f.object.properties), data: { height: '80px', lang: 'application/yaml', mode: {name: 'liquid', base: 'application/yaml'}}}
-    = f.input :data, as: :code_mirror, input_html: {data: { height: '800px', lang: 'text/html', mode: {name: 'liquid', base: 'text/html'}}}
+            .collapse#advancedContainer
+              = f.input :name
+              = f.input :filter
+
+              = f.association :parent, collection: @contents, selected: @content.parent_id, label_method: :identifier, include_blank: true
+              = f.input :title
+              = f.input :properties, as: :code_mirror, input_html: {value: YAML.dump(f.object.properties), data: { height: '80px', lang: 'application/yaml', mode: {name: 'liquid', base: 'application/yaml'}}}
 
 = render partial: 'scribo/shared/site_context'

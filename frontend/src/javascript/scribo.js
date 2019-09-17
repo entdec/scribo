@@ -5,7 +5,7 @@ import { Application } from "stimulus"
 
 export class Scribo {
   static start(application) {
-    if(!application) {
+    if (!application) {
       application = Application.start();
     }
     console.log("Scribo");

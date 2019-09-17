@@ -13,7 +13,7 @@ module Scribo
       end
 
       def create
-        flash_and_redirect @content.save, admin_site_contents_url(@site), 'Content created successfully', 'There were problems creating the content'
+        flash_and_redirect @content.save, edit_admin_site_content_url(@site, @content), 'Content created successfully', 'There were problems creating the content'
       end
 
       def index
