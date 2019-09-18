@@ -15,10 +15,18 @@ export default class extends Controller {
     }
 
     start(event) {
-        if (window.Turbolinks) {
-            Turbolinks.visit(this.data.get('url'));
-        } else {
-            window.location.href = this.data.get('url');
+        let result = true;
+        if (this.data.get('confirm')) {
+            result = confirm(this.data.get('confirm'))
+        }
+
+        if (result) {
+            // Hack
+            if (window.Turbolinks && !this.data.get('method')) {
+                Turbolinks.visit(this.data.get('url'));
+            } else {
+                window.location.href = this.data.get('url');
+            }
         }
         event.stopPropagation();
     }

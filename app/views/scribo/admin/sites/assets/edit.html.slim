@@ -29,9 +29,6 @@
               i.fas.fa-save
             a.btn data-toggle='collapse' data-target='#advancedContainer'
               i.fas.fa-info
-            - if @content.persisted?
-              a.btn.btn-danger href=admin_site_asset_path(@site, @content) data-confirm="Are you sure?" data-method="delete"
-                i.fas.fa-trash-alt
 
         .row
           .col-sm-12

@@ -12,6 +12,9 @@
               li.entry.file
                 a.list-item data-controller="tree-item" data-action="click->tree-item#start" data-tree-item-url="#{edit_admin_site_content_url(content.site, content)}"
                   span.name data-content-type="#{content.content_type}" = content.path || content.name || content.identifier
+                  .tools
+                    i.fas.fa-trash-alt data-controller="tool" data-action="click->tool#start" data-tool-url="#{destroy_admin_site_content_path(@site, content)}" data-tool-method="delete" data-tool-confirm="Are you sure?"
+
         li.entry.directory.open
           a.list-item
             span.name Assets
@@ -24,5 +27,8 @@
                   li.entry.file
                     a.list-item data-controller="tree-item" data-action="click->tree-item#start" data-tree-item-url="#{edit_admin_site_asset_url(content.site, content)}"
                       span.name data-content-type="#{content.content_type}" = content.path || content.name || content.identifier
+                      .tools
+                        i.fas.fa-trash-alt data-controller="tool" data-action="click->tool#start" data-tool-url="#{destroy_admin_site_asset_path(@site, content)}" data-tool-method="delete" data-tool-confirm="Are you sure?"
+
   .editor-pane
     = yield

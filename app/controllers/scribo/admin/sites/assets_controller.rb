@@ -34,7 +34,7 @@ module Scribo
       end
 
       def destroy
-        flash_and_redirect @content.destroy, edit_admin_site_path(@site), 'Asset deleted successfully', 'There were problems deleting the asset'
+        flash_and_redirect @content.destroy, edit_admin_site_asset_url(@site, @assets.first), 'Asset deleted successfully', 'There were problems deleting the asset'
       end
 
       private

@@ -40,7 +40,7 @@ module Scribo
       end
 
       def destroy
-        flash_and_redirect @content.destroy, edit_admin_site_path(@site), 'Content deleted successfully', 'There were problems deleting the content'
+        flash_and_redirect @content.destroy, edit_admin_site_content_url(@site, @contents.first), 'Content deleted successfully', 'There were problems deleting the content'
       end
 
       private

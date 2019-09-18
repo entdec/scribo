@@ -59,7 +59,7 @@
   padding-left: 0px;
 }
 
-.tree-view .directory > .list-item > .tools {
+.tree-view .list-item > .tools {
   display: none;
   position: absolute;
   right: 5px;
@@ -69,8 +69,12 @@
     }
 }
 
-.tree-view .directory > .list-item:hover > .tools {
+.tree-view .list-item:hover > .tools {
   display: inline;
+
+  a {
+    display: inline;
+  }
 }
 
 .tree-view .directory.closed > .list-item .name {
