@@ -5,20 +5,24 @@
         li.entry.directory.open
           a.list-item
             span.name Contents
+            .tools
+              i.fas.fa-file-medical data-controller="tool" data-action="click->tool#start" data-tool-url="#{new_admin_site_content_path(@site)}"
           ul
             - @contents.each do |content|
               li.entry.file
-                = link_to(edit_admin_site_content_url(content.site, content), class: 'list-item') do
+                a.list-item data-controller="tree-item" data-action="click->tree-item#start" data-tree-item-url="#{edit_admin_site_content_url(content.site, content)}"
                   span.name data-content-type="#{content.content_type}" = content.path || content.name || content.identifier
         li.entry.directory.open
           a.list-item
             span.name Assets
+            .tools
+              i.fas.fa-file-medical data-controller="tool" data-action="click->tool#start" data-tool-url="#{new_admin_site_asset_path(@site)}"
           ul
             - Scribo.config.supported_mime_types.keys.reject {|i| i == :text }.each_with_index do |cg, index|
               - @assets.content_group(cg).each_slice(6) do |assets|
                 - assets.each do |content|
                   li.entry.file
-                    = link_to(edit_admin_site_asset_url(content.site, content), class: 'list-item') do
+                    a.list-item data-controller="tree-item" data-action="click->tree-item#start" data-tree-item-url="#{edit_admin_site_asset_url(content.site, content)}"
                       span.name data-content-type="#{content.content_type}" = content.path || content.name || content.identifier
   .editor-pane
     = yield

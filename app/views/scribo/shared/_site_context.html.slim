@@ -1,5 +1,0 @@
-- content_for :context_menu do
-  - unless @site.new_record?
-    =< link_to(t('scribo.context_menu.export'), export_admin_site_path(@site), class: 'btn', 'data-turbolinks' => 'false')
-    =< link_to(t('scribo.context_menu.add_asset'), new_admin_site_asset_path(@site), class: 'btn')
-    =< link_to(t('scribo.context_menu.add_content'), new_admin_site_content_path(@site), class: 'btn')

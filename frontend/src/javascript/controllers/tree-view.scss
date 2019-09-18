@@ -40,6 +40,7 @@
     display: block;
     border-radius: 4px;
     padding-left: 4px;
+    position: relative;
   }
 
   a.list-item:hover {
@@ -56,6 +57,20 @@
   background-image: url(../../images/file.svg);
   background-size: 16px 16px;
   padding-left: 0px;
+}
+
+.tree-view .directory > .list-item > .tools {
+  display: none;
+  position: absolute;
+  right: 5px;
+
+    i {
+      padding: 5px;
+    }
+}
+
+.tree-view .directory > .list-item:hover > .tools {
+  display: inline;
 }
 
 .tree-view .directory.closed > .list-item .name {

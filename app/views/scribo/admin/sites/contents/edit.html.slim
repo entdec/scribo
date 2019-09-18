@@ -36,4 +36,3 @@
               = f.input :title
               = f.input :properties, as: :code_mirror, input_html: {value: YAML.dump(f.object.properties), data: { height: '80px', lang: 'application/yaml', mode: {name: 'liquid', base: 'application/yaml'}}}
 
-= render partial: 'scribo/shared/site_context'
