@@ -39,6 +39,10 @@ module Scribo
         render body: @content.render(request: ActionDispatch::RequestDrop.new(request)), content_type: @content.content_type, layout: false
       end
 
+      def destroy
+        flash_and_redirect @content.destroy, edit_admin_site_path(@site), 'Content deleted successfully', 'There were problems deleting the content'
+      end
+
       private
 
       def set_objects

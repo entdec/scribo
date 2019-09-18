@@ -33,6 +33,10 @@ module Scribo
         redirect_to admin_site_assets_path(@site)
       end
 
+      def destroy
+        flash_and_redirect @content.destroy, edit_admin_site_path(@site), 'Asset deleted successfully', 'There were problems deleting the asset'
+      end
+
       private
 
       def set_objects

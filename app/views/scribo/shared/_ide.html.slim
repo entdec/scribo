@@ -15,15 +15,10 @@
             span.name Assets
           ul
             - Scribo.config.supported_mime_types.keys.reject {|i| i == :text }.each_with_index do |cg, index|
-              - if @assets.content_group(cg).count > 0
-                li.entry.directory.open
-                  a.list-item
-                    span.name =cg
-                  ul
-                    - @assets.content_group(cg).each_slice(6) do |assets|
-                      - assets.each do |content|
-                        li.entry.file
-                          = link_to(edit_admin_site_asset_url(content.site, content), class: 'list-item') do
-                            span.name data-content-type="#{content.content_type}" = content.path || content.name || content.identifier
+              - @assets.content_group(cg).each_slice(6) do |assets|
+                - assets.each do |content|
+                  li.entry.file
+                    = link_to(edit_admin_site_asset_url(content.site, content), class: 'list-item') do
+                      span.name data-content-type="#{content.content_type}" = content.path || content.name || content.identifier
   .editor-pane
     = yield
