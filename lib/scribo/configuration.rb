@@ -24,7 +24,7 @@ module Scribo
           audio:    %w[audio/midi audio/mpeg audio/webm audio/ogg audio/wav],
           video:    %w[video/webm video/ogg video/mp4],
           document: %w[application/msword application/vnd.ms-powerpoint application/vnd.ms-excel application/pdf application/zip],
-          font:     %w[font/collection font/otf font/sfnt font/ttf font/woff font/woff2 application/font-ttf application/vnd.ms-fontobject application/font-woff],
+          font:     %w[font/collection font/otf font/sfnt font/ttf font/woff font/woff2 application/font-ttf application/x-font-ttf application/vnd.ms-fontobject application/font-woff],
           other:    %w[application/octet-stream]
       }
       @default_404_txt = '404 Not Found'

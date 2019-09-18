@@ -124,6 +124,7 @@
 .tree-view .file > .list-item .name[data-content-type = 'font/otf']                      {background-image: url(../../images/icons/otf.svg);}
 .tree-view .file > .list-item .name[data-content-type = 'font/ttf']                      {background-image: url(../../images/icons/ttf.svg);}
 .tree-view .file > .list-item .name[data-content-type = 'application/font-ttf']          {background-image: url(../../images/icons/ttf.svg);}
+.tree-view .file > .list-item .name[data-content-type = 'application/x-font-ttf']        {background-image: url(../../images/icons/ttf.svg);}
 .tree-view .file > .list-item .name[data-content-type = 'application/vnd.ms-fontobject'] {background-image: url(../../images/icons/ttf.svg);}
 .tree-view .file > .list-item .name[data-content-type = 'font/woff']                     {background-image: url(../../images/icons/woff.svg);}
 .tree-view .file > .list-item .name[data-content-type = 'application/font-woff']         {background-image: url(../../images/icons/woff.svg);}

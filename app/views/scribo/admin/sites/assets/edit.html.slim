@@ -3,11 +3,24 @@
 
     .row style="position: absolute; width: 100%; height: 100%;"
       .col-sm-10
-        - if %w[style script].include? @content&.content_type_group
+        - if %w[text style script].include? @content&.content_type_group
           textarea name='content[data]' data-controller="editor" data-editor-mode="#{@content.content_type}"
             = @content.data
         - else
           = f.input :data, as: :file
+          - if %w[image].include? @content&.content_type_group
+            img src=content_path(@content) style="max-width: 100%; border: 1px dashed #ccc;"
+          - if %w[font].include? @content&.content_type_group
+            css:
+              @font-face {
+                font-family: 'MyWebFont';
+                src: url(#{"#{content_path(@content)}"}); /* IE9 Compat Modes */
+              }
+            - for i in [10, 12, 14, 16, 18, 20, 22, 24]
+              div style="font-family: MyWebFont; font-size: #{i}px;"
+                | #{i} - the quick brown fox jumped over the lazy dog.
+                br
+                | #{i} - THE QUICK BROWN FOX JUMPED OVER THE LAZY DOG.
 
       .col-sm-2
         .row
