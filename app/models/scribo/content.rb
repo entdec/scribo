@@ -134,6 +134,19 @@ module Scribo
       super + '-' + I18n.locale.to_s
     end
 
+    def text_based?
+      %w[text style script].include? content_type_group
+    end
+
+    def self.text_based?(ct)
+      %w[text style script].include? content_type_group(ct)
+    end
+
+    # Returns the group of a certain content_type (text/plain => text, image/gif => image)
+    def self.content_type_group(ct)
+      Scribo.config.supported_mime_types.find { |_, v| v.include?(ct) }&.first&.to_s
+    end
+
     private
 
     def nilify_blanks

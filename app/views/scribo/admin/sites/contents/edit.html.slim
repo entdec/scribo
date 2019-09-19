@@ -2,9 +2,28 @@
   = simple_form_for([:admin, @site, @content], html: {multipart: true}) do |f|
 
     .row style="position: absolute; width: 100%; height: 100%;"
-      .col-sm-10
-        textarea name='content[data]' data-controller="editor" data-editor-mode="#{@content.content_type}"
-          = @content.data
+      - if @content.kind == 'asset'
+        .col-sm-10
+          = f.input :data, as: :file
+          - if %w[image].include? @content&.content_type_group
+            img src=content_path(@content) style="max-width: 100%; border: 1px dashed #ccc;"
+          - if %w[font].include? @content&.content_type_group
+            css:
+              @font-face {
+                font-family: 'MyWebFont';
+                src: url(#{"#{content_path(@content)}"}); /* IE9 Compat Modes */
+              }
+            - for i in [10, 12, 14, 16, 18, 20, 22, 24]
+              div style="font-family: MyWebFont; font-size: #{i}px;"
+                | #{i} - the quick brown fox jumped over the lazy dog.
+                br
+                | #{i} - THE QUICK BROWN FOX JUMPED OVER THE LAZY DOG.
+
+      - else
+        .col-sm-10 data-controller="editor" data-editor-mode="#{@content.content_type}"
+          textarea name='content[data]' data-target="editor.textarea"
+            = @content.data || 'Start typing here, or drop one or more files on this area.'
+          input type="file" name="content[files][]" data-target="editor.file" multiple="true" style="margin-left: -200vh;"
 
       .col-sm-2
         .row
@@ -21,7 +40,9 @@
             = f.input :identifier
             = f.association :layout, collection: @layouts, selected: @content.layout_id, label_method: :identifier, include_blank: true
 
-            = f.input :content_type, collection: @content_types, include_blank: false
+            - if @content.kind != 'asset'
+              = f.input :content_type, collection: @content_types, include_blank: false
+
             = f.input :state, collection: @states, selected: @content.state, include_blank: true
             = f.input :kind, collection: @kinds, selected: @content.kind
 

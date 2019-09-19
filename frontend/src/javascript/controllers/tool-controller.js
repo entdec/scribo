@@ -9,9 +9,6 @@ export default class extends Controller {
 
     connect() {
         const self = this;
-
-        console.log("tool");
-
     }
 
     start(event) {

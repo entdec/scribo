@@ -38,7 +38,6 @@
   a.list-item {
     color: #000;
     display: block;
-    border-radius: 4px;
     padding-left: 4px;
     position: relative;
   }
@@ -77,6 +76,10 @@
   }
 }
 
+.tree-view .entry.selected {
+  font-weight: bold;
+}
+
 .tree-view .directory.closed > .list-item .name {
   background-image: url(../../images/folder.svg);
   background-size: 16px 16px;
@@ -87,15 +90,15 @@
   background-size: 16px 16px;
 }
 
-.tree-view .entry.selected:before {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 25px;
-  background-color: #f5f5f5;
-  z-index: -1;
-}
+// .tree-view .entry.selected:before {
+//   content: '';
+//   position: absolute;
+//   left: 0;
+//   right: 0;
+//   height: 25px;
+//   background-color: #f5f5f5;
+//   z-index: -1;
+// }
 
 .tree-view .directory.closed > ul {
   display: none;

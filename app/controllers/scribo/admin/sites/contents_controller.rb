@@ -13,11 +13,33 @@ module Scribo
       end
 
       def create
-        flash_and_redirect @content.save, edit_admin_site_content_url(@site, @content), 'Content created successfully', 'There were problems creating the content'
+        if params[:content][:files]
+
+          contents = []
+          params[:content][:files].each do |file|
+            next unless Content.content_type_supported?(file.content_type)
+
+            c = @site.contents.new(kind: Content.text_based?(file.content_type) ? 'text' : 'asset')
+
+            c.content_type = file.content_type
+            c.path = file.original_filename
+            c.data = file.read
+            c.state = 'published'
+            c.save!
+
+            contents << c
+
+          end
+
+          flash_and_redirect @content.save, edit_admin_site_content_url(@site, contents.first), 'Content created successfully', 'There were problems creating the content'
+        else
+          flash_and_redirect @content.save, edit_admin_site_content_url(@site, @content), 'Content created successfully', 'There were problems creating the content'
+        end
       end
 
       def index
         # nothing here
+        redirect_to edit_admin_site_content_url(@site, @contents.first)
       end
 
       def edit
@@ -49,7 +71,7 @@ module Scribo
         @site          = Scribo::Site.find(params[:site_id])
         @contents      = @site.contents.where(kind: %w[text redirect]).order('lft ASC')
         @content       = if params[:id]
-                           Content.where(site: params[:site_id]).where(kind: %w[text redirect]).find(params[:id])
+                           Content.where(site: params[:site_id]).find(params[:id])
                          else
                            params[:content] ? @site.contents.new(content_params) : @site.contents.new
                          end
@@ -59,7 +81,7 @@ module Scribo
         @content_types += Scribo.config.supported_mime_types[:style]
         @states        = Scribo::Content.state_machine.states.map(&:value)
         @sites         = Scribo::Site.order(:name)
-        @kinds         = %w[text redirect]
+        @kinds         = %w[text redirect asset]
 
         @assets        = @site.contents.where(kind: 'asset').order(:path, :identifier) if @site
 
@@ -69,7 +91,7 @@ module Scribo
       end
 
       def content_params
-        params.require(:content).permit(:kind, :state, :path, :content_type, :layout_id, :parent_id, :position, :breadcrumb, :name, :identifier, :filter, :title, :keywords, :description, :data).tap do |w|
+        params.require(:content).permit(:kind, :state, :path, :content_type, :layout_id, :parent_id, :position, :breadcrumb, :name, :identifier , :filter, :title, :keywords, :description, :data, :caption).tap do |w|
           w[:kind]       = 'text' if w[:kind].blank?
           w[:properties] = YAML.safe_load(params[:content][:properties])
         end

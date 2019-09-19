@@ -34,12 +34,13 @@ import "codemirror/addon/hint/show-hint.css";
  * Control codemirror
  */
 export default class extends Controller {
-    static targets = ["editor", "editorContainer", "tab", "tabContainer"];
+    static targets = ["textarea", "file"];
 
     connect() {
+        const self = this;
         let mode = CodeMirror.mimeModes[this.data.get('mode')];
-
-        this.editor = CodeMirror.fromTextArea(this.element, {
+        console.log(mode, 'from: ', this.data.get('mode'))
+        this.editor = CodeMirror.fromTextArea(this.textareaTarget, {
             lineNumbers: true,
             mode: mode, //this.data.get('content-type'),
             lineWrapping: true,
@@ -48,6 +49,21 @@ export default class extends Controller {
             extraKeys: { "Ctrl-Space": "autocomplete" }
         });
         this.editor.setSize('100%', '100%');
+
+        this.editor.on('dragover', function (editor, evt) {
+            evt.preventDefault();
+        });
+
+        this.editor.on('dragenter', function (editor, evt) {
+            evt.preventDefault();
+        });
+
+        this.editor.on('drop', function (editor, evt) {
+            console.log("droppp");
+            self.fileTarget.files = evt.dataTransfer.files;
+            evt.preventDefault();
+        });
+
     }
 
     disconnect() {

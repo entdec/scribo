@@ -4,11 +4,6 @@ Scribo::Engine.routes.draw do
   namespace :admin, path: Scribo.config.admin_mount_point do
     root to: 'sites#index'
     resources :sites do
-      resources :assets, controller: 'sites/assets' do
-        member do
-          get 'destroy', as: :destroy
-        end
-      end
       resources :contents, controller: 'sites/contents' do
         member do
           get 'destroy', as: :destroy
