@@ -78,7 +78,7 @@ module Scribo
         zip_path += '.html' if File.extname(zip_path).blank?
         zip_path
       elsif content.identifier
-        zip_path = '_identified/' + content.identifier.tr('/', '_')
+        zip_path = '_identified/' + content.identifier
         zip_path += '.html' if File.extname(zip_path).blank?
         zip_path
       elsif content.name
