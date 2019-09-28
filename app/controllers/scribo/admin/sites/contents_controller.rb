@@ -31,7 +31,7 @@ module Scribo
 
           end
 
-          flash_and_redirect @content.save, edit_admin_site_content_url(@site, contents.first), 'Content created successfully', 'There were problems creating the content'
+          flash_and_redirect contents.first.valid?, edit_admin_site_content_url(@site, contents.first), 'Content created successfully', 'There were problems creating the content'
         else
           flash_and_redirect @content.save, edit_admin_site_content_url(@site, @content), 'Content created successfully', 'There were problems creating the content'
         end
