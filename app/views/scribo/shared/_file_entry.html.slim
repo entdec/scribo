@@ -1,0 +1,8 @@
+li.entry.file class="#{content.id == @content.id ? 'selected' : ''}" data-content="#{content.id}" data-at-content="#{@content.id}"
+  a.list-item data-controller="tree-item" data-action="click->tree-item#start" data-tree-item-url="#{edit_admin_site_content_url(content.site, content)}"
+    span.name data-content-type="#{content.content_type}" = content.path
+    .tools
+      i.fas.fa-trash-alt data-controller="tool" data-action="click->tool#start" data-tool-url="#{destroy_admin_site_content_path(@site, content)}" data-tool-method="delete" data-tool-confirm="Are you sure you want to delete this content?"
+  ul
+    - content.children.order('lft ASC').each do |child|
+      = render partial: 'scribo/shared/file_entry', locals: {content: child}

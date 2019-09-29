@@ -69,7 +69,7 @@ module Scribo
 
       def set_objects
         @site          = Scribo::Site.find(params[:site_id])
-        @contents      = @site.contents.where(kind: %w[text redirect]).order('lft ASC')
+        @contents      = @site.contents.where(kind: %w[text redirect]).roots.reorder(:path)
         @content       = if params[:id]
                            Content.where(site: params[:site_id]).find(params[:id])
                          else
