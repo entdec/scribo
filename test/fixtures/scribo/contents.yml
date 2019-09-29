@@ -11,5 +11,5 @@ layout:
   kind: text
   content_type: text/html
   data: layout{%yield%}layout
-  identifier: layout
+  path: /_layout
   state: published
