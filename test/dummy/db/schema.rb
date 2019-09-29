@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_19_074810) do
+ActiveRecord::Schema.define(version: 2019_09_29_124625) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,8 +28,6 @@ ActiveRecord::Schema.define(version: 2019_09_19_074810) do
     t.string "path"
     t.string "content_type"
     t.string "filter"
-    t.string "identifier"
-    t.string "name"
     t.string "title"
     t.string "caption"
     t.string "breadcrumb"
@@ -49,9 +47,7 @@ ActiveRecord::Schema.define(version: 2019_09_19_074810) do
     t.integer "depth"
     t.integer "children_count"
     t.index ["layout_id"], name: "index_scribo_contents_on_layout_id"
-    t.index ["parent_id", "name"], name: "index_scribo_contents_on_parent_id_and_name", unique: true
     t.index ["parent_id"], name: "index_scribo_contents_on_parent_id"
-    t.index ["scribo_site_id", "identifier"], name: "index_scribo_contents_identifier", unique: true
     t.index ["scribo_site_id", "path"], name: "index_scribo_contents_path", unique: true
     t.index ["scribo_site_id"], name: "index_scribo_contents_on_scribo_site_id"
   end
@@ -64,7 +60,6 @@ ActiveRecord::Schema.define(version: 2019_09_19_074810) do
     t.datetime "updated_at", null: false
     t.string "purpose", default: "site"
     t.jsonb "settings", default: {}, null: false
-    t.jsonb "translations", default: {}, null: false
     t.index ["scribable_type", "scribable_id"], name: "index_scribo_sites_on_scribable_type_and_scribable_id"
   end
 
