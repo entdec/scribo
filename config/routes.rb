@@ -8,6 +8,9 @@ Scribo::Engine.routes.draw do
         member do
           get 'destroy', as: :destroy
         end
+        collection do
+          put 'move', as: :move
+        end
         resources :parts, controller: 'sites/contents/parts'
       end
 

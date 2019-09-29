@@ -6,6 +6,7 @@ module Scribo
   module Admin
     class Sites::ContentsController < ApplicationAdminController
       before_action :set_objects
+      skip_before_action :verify_authenticity_token, only: :move
 
       def new
         add_breadcrumb('New content', new_admin_site_content_path(@site)) if defined? add_breadcrumb
@@ -28,7 +29,6 @@ module Scribo
             c.save!
 
             contents << c
-
           end
 
           flash_and_redirect contents.first.valid?, edit_admin_site_content_url(@site, contents.first), 'Content created successfully', 'There were problems creating the content'
@@ -65,11 +65,24 @@ module Scribo
         flash_and_redirect @content.destroy, edit_admin_site_content_url(@site, @contents.first), 'Content deleted successfully', 'There were problems deleting the content'
       end
 
+      def move
+        if params[:to]
+          new_parent = @site.contents.find(params[:to])
+          @content.move_to_child_with_index(new_parent, params[:index])
+        elsif @content.kind == 'asset'
+          @content.move_to_left_of(@assets[params[:index]])
+        else
+          @content.move_to_left_of(@contents[params[:index]])
+        end
+
+        head 200
+      end
+
       private
 
       def set_objects
         @site          = Scribo::Site.find(params[:site_id])
-        @contents      = @site.contents.where(kind: %w[text redirect]).roots.reorder(:path)
+        @contents      = @site.contents.where(kind: %w[text redirect]).roots
         @content       = if params[:id]
                            Content.where(site: params[:site_id]).find(params[:id])
                          else
@@ -79,11 +92,11 @@ module Scribo
         @content_types = Scribo.config.supported_mime_types[:text]
         @content_types += Scribo.config.supported_mime_types[:script]
         @content_types += Scribo.config.supported_mime_types[:style]
-        @states        = Scribo::Content.state_machine.states.map(&:value)
-        @sites         = Scribo::Site.order(:name)
-        @kinds         = %w[text redirect asset]
+        @states = Scribo::Content.state_machine.states.map(&:value)
+        @sites = Scribo::Site.order(:name)
+        @kinds = %w[text redirect asset]
 
-        @assets        = @site.contents.where(kind: 'asset').order(:path) if @site
+        @assets = @site.contents.where(kind: 'asset').roots if @site
 
         add_breadcrumb I18n.t('scribo.breadcrumbs.admin.sites'), :admin_sites_path if defined? add_breadcrumb
         add_breadcrumb(@site.name, edit_admin_site_path(@site)) if defined? add_breadcrumb
