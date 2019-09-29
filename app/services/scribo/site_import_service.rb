@@ -78,6 +78,9 @@ module Scribo
       content.properties = meta_info['properties']
       content.published_at = meta_info['published_at']
       content.save
+
+      position = meta_info['position'].split('/')
+      content.update_columns(lft: position[0], rgt: position[1], depth: position[2])
     end
 
     def guess_info_for_entry_name(prefill, entry_name)

@@ -58,6 +58,7 @@ module Scribo
         breadcrumb: content.breadcrumb,
         keywords: content.keywords,
         state: content.state,
+        position: "#{content.lft}/#{content.rgt}/#{content.depth}",
         parent: content.parent&.path,
         layout: content.layout&.path,
         properties: content.properties,
