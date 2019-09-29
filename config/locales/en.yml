@@ -5,7 +5,6 @@ en:
         sites: Sites
         contents: Contents
         translations: Translations
-        assets: Assets
         sites: "Sites"
     context_menu:
       add: Add
