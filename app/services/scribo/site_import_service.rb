@@ -65,8 +65,6 @@ module Scribo
       content.data = entry.get_input_stream.read
       content.kind = meta_info['kind']
       content.path = meta_info['path']
-      content.name = meta_info['name']
-      content.identifier = meta_info['identifier']
       content.content_type = meta_info['content_type']
       content.title = meta_info['title']
       content.description = meta_info['description']
@@ -75,8 +73,8 @@ module Scribo
       content.breadcrumb = meta_info['breadcrumb']
       content.keywords = meta_info['keywords']
       content.state = meta_info['state']
-      content.layout = site.contents.find_by(identifier: meta_info['layout']) if meta_info['layout']
-      content.parent = site.contents.find_by(identifier: meta_info['parent']) if meta_info['parent']
+      content.layout = site.contents.find_by(path: meta_info['layout']) if meta_info['layout']
+      content.parent = site.contents.find_by(path: meta_info['parent']) if meta_info['parent']
       content.properties = meta_info['properties']
       content.published_at = meta_info['published_at']
       content.save

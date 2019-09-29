@@ -58,29 +58,17 @@ module Scribo
         breadcrumb: content.breadcrumb,
         keywords: content.keywords,
         state: content.state,
-        parent: content.parent&.identifier,
-        layout: content.layout&.identifier,
-        identifier: content.identifier,
-        name: content.name,
+        parent: content.parent&.path,
+        layout: content.layout&.path,
         properties: content.properties,
         published_at: content.published_at }.reject { |_, v| v.nil? }
     end
 
     def content_path_for_zip(content)
-      if content.path.present?
-        zip_path = content.path[0] == '/' ? content.path[1..-1] : content.path
-        zip_path = 'index' if zip_path.blank?
-        zip_path += '.html' if File.extname(zip_path).blank?
-        zip_path
-      elsif content.identifier
-        zip_path = '_identified/' + content.identifier
-        zip_path += '.html' if File.extname(zip_path).blank?
-        zip_path
-      elsif content.name
-        zip_path = '_named/' + content.name
-        zip_path += '.html' if File.extname(zip_path).blank?
-        zip_path
-      end
+      zip_path = content.path[0] == '/' ? content.path[1..-1] : content.path
+      zip_path = 'index' if zip_path.blank?
+      zip_path += '.html' if File.extname(zip_path).blank?
+      zip_path
     end
 
   end

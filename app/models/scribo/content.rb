@@ -32,6 +32,8 @@ module Scribo
 
     def self.located(path)
       return none unless path.present?
+      return none if File.basename(path).start_with?('_')
+
       published.where(path: path)
     end
 
