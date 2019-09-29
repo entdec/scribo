@@ -4,12 +4,12 @@
 module ActionController::Renderers
   add :scribo do |site, options|
     current_site = if site.is_a? Scribo::Site
-                       site
-                     else
-                       scope = Scribo::Site.named(site)
-                       scope = scope.owned_by(options[:owner]) if options[:owner]
-                       scope.first
-                     end
+                     site
+                   else
+                     scope = Scribo::Site.named(site)
+                     scope = scope.owned_by(options[:owner]) if options[:owner]
+                     scope.first
+                   end
 
     raise 'No site found' unless current_site
 

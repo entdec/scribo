@@ -28,11 +28,6 @@ module Scribo
           meta_info[:contents] << content_meta_information(content)
         end
 
-        site.translations.keys.each do |locale|
-          zio.put_next_entry(base_path + "_locales/#{locale}.yml")
-          zio.write YAML.dump(locale => site.translations[locale])
-        end
-
         zio.put_next_entry(base_path + 'scribo_site.json')
         zio.write JSON.pretty_generate(meta_info)
       end
