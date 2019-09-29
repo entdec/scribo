@@ -31,15 +31,8 @@ export default class extends Controller {
                 fallbackOnBody: true,
                 swapThreshold: 0.65,
                 onEnd: (evt) => {
-                    console.log(evt.item);
-                    console.log(evt.to);
-                    console.log(evt.from);
-                    console.log(evt.oldIndex);
-                    console.log(evt.newIndex); // most likely why this event is used is to get the dragging element's current index
-                    // same properties as onEnd
                     let contentId = evt.item.getAttribute('data-content');
                     let parentId = evt.to.getAttribute('data-parent');
-                    console.log(contentId + " move to child of " + parentId + " with index " + evt.newIndex);
                     fetch(self.data.get('update-url'), {
                         method: 'PUT',
                         headers: {
@@ -51,11 +44,6 @@ export default class extends Controller {
                             index: evt.newIndex
                         })
                     }).then((response) => {
-                        // response.json().then(function (data) {
-                        //     console.log(data);
-                        //     element.innerHTML = data['part']['value'];
-                        //     element.dataset.oldHtml = element.innerHTML;
-                        // });
                     });
                 }
             });
