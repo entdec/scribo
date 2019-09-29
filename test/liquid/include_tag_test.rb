@@ -42,7 +42,7 @@ class IncludeTagTest < ActiveSupport::TestCase
 
   test 'included content receives context passed from subject as well as assigns from tag' do
     scribo_sites(:main).contents.create(state: 'published', identifier: 'menu', kind: 'text', data: 'hello {{dummy.dummy_attr}} {{name}}', content_type: 'text/html')
-    subject = scribo_sites(:main).contents.create(kind: 'text', data: "{{dummy.dummy_attr}}|{%include 'menu' name='bob'%}|{{name}}", content_type: 'text/html')
+    subject = scribo_sites(:main).contents.create(kind: 'text', data: "{{dummy.dummy_attr}}|{%include 'menu' name:'bob'%}|{{name}}", content_type: 'text/html')
 
     d = DummyObject.new('dummy')
     result = subject.render('dummy' => d)
