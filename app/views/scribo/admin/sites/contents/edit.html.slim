@@ -37,8 +37,7 @@
           .col-sm-12
             br
             = f.input :path
-            = f.input :identifier
-            = f.association :layout, collection: @layouts, selected: @content.layout_id, label_method: :identifier, include_blank: true
+            = f.association :layout, collection: @layouts, selected: @content.layout_id, label_method: :path, include_blank: true
 
             - if @content.kind != 'asset'
               = f.input :content_type, collection: @content_types, include_blank: false
@@ -47,10 +46,9 @@
             = f.input :kind, collection: @kinds, selected: @content.kind
 
             .collapse#advancedContainer
-              = f.input :name
               = f.input :filter
 
-              = f.association :parent, collection: @contents, selected: @content.parent_id, label_method: :identifier, include_blank: true
+              = f.association :parent, collection: @contents, selected: @content.parent_id, label_method: :path, include_blank: true
               = f.input :title
               = f.input :properties, as: :code_mirror, input_html: {value: YAML.dump(f.object.properties), data: { height: '80px', lang: 'application/yaml', mode: {name: 'liquid', base: 'application/yaml'}}}
 

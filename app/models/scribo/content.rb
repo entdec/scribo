@@ -56,15 +56,13 @@ module Scribo
       published.where("id IN (#{sql})")
     end
 
-    def self.identified(identifier)
-      return none unless identifier.present?
-      published.where(identifier: identifier)
-    end
-
-    # Named content, only non-child content
-    def self.named(name)
-      return none unless name.present?
-      published.where(parent_id: nil).where(name: name)
+    def self.identified(identifier = nil)
+      if identifier.present?
+        path = File.dirname(identifier).gsub(/^\./, '') + '/_' + File.basename(identifier)
+        published.where(path: path)
+      else
+        published.where("path LIKE '%/_%'")
+      end
     end
 
     def self.published
@@ -73,6 +71,10 @@ module Scribo
 
     def self.content_group(group)
       where(content_type: Scribo.config.supported_mime_types[group])
+    end
+
+    def identifier
+      File.basename(path).gsub('_', '')
     end
 
     def render(assigns = {}, registers = {})
@@ -151,8 +153,8 @@ module Scribo
 
     def nilify_blanks
       self.path = nil if path.blank?
-      self.name = nil if name.blank?
-      self.identifier = nil if identifier.blank?
+      # self.name = nil if name.blank?
+      # self.identifier = nil if identifier.blank?
     end
 
     def layout_cant_be_current_content
