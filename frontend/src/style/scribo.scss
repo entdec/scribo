@@ -5,10 +5,12 @@
 
   .explorer-pane {
     flex: 0 0 340px;
+    min-height: 100vh;
   }
 
   .editor-pane {
     flex: 1;
     position: relative;
+    min-height: 100vh;
   }
 }
