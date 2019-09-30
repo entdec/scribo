@@ -46,7 +46,6 @@ module Scribo
 
           create_content(site, entry, meta_info)
         end
-
       end
       true
     end
@@ -54,13 +53,7 @@ module Scribo
     private
 
     def create_content(site, entry, meta_info)
-      content = if meta_info['path']
-        site.contents.find_or_create_by(site: site, path: meta_info['path'])
-      elsif meta_info['identifier']
-        site.contents.find_or_create_by(site: site, identifier: meta_info['identifier'])
-      elsif meta_info['name']
-        site.contents.find_or_create_by(site: site, name: meta_info['name'])
-      end
+      content = site.contents.find_or_create_by(site: site, path: meta_info['path'])
 
       content.data = entry.get_input_stream.read
       content.kind = meta_info['kind']
@@ -94,11 +87,11 @@ module Scribo
 
     def meta_info_for_entry_name(meta_info_site, base_path, entry_name)
       if entry_name.start_with?(base_path + '/_identified/')
-        identifier = entry_name[(base_path + '/_identified/').size..-1].gsub(/\.html$/, '')#.tr('_', '/')
+        identifier = entry_name[(base_path + '/_identified/').size..-1].gsub(/\.html$/, '') # .tr('_', '/')
         meta_info = meta_info_site['contents'].find { |m| m['identifier'] == identifier }
         meta_info ||= guess_info_for_entry_name({ 'identifier' => identifier }, entry_name)
       elsif entry_name.start_with?(base_path + '/_named/')
-        name = entry_name[(base_path + '/_named/').size..-1].gsub(/\.html$/, '')#.tr('_', '/')
+        name = entry_name[(base_path + '/_named/').size..-1].gsub(/\.html$/, '') # .tr('_', '/')
         meta_info = meta_info_site['contents'].find { |m| m['name'] == name }
         meta_info ||= guess_info_for_entry_name({ 'name' => name }, entry_name)
       else
@@ -109,7 +102,5 @@ module Scribo
       end
       meta_info
     end
-
   end
 end
-
