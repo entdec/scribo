@@ -1,0 +1,8 @@
+---
+### Generic smell configuration
+detectors:
+  # You can disable smells completely
+  NillCheck:
+    enabled: false
+  UncommunicativeVariableName:
+    enabled: false

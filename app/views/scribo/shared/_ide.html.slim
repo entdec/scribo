@@ -6,12 +6,15 @@
           a.list-item
             span.name Contents
             .tools
-              i.fas.fa-file-medical data-controller="tool" data-action="click->tool#start" data-tool-url="#{new_admin_site_content_path(@site)}"
+              i.fas.fa-file-medical data-controller="tool" data-action="click->tool#start" data-tool-url="#{new_admin_site_content_path(@site, content: { kind: 'file'})}"
+              i.fas.fa-directions data-controller="tool" data-action="click->tool#start" data-tool-url="#{new_admin_site_content_path(@site, content: { kind: 'redirect'})}"
+              i.fas.fa-folder-plus data-controller="tool" data-action="click->tool#start" data-tool-url="#{new_admin_site_content_path(@site, content: { kind: 'folder'} )}"
+
           ul
             - @contents.roots.each do |content|
-              = render partial: 'scribo/shared/file_entry', locals: {content: content}
+              = render partial: 'scribo/shared/entry', locals: {content: content}
 
-        li.entry.directory.open
+        /li.entry.directory.open
           a.list-item
             span.name Assets
             .tools

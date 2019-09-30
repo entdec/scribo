@@ -13,6 +13,8 @@ module Scribo
     def perform
       return unless site.contents.count.positive?
 
+      site.contents.rebuild!
+
       zip_name = 'site_' + (site.name || 'untitled')
       base_path = zip_name + '/'
       stringio = Zip::OutputStream.write_buffer do |zio|
@@ -22,14 +24,18 @@ module Scribo
           content_path = content_path_for_zip(content)
           next unless content_path
 
-          zio.put_next_entry(base_path + content_path)
-          zio.write content.data
+          puts "content_path: #{content_path}"
 
           meta_info[:contents] << content_meta_information(content)
+
+          next if content.kind == 'folder'
+
+          zio.put_next_entry(base_path + content_path)
+          zio.write content.data
         end
 
-        zio.put_next_entry(base_path + 'scribo_site.json')
-        zio.write JSON.pretty_generate(meta_info)
+        zio.put_next_entry(base_path + '_config.yml')
+        zio.write YAML.dump(meta_info.deep_stringify_keys)
       end
 
       [zip_name + '.zip', stringio.string]
@@ -48,7 +54,7 @@ module Scribo
     end
 
     def content_meta_information(content)
-      { path: content.path,
+      { path: content.full_path,
         kind: content.kind,
         content_type: content.content_type,
         title: content.title,
@@ -58,15 +64,18 @@ module Scribo
         breadcrumb: content.breadcrumb,
         keywords: content.keywords,
         state: content.state,
-        position: "#{content.lft}/#{content.rgt}/#{content.depth}",
-        parent: content.parent&.path,
-        layout: content.layout&.path,
+        lft: content.lft,
+        rgt: content.rgt,
+        depth: content.depth,
+        parent: content.parent&.full_path,
+        layout: content.layout&.full_path,
         properties: content.properties,
-        published_at: content.published_at }.reject { |_, v| v.nil? }
+        published_at: content.published_at.to_time }.reject { |_, v| v.nil? }
     end
 
     def content_path_for_zip(content)
-      zip_path = content.path[0] == '/' ? content.path[1..-1] : content.path
+      zip_path = content.full_path[0] == '/' ? content.full_path[1..-1] : content.full_path
+      zip_path = '' if zip_path == '/'
       zip_path = 'index' if zip_path.blank?
       zip_path += '.html' if File.extname(zip_path).blank?
       zip_path

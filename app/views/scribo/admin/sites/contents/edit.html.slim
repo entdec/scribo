@@ -43,12 +43,11 @@
               = f.input :content_type, collection: @content_types, include_blank: false
 
             = f.input :state, collection: @states, selected: @content.state, include_blank: true
-            = f.input :kind, collection: @kinds, selected: @content.kind
+            = f.input :kind, as: :hidden
 
             .collapse#advancedContainer
               = f.input :filter
-
-              = f.association :parent, collection: @contents, selected: @content.parent_id, label_method: :path, include_blank: true
+              = f.input :parent_id, as: :hidden
               = f.input :title
               = f.input :properties, as: :code_mirror, input_html: {value: YAML.dump(f.object.properties), data: { height: '80px', lang: 'application/yaml', mode: {name: 'liquid', base: 'application/yaml'}}}
 

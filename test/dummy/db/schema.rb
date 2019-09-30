@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_29_124625) do
+ActiveRecord::Schema.define(version: 2019_09_30_174635) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,9 +46,11 @@ ActiveRecord::Schema.define(version: 2019_09_29_124625) do
     t.integer "rgt"
     t.integer "depth"
     t.integer "children_count"
+    t.string "full_path"
     t.index ["layout_id"], name: "index_scribo_contents_on_layout_id"
     t.index ["parent_id"], name: "index_scribo_contents_on_parent_id"
-    t.index ["scribo_site_id", "path"], name: "index_scribo_contents_path", unique: true
+    t.index ["scribo_site_id", "full_path"], name: "index_scribo_contents_full_path", unique: true
+    t.index ["scribo_site_id", "path"], name: "index_scribo_contents_path"
     t.index ["scribo_site_id"], name: "index_scribo_contents_on_scribo_site_id"
   end
 

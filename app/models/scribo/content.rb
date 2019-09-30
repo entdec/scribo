@@ -9,9 +9,11 @@ module Scribo
 
     belongs_to :site, class_name: 'Site', foreign_key: 'scribo_site_id'
     belongs_to :layout, class_name: 'Content', optional: true
+    has_many :layouted, class_name: 'Content', foreign_key: 'layout_id', dependent: :destroy
 
-    before_save :nilify_blanks
     validate :layout_cant_be_current_content
+
+    before_save :set_full_path
 
     state_machine initial: :draft do
       state :draft
@@ -30,11 +32,14 @@ module Scribo
       end
     end
 
-    def self.located(path)
+    def self.located(path, allow_non_public = false)
       return none unless path.present?
-      return none if File.basename(path).start_with?('_')
+      return none if !allow_non_public && File.basename(path).start_with?('_')
 
-      published.where(path: path)
+      result = published.where(full_path: path)
+      # result = recursive_located(path) unless result.present?
+
+      result
     end
 
     # Could be used to locate 'child' content like /articles/article1, where /articles is the
@@ -53,7 +58,7 @@ module Scribo
           JOIN scribo_contents ON scribo_contents.parent_id=recursive_contents.id
         WHERE NOT scribo_contents.path = ANY(cpath)
       )
-      SELECT id FROM recursive_contents WHERE ARRAY_TO_STRING(cpath, '') = '#{path}'
+      SELECT id FROM recursive_contents WHERE CONCAT('/', ARRAY_TO_STRING(cpath, '/')) = '#{path}'
       SQL
       published.where("id IN (#{sql})")
     end
@@ -61,9 +66,9 @@ module Scribo
     def self.identified(identifier = nil)
       if identifier.present?
         path = File.dirname(identifier).gsub(/^\./, '') + '/_' + File.basename(identifier)
-        published.where(path: path)
+        located(path, true)
       else
-        published.where("path LIKE '%/_%'")
+        published.where("full_path LIKE '%/_%'")
       end
     end
 
@@ -122,10 +127,10 @@ module Scribo
       scope << 'scribo'
       scope << site.name.underscore.tr(' ', '_')
       if name.present?
-        scope << "named"
+        scope << 'named'
         scope << name
       elsif identifier.present?
-        scope << "identified"
+        scope << 'identified'
         scope << identifier
       else
         p = path.tr('/', '.')[1..-1]
@@ -142,22 +147,26 @@ module Scribo
       %w[text style script].include? content_type_group
     end
 
-    def self.text_based?(ct)
-      %w[text style script].include? content_type_group(ct)
+    def self.text_based?(content_group)
+      %w[text style script].include? content_type_group(content_group)
     end
 
     # Returns the group of a certain content_type (text/plain => text, image/gif => image)
-    def self.content_type_group(ct)
-      Scribo.config.supported_mime_types.find { |_, v| v.include?(ct) }&.first&.to_s
+    def self.content_type_group(content_group)
+      Scribo.config.supported_mime_types.find { |_, v| v.include?(content_group) }&.first&.to_s
+    end
+
+    def set_full_path
+      return unless path
+      return if full_path_changed?
+      return unless path_changed?
+
+      result = (ancestors.map(&:path) << path).join('/')
+      result = '/' + result unless result.start_with?('/')
+      self.full_path = result
     end
 
     private
-
-    def nilify_blanks
-      self.path = nil if path.blank?
-      # self.name = nil if name.blank?
-      # self.identifier = nil if identifier.blank?
-    end
 
     def layout_cant_be_current_content
       errors.add(:layout_id, "can't be current content") if layout_id == id && id.present?
