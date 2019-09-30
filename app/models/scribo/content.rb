@@ -81,6 +81,7 @@ module Scribo
     end
 
     def identifier
+      # TODO: Remove this
       if Scribo::Content.columns.map(&:name).include?('identifier')
         attributes['identifier']
       else
@@ -161,6 +162,8 @@ module Scribo
     end
 
     def set_full_path
+      return unless respond_to?(:full_path_changed)
+
       return unless path
       return if full_path_changed?
       return unless path_changed?
