@@ -81,7 +81,11 @@ module Scribo
     end
 
     def identifier
-      File.basename(path).gsub('_', '')
+      if Scribo::Content.columns.map(&:name).include?('identifier')
+        attributes['identifier']
+      else
+        File.basename(path).gsub('_', '')
+      end
     end
 
     def render(assigns = {}, registers = {})
