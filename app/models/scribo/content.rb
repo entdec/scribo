@@ -166,7 +166,7 @@ module Scribo
 
       return unless path
       return if full_path_changed?
-      return unless path_changed?
+      return if !path_changed? && full_path.present?
 
       result = (ancestors.map(&:path) << path).join('/')
       result = '/' + result unless result.start_with?('/')
