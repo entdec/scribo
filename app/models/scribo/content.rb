@@ -162,7 +162,7 @@ module Scribo
     end
 
     def set_full_path
-      return unless respond_to?(:full_path_changed)
+      return unless respond_to?(:full_path_changed?)
 
       return unless path
       return if full_path_changed?
