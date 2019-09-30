@@ -45,6 +45,16 @@ export default class extends Controller {
                         })
                     }).then((response) => {
                     });
+                },
+                onMove: function (evt) {
+                    let parentId = evt.to.getAttribute('data-parent');
+                    if (parentId) {
+                        let file = document.querySelector('[data-content="' + parentId + '"]').classList.contains('file');
+                        if (file) {
+                            evt.preventDefault();
+                            return false;
+                        }
+                    }
                 }
             });
         });
