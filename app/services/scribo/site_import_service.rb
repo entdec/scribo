@@ -86,20 +86,10 @@ module Scribo
     end
 
     def meta_info_for_entry_name(meta_info_site, base_path, entry_name)
-      if entry_name.start_with?(base_path + '/_identified/')
-        identifier = entry_name[(base_path + '/_identified/').size..-1].gsub(/\.html$/, '') # .tr('_', '/')
-        meta_info = meta_info_site['contents'].find { |m| m['identifier'] == identifier }
-        meta_info ||= guess_info_for_entry_name({ 'identifier' => identifier }, entry_name)
-      elsif entry_name.start_with?(base_path + '/_named/')
-        name = entry_name[(base_path + '/_named/').size..-1].gsub(/\.html$/, '') # .tr('_', '/')
-        meta_info = meta_info_site['contents'].find { |m| m['name'] == name }
-        meta_info ||= guess_info_for_entry_name({ 'name' => name }, entry_name)
-      else
-        path = entry_name[base_path.size..-1].gsub(/\.html$/, '')
-        path = '/' if path == '/index'
-        meta_info = meta_info_site['contents'].find { |m| m['path'] == path }
-        meta_info ||= guess_info_for_entry_name({ 'path' => path }, entry_name)
-      end
+      path = entry_name[base_path.size..-1].gsub(/\.html$/, '')
+      path = '/' if path == '/index'
+      meta_info = meta_info_site['contents'].find { |m| m['path'] == path }
+      meta_info ||= guess_info_for_entry_name({ 'path' => path }, entry_name)
       meta_info
     end
   end
