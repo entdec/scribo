@@ -35,6 +35,11 @@ module Scribo
         redirect_to :edit_admin_site
       end
 
+      def destroy
+        @site.contents.rebuild!
+        flash_and_redirect @site.destroy, admin_sites_url, 'Site deleted successfully', 'There were problems deleting the site'
+      end
+
       def import
         flash_and_redirect Scribo::SiteImportService.new(params[:site][:zip_file].path).call, admin_sites_path, 'Site imported successfully', 'There were problems importing the site' if request.post?
       end

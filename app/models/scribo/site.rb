@@ -8,7 +8,7 @@ module Scribo
     belongs_to :scribable, polymorphic: true
     validates :scribable, presence: true
 
-    has_many :contents, class_name: 'Content', foreign_key: 'scribo_site_id'
+    has_many :contents, class_name: 'Content', foreign_key: 'scribo_site_id', dependent: :destroy
 
     attr_accessor :zip_file
 
