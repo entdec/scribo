@@ -66,6 +66,8 @@ module Scribo
     def self.identified(identifier = nil)
       if identifier
         path = File.dirname(identifier).gsub(/^\./, '') + '/_' + File.basename(identifier)
+        path = '/' + path unless path[0] == '/'
+
         located(path, true)
       else
         published.where("full_path LIKE '%_%'")
