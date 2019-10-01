@@ -1,0 +1,28 @@
+---
+version: 0.3.18
+name: imported
+purpose: site
+scribable_type: Account
+scribable_id: edfd40a6-59d5-498c-81b1-da2135cc0ca7
+properties: {}
+contents:
+- path: "/"
+  kind: text
+  content_type: text/html
+  state: published
+  published_at: 2019-07-01 15:45:28.000000000 +02:00
+- path: "/test.png"
+  kind: asset
+  content_type: image/png
+  state: published
+  published_at: 2019-06-26 14:03:35.000000000 +02:00
+- path: "/folder1"
+  kind: folder
+  state: published
+  published_at: 2019-06-26 14:03:35.000000000 +02:00
+- path: "/folder1/test.png"
+  kind: asset
+  content_type: image/png
+  state: published
+  parent: "/folder1"
+  published_at: 2019-06-26 14:03:35.000000000 +02:00

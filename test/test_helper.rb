@@ -29,3 +29,12 @@ def rails_env_stub(env)
 end
 
 require 'support/drops'
+require 'support/zip_writer'
+
+def list_zip(path)
+  Zip::File.open(path) do |zip_file|
+    zip_file.glob('**/*').each do |entry|
+      puts entry.name
+    end
+  end
+end

@@ -5,8 +5,7 @@ require_dependency 'scribo/liquid/parser'
 
 module Scribo
   class Site < ApplicationRecord
-    belongs_to :scribable, polymorphic: true
-    validates :scribable, presence: true
+    belongs_to :scribable, polymorphic: true, optional: true
 
     has_many :contents, class_name: 'Content', foreign_key: 'scribo_site_id', dependent: :destroy
 
