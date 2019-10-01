@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-
+require 'pry'
 # Add scribo as a renderer
 module ActionController::Renderers
   add :scribo do |site, options|
@@ -19,6 +19,7 @@ module ActionController::Renderers
     else
       content = current_site.contents
       content = content.identified(options[:identifier]) if options[:identifier]
+
       content = content.located(options[:path]) if options[:path]
       content = if options[:root]
                   # bah

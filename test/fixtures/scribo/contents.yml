@@ -5,6 +5,7 @@ index:
   data: Test index
   path: /
   state: published
+  full_path: /
 
 layout:
   site: main
@@ -13,3 +14,4 @@ layout:
   data: layout{%yield%}layout
   path: /_layout
   state: published
+  full_path: /_layout
