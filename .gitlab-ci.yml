@@ -1,4 +1,4 @@
-image: code.entropydecelerator.com:4567/boxture/server:latest
+image: ruby:2.6.3
 services:
   - mdillon/postgis:latest
 
