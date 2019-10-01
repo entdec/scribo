@@ -64,11 +64,11 @@ module Scribo
     end
 
     def self.identified(identifier = nil)
-      if identifier.present?
+      if Scribo::Content.columns.map(&:name).include?('identifier')
         path = File.dirname(identifier).gsub(/^\./, '') + '/_' + File.basename(identifier)
         located(path, true)
       else
-        published.where("full_path LIKE '%/_%'")
+        published.where("full_path LIKE '%_%'")
       end
     end
 
@@ -131,16 +131,10 @@ module Scribo
       scope = []
       scope << 'scribo'
       scope << site.name.underscore.tr(' ', '_')
-      if name.present?
-        scope << 'named'
-        scope << name
-      elsif identifier.present?
-        scope << 'identified'
-        scope << identifier
-      else
-        p = path.tr('/', '.')[1..-1]
-        scope << (p.present? ? p : 'index')
-      end
+
+      p = full_path.tr('/', '.')[1..-1]
+      scope << (p.present? ? p : 'index')
+
       scope.join('.')
     end
 
