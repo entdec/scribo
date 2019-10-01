@@ -19,4 +19,4 @@ gemspec
 # bundle config --delete local.liquor
 # bundle config local.liquor ../../components/liquor
 
-gem 'liquor', entdec: 'components/liquor', tag: '0.4.0'
+gem 'liquor', entdec: 'components/liquor', tag: '0.5.8'

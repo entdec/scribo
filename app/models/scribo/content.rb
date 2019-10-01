@@ -64,7 +64,7 @@ module Scribo
     end
 
     def self.identified(identifier = nil)
-      if Scribo::Content.columns.map(&:name).include?('identifier')
+      if identifier
         path = File.dirname(identifier).gsub(/^\./, '') + '/_' + File.basename(identifier)
         located(path, true)
       else
