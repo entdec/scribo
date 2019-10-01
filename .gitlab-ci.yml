@@ -1,4 +1,4 @@
-image: ruby:2.4.2
+image: code.entropydecelerator.com:4567/boxture/server:latest
 services:
   - mdillon/postgis:latest
 
@@ -8,22 +8,15 @@ variables:
 
 before_script:
   # Use UTF8
-  - export LC_ALL=en_US.UTF-8
-  - export LANG=en_US.UTF-8
-  - export LANGUAGE=en_US.UTF-8
+  # - export LC_ALL=en_US.UTF-8
+  # - export LANG=en_US.UTF-8
+  # - export LANGUAGE=en_US.UTF-8
 
   # Set to UTC
-  - export TZ='Etc/UTC'
-
-  # Install ssh-agent if not already installed, it is required by Docker.
-  # (change apt-get to yum if you use a CentOS-based image)
-  - which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )
-
-  # Run ssh-agent (inside the build environment)
   - eval $(ssh-agent -s)
 
-#   # Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
-#   - ssh-add <(echo "$SSH_PRIVATE_KEY")
+  # Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
+  - ssh-add <(echo "$SSH_PRIVATE_KEY")
 
   # Add new dependencies below
   - apt-get update -y && apt-get install cmake -y
