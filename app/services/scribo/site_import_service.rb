@@ -20,7 +20,7 @@ module Scribo
 
       # TODO: Check version numbers
       @base_path = "site_#{meta_info_site['name']}"
-      zip_file.glob('**/*').each do |entry|
+      zip_file.glob('**/*').reject { |e| e.name.start_with?('__MACOSX/') || e.name.end_with?('/.DS_Store') }.each do |entry|
         raise "Site import needs all site content to be in a folder starting with #{base_path}/" unless entry.name.start_with?(base_path + '/')
       end
     end
