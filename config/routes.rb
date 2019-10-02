@@ -6,6 +6,7 @@ Scribo::Engine.routes.draw do
     resources :sites do
       resources :contents, controller: 'sites/contents' do
         member do
+          put 'rename', as: :rename
           get 'destroy', as: :destroy
         end
         collection do

@@ -14,16 +14,5 @@
             - @contents.roots.each do |content|
               = render partial: 'scribo/shared/entry', locals: {content: content}
 
-        /li.entry.directory.open
-          a.list-item
-            span.name Assets
-            .tools
-              i.fas.fa-file-medical data-controller="tool" data-action="click->tool#start" data-tool-url="#{new_admin_site_content_path(@site)}"
-          ul
-            - Scribo.config.supported_mime_types.keys.reject {|i| i == :text }.each_with_index do |cg, index|
-              - @assets.content_group(cg).each_slice(6) do |assets|
-                - assets.each do |content|
-                  = render partial: 'scribo/shared/file_entry', locals: {content: content}
-
   .editor-pane
     = yield

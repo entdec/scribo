@@ -15,17 +15,21 @@ export default class extends Controller {
     }
 
     start(event) {
-        if (this.element.firstChild.getAttribute('contenteditable') == 'true') {
+        if (this.element.firstChild.tagName == 'INPUT') {
             return;
         }
         this.clicked = event;
-        setTimeout(this.open.bind(this), 200)
+        setTimeout(this.open.bind(this), 500)
+        event.stopPropagation()
+        event.preventDefault()
+        return false
     }
 
     open() {
         if (this.clicked == null) {
             return;
         }
+        console.log("single click")
         let event = this.clicked;
         this.clicked = null;
         if (window.Turbolinks) {
@@ -38,13 +42,45 @@ export default class extends Controller {
 
     rename(event) {
         this.clicked = null;
-        console.log('this.element.firstChild', this.element.firstChild);
-        // this.element.firstChild.setAttribute('contenteditable', true)
-        // this.element.firstChild.focus()
-        console.log('rename')
+        console.log('this.element.firstChild', this.element.firstChild)
+        let input = document.createElement('input')
+        input.type = 'text'
+        input.value = this.element.firstChild.innerText
+
+        input.addEventListener('keyup', this.actualRename.bind(this));
+        input.addEventListener('blur', this.cancelRename.bind(this));
+
+        this.element.firstChild.style.display = 'none'
+        this.element.insertBefore(input, this.element.firstChild)
+        input.focus()
         event.stopPropagation()
         event.preventDefault()
         return false
+    }
+
+    actualRename(event) {
+        const self = this;
+        if (event.key == "Enter") {
+            fetch(self.data.get('rename-url'), {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    to: this.element.firstChild.value,
+                })
+            }).then((response) => {
+                self.cancelRename(event)
+            });
+        } else if (event.key == 'Escape') {
+            self.cancelRename(event)
+        }
+    }
+
+    cancelRename(event) {
+        const self = this;
+        self.element.removeChild(self.element.firstChild)
+        self.element.firstChild.style.display = ''
     }
 
     disconnect() {

@@ -6,7 +6,7 @@ module Scribo
   module Admin
     class Sites::ContentsController < ApplicationAdminController
       before_action :set_objects
-      skip_before_action :verify_authenticity_token, only: :move
+      skip_before_action :verify_authenticity_token, only: [:move, :rename]
 
       def new
         add_breadcrumb('New content', new_admin_site_content_path(@site)) if defined? add_breadcrumb
@@ -75,6 +75,11 @@ module Scribo
           @content.move_to_left_of(@contents[params[:index]])
         end
 
+        head 200
+      end
+
+      def rename
+        @content.update(path: params[:to]) if params[:to]
         head 200
       end
 
