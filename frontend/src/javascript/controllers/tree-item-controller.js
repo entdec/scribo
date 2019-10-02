@@ -60,6 +60,7 @@ export default class extends Controller {
 
     actualRename(event) {
         const self = this;
+        let newName = this.element.firstChild.value;
         if (event.key == "Enter") {
             fetch(self.data.get('rename-url'), {
                 method: 'PUT',
@@ -67,9 +68,10 @@ export default class extends Controller {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    to: this.element.firstChild.value,
+                    to: newName,
                 })
             }).then((response) => {
+                self.element.firstChild.nextSibling.innerText = newName;
                 self.cancelRename(event)
             });
         } else if (event.key == 'Escape') {

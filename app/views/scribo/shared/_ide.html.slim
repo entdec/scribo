@@ -6,13 +6,28 @@
           a.list-item
             span.name Contents
             .tools
-              i.fas.fa-file-medical data-controller="tool" data-action="click->tool#start" data-tool-url="#{new_admin_site_content_path(@site, content: { kind: 'file'})}"
-              i.fas.fa-directions data-controller="tool" data-action="click->tool#start" data-tool-url="#{new_admin_site_content_path(@site, content: { kind: 'redirect'})}"
-              i.fas.fa-folder-plus data-controller="tool" data-action="click->tool#start" data-tool-url="#{new_admin_site_content_path(@site, content: { kind: 'folder'} )}"
+              i.fas.fa-file-medical data-action="click->tree-view#newContent" data-kind="file" data-url="#{remote_create_admin_site_contents_url(@site)}"
+              i.fas.fa-directions data-action="click->tree-view#newContent" data-kind="redirect" data-url="#{remote_create_admin_site_contents_url(@site)}"
+              i.fas.fa-folder-plus data-action="click->tree-view#newContent" data-kind="folder" data-url="#{remote_create_admin_site_contents_url(@site)}"
 
           ul
             - @contents.roots.each do |content|
               = render partial: 'scribo/shared/entry', locals: {content: content}
+
+      template data-target="tree-view.folderTemplate"
+        li.entry.directory.closed
+          a.list-item
+            span.name
+              input type="text" value="untitled"
+          ul
+
+      template data-target="tree-view.entryTemplate"
+        li.entry.file
+          a.list-item
+            span.name data-content-type="text/plain"
+              input type="text" value="untitled"
+          ul
+
 
   .editor-pane
     = yield

@@ -6,7 +6,7 @@ module Scribo
   module Admin
     class Sites::ContentsController < ApplicationAdminController
       before_action :set_objects
-      skip_before_action :verify_authenticity_token, only: [:move, :rename]
+      skip_before_action :verify_authenticity_token, only: [:move, :rename, :remote_create]
 
       def new
         add_breadcrumb('New content', new_admin_site_content_path(@site)) if defined? add_breadcrumb
@@ -48,7 +48,32 @@ module Scribo
       end
 
       def update
-        flash_and_redirect @content.update(content_params), edit_admin_site_content_url(@site, @content), 'Content updated successfully', 'There were problems updating the content'
+        if params[:content][:files]
+
+          file = params[:content][:files].first
+
+          @content.kind = Content.text_based?(file.content_type) ? 'text' : 'asset'
+          @content.content_type = file.content_type
+          @content.data = file.read
+          @content.state = 'published'
+
+          params[:content][:files][1..-1].each do |file|
+            next unless Content.content_type_supported?(file.content_type)
+
+            c = @site.contents.new(kind: Content.text_based?(file.content_type) ? 'text' : 'asset')
+
+            c.kind = Content.text_based?(file.content_type) ? 'text' : 'asset'
+            c.content_type = file.content_type
+            c.path = file.original_filename
+            c.data = file.read
+            c.state = 'published'
+            c.save!
+          end
+
+          flash_and_redirect @content.save, edit_admin_site_content_url(@site, @content), 'Content updated successfully', 'There were problems updating the content'
+        else
+          flash_and_redirect @content.update(content_params), edit_admin_site_content_url(@site, @content), 'Content updated successfully', 'There were problems updating the content'
+        end
       end
 
       def show
@@ -69,8 +94,6 @@ module Scribo
         if params[:to]
           new_parent = @site.contents.find(params[:to])
           @content.move_to_child_with_index(new_parent, params[:index])
-        elsif @content.kind == 'asset'
-          @content.move_to_left_of(@assets[params[:index]])
         else
           @content.move_to_left_of(@contents[params[:index]])
         end
@@ -81,6 +104,17 @@ module Scribo
       def rename
         @content.update(path: params[:to]) if params[:to]
         head 200
+      end
+
+      def remote_create
+        new_content = @site.contents.create(path: params[:path], kind: params[:kind])
+        if params[:parent]
+          parent = @site.contents.find(params[:parent])
+          new_content.move_to_child_with_index(parent, 0)
+        else
+          new_content.move_to_left_of(@contents[0])
+        end
+        render json: { url: edit_admin_site_content_path(@site, new_content) }
       end
 
       private

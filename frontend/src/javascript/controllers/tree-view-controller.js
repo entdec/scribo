@@ -10,6 +10,7 @@ import Sortable from 'sortablejs';
  * Manages the tree view
  */
 export default class extends Controller {
+    static targets = ["folderTemplate", "entryTemplate"];
 
     connect() {
         const self = this;
@@ -59,6 +60,73 @@ export default class extends Controller {
             });
         });
 
+    }
+
+    newContent(event) {
+        let kind = event.target.closest('i[data-action]').getAttribute('data-kind');
+        let url = event.target.closest('i[data-action]').getAttribute('data-url');
+
+        let template = 'entryTemplateTarget'
+        if (kind == 'folder') {
+            template = 'folderTemplateTarget'
+        }
+
+        this.newContentNode = document.importNode(this[template].content, true);
+        this.newContentContainer = event.target.closest('li.directory').querySelector('ul')
+        console.log(this.newContentContainer);
+        this.newContentContainer.prepend(this.newContentNode);
+
+        let input = this.newContentContainer.querySelector('input')
+        input.setAttribute('data-kind', kind)
+        input.setAttribute('data-url', url)
+        console.log(input);
+        input.focus()
+
+        input.addEventListener('keyup', this.createContent.bind(this));
+        input.addEventListener('blur', this.cancelCreate.bind(this));
+
+        event.stopPropagation();
+    }
+
+    createContent(event) {
+        const self = this;
+        let parentContent = event.target.closest('li.directory')
+        if (event.key == "Enter") {
+            let parent = self.newContentContainer.getAttribute('data-parent')
+            let input = self.newContentContainer.querySelector('input')
+
+            fetch(input.getAttribute('data-url'), {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    parent: parent,
+                    kind: input.getAttribute('data-kind'),
+                    path: input.value
+                })
+            }).then((response) => {
+                response.json().then(function (data) {
+                    console.log(data);
+                    if (window.Turbolinks) {
+                        Turbolinks.visit(data['url'])
+                    } else {
+                        window.location.href = data['url']
+                    }
+
+                    self.cancelCreate(event)
+                });
+            });
+            self.cancelCreate(event)
+
+        } else if (event.key == 'Escape') {
+            self.cancelCreate(event)
+        }
+
+    }
+
+    cancelCreate(event) {
+        this.newContentContainer.removeChild(this.newContentContainer.firstChild);
     }
 
     disconnect() {

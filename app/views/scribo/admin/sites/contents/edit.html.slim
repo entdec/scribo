@@ -4,7 +4,8 @@
     .row style="position: absolute; width: 100%; height: 100%;"
       - if @content.kind == 'asset'
         .col-sm-10
-          = f.input :data, as: :file
+          input type="file" name="content[files][]" multiple="true"
+          br
           - if %w[image].include? @content&.content_type_group
             img src=content_path(@content) style="max-width: 100%; border: 1px dashed #ccc;"
           - if %w[font].include? @content&.content_type_group
