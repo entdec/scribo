@@ -6,7 +6,7 @@ module Scribo
   module Admin
     class Sites::ContentsController < ApplicationAdminController
       before_action :set_objects
-      skip_before_action :verify_authenticity_token, only: [:move, :rename, :remote_create]
+      skip_before_action :verify_authenticity_token, only: %i[move rename remote_create]
 
       def new
         add_breadcrumb('New content', new_admin_site_content_path(@site)) if defined? add_breadcrumb
@@ -57,15 +57,16 @@ module Scribo
           @content.data = file.read
           @content.state = 'published'
 
-          params[:content][:files][1..-1].each do |file|
-            next unless Content.content_type_supported?(file.content_type)
+          # Just store extra files
+          params[:content][:files][1..-1].each do |extra_file|
+            next unless Content.content_type_supported?(extra_file.content_type)
 
-            c = @site.contents.new(kind: Content.text_based?(file.content_type) ? 'text' : 'asset')
+            c = @site.contents.new(kind: Content.text_based?(extra_file.content_type) ? 'text' : 'asset')
 
-            c.kind = Content.text_based?(file.content_type) ? 'text' : 'asset'
-            c.content_type = file.content_type
-            c.path = file.original_filename
-            c.data = file.read
+            c.kind = Content.text_based?(extra_file.content_type) ? 'text' : 'asset'
+            c.content_type = extra_file.content_type
+            c.path = extra_file.original_filename
+            c.data = extra_file.read
             c.state = 'published'
             c.save!
           end
