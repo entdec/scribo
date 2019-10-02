@@ -16,6 +16,7 @@ module Scribo
       raise 'Site import needs a _config.yml file in the root of the zip' unless meta_info_entry
 
       @meta_info_site = YAML.safe_load(meta_info_entry.get_input_stream.read, permitted_classes: [Time])
+      meta_info_site['contents'] = [] unless meta_info_site['contents']
 
       # TODO: Check version numbers
       @base_path = "site_#{meta_info_site['name']}"
@@ -34,7 +35,7 @@ module Scribo
           next if entry_path.empty?
           next if entry_depth(entry_path) != depth
 
-          # puts "depth: #{depth} - entrypath: #{entry_path} - entry depth: #{entry_depth(entry_path)}"
+          # puts "depth: #{depth} - entrypath: #{entry_path} - entry depth: #{entry_depth(entry_path)} => #{entry_path}"
 
           if depth.positive?
             parts = entry_path.split('/')[1..-1]
@@ -80,11 +81,13 @@ module Scribo
         return unless meta_info['content_type']
       end
 
-      content = site.contents.find_or_create_by(site: site, path: File.basename(meta_info['path']), full_path: meta_info['path'])
+      parent = meta_info_site['contents'].find { |mi| mi['path'] == meta_info['parent'] }['record'] if meta_info['parent']
+
+      site.contents.rebuild!(validate: false) # WHY
+      content = site.contents.find_or_create_by(path: File.basename(meta_info['path']), full_path: meta_info['path'], parent: parent)
 
       content.data = entry.get_input_stream.read if entry&.get_input_stream&.respond_to?(:read)
       content.kind = meta_info['kind']
-      content.path = File.basename(meta_info['path'])
       content.content_type = meta_info['content_type']
       content.title = meta_info['title']
       content.description = meta_info['description']
@@ -93,15 +96,14 @@ module Scribo
       content.breadcrumb = meta_info['breadcrumb']
       content.keywords = meta_info['keywords']
       content.state = meta_info['state']
-      content.layout_id = meta_info_site['contents'].find { |mi| mi['path'] == meta_info['layout'] }['id'] if meta_info['layout']
-      content.parent_id = meta_info_site['contents'].find { |mi| mi['path'] == meta_info['parent'] }['id'] if meta_info['parent']
+      content.layout = meta_info_site['contents'].find { |mi| mi['path'] == meta_info['layout'] }['record'] if meta_info['layout']
       content.properties = meta_info['properties']
       content.published_at = meta_info['published_at']
       content.save!
 
-      meta_info['id'] = content.id
+      meta_info['record'] = content
 
-      content.update_columns(lft: meta_info['lft'].to_i, rgt: meta_info['rgt'].to_i, depth: meta_info['depth'].to_i)
+      # content.update_columns(lft: meta_info['lft'].to_i, rgt: meta_info['rgt'].to_i, depth: meta_info['depth'].to_i)
     end
 
     def guess_info_for_entry_name(prefill, entry_name, entry)
@@ -122,7 +124,11 @@ module Scribo
       path = path.gsub(/\.html$/, '')
       path = '/' if path == '/index'
       meta_info = (meta_info_site['contents'] || []).find { |m| m['path'] == path }
-      meta_info ||= guess_info_for_entry_name({ 'path' => path }, entry_path, entry)
+      unless meta_info
+        meta_info = guess_info_for_entry_name({ 'path' => path }, entry_path, entry)
+        meta_info['parent'] = File.dirname(entry_path) if entry_depth(entry_path).positive?
+        meta_info_site['contents'] << meta_info
+      end
       meta_info
     end
 

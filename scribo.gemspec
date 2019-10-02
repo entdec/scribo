@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
 
   s.files = Dir['{app,config,db,lib}/**/*', 'MIT-LICENSE', 'Rakefile', 'README.md']
 
-  s.add_dependency 'awesome_nested_set', '~> 3.1'
+  s.add_dependency 'awesome_nested_set', '~> 3.2'
   s.add_dependency 'liquor', '~> 0.4'
   s.add_dependency 'mime-types'
   s.add_dependency 'pg'
