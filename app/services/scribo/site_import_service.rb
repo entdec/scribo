@@ -13,16 +13,22 @@ module Scribo
 
       # Find specific entry
       meta_info_entry = zip_file.glob('site_*/_config.yml').first
-      raise 'Site import needs a _config.yml file in the root of the zip' unless meta_info_entry
+      # raise 'Site import needs a _config.yml file in the root of the zip' unless meta_info_entry
 
-      @meta_info_site = YAML.safe_load(meta_info_entry.get_input_stream.read, permitted_classes: [Time])
+      if meta_info_entry
+        @meta_info_site = YAML.safe_load(meta_info_entry.get_input_stream.read, permitted_classes: [Time])
+      else
+        @meta_info_site = {}
+      end
       meta_info_site['contents'] = [] unless meta_info_site['contents']
 
-      # TODO: Check version numbers
-      @base_path = "site_#{meta_info_site['name']}"
+      @base_path = nil
       zip_file.glob('**/*').reject { |e| e.name.start_with?('__MACOSX/') || e.name.end_with?('/.DS_Store') }.each do |entry|
-        raise "Site import needs all site content to be in a folder starting with #{base_path}/" unless entry.name.start_with?(base_path + '/')
+        @base_path ||= entry.name.split('/').first
+        raise "Site import needs all site content to be in one folder starting with #{base_path}/" unless entry.name.start_with?(base_path + '/')
       end
+
+      meta_info_site['name'] ||= base_path
     end
 
     def perform
