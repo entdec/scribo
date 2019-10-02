@@ -37,19 +37,16 @@
         .row
           .col-sm-12
             br
-            - unless @content.persisted?
-              = f.input :path
-            = f.association :layout, collection: @layouts, selected: @content.layout_id, label_method: :path, include_blank: true
-
-            - if @content.kind != 'asset'
-              = f.input :content_type, collection: @content_types, include_blank: false
-
+            - if @content.kind == 'text'
+              = f.association :layout, collection: @layouts, selected: @content.layout_id, label_method: :path, include_blank: true
+            = f.input :content_type, collection: @content_types, include_blank: false
             = f.input :state, collection: @states, selected: @content.state, include_blank: true
             = f.input :kind, as: :hidden
 
             .collapse#advancedContainer
-              = f.input :filter
-              = f.input :parent_id, as: :hidden
+              - if @content.kind == 'text'
+                = f.input :filter
+                = f.input :parent_id, as: :hidden
               = f.input :title
               = f.input :properties, as: :code_mirror, input_html: {value: YAML.dump(f.object.properties), data: { height: '80px', lang: 'application/yaml', mode: {name: 'liquid', base: 'application/yaml'}}}
 

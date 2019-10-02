@@ -128,9 +128,21 @@ module Scribo
                            params[:content] ? @site.contents.new(content_params) : @site.contents.new
                          end
         @layouts       = @site.contents.where(kind: %w[text redirect]).identified.where.not(id: @content.id)
-        @content_types = Scribo.config.supported_mime_types[:text]
-        @content_types += Scribo.config.supported_mime_types[:script]
-        @content_types += Scribo.config.supported_mime_types[:style]
+
+        @content_types = []
+        if @content.kind == 'text'
+          @content_types += Scribo.config.supported_mime_types[:text]
+          @content_types += Scribo.config.supported_mime_types[:script]
+          @content_types += Scribo.config.supported_mime_types[:style]
+        else
+          @content_types += Scribo.config.supported_mime_types[:image]
+          @content_types += Scribo.config.supported_mime_types[:audio]
+          @content_types += Scribo.config.supported_mime_types[:video]
+          @content_types += Scribo.config.supported_mime_types[:document]
+          @content_types += Scribo.config.supported_mime_types[:font]
+          @content_types += Scribo.config.supported_mime_types[:other]
+        end
+
         @states = Scribo::Content.state_machine.states.map(&:value)
         @sites = Scribo::Site.order(:name)
         @kinds = %w[text redirect asset]
