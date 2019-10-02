@@ -77,7 +77,7 @@ module Scribo
     def create_content(site, entry_path, entry)
       meta_info = meta_info_for_entry_name(meta_info_site, entry_path, entry)
       if meta_info['kind'] != 'folder'
-        Scribo.config.logger "Scribo: Not importing #{entry.name} it's a non-supported content-type!" unless meta_info['content_type']
+        Scribo.config.logger.warn "Scribo: Not importing #{entry_path} it's a non-supported content-type!" unless meta_info['content_type']
         return unless meta_info['content_type']
       end
 
