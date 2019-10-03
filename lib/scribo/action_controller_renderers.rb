@@ -44,7 +44,7 @@ module ActionController::Renderers
 
     if content
       # Prepare assigns and registers
-      assigns = { 'request' => ActionDispatch::RequestDrop.new(request) }
+      assigns = { 'content' => content, 'site' => current_site, 'request' => ActionDispatch::RequestDrop.new(request) }
       instance_variables.reject { |i| i.to_s.starts_with?('@_') }.each do |i|
         assigns[i.to_s[1..-1]] = instance_variable_get(i)
       end
