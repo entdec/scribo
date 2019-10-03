@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require 'pry'
+
 # Add scribo as a renderer
 module ActionController::Renderers
   add :scribo do |site, options|
@@ -58,7 +58,7 @@ module ActionController::Renderers
         redirect_to redirect_options.last, status: redirect_options.first
       elsif stale?(etag: content.cache_key, public: true)
         if content.kind == 'asset'
-          send_data(content.render(assigns, registers), type: content.content_type, disposition: 'inline')
+          send_data(content.data, type: content.content_type, disposition: 'inline')
         else
           content.render(assigns, registers)
         end
