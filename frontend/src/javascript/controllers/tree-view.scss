@@ -112,8 +112,11 @@
 .tree-view .file > .list-item .name[data-path$='.txt']              {background-image: url(../../images/icons/txt.svg);}
 .tree-view .file > .list-item .name[data-path$='.html']               {background-image: url(../../images/icons/html.svg);}
 .tree-view .file > .list-item .name[data-path$='.json']        {background-image: url(../../images/icons/json.svg);}
+.tree-view .file > .list-item .name[data-path$='.yaml']         {background-image: url(../../images/icons/yaml.svg);}
+.tree-view .file > .list-item .name[data-path$='.yml']         {background-image: url(../../images/icons/yml.svg);}
 .tree-view .file > .list-item .name[data-path$='.xml']         {background-image: url(../../images/icons/xml.svg);}
 .tree-view .file > .list-item .name[data-path$='.css']                {background-image: url(../../images/icons/css.svg);}
+.tree-view .file > .list-item .name[data-path$='.plist']                {background-image: url(../../images/icons/plist.svg);}
 
 // script
 .tree-view .file > .list-item .name[data-path$='.js']         {background-image: url(../../images/icons/js.svg);}
@@ -126,6 +129,7 @@
 .tree-view .file > .list-item .name[data-path$='.jpeg']    {background-image: url(../../images/icons/jpg.svg);}
 .tree-view .file > .list-item .name[data-path$='.jpg']    {background-image: url(../../images/icons/jpg.svg);}
 .tree-view .file > .list-item .name[data-path$='.svg'] {background-image: url(../../images/icons/svg.svg);}
+.tree-view .file > .list-item .name[data-path$='.ico'] {background-image: url(../../images/icons/ico.svg);}
 
 // video
 .tree-view .file > .list-item .name[data-path$='.webm'] {background-image: url(../../images/icons/webm.svg);}
