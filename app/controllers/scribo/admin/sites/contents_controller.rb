@@ -108,7 +108,7 @@ module Scribo
       end
 
       def remote_create
-        new_content = @site.contents.create(path: params[:path], kind: params[:kind])
+        new_content = @site.contents.create(path: params[:path], kind: params[:kind], state: 'published')
         if params[:parent]
           parent = @site.contents.find(params[:parent])
           new_content.move_to_child_with_index(parent, 0)

@@ -4,12 +4,21 @@ require_dependency 'scribo/application_drop'
 
 module Scribo
   class DataDrop < ApplicationDrop
+    attr_accessor :data_path
+
+    def initialize(object, data_path = [])
+      @object = object
+      @data_path = data_path
+    end
+
     def [](name)
       method_missing(name)
     end
 
     def method_missing(method)
-      content = @object.contents.data(method.to_s).first
+      content = @object.contents.data((data_path + [method.to_s]).join('/')).first
+
+      return Scribo::DataDrop.new(@object, data_path + [content.path]) if content&.kind == 'folder'
 
       case content&.content_type
       when 'text/x-yaml'
