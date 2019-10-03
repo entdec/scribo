@@ -37,6 +37,10 @@ module Scribo
       published.where(full_path: possibles)
     end
 
+    def self.locale(name)
+      published.where(full_path: "/_locales/#{name}.yml")
+    end
+
     def self.located(path, allow_non_public = false)
       return none unless path.present?
       return none if !allow_non_public && File.basename(path).start_with?('_')
@@ -99,8 +103,6 @@ module Scribo
 
     def translation_scope
       scope = []
-      scope << 'scribo'
-      scope << site.name.underscore.tr(' ', '_')
 
       p = full_path.tr('/', '.')[1..-1]
       scope << (p.present? ? p : 'index')
