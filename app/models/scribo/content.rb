@@ -43,7 +43,8 @@ module Scribo
         path = File.dirname(identifier).gsub(/^\./, '') + '/_' + File.basename(identifier)
         path = '/' + path unless path[0] == '/'
 
-        located(path, true)
+        # Allow to be not so specific with extensions, if it clashes, you need to specify the extension
+        published.where("full_path LIKE ?", "#{path}%")
       else
         # For now this makes the extension irrelevant, which is fine
         published.where("full_path LIKE '%_%'")
@@ -63,7 +64,7 @@ module Scribo
       if Scribo::Content.columns.map(&:name).include?('identifier')
         attributes['identifier']
       else
-        File.basename(path).gsub('_', '')
+        File.basename(path, File.extname(path)).gsub('_', '')
       end
     end
 
