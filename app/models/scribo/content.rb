@@ -13,7 +13,7 @@ module Scribo
 
     validate :layout_cant_be_current_content
 
-    after_commit :set_full_path
+    after_commit :set_full_path, on: [:create, :update]
 
     state_machine initial: :draft do
       state :draft
@@ -33,7 +33,8 @@ module Scribo
     end
 
     def self.data(name)
-      published.where("full_path LIKE ?", "/_data/#{name}.%")
+      possibles = ["/_data/#{name}.yml", "/_data/#{name}.yaml", "/_data/#{name}.json", "/_data/#{name}.csv", "/_data/#{name}"]
+      published.where(full_path: possibles)
     end
 
     def self.located(path, allow_non_public = false)
