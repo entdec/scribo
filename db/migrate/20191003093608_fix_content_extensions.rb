@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class FixContentExtensions < ActiveRecord::Migration[6.0]
+class FixContentExtensions < ActiveRecord::Migration[5.2]
   def change
     Scribo::Content.where(kind: 'text').each do |content|
       puts content.full_path
