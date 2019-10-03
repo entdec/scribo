@@ -18,9 +18,7 @@ module Scribo
 
           contents = []
           params[:content][:files].each do |file|
-            next unless Content.content_type_supported?(file.content_type)
-
-            c = @site.contents.new(kind: Content.text_based?(file.content_type) ? 'text' : 'asset')
+            c = @site.contents.new(kind: Scribo::Utility.kind_for_content_type(extra_file.content_type))
 
             c.content_type = file.content_type
             c.path = file.original_filename
@@ -52,19 +50,13 @@ module Scribo
 
           file = params[:content][:files].first
 
-          @content.kind = Content.text_based?(file.content_type) ? 'text' : 'asset'
-          @content.content_type = file.content_type
+          @content.kind = Scribo::Utility.kind_for_content_type(file.content_type)
           @content.data = file.read
           @content.state = 'published'
 
           # Just store extra files
           params[:content][:files][1..-1].each do |extra_file|
-            next unless Content.content_type_supported?(extra_file.content_type)
-
-            c = @site.contents.new(kind: Content.text_based?(extra_file.content_type) ? 'text' : 'asset')
-
-            c.kind = Content.text_based?(extra_file.content_type) ? 'text' : 'asset'
-            c.content_type = extra_file.content_type
+            c = @site.contents.new(kind: Scribo::Utility.kind_for_content_type(extra_file.content_type))
             c.path = extra_file.original_filename
             c.data = extra_file.read
             c.state = 'published'
@@ -79,12 +71,6 @@ module Scribo
 
       def show
         redirect_to admin_site_contents_path(@site)
-      end
-
-      def preview
-        @content      = Content.find(params[:id])
-        @content.data = params[:data]
-        render body: @content.render(request: ActionDispatch::RequestDrop.new(request)), content_type: @content.content_type, layout: false
       end
 
       def destroy
@@ -129,20 +115,6 @@ module Scribo
                            params[:content] ? @site.contents.new(content_params) : @site.contents.new
                          end
         @layouts       = @site.contents.where(kind: %w[text redirect]).identified.where.not(id: @content.id)
-
-        @content_types = []
-        if @content.kind == 'text'
-          @content_types += Scribo.config.supported_mime_types[:text]
-          @content_types += Scribo.config.supported_mime_types[:script]
-          @content_types += Scribo.config.supported_mime_types[:style]
-        else
-          @content_types += Scribo.config.supported_mime_types[:image]
-          @content_types += Scribo.config.supported_mime_types[:audio]
-          @content_types += Scribo.config.supported_mime_types[:video]
-          @content_types += Scribo.config.supported_mime_types[:document]
-          @content_types += Scribo.config.supported_mime_types[:font]
-          @content_types += Scribo.config.supported_mime_types[:other]
-        end
 
         @states = Scribo::Content.state_machine.states.map(&:value)
         @sites = Scribo::Site.order(:name)

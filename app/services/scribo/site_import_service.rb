@@ -94,7 +94,6 @@ module Scribo
 
       content.data = entry.get_input_stream.read if entry&.get_input_stream&.respond_to?(:read)
       content.kind = meta_info['kind']
-      content.content_type = meta_info['content_type']
       content.title = meta_info['title']
       content.description = meta_info['description']
       content.filter = meta_info['filter']
@@ -115,9 +114,9 @@ module Scribo
     def guess_info_for_entry_name(prefill, entry_name, entry)
       meta_info = prefill
       meta_info['state'] = 'published'
-      meta_info['content_type'] = MIME::Types.type_for(entry_name).find { |mt| Content.content_type_supported?(mt.simplified) }&.content_type
+      meta_info['content_type'] = MIME::Types.type_for(entry_name).first.content_type
       meta_info['kind'] = if entry
-                            Scribo.config.supported_mime_types[:text].include?(meta_info['content_type']) ? 'text' : 'asset'
+                            Scribo::Utility.kind_for_content_type(meta_info['content_type'])
                           else
                             'folder'
                           end

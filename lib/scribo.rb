@@ -16,6 +16,7 @@ require 'scribo/configuration'
 require 'scribo/engine'
 require 'scribo/liquid/parser'
 require 'scribo/preamble'
+require 'scribo/utility'
 require 'scribo/version'
 
 module Scribo

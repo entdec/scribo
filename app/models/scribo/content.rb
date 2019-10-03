@@ -13,7 +13,7 @@ module Scribo
 
     validate :layout_cant_be_current_content
 
-    after_commit :set_full_path, on: [:create, :update]
+    after_commit :set_full_path, on: %i[create update]
 
     state_machine initial: :draft do
       state :draft
@@ -40,6 +40,7 @@ module Scribo
     def self.located(path, allow_non_public = false)
       return none unless path.present?
       return none if !allow_non_public && File.basename(path).start_with?('_')
+
       published.where(full_path: path == '/' ? %w[/index.html /index.link] : path)
     end
 
@@ -49,7 +50,7 @@ module Scribo
         path = '/' + path unless path[0] == '/'
 
         # Allow to be not so specific with extensions, if it clashes, you need to specify the extension
-        published.where("full_path LIKE ?", "#{path}%")
+        published.where('full_path LIKE ?', "#{path}%")
       else
         # For now this makes the extension irrelevant, which is fine
         published.where("full_path LIKE '%_%'")
@@ -58,10 +59,6 @@ module Scribo
 
     def self.published
       where(state: 'published').where('published_at IS NULL OR published_at <= :now', now: Time.current.utc)
-    end
-
-    def self.content_group(group)
-      where(content_type: Scribo.config.supported_mime_types[group])
     end
 
     def identifier
@@ -86,19 +83,8 @@ module Scribo
       MIME::Types.type_for(path).first&.content_type || 'application/octet-stream'
     end
 
-    # Returns the group of a certain content_type (text/plain => text, image/gif => image)
-    def content_type_group
-      Scribo.config.supported_mime_types.find { |_, v| v.include?(content_type) }&.first&.to_s
-    end
-
-    # Use this in ContentDrop
-    def deep_path
-      self_and_ancestors.reverse.map(&:path).join
-    end
-
-    # Is the content_type in the supported list?
-    def self.content_type_supported?(content_type)
-      Scribo.config.supported_mime_types.values.flatten.include?(content_type)
+    def media_type
+      MIME::Types.type_for(path).first&.media_type
     end
 
     def self.redirect_options(redirect_data)
@@ -109,10 +95,6 @@ module Scribo
         options.unshift 302
       end
       options
-    end
-
-    def to_data_url
-      "data:#{content_type};base64," + Base64.strict_encode64(data)
     end
 
     def translation_scope
@@ -130,30 +112,12 @@ module Scribo
       super + '-' + I18n.locale.to_s
     end
 
-    def text_based?
-      %w[text style script].include? content_type_group
-    end
-
-    def self.text_based?(content_group)
-      %w[text style script].include? content_type_group(content_group)
-    end
-
-    # Returns the group of a certain content_type (text/plain => text, image/gif => image)
-    def self.content_type_group(content_group)
-      Scribo.config.supported_mime_types.find { |_, v| v.include?(content_group) }&.first&.to_s
-    end
-
     def set_full_path
       return unless respond_to?(:full_path_changed?)
-
-      # return unless path
-      # return if full_path_changed? # Manually setting the full_path
-      # return if !path_changed? && !parent_id_changed? # Only change full path if path or parent changed
 
       result = (ancestors.map(&:path) << path).join('/')
       result = '/' + result unless result.start_with?('/')
       update_column(:full_path, result)
-      # self.full_path = result
     end
 
     private

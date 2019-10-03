@@ -6,9 +6,9 @@
         .col-sm-10
           input type="file" name="content[files][]" multiple="true"
           br
-          - if %w[image].include? @content&.content_type_group
+          - if @content.media_type == 'image'
             img src=content_path(@content) style="max-width: 100%; border: 1px dashed #ccc;"
-          - if %w[font].include? @content&.content_type_group
+          - if @content.media_type == 'font'
             css:
               @font-face {
                 font-family: 'MyWebFont';
