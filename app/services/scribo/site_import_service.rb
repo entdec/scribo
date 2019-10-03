@@ -127,8 +127,8 @@ module Scribo
 
     def meta_info_for_entry_name(meta_info_site, entry_path, entry)
       path = entry_path
-      path = path.gsub(/\.html$/, '')
-      path = '/' if path == '/index'
+      # path = path.gsub(/\.html$/, '')
+      # path = '/' if path == '/index'
       meta_info = (meta_info_site['contents'] || []).find { |m| m['path'] == path }
       unless meta_info
         meta_info = guess_info_for_entry_name({ 'path' => path }, entry_path, entry)

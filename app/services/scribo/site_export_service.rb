@@ -75,9 +75,9 @@ module Scribo
 
     def content_path_for_zip(content)
       zip_path = content.full_path[0] == '/' ? content.full_path[1..-1] : content.full_path
-      zip_path = '' if zip_path == '/'
-      zip_path = 'index' if zip_path.blank?
-      zip_path += '.html' if File.extname(zip_path).blank?
+      # zip_path = '' if zip_path == '/'
+      # zip_path = 'index' if zip_path.blank?
+      # zip_path += '.html' if File.extname(zip_path).blank?
       zip_path
     end
 

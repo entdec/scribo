@@ -13,7 +13,7 @@ module Scribo
 
     validate :layout_cant_be_current_content
 
-    before_save :set_full_path
+    after_commit :set_full_path
 
     state_machine initial: :draft do
       state :draft
@@ -35,32 +35,7 @@ module Scribo
     def self.located(path, allow_non_public = false)
       return none unless path.present?
       return none if !allow_non_public && File.basename(path).start_with?('_')
-
-      result = published.where(full_path: path)
-      # result = recursive_located(path) unless result.present?
-
-      result
-    end
-
-    # Could be used to locate 'child' content like /articles/article1, where /articles is the
-    # index page of all articles and /article1 is the first article
-    def self.recursive_located(path)
-      return none unless path.present?
-
-      sql = <<-SQL
-      WITH RECURSIVE recursive_contents(id, cpath) AS (
-        SELECT id, ARRAY[path]
-        FROM scribo_contents
-        WHERE parent_id IS NULL
-        UNION ALL
-        SELECT scribo_contents.id, cpath || scribo_contents.path
-        FROM recursive_contents
-          JOIN scribo_contents ON scribo_contents.parent_id=recursive_contents.id
-        WHERE NOT scribo_contents.path = ANY(cpath)
-      )
-      SELECT id FROM recursive_contents WHERE CONCAT('/', ARRAY_TO_STRING(cpath, '/')) = '#{path}'
-      SQL
-      published.where("id IN (#{sql})")
+      published.where(full_path: path == '/' ? %w[/index.html /index.link] : path)
     end
 
     def self.identified(identifier = nil)
@@ -70,6 +45,7 @@ module Scribo
 
         located(path, true)
       else
+        # For now this makes the extension irrelevant, which is fine
         published.where("full_path LIKE '%_%'")
       end
     end
@@ -98,6 +74,10 @@ module Scribo
       when 'text', 'redirect'
         Liquor.render(data, assigns: assigns.merge('content' => self), registers: registers.merge('content' => self), filter: filter, layout: layout&.data)
       end
+    end
+
+    def content_type
+      MIME::Types.type_for(path).first&.content_type || 'application/octet-stream'
     end
 
     # Returns the group of a certain content_type (text/plain => text, image/gif => image)
@@ -160,13 +140,14 @@ module Scribo
     def set_full_path
       return unless respond_to?(:full_path_changed?)
 
-      return unless path
-      return if full_path_changed?
-      return if !path_changed? && full_path.present?
+      # return unless path
+      # return if full_path_changed? # Manually setting the full_path
+      # return if !path_changed? && !parent_id_changed? # Only change full path if path or parent changed
 
       result = (ancestors.map(&:path) << path).join('/')
       result = '/' + result unless result.start_with?('/')
-      self.full_path = result
+      update_column(:full_path, result)
+      # self.full_path = result
     end
 
     private
