@@ -10,5 +10,9 @@ module Scribo
     def children
       @object.children.to_a
     end
+
+    def data
+      Scribo::DataDrop.new(@object)
+    end
   end
 end

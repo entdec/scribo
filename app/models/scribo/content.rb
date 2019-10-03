@@ -32,6 +32,10 @@ module Scribo
       end
     end
 
+    def self.data(name)
+      published.where("full_path LIKE ?", "/_data/#{name}.%")
+    end
+
     def self.located(path, allow_non_public = false)
       return none unless path.present?
       return none if !allow_non_public && File.basename(path).start_with?('_')
