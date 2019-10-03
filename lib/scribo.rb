@@ -1,21 +1,22 @@
 # frozen_string_literal: true
 
+require 'awesome_nested_set'
 require 'liquid'
 require 'liquor'
-require 'awesome_nested_set'
 require 'state_machines-activerecord'
 require 'simple_form'
 require 'slim-rails'
 require 'zip'
 
-require 'scribo/version'
-require 'scribo/engine'
-require 'scribo/configuration'
 require 'scribo/action_controller_helpers'
 require 'scribo/active_record_helpers'
 require 'scribo/action_view_helpers'
 require 'scribo/action_controller_renderers'
+require 'scribo/configuration'
+require 'scribo/engine'
 require 'scribo/liquid/parser'
+require 'scribo/preamble'
+require 'scribo/version'
 
 module Scribo
   # Configuration
