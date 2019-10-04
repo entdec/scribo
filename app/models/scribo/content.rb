@@ -13,7 +13,7 @@ module Scribo
 
     validate :layout_cant_be_current_content
 
-    after_save :set_full_path, on: %i[create update]
+    after_save :set_full_path
     after_move :set_full_path
 
     state_machine initial: :draft do

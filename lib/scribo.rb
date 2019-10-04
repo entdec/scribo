@@ -3,6 +3,7 @@
 require 'awesome_nested_set'
 require 'liquid'
 require 'liquor'
+require 'mime/types'
 require 'state_machines-activerecord'
 require 'simple_form'
 require 'slim-rails'
