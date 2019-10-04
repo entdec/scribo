@@ -131,7 +131,10 @@ module Scribo
 
       result = (ancestors.map(&:path) << path).join('/')
       result = '/' + result unless result.start_with?('/')
+
       update_column(:full_path, result)
+
+      children.each(&:set_full_path)
     end
 
     private
