@@ -32,7 +32,7 @@
             button name='commit' value='save' class="btn btn-primary"
               i.fas.fa-save
             a.btn data-toggle='collapse' data-target='#advancedContainer'
-              i.fas.fa-info
+              i.fas.fa-caret-down
 
         .row
           .col-sm-12
@@ -43,9 +43,5 @@
             = f.input :kind, as: :hidden
 
             .collapse#advancedContainer
-              - if @content.kind == 'text'
-                = f.input :filter
-                = f.input :parent_id, as: :hidden
-              = f.input :title
               = f.input :properties, as: :code_mirror, input_html: {value: YAML.dump(f.object.properties), data: { height: '80px', lang: 'application/yaml', mode: {name: 'liquid', base: 'application/yaml'}}}
 
