@@ -36,7 +36,7 @@ index.html:
             {%for c in content.sites.contents%}
             <li><a href="{{c.path}}">{{c.title}}</a></li>
             {%endfor%}
-        </ul>    
+        </ul>
     </body>
 </html>
 ```
@@ -62,7 +62,7 @@ This is <b>sidebar</b> content.
 
 ### include
 
-Usage: {% include 'identifier' %} 
+Usage: {% include 'identifier' %}
 
 Will include the content from the identified content.
 
@@ -76,7 +76,7 @@ Will look for content with identifier 'menu' and include that.
 
 
 ## Filters
-Because we use [Slim](http://slim-lang.com) and [Tilt](https://github.com/rtomayko/tilt), all text-based content can be run through additional filters like Markdown, Slim, Haml and Sass. 
+Because we use [Slim](http://slim-lang.com) and [Tilt](https://github.com/rtomayko/tilt), all text-based content can be run through additional filters like Markdown, Slim, Haml and Sass.
 
 If you add content and set filter to 'markdown', Scribo will render that content using markdown.
 

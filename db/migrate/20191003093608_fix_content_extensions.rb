@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'mime/types'
+
 class FixContentExtensions < ActiveRecord::Migration[5.2]
   def change
     Scribo::Content.where(kind: 'text').each do |content|
