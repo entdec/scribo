@@ -96,11 +96,16 @@ module Scribo
     end
 
     def content_type
-      MIME::Types.type_for(path).first&.content_type || 'application/octet-stream'
+      mime_type&.content_type || 'application/octet-stream'
     end
 
     def media_type
-      MIME::Types.type_for(path).first&.media_type
+      mime_type&.media_type
+    end
+
+    def mime_type
+      file_name = path.split('/').last.to_s
+      file_name.split('.').lazy.map { |part| s.type_for(part).first }.detect(&:itself)
     end
 
     def self.redirect_options(redirect_data)
