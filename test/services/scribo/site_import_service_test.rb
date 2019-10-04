@@ -11,8 +11,8 @@ module Scribo
 
         assert subject
         assert_equal 4, subject.contents.count
-        assert_equal 'text', subject.contents.located('/').first.kind
-        assert_equal "test\n", subject.contents.located('/').first.data
+        assert_equal 'text', subject.contents.located('/index.html').first.kind
+        assert_equal "test\n", subject.contents.located('/index.html').first.data
         assert_equal 'folder', subject.contents.located('/folder1').first.kind
         assert_equal 'asset', subject.contents.located('/folder1/test.png').first.kind
         assert_equal 'asset', subject.contents.located('/test.png').first.kind
@@ -26,8 +26,8 @@ module Scribo
 
         assert subject
         assert_equal 4, subject.contents.count
-        assert_equal 'text', subject.contents.located('/').first.kind
-        assert_equal "test\n", subject.contents.located('/').first.data
+        assert_equal 'text', subject.contents.located('/index.html').first.kind
+        assert_equal "test\n", subject.contents.located('/index.html').first.data
         assert_equal 'folder', subject.contents.located('/folder1').first.kind
         assert_equal 'asset', subject.contents.located('/folder1/test.png').first.kind
         assert_equal 'asset', subject.contents.located('/test.png').first.kind
@@ -41,8 +41,8 @@ module Scribo
 
         assert subject
         assert_equal 4, subject.contents.count
-        assert_equal 'text', subject.contents.located('/').first.kind
-        assert_equal "test\n", subject.contents.located('/').first.data
+        assert_equal 'text', subject.contents.located('/index.html').first.kind
+        assert_equal "test\n", subject.contents.located('/index.html').first.data
         assert_equal 'folder', subject.contents.located('/folder1').first.kind
         assert_equal 'asset', subject.contents.located('/folder1/test.png').first.kind
         assert_equal 'asset', subject.contents.located('/test.png').first.kind
@@ -55,12 +55,14 @@ module Scribo
         subject = Scribo::SiteImportService.new(f.path).call
 
         assert subject
-        assert_equal 4, subject.contents.count
-        assert_equal 'text', subject.contents.located('/').first.kind
-        assert_equal "test\n", subject.contents.located('/').first.data
+        assert_equal 5, subject.contents.count
+        assert_equal 'text', subject.contents.located('/index.html').first.kind
+        assert_equal "test\n", subject.contents.located('/index.html').first.data
+        assert_equal({ 'published' => true }, subject.contents.located('/index.html').first.properties)
         assert_equal 'folder', subject.contents.located('/folder1').first.kind
         assert_equal 'asset', subject.contents.located('/folder1/test.png').first.kind
         assert_equal 'asset', subject.contents.located('/test.png').first.kind
+        assert_equal 'asset', subject.contents.located('/folder1/fontello.woff2').first.kind
       end
     end
   end
