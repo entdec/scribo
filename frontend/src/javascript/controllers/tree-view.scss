@@ -54,7 +54,7 @@
 
 .tree-view .file > span {
   background-image: url(../../images/file.svg);
-  background-size: 16px 16px;
+  background-size: 18px 18px;
   padding-left: 0px;
 }
 
@@ -85,13 +85,13 @@
 }
 
 .tree-view .directory.closed > .list-item .name {
-  background-image: url(../../images/folder.svg);
-  background-size: 16px 16px;
+  background-image: url(../../images/icons/folder.svg);
+  background-size: 18px 18px;
 }
 
 .tree-view .directory.open > .list-item .name {
-  background-image: url(../../images/folder-open.svg);
-  background-size: 16px 16px;
+  background-image: url(../../images/icons/folder-open.svg);
+  background-size: 18px 18px;
 }
 
 // .tree-view .entry.selected:before {
@@ -108,57 +108,67 @@
   display: none;
 }
 
+
+.tree-view .directory.closed > .list-item .name[data-path*='font'] { background-image: url(../../images/icons/folder-font.svg); }
+.tree-view .directory.open > .list-item .name[data-path*='font'] {  background-image: url(../../images/icons/folder-font-open.svg); }
+
+.tree-view .directory.closed > .list-item .name[data-path*='image'] { background-image: url(../../images/icons/folder-images.svg); }
+.tree-view .directory.open > .list-item .name[data-path*='image'] {  background-image: url(../../images/icons/folder-images-open.svg); }
+
+.tree-view .directory.closed > .list-item .name[data-path*='data'] { background-image: url(../../images/icons/folder-database.svg); }
+.tree-view .directory.open > .list-item .name[data-path*='data'] {  background-image: url(../../images/icons/folder-database-open.svg); }
+
 // text
-.tree-view .file > .list-item .name[data-path$='.txt']              {background-image: url(../../images/icons/txt.svg);}
+.tree-view .file > .list-item .name[data-path$='.txt']              {background-image: url(../../images/icons/document.svg);}
 .tree-view .file > .list-item .name[data-path$='.html']               {background-image: url(../../images/icons/html.svg);}
 .tree-view .file > .list-item .name[data-path$='.json']        {background-image: url(../../images/icons/json.svg);}
 .tree-view .file > .list-item .name[data-path$='.yaml']         {background-image: url(../../images/icons/yaml.svg);}
-.tree-view .file > .list-item .name[data-path$='.yml']         {background-image: url(../../images/icons/yml.svg);}
+.tree-view .file > .list-item .name[data-path$='.yml']         {background-image: url(../../images/icons/yaml.svg);}
 .tree-view .file > .list-item .name[data-path$='.xml']         {background-image: url(../../images/icons/xml.svg);}
 .tree-view .file > .list-item .name[data-path$='.css']                {background-image: url(../../images/icons/css.svg);}
-.tree-view .file > .list-item .name[data-path$='.plist']                {background-image: url(../../images/icons/plist.svg);}
+.tree-view .file > .list-item .name[data-path$='.plist']                {background-image: url(../../images/icons/xml.svg);}
 
 // script
-.tree-view .file > .list-item .name[data-path$='.js']         {background-image: url(../../images/icons/js.svg);}
+.tree-view .file > .list-item .name[data-path$='.js']         {background-image: url(../../images/icons/javascript.svg);}
 
 // image
-.tree-view .file > .list-item .name[data-path$='.png']     {background-image: url(../../images/icons/png.svg);}
-.tree-view .file > .list-item .name[data-path$='.gif']     {background-image: url(../../images/icons/gif.svg);}
-.tree-view .file > .list-item .name[data-path$='.bmp']     {background-image: url(../../images/icons/bmp.svg);}
-.tree-view .file > .list-item .name[data-path$='.webp']    {background-image: url(../../images/icons/webp.svg);}
-.tree-view .file > .list-item .name[data-path$='.jpeg']    {background-image: url(../../images/icons/jpg.svg);}
-.tree-view .file > .list-item .name[data-path$='.jpg']    {background-image: url(../../images/icons/jpg.svg);}
-.tree-view .file > .list-item .name[data-path$='.svg'] {background-image: url(../../images/icons/svg.svg);}
-.tree-view .file > .list-item .name[data-path$='.ico'] {background-image: url(../../images/icons/ico.svg);}
+.tree-view .file > .list-item .name[data-path$='.png']     {background-image: url(../../images/icons/image.svg);}
+.tree-view .file > .list-item .name[data-path$='.gif']     {background-image: url(../../images/icons/image.svg);}
+.tree-view .file > .list-item .name[data-path$='.bmp']     {background-image: url(../../images/icons/image.svg);}
+.tree-view .file > .list-item .name[data-path$='.webp']    {background-image: url(../../images/icons/image.svg);}
+.tree-view .file > .list-item .name[data-path$='.jpeg']    {background-image: url(../../images/icons/image.svg);}
+.tree-view .file > .list-item .name[data-path$='.jpg']    {background-image: url(../../images/icons/image.svg);}
+.tree-view .file > .list-item .name[data-path$='.svg'] {background-image: url(../../images/icons/image.svg);}
+.tree-view .file > .list-item .name[data-path$='.ico'] {background-image: url(../../images/icons/image.svg);}
 
 // video
-.tree-view .file > .list-item .name[data-path$='.webm'] {background-image: url(../../images/icons/webm.svg);}
-.tree-view .file > .list-item .name[data-path$='.ogg']  {background-image: url(../../images/icons/ogg.svg);}
-.tree-view .file > .list-item .name[data-path$='.mp4']  {background-image: url(../../images/icons/mp4.svg);}
+.tree-view .file > .list-item .name[data-path$='.webm'] {background-image: url(../../images/icons/video.svg);}
+.tree-view .file > .list-item .name[data-path$='.ogg']  {background-image: url(../../images/icons/video.svg);}
+.tree-view .file > .list-item .name[data-path$='.mp4']  {background-image: url(../../images/icons/video.svg);}
 
 // audio
-.tree-view .file > .list-item .name[data-path$='.midi'] {background-image: url(../../images/icons/midi.svg);}
-.tree-view .file > .list-item .name[data-path$='.mpeg'] {background-image: url(../../images/icons/mpeg.svg);}
-.tree-view .file > .list-item .name[data-path$='.webm'] {background-image: url(../../images/icons/webm.svg);}
-.tree-view .file > .list-item .name[data-path$='.wav']  {background-image: url(../../images/icons/wav.svg);}
+.tree-view .file > .list-item .name[data-path$='.midi'] {background-image: url(../../images/icons/audio.svg);}
+.tree-view .file > .list-item .name[data-path$='.mpeg'] {background-image: url(../../images/icons/audio.svg);}
+.tree-view .file > .list-item .name[data-path$='.webm'] {background-image: url(../../images/icons/audio.svg);}
+.tree-view .file > .list-item .name[data-path$='.wav']  {background-image: url(../../images/icons/audio.svg);}
 
 // document
-.tree-view .file > .list-item .name[data-path$='.doc']            {background-image: url(../../images/icons/doc.svg);}
-.tree-view .file > .list-item .name[data-path$='.docx']            {background-image: url(../../images/icons/docx.svg);}
-.tree-view .file > .list-item .name[data-path$='.ppt'] {background-image: url(../../images/icons/ppt.svg);}
-.tree-view .file > .list-item .name[data-path$='.pptx'] {background-image: url(../../images/icons/pptx.svg);}
-.tree-view .file > .list-item .name[data-path$='.csv']      {background-image: url(../../images/icons/csv.svg);}
-.tree-view .file > .list-item .name[data-path$='.xls']      {background-image: url(../../images/icons/xlsx.svg);}
-.tree-view .file > .list-item .name[data-path$='.xlsx']      {background-image: url(../../images/icons/xlsx.svg);}
+.tree-view .file > .list-item .name[data-path$='.doc']            {background-image: url(../../images/icons/word.svg);}
+.tree-view .file > .list-item .name[data-path$='.docx']            {background-image: url(../../images/icons/word.svg);}
+.tree-view .file > .list-item .name[data-path$='.ppt'] {background-image: url(../../images/icons/powerpoint.svg);}
+.tree-view .file > .list-item .name[data-path$='.pptx'] {background-image: url(../../images/icons/powerpoint.svg);}
+.tree-view .file > .list-item .name[data-path$='.csv']      {background-image: url(../../images/icons/table.svg);}
+.tree-view .file > .list-item .name[data-path$='.xls']      {background-image: url(../../images/icons/table.svg);}
+.tree-view .file > .list-item .name[data-path$='.xlsx']      {background-image: url(../../images/icons/table.svg);}
 .tree-view .file > .list-item .name[data-path$='.pdf']               {background-image: url(../../images/icons/pdf.svg);}
 .tree-view .file > .list-item .name[data-path$='.zip']               {background-image: url(../../images/icons/zip.svg);}
 
 // font
-.tree-view .file > .list-item .name[data-path$='.eot']                      {background-image: url(../../images/icons/eot.svg);}
-.tree-view .file > .list-item .name[data-path$='.otf']                      {background-image: url(../../images/icons/otf.svg);}
-.tree-view .file > .list-item .name[data-path$='.ttf']                      {background-image: url(../../images/icons/ttf.svg);}
-.tree-view .file > .list-item .name[data-path$='.woff']                     {background-image: url(../../images/icons/woff.svg);}
-.tree-view .file > .list-item .name[data-path$='.woff2']                    {background-image: url(../../images/icons/woff2.svg);}
+.tree-view .file > .list-item .name[data-path$='.eot']                      {background-image: url(../../images/icons/font.svg);}
+.tree-view .file > .list-item .name[data-path$='.otf']                      {background-image: url(../../images/icons/font.svg);}
+.tree-view .file > .list-item .name[data-path$='.ttf']                      {background-image: url(../../images/icons/font.svg);}
+.tree-view .file > .list-item .name[data-path$='.woff']                     {background-image: url(../../images/icons/font.svg);}
+.tree-view .file > .list-item .name[data-path$='.woff2']                    {background-image: url(../../images/icons/font.svg);}
 
 // other
-.tree-view .file > .list-item .name[data-path$='.link']                    {background-image: url(../../images/icons/lnk.svg);}
+.tree-view .file > .list-item .name[data-path$='.link']                    {background-image: url(../../images/icons/http.svg);}
