@@ -32,6 +32,13 @@ module Scribo
       end
     end
 
+    scope :layouts, -> { where("full_path LIKE '/_layouts/%'") }
+
+    def self.layout(name)
+      possibles = ["/_layouts/#{name}.html", "/_layouts/#{name}.md"]
+      published.where(full_path: possibles)
+    end
+
     def self.data(name)
       possibles = ["/_data/#{name}.yml", "/_data/#{name}.yaml", "/_data/#{name}.json", "/_data/#{name}.csv", "/_data/#{name}"]
       published.where(full_path: possibles)
@@ -63,6 +70,10 @@ module Scribo
 
     def self.published
       where(state: 'published').where('published_at IS NULL OR published_at <= :now', now: Time.current.utc)
+    end
+
+    def layout?
+      full_path.start_with?('/_layouts/')
     end
 
     def identifier
