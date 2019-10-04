@@ -24,7 +24,7 @@ module Scribo
     def save(path, options = {})
       options = DEFAULTS.merge(options)
 
-      open(path, "w:#{options[:external_encoding]}") do |f|
+      File.open(path, "w:#{options[:external_encoding]}") do |f|
         f.write metadata_with_content
       end
     end
@@ -77,7 +77,7 @@ module Scribo
     end
 
     def self.load(path, options = {})
-      f = open(path, "r:#{options[:external_encoding]}")
+      f = File.open(path, "r:#{options[:external_encoding]}")
       parse(f.read)
     end
 

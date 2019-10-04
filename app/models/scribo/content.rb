@@ -13,6 +13,7 @@ module Scribo
 
     validate :layout_cant_be_current_content
 
+    before_save :upload_asset
     after_save :set_full_path
     after_move :set_full_path
 
@@ -32,26 +33,17 @@ module Scribo
         transition to: :hidden
       end
     end
+    has_one_attached :asset
 
     scope :layouts, -> { where("full_path LIKE '/_layouts/%'") }
+    scope :layout, ->(name) { published.where(full_path: ["/_layouts/#{name}.html", "/_layouts/#{name}.md"]) }
+    scope :data, ->(name) { published.where(full_path: ["/_data/#{name}.yml", "/_data/#{name}.yaml", "/_data/#{name}.json", "/_data/#{name}.csv", "/_data/#{name}"]) }
+    scope :locale, ->(name) { published.where(full_path: "/_locales/#{name}.yml") }
+    scope :published, -> { where(state: 'published').where('published_at IS NULL OR published_at <= :now', now: Time.current.utc) }
 
-    def self.layout(name)
-      possibles = ["/_layouts/#{name}.html", "/_layouts/#{name}.md"]
-      published.where(full_path: possibles)
-    end
-
-    def self.data(name)
-      possibles = ["/_data/#{name}.yml", "/_data/#{name}.yaml", "/_data/#{name}.json", "/_data/#{name}.csv", "/_data/#{name}"]
-      published.where(full_path: possibles)
-    end
-
-    def self.locale(name)
-      published.where(full_path: "/_locales/#{name}.yml")
-    end
-
-    def self.located(path, allow_non_public = false)
-      return none unless path.present?
-      return none if !allow_non_public && File.basename(path).start_with?('_')
+    def self.located(path, allow_private = false)
+      return none if path.blank?
+      return none if !allow_private && File.basename(path).start_with?('_')
 
       published.where(full_path: path == '/' ? %w[/index.html /index.link] : path)
     end
@@ -69,10 +61,6 @@ module Scribo
       end
     end
 
-    def self.published
-      where(state: 'published').where('published_at IS NULL OR published_at <= :now', now: Time.current.utc)
-    end
-
     def layout?
       full_path.start_with?('/_layouts/')
     end
@@ -82,17 +70,25 @@ module Scribo
       if Scribo::Content.columns.map(&:name).include?('identifier')
         attributes['identifier']
       else
-        File.basename(path, File.extname(path)).gsub('_', '')
+        File.basename(path, File.extname(path)).gsub('/_', '/')
       end
     end
 
     def render(assigns = {}, registers = {})
       case kind
       when 'asset'
-        data
+        render_asset
       when 'text', 'redirect'
         Liquor.render(data, assigns: assigns.merge('content' => self), registers: registers.merge('content' => self), filter: filter, layout: layout&.data)
       end
+    end
+
+    def render_asset
+      return unless kind == 'asset'
+      return data if data.present?
+      return unless asset.attached?
+
+      asset.download
     end
 
     def content_type
@@ -103,19 +99,13 @@ module Scribo
       mime_type&.media_type
     end
 
+    def extension
+      mime_type&.extensions&.first
+    end
+
     def mime_type
       file_name = path.split('/').last.to_s
       file_name.split('.').lazy.map { |part| MIME::Types.type_for(part).first }.detect(&:itself)
-    end
-
-    def self.redirect_options(redirect_data)
-      options = redirect_data.split
-      if options.length == 2
-        options[0] = options[0].to_i
-      else
-        options.unshift 302
-      end
-      options
     end
 
     def translation_scope
@@ -142,10 +132,35 @@ module Scribo
       children.each(&:set_full_path)
     end
 
+    def upload_asset
+      return unless asset?
+      return unless data.present?
+
+      asset.attach(io: StringIO.new.tap { |s| s.write(data) && s.rewind }, filename: path, content_type: content_type)
+      self.data = nil
+    end
+
+    def asset?
+      kind == 'asset'
+    end
+
     private
 
     def layout_cant_be_current_content
       errors.add(:layout_id, "can't be current content") if layout_id == id && id.present?
+    end
+
+    class << self
+      def redirect_options(redirect_data)
+        options = redirect_data.split
+        if options.length == 2
+          options[0] = options[0].to_i
+        else
+          options.unshift 302
+        end
+        options
+      end
+
     end
   end
 end
