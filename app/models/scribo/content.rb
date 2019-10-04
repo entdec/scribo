@@ -86,6 +86,14 @@ module Scribo
       end
     end
 
+    def filter
+      if Scribo::Content.columns.map(&:name).include?('filter') && attributes['filter']
+        attributes['filter']
+      else
+        Scribo::Utility.filter_for_path(path)
+      end
+    end
+
     def render(assigns = {}, registers = {})
       case kind
       when 'asset'
