@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Scribo
   module Utility
     def kind_for_content_type(content_type)
