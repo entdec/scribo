@@ -95,13 +95,13 @@ module Scribo
       result + data
     end
 
-    def data_with_frontmatter=(data)
-      if kind == 'asset'
-        self.data = data
-      else
-        data_with_metadata = Scribo::Preamble.parse(data)
+    def data_with_frontmatter=(text)
+      if kind == 'text'
+        data_with_metadata = Scribo::Preamble.parse(text)
         self.properties = data_with_metadata.metadata
         self.data = data_with_metadata.content
+      else
+        self.data = data
       end
     end
 
@@ -148,7 +148,9 @@ module Scribo
 
     def upload_asset
       return unless asset?
-      return unless data.present?
+      # return unless data.present? -> Breaks with utf8?
+      return unless data
+      return unless data.size.positive?
 
       asset.attach(io: StringIO.new.tap { |s| s.write(data) && s.rewind }, filename: path, content_type: content_type)
       self.data = nil
