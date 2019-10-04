@@ -88,17 +88,18 @@ module Scribo
       site.contents.rebuild!(validate: false) # WHY
       content = site.contents.find_or_create_by(path: File.basename(meta_info['path']), full_path: meta_info['path'], parent: parent)
 
-      content.data_with_frontmatter = entry.get_input_stream.read if entry&.get_input_stream&.respond_to?(:read)
       content.kind = meta_info['kind']
-      content.title = meta_info['title']
-      content.description = meta_info['description']
-      content.filter = meta_info['filter']
-      content.caption = meta_info['caption']
-      content.breadcrumb = meta_info['breadcrumb']
-      content.keywords = meta_info['keywords']
+      content.data_with_frontmatter = entry.get_input_stream.read if entry&.get_input_stream&.respond_to?(:read)
+      content.properties ||= meta_info['properties']
+
+      # content.title = meta_info['title']
+      # content.description = meta_info['description']
+      # content.filter = meta_info['filter']
+      # content.caption = meta_info['caption']
+      # content.breadcrumb = meta_info['breadcrumb']
+      # content.keywords = meta_info['keywords']
       content.layout = meta_info_site['contents'].find { |mi| mi['path'] == meta_info['layout'] }['record'] if meta_info['layout']
-      content.properties = meta_info['properties']
-      content.published_at = meta_info['published_at']
+      # content.published_at = meta_info['published_at']
       content.save!
 
       meta_info['record'] = content
