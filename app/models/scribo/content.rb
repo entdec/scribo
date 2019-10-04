@@ -74,6 +74,14 @@ module Scribo
       end
     end
 
+    def filter
+      if Scribo::Content.columns.map(&:name).include?('filter') && attributes['filter']
+        attributes['filter']
+      else
+        Scribo::Utility.filter_for_path(path)
+      end
+    end
+
     def render(assigns = {}, registers = {})
       case kind
       when 'asset'
@@ -89,6 +97,16 @@ module Scribo
       return unless asset.attached?
 
       asset.download
+    end
+
+    def data_with_frontmatter
+      YAML.dump(properties) + "---\n" + data
+    end
+
+    def data_with_frontmatter=(data)
+      data_with_metadata = Scribo::Preamble.parse(data)
+      self.properties = data_with_metadata.metadata
+      self.data = data_with_metadata.content
     end
 
     def content_type
@@ -160,7 +178,6 @@ module Scribo
         end
         options
       end
-
     end
   end
 end

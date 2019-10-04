@@ -39,10 +39,10 @@ export default class extends Controller {
     connect() {
         const self = this;
         let mode = CodeMirror.mimeModes[this.data.get('mode')];
-        console.log(mode, 'from: ', this.data.get('mode'))
+
         this.editor = CodeMirror.fromTextArea(this.textareaTarget, {
             lineNumbers: true,
-            mode: mode, //this.data.get('content-type'),
+            mode: { name: 'yaml-frontmatter', base: mode },
             lineWrapping: true,
             tabSize: 2,
             autoRefresh: true,

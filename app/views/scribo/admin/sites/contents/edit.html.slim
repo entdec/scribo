@@ -22,8 +22,8 @@
 
       - else
         .col-sm-10 data-controller="editor" data-editor-mode="#{@content.content_type}"
-          textarea name='content[data]' data-target="editor.textarea"
-            = @content.data || 'Start typing here, or drop one or more files on this area.'
+          textarea name='content[data_with_frontmatter]' data-target="editor.textarea"
+            = @content.data_with_frontmatter || 'Start typing here, or drop one or more files on this area.'
           input type="file" name="content[files][]" data-target="editor.file" multiple="true" style="margin-left: -200vh;"
 
       .col-sm-2
@@ -32,7 +32,7 @@
             button name='commit' value='save' class="btn btn-primary"
               i.fas.fa-save
             a.btn data-toggle='collapse' data-target='#advancedContainer'
-              i.fas.fa-info
+              i.fas.fa-caret-down
 
         .row
           .col-sm-12
@@ -42,10 +42,7 @@
             = f.input :state, collection: @states, selected: @content.state, include_blank: true
             = f.input :kind, as: :hidden
 
-            .collapse#advancedContainer
-              - if @content.kind == 'text'
-                = f.input :filter
-                = f.input :parent_id, as: :hidden
-              = f.input :title
-              = f.input :properties, as: :code_mirror, input_html: {value: YAML.dump(f.object.properties), data: { height: '80px', lang: 'application/yaml', mode: {name: 'liquid', base: 'application/yaml'}}}
+            - if @content.kind == 'asset'
+              .collapse#advancedContainer
+                = f.input :properties, as: :code_mirror, input_html: {value: YAML.dump(f.object.properties), data: { height: '80px', lang: 'application/yaml', mode: {name: 'liquid', base: 'application/yaml'}}}
 
