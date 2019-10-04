@@ -13,7 +13,8 @@ module Scribo
 
     validate :layout_cant_be_current_content
 
-    after_commit :set_full_path, on: %i[create update]
+    after_save :set_full_path, on: %i[create update]
+    after_move :set_full_path
 
     state_machine initial: :draft do
       state :draft
