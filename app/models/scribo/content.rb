@@ -105,7 +105,7 @@ module Scribo
 
     def mime_type
       file_name = path.split('/').last.to_s
-      file_name.split('.').lazy.map { |part| s.type_for(part).first }.detect(&:itself)
+      file_name.split('.').lazy.map { |part| MIME::Types.type_for(part).first }.detect(&:itself)
     end
 
     def self.redirect_options(redirect_data)
