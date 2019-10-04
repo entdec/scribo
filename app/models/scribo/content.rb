@@ -103,6 +103,16 @@ module Scribo
       end
     end
 
+    def data_with_frontmatter
+      YAML.dump(properties) + "---\n" + data
+    end
+
+    def data_with_frontmatter=(data)
+      data_with_metadata = Scribo::Preamble.parse(data)
+      self.properties = data_with_metadata.metadata
+      self.data = data_with_metadata.content
+    end
+
     def content_type
       mime_type&.content_type || 'application/octet-stream'
     end
