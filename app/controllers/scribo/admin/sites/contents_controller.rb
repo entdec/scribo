@@ -114,7 +114,7 @@ module Scribo
                          else
                            params[:content] ? @site.contents.new(content_params) : @site.contents.new
                          end
-        @layouts       = @site.contents.where(kind: %w[text redirect]).identified.where.not(id: @content.id)
+        @layouts       = @site.contents.layouts
 
         @states = Scribo::Content.state_machine.states.map(&:value)
         @sites = Scribo::Site.order(:name)
