@@ -31,7 +31,7 @@ module Scribo
           next if content.kind == 'folder'
 
           zio.put_next_entry(base_path + content_path)
-          zio.write content.data
+          zio.write content.data_with_frontmatter
         end
 
         zio.put_next_entry(base_path + '_config.yml')

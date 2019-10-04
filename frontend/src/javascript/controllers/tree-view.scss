@@ -125,8 +125,14 @@
 .tree-view .file > .list-item .name[data-path$='.yaml']         {background-image: url(../../images/icons/yaml.svg);}
 .tree-view .file > .list-item .name[data-path$='.yml']         {background-image: url(../../images/icons/yaml.svg);}
 .tree-view .file > .list-item .name[data-path$='.xml']         {background-image: url(../../images/icons/xml.svg);}
-.tree-view .file > .list-item .name[data-path$='.css']                {background-image: url(../../images/icons/css.svg);}
 .tree-view .file > .list-item .name[data-path$='.plist']                {background-image: url(../../images/icons/xml.svg);}
+
+.tree-view .file > .list-item .name[data-path$='.css']                {background-image: url(../../images/icons/css.svg);}
+.tree-view .file > .list-item .name[data-path$='.scss']                {background-image: url(../../images/icons/sass.svg);}
+.tree-view .file > .list-item .name[data-path$='.sass']                {background-image: url(../../images/icons/sass.svg);}
+
+.tree-view .file > .list-item .name[data-path$='.md']                {background-image: url(../../images/icons/markdown.svg);}
+.tree-view .file > .list-item .name[data-path$='.markdown']                {background-image: url(../../images/icons/markdown.svg);}
 
 // script
 .tree-view .file > .list-item .name[data-path$='.js']         {background-image: url(../../images/icons/javascript.svg);}

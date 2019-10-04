@@ -4,7 +4,6 @@ index:
   content_type: text/html
   data: Test index
   path: /
-  state: published
   full_path: /
 
 layout:
@@ -13,5 +12,4 @@ layout:
   content_type: text/html
   data: layout{%yield%}layout
   path: /_layout
-  state: published
   full_path: /_layout

@@ -23,7 +23,6 @@ module Scribo
             c.content_type = file.content_type
             c.path = file.original_filename
             c.data = file.read
-            c.state = 'published'
             c.save!
 
             contents << c
@@ -52,20 +51,18 @@ module Scribo
 
           @content.kind = Scribo::Utility.kind_for_content_type(file.content_type)
           @content.data = file.read
-          @content.state = 'published'
 
           # Just store extra files
           params[:content][:files][1..-1].each do |extra_file|
             c = @site.contents.new(kind: Scribo::Utility.kind_for_content_type(extra_file.content_type))
             c.path = extra_file.original_filename
             c.data = extra_file.read
-            c.state = 'published'
             c.save!
           end
 
           flash_and_redirect @content.save, edit_admin_site_content_url(@site, @content), 'Content updated successfully', 'There were problems updating the content'
         else
-          flash_and_redirect @content.update(content_params), edit_admin_site_content_url(@site, @content), 'Content updated successfully', 'There were problems updating the content'
+          flash_and_redirect @content.update(content_params), edit_admin_site_content_url(@site, @content), 'Content updated successfully', "There were problems updating the content: #{@content.errors.messages}"
         end
       end
 
@@ -116,7 +113,6 @@ module Scribo
                          end
         @layouts       = @site.contents.layouts
 
-        @states = Scribo::Content.state_machine.states.map(&:value)
         @sites = Scribo::Site.order(:name)
         @kinds = %w[text redirect asset]
 
@@ -128,7 +124,7 @@ module Scribo
         params.require(:content).permit(:kind, :state, :layout_id, :parent_id, :data, :data_with_frontmatter).tap do |w|
           w[:kind]       = 'text' if w[:kind].blank?
           if params[:content][:data_with_frontmatter].empty?
-            w[:properties] = YAML.safe_load(params[:content][:properties]) if params[:content][:properties]
+            w[:properties] = YAML.safe_load(params[:content][:properties], permitted_classes: [Time]) if params[:content][:properties]
           end
         end
       end

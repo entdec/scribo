@@ -21,12 +21,12 @@ Gem::Specification.new do |s|
   s.add_dependency 'awesome_nested_set', '~> 3.2'
   s.add_dependency 'liquor', '~> 0.4'
   s.add_dependency 'mime-types'
+  s.add_dependency 'mimemagic'
   s.add_dependency 'pg'
   s.add_dependency 'rails', '>= 5.2'
   s.add_dependency 'rubyzip', '~> 1.1'
   s.add_dependency 'simple_form', '> 3'
   s.add_dependency 'slim-rails', '~> 3.2'
-  s.add_dependency 'state_machines-activerecord', '~> 0.5'
 
   s.add_development_dependency 'minitest', '~> 5.11'
   s.add_development_dependency 'minitest-reporters', '~> 1.1'

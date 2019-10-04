@@ -17,33 +17,20 @@ module Scribo
     after_save :set_full_path
     after_move :set_full_path
 
-    state_machine initial: :draft do
-      state :draft
-      state :published
-      state :reviewed
-      state :hidden
-
-      event :publish do
-        transition to: :published
-      end
-      event :review do
-        transition to: :reviewed
-      end
-      event :hide do
-        transition to: :hidden
-      end
-    end
     has_one_attached :asset
 
     scope :layouts, -> { where("full_path LIKE '/_layouts/%'") }
+    scope :include, ->(name) { published.where(full_path: ["/_includes/#{name}", "/_includes/#{name}.html", "/_includes/#{name}.md"]) }
     scope :layout, ->(name) { published.where(full_path: ["/_layouts/#{name}.html", "/_layouts/#{name}.md"]) }
     scope :data, ->(name) { published.where(full_path: ["/_data/#{name}.yml", "/_data/#{name}.yaml", "/_data/#{name}.json", "/_data/#{name}.csv", "/_data/#{name}"]) }
     scope :locale, ->(name) { published.where(full_path: "/_locales/#{name}.yml") }
-    scope :published, -> { where(state: 'published').where('published_at IS NULL OR published_at <= :now', now: Time.current.utc) }
+    scope :published, -> { where("properties->>'published' = 'true' OR properties->>'published' IS NULL").where("properties->>'published_at' IS NULL OR properties->>'published_at' <= :now", now: Time.current.utc) }
 
     def self.located(path, allow_private = false)
       return none if path.blank?
       return none if !allow_private && File.basename(path).start_with?('_')
+
+      path = '/' + path unless path.start_with?('/')
 
       published.where(full_path: path == '/' ? %w[/index.html /index.link] : path)
     end
@@ -100,13 +87,22 @@ module Scribo
     end
 
     def data_with_frontmatter
-      YAML.dump(properties) + "---\n" + data
+      return data if kind != 'text'
+
+      result = ''
+      result += (YAML.dump(properties) + "---\n") if properties.present?
+
+      result + data
     end
 
     def data_with_frontmatter=(data)
-      data_with_metadata = Scribo::Preamble.parse(data)
-      self.properties = data_with_metadata.metadata
-      self.data = data_with_metadata.content
+      if kind == 'asset'
+        self.data = data
+      else
+        data_with_metadata = Scribo::Preamble.parse(data)
+        self.properties = data_with_metadata.metadata
+        self.data = data_with_metadata.content
+      end
     end
 
     def content_type

@@ -29,6 +29,8 @@ module ActionController::Renderers
                 end
 
       content ||= current_site&.contents&.located(options[:path])&.first
+
+      # Find by content id
       content = Scribo::Content&.published&.find(options[:path][1..-1]) if !content && options[:path] && options[:path][1..-1].length == 36
       content
     end
@@ -40,7 +42,11 @@ module ActionController::Renderers
     elsif options[:path] == '/favicon.ico'
       content = Scribo::Content.new(kind: 'asset', content_type: 'image/x-icon', data: Base64.decode64(Scribo.config.default_favicon_ico))
     end
+
+    # FIXME: Find a better way for this
     content ||= current_site&.contents&.located('/404')&.first
+    content ||= current_site&.contents&.located('/404.html')&.first
+    content ||= current_site&.contents&.located('/404.md')&.first
 
     if content
       # Prepare assigns and registers

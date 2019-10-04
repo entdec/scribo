@@ -9,8 +9,8 @@ module Scribo
 
     def show
       render scribo: Scribo.config.site_for_hostname(request.env['SERVER_NAME']), path: request.path
-    rescue StandardError => _e
-      render body: Scribo.config.default_404_txt, status: 404
+    # rescue StandardError => _e
+    #   render body: Scribo.config.default_404_txt, status: 404
     end
   end
 end

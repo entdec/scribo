@@ -39,10 +39,8 @@
             br
             - if @content.kind == 'text' && !@content.layout?
               = f.association :layout, collection: @layouts, selected: @content.layout_id, label_method: :path, include_blank: true
-            = f.input :state, collection: @states, selected: @content.state, include_blank: true
             = f.input :kind, as: :hidden
 
             - if @content.kind == 'asset'
-              .collapse#advancedContainer
-                = f.input :properties, as: :code_mirror, input_html: {value: YAML.dump(f.object.properties), data: { height: '80px', lang: 'application/yaml', mode: {name: 'liquid', base: 'application/yaml'}}}
+              = f.input :properties, as: :code_mirror, input_html: {value: YAML.dump(f.object.properties), data: { height: '80px', lang: 'application/yaml', mode: {name: 'liquid', base: 'application/yaml'}}}
 

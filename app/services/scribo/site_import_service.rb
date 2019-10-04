@@ -15,11 +15,11 @@ module Scribo
       meta_info_entry = zip_file.glob('site_*/_config.yml').first
       # raise 'Site import needs a _config.yml file in the root of the zip' unless meta_info_entry
 
-      if meta_info_entry
-        @meta_info_site = YAML.safe_load(meta_info_entry.get_input_stream.read, permitted_classes: [Time])
-      else
-        @meta_info_site = {}
-      end
+      @meta_info_site = if meta_info_entry
+                          YAML.safe_load(meta_info_entry.get_input_stream.read, permitted_classes: [Time])
+                        else
+                          {}
+                        end
       meta_info_site['contents'] = [] unless meta_info_site['contents']
 
       @base_path = nil
@@ -36,7 +36,7 @@ module Scribo
 
       # FIXME: Ones with layout could still go wrong
       (0..max_depth).to_a.each do |depth|
-        zip_file.glob('**/*').reject { |e| e.name == "#{base_path}/_config.yml" || e.name.start_with?('__MACOSX/') || e.name.end_with?('/.DS_Store') }.each do |entry|
+        zip_file.glob('**/*').reject { |e| e.name == "#{base_path}/_config.yml" || e.name.start_with?('__MACOSX/') || e.name.end_with?('/.DS_Store') || e.name.start_with?('/.') }.each do |entry|
           entry_path = entry_path(base_path, entry.name)
           next if entry_path.empty?
           next if entry_depth(entry_path) != depth
@@ -82,17 +82,13 @@ module Scribo
 
     def create_content(site, entry_path, entry)
       meta_info = meta_info_for_entry_name(meta_info_site, entry_path, entry)
-      if meta_info['kind'] != 'folder'
-        Scribo.config.logger.warn "Scribo: Not importing #{entry_path} it's a non-supported content-type!" unless meta_info['content_type']
-        return unless meta_info['content_type']
-      end
 
       parent = meta_info_site['contents'].find { |mi| mi['path'] == meta_info['parent'] }['record'] if meta_info['parent']
 
       site.contents.rebuild!(validate: false) # WHY
       content = site.contents.find_or_create_by(path: File.basename(meta_info['path']), full_path: meta_info['path'], parent: parent)
 
-      content.data = entry.get_input_stream.read if entry&.get_input_stream&.respond_to?(:read)
+      content.data_with_frontmatter = entry.get_input_stream.read if entry&.get_input_stream&.respond_to?(:read)
       content.kind = meta_info['kind']
       content.title = meta_info['title']
       content.description = meta_info['description']
@@ -100,7 +96,6 @@ module Scribo
       content.caption = meta_info['caption']
       content.breadcrumb = meta_info['breadcrumb']
       content.keywords = meta_info['keywords']
-      content.state = meta_info['state']
       content.layout = meta_info_site['contents'].find { |mi| mi['path'] == meta_info['layout'] }['record'] if meta_info['layout']
       content.properties = meta_info['properties']
       content.published_at = meta_info['published_at']
@@ -114,12 +109,19 @@ module Scribo
     def guess_info_for_entry_name(prefill, entry_name, entry)
       meta_info = prefill
       meta_info['state'] = 'published'
-      meta_info['content_type'] = MIME::Types.type_for(entry_name).first.content_type
-      meta_info['kind'] = if entry
-                            Scribo::Utility.kind_for_content_type(meta_info['content_type'])
-                          else
+
+      meta_info['kind'] = if File.extname(entry_name).present?
+                            Scribo::Utility.kind_for_path(entry_name)
+                          elsif entry.nil?
                             'folder'
+                          elsif entry.directory?
+                            'folder'
+                          elsif entry&.get_input_stream&.respond_to?(:read) && entry.get_input_stream.read.encoding.name != 'ASCII-8BIT'
+                            'asset'
+                          else
+                            'text'
                           end
+
       meta_info['published_at'] = Time.new
       meta_info
     end
