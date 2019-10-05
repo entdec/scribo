@@ -4,11 +4,19 @@ require_dependency 'scribo/application_drop'
 
 module Scribo
   class ContentDrop < ApplicationDrop
-    delegate :name, :path, :identifier, :content_type, :title, :breadcrumb, :keywords, :description, :properties, to: :@object
+    delegate :path, to: :@object
     delegate :site, to: :@object
 
-    def children
-      @object.children.to_a
+    def [](name)
+      method_missing(name)
+    end
+
+    def method_missing(method)
+      if @properties[method.to_s].is_a? Hash
+        Scribo::PropertiesDrop.new(@properties, [method.to_s])
+      else
+        @properties[method.to_s]
+      end
     end
   end
 end

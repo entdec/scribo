@@ -21,7 +21,7 @@ module Scribo
 
     def method_missing(method)
       if @properties[method.to_s].is_a? Hash
-        Scribo::SitePropertiesDrop.new(@properties, [method.to_s])
+        Scribo::PropertiesDrop.new(@properties, [method.to_s])
       else
         @properties[method.to_s]
       end

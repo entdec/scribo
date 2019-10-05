@@ -3,7 +3,7 @@
 require_dependency 'scribo/application_drop'
 
 module Scribo
-  class SitePropertiesDrop < ApplicationDrop
+  class PropertiesDrop < ApplicationDrop
     attr_accessor :data_path
 
     def initialize(object, data_path = [])
