@@ -11,7 +11,6 @@ module ActionViewHelpers
 
       application_js = content_for?(:js) && content_for(:js)
       registers = { _yield: { '' => yield_content }, controller: controller, application_assets: scribo_application_assets, application_js: application_js, content: content }
-      # Liquor.render(content.data, assigns: assigns, registers: registers).html_safe
       Scribo::ContentRenderService.new(content, self, registers: registers).call.html_safe
     else
       yield_content

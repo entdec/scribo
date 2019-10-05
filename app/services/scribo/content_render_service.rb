@@ -20,10 +20,8 @@ module Scribo
         total_data = content.data
         current_layout = content.layout
         loop do
-          filter_options = { full_path: content.full_path, content: content }
-          filter_options[:importer] = Scribo::SassC::Importer if %w[sass scss].include?(filter)
           Rails.logger.error "Scribo rendering #{content.path}, layout: #{current_layout}, registers: #{registers.keys}"
-          total_data = Liquor.render(total_data, assigns: assigns, registers: registers, filter: (options.key?(:filter) ? options[:filter] :  filter), filter_options: filter_options, layout: current_layout&.data)
+          total_data = Liquor.render(total_data, assigns: assigns, registers: registers, filter: filter, filter_options: filter_options, layout: current_layout&.data)
           current_layout = current_layout&.layout
           break unless current_layout
         end
@@ -42,6 +40,8 @@ module Scribo
     end
 
     def filter
+      return options[:filter] if options.key?(:filter)
+
       if Scribo::Content.columns.map(&:name).include?('filter') && content.filter
         content.filter
       elsif content.path
@@ -49,20 +49,27 @@ module Scribo
       end
     end
 
-    def assigns
-      assigns = { 'content' => content, 'site' => content.site }
-      assigns['request'] = ActionDispatch::RequestDrop.new(context.request) if context.respond_to?(:request)
+    def filter_options
+      @filter_options = { full_path: content.full_path, content: content }
+      @filter_options[:importer] = Scribo::SassC::Importer if %w[sass scss].include?(filter)
+      @filter_options
+    end
+
+    def assignss
+      @assigns = { 'content' => content, 'site' => content.site }
+      @assigns.merge!(options[:assigns]) if options[:assigns]
+      @assigns['request'] = ActionDispatch::RequestDrop.new(context.request) if context.respond_to?(:request)
 
       context.instance_variables.reject { |i| i.to_s.starts_with?('@_') }.each do |i|
-        assigns[i.to_s[1..-1]] = context.instance_variable_get(i)
+        @assigns[i.to_s[1..-1]] = context.instance_variable_get(i)
       end
-      assigns
+      @assigns.stringify_keys
     end
 
     def registers
-      hash = { 'controller' => context, 'content' => content }
-      hash.merge!(options[:registers]) if options[:registers]
-      hash.stringify_keys
+      @registers = { 'controller' => context, 'content' => content }
+      @registers.merge!(options[:registers]) if options[:registers]
+      @registers.stringify_keys
     end
   end
 end
