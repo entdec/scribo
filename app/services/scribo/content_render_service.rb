@@ -55,7 +55,7 @@ module Scribo
       @filter_options
     end
 
-    def assignss
+    def assigns
       @assigns = { 'content' => content, 'site' => content.site }
       @assigns.merge!(options[:assigns]) if options[:assigns]
       @assigns['request'] = ActionDispatch::RequestDrop.new(context.request) if context.respond_to?(:request)

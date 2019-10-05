@@ -2,6 +2,7 @@
   = f.association :scribable, collection: Scribo.config.scribable_objects, label_method: :name, value_method: :to_sgid, selected: @site.scribable
   = f.input :name
   = f.input :purpose
+  = f.input :properties, as: :code_mirror, input_html: {value: YAML.dump(f.object.properties), data: { height: '200px', lang: 'application/yaml', mode: {name: 'liquid', base: 'application/yaml'}}}
   = f.button :button, 'Save', name: 'commit', value: 'save', class: 'btn-primary', data: { disable_with: 'Save' }
   = f.button :button, 'Continue', name: 'commit', value: 'continue', data: { disable_with: 'Continue' }
 

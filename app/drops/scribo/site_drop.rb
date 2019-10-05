@@ -11,17 +11,13 @@ module Scribo
       @properties = object.properties
     end
 
-    def children
-      @object.children.to_a
-    end
-
     def data
       Scribo::DataDrop.new(@object)
     end
 
     private
     def respond_to_missing?(name, _include_private = false)
-      @properties.has_key?(name.to_s)
+      @properties.key?(name.to_s)
     end
 
     def method_missing(method, *args, &block)
