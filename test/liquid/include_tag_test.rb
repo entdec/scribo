@@ -7,7 +7,7 @@ class IncludeTagTest < ActiveSupport::TestCase
     scribo_sites(:main).contents.create(path: '/_menu', kind: 'text', data: 'included content', content_type: 'text/html')
     subject = scribo_sites(:main).contents.create(kind: 'text', data: "|{%include 'menu'%}|", content_type: 'text/html')
 
-    result = subject.render
+    result = Scribo::ContentRenderService.new(subject, self).call
 
     assert_equal '||', result
   end
@@ -16,7 +16,7 @@ class IncludeTagTest < ActiveSupport::TestCase
     scribo_sites(:main).contents.create(path: '/_menu', kind: 'text', data: 'included content', content_type: 'text/html')
     subject = scribo_sites(:main).contents.create(kind: 'text', data: "|{%include 'menu'%}|", content_type: 'text/html')
 
-    result = subject.render
+    result = Scribo::ContentRenderService.new(subject, self).call
 
     assert_equal '|included content|', result
   end
@@ -25,7 +25,7 @@ class IncludeTagTest < ActiveSupport::TestCase
     scribo_sites(:second).contents.create(path: '/_menu', kind: 'text', data: 'included content', content_type: 'text/html')
     subject = scribo_sites(:main).contents.create(kind: 'text', data: "|{%include 'menu'%}|", content_type: 'text/html')
 
-    result = subject.render
+    result = Scribo::ContentRenderService.new(subject, self).call
 
     assert_equal '||', result
   end
@@ -34,8 +34,8 @@ class IncludeTagTest < ActiveSupport::TestCase
     scribo_sites(:main).contents.create(path: '/_menu', kind: 'text', data: 'hello {{dummy.dummy_attr}}', content_type: 'text/html')
     subject = scribo_sites(:main).contents.create(kind: 'text', data: "{{dummy.dummy_attr}}|{%include 'menu'%}|", content_type: 'text/html')
 
-    d = DummyObject.new('dummy')
-    result = subject.render('dummy' => d)
+    @dummy = DummyObject.new('dummy')
+    result = Scribo::ContentRenderService.new(subject, self).call
 
     assert_equal 'dummy|hello dummy|', result
   end
@@ -44,8 +44,8 @@ class IncludeTagTest < ActiveSupport::TestCase
     scribo_sites(:main).contents.create(path: '/_menu', kind: 'text', data: 'hello {{dummy.dummy_attr}} {{name}}', content_type: 'text/html')
     subject = scribo_sites(:main).contents.create(kind: 'text', data: "{{dummy.dummy_attr}}|{%include 'menu' name:'bob'%}|{{name}}", content_type: 'text/html')
 
-    d = DummyObject.new('dummy')
-    result = subject.render('dummy' => d)
+    @dummy = DummyObject.new('dummy')
+    result = Scribo::ContentRenderService.new(subject, self).call
 
     assert_equal 'dummy|hello dummy bob|', result
   end

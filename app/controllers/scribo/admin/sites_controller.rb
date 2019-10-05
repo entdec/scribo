@@ -19,7 +19,7 @@ module Scribo
       end
 
       def index
-        @sites = Site.owned.order(:name)
+        @sites = Site.adminable.order(:name)
       end
 
       def edit
@@ -53,7 +53,7 @@ module Scribo
 
       def set_objects
         @site = if params[:id]
-                    Site.owned.find(params[:id])
+                    Site.adminable.find(params[:id])
                   else
                     params[:site] ? Site.new(site_params) : Site.new
                   end

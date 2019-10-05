@@ -11,7 +11,7 @@ module Scribo
 
     attr_accessor :zip_file
 
-    scope :owned, -> { where(scribable: Scribo.config.scribable_objects) }
+    scope :adminable, -> { where(scribable: Scribo.config.scribable_objects) }
     scope :owned_by, ->(owner) { where(scribable: owner) }
     scope :named, ->(name) { where(name: name) }
     scope :purposed, ->(purpose) { where(purpose: purpose) }

@@ -76,30 +76,6 @@ module Scribo
       end
     end
 
-    def render(assigns = {}, registers = {})
-      case kind
-      when 'asset'
-        render_asset
-      when 'text', 'redirect'
-
-        total_data = data
-        current_layout = layout
-        begin
-          total_data = Liquor.render(total_data, assigns: assigns, registers: registers.merge('content' => self), filter: filter, layout: current_layout&.data)
-          current_layout = current_layout.layout
-        end while current_layout
-        total_data
-      end
-    end
-
-    def render_asset
-      return unless kind == 'asset'
-      return data if data.present?
-      return unless asset.attached?
-
-      asset.download
-    end
-
     def data_with_frontmatter
       return data if kind != 'text'
 
