@@ -34,3 +34,10 @@ scss:
       @include large-text;
     }
 
+index:
+  site: second
+  kind: text
+  data: |
+    {{site.email}},{{site.social_links.rss}},{{site.social_links.github}}
+  path: /
+  full_path: /

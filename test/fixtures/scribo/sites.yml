@@ -7,4 +7,8 @@ second:
   name: second
   purpose: site
   scribable: two (Account)
-
+  properties:
+    email: 'email@example.com'
+    social_links:
+      rss: rss
+      github: github

@@ -15,13 +15,16 @@ module Scribo
       Scribo::DataDrop.new(@object)
     end
 
-    private
-    def respond_to_missing?(name, _include_private = false)
-      @properties.key?(name.to_s)
+    def [](name)
+      method_missing(name)
     end
 
-    def method_missing(method, *args, &block)
-      @properties[method.to_s]
+    def method_missing(method)
+      if @properties[method.to_s].is_a? Hash
+        Scribo::SitePropertiesDrop.new(@properties, [method.to_s])
+      else
+        @properties[method.to_s]
+      end
     end
   end
 end
