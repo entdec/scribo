@@ -17,6 +17,7 @@ require 'scribo/engine'
 require 'scribo/i18n_backend'
 require 'scribo/liquid/parser'
 require 'scribo/preamble'
+require 'scribo/sassc/importer'
 require 'scribo/utility'
 require 'scribo/version'
 
