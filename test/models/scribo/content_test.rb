@@ -19,7 +19,7 @@ module Scribo
     end
 
     test 'renders content_for within layout' do
-      layout1 = scribo_sites(:main).contents.create(kind: 'text', data: "<section>{%yield 'section'%}</section><body>{%yield%}</body>", content_type: 'text/html')
+      layout1 = scribo_sites(:main).contents.create(kind: 'text', path: '_layouts/layout1', data: "<section>{%yield 'section'%}</section><body>{%yield%}</body>", content_type: 'text/html')
       subject = scribo_sites(:main).contents.create(kind: 'text', path: '/test', data: "{%content_for 'section'%}bla{%endcontent_for%}test", content_type: 'text/html', layout: layout1)
 
       result = Scribo::ContentRenderService.new(subject, self).call
@@ -27,8 +27,19 @@ module Scribo
       assert_equal '<section>bla</section><body>test</body>', result
     end
 
+    test 'renders content_for within nested layout' do
+      layout1 = scribo_sites(:main).contents.create(kind: 'text', path: '_layouts/layout1', data: "<section>{%yield 'section'%}</section><body>{%yield%}</body>", content_type: 'text/html')
+      layout2 = scribo_sites(:main).contents.create(kind: 'text', path: '_layouts/layout2', data: '<main>{%yield%}</main>', content_type: 'text/html', layout: layout1)
+      subject = scribo_sites(:main).contents.create(kind: 'text', path: '/test', data: "{%content_for 'section'%}bla{%endcontent_for%}test", content_type: 'text/html', layout: layout2)
+
+      result = Scribo::ContentRenderService.new(subject, self).call
+
+      assert_equal '<section>bla</section><body><main>test</main></body>', result
+    end
+
+
     test 'renders content_for within layout, registers not available in template' do
-      layout1 = scribo_sites(:main).contents.create(kind: 'text', data: "{{_yield['']}}<section>{%yield 'section'%}</section><body>{%yield%}</body>{{_yield['section']}}", content_type: 'text/html')
+      layout1 = scribo_sites(:main).contents.create(kind: 'text', path: '_layouts/layout1', data: "{{_yield['']}}<section>{%yield 'section'%}</section><body>{%yield%}</body>{{_yield['section']}}", content_type: 'text/html')
       subject = scribo_sites(:main).contents.create(kind: 'text', path: '/test', data: "{%content_for 'section'%}bla{%endcontent_for%}test", content_type: 'text/html', layout: layout1)
 
       result = Scribo::ContentRenderService.new(subject, self).call
