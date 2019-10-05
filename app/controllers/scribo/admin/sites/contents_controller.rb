@@ -91,7 +91,7 @@ module Scribo
       end
 
       def remote_create
-        new_content = @site.contents.create(path: params[:path], kind: params[:kind], state: 'published')
+        new_content = @site.contents.create(path: params[:path], kind: params[:kind])
         if params[:parent]
           parent = @site.contents.find(params[:parent])
           new_content.move_to_child_with_index(parent, 0)
@@ -121,9 +121,9 @@ module Scribo
       end
 
       def content_params
-        params.require(:content).permit(:kind, :state, :layout_id, :parent_id, :data, :data_with_frontmatter).tap do |w|
+        params.require(:content).permit(:kind, :layout_id, :parent_id, :data, :data_with_frontmatter).tap do |w|
           w[:kind]       = 'text' if w[:kind].blank?
-          if params[:content][:data_with_frontmatter].empty?
+          if params[:content]&.[](:data_with_frontmatter)&.empty?
             w[:properties] = YAML.safe_load(params[:content][:properties], permitted_classes: [Time]) if params[:content][:properties]
           end
         end
