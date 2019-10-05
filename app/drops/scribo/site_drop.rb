@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require_dependency 'scribo/application_drop'
-
+require 'pry'
 module Scribo
   class SiteDrop < ApplicationDrop
     delegate :name, to: :@object
@@ -16,14 +16,10 @@ module Scribo
     end
 
     def posts
-      @object.contents.posts
+      @object.contents.posts.to_a
     end
 
-    def [](name)
-      method_missing(name)
-    end
-
-    def method_missing(method)
+    def liquid_method_missing(method)
       if @properties[method.to_s].is_a? Hash
         Scribo::PropertiesDrop.new(@properties, [method.to_s])
       else

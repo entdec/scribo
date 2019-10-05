@@ -7,11 +7,12 @@ module Scribo
     delegate :path, to: :@object
     delegate :site, to: :@object
 
-    def [](name)
-      method_missing(name)
+    def initialize(object)
+      @object = object
+      @properties = object.properties
     end
 
-    def method_missing(method)
+    def liquid_method_missing(method)
       if @properties[method.to_s].is_a? Hash
         Scribo::PropertiesDrop.new(@properties, [method.to_s])
       else

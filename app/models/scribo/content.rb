@@ -75,7 +75,7 @@ module Scribo
       result = ''
       result += (YAML.dump(properties) + "---\n") if properties.present?
 
-      result + data
+      result + data.to_s
     end
 
     def data_with_frontmatter=(text)
