@@ -20,6 +20,7 @@ module Scribo
     has_one_attached :asset
 
     scope :layouts, -> { where("full_path LIKE '/_layouts/%'") }
+    scope :posts, -> { where("full_path LIKE '/_posts/%'") }
     scope :include, ->(name) { published.where(full_path: ["/_includes/#{name}", "/_includes/#{name}.html", "/_includes/#{name}.md"]) }
     scope :layout, ->(name) { published.where(full_path: ["/_layouts/#{name}.html", "/_layouts/#{name}.md"]) }
     scope :data, ->(name) { published.where(full_path: ["/_data/#{name}.yml", "/_data/#{name}.yaml", "/_data/#{name}.json", "/_data/#{name}.csv", "/_data/#{name}"]) }
