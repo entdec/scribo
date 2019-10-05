@@ -15,6 +15,10 @@ module Scribo
       Scribo::DataDrop.new(@object)
     end
 
+    def posts
+      @object.contents.posts
+    end
+
     def [](name)
       method_missing(name)
     end
