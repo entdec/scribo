@@ -36,8 +36,9 @@ module Scribo
 
         end
 
-        puts "No import found: #{import_path}" unless include_content.first&.render
-        ::SassC::Importer::Import.new(path, source: include_content.first&.render || '')
+        puts "No import found: #{import_path}" unless include_content.first
+        # FIXME: Add context
+        ::SassC::Importer::Import.new(path, source: ContentRenderService.new(include_content.first, {}).call || '')
       end
     end
   end
