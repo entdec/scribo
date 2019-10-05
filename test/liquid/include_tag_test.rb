@@ -13,7 +13,7 @@ class IncludeTagTest < ActiveSupport::TestCase
   end
 
   test 'includes content from current site' do
-    scribo_sites(:main).contents.create(state: 'published', path: '/_menu', kind: 'text', data: 'included content', content_type: 'text/html')
+    scribo_sites(:main).contents.create(path: '/_menu', kind: 'text', data: 'included content', content_type: 'text/html')
     subject = scribo_sites(:main).contents.create(kind: 'text', data: "|{%include 'menu'%}|", content_type: 'text/html')
 
     result = subject.render
@@ -22,7 +22,7 @@ class IncludeTagTest < ActiveSupport::TestCase
   end
 
   test 'does not include content from other site' do
-    scribo_sites(:second).contents.create(state: 'published', path: '/_menu', kind: 'text', data: 'included content', content_type: 'text/html')
+    scribo_sites(:second).contents.create(path: '/_menu', kind: 'text', data: 'included content', content_type: 'text/html')
     subject = scribo_sites(:main).contents.create(kind: 'text', data: "|{%include 'menu'%}|", content_type: 'text/html')
 
     result = subject.render
@@ -31,7 +31,7 @@ class IncludeTagTest < ActiveSupport::TestCase
   end
 
   test 'included content receives context passed from subject' do
-    scribo_sites(:main).contents.create(state: 'published', path: '/_menu', kind: 'text', data: 'hello {{dummy.dummy_attr}}', content_type: 'text/html')
+    scribo_sites(:main).contents.create(path: '/_menu', kind: 'text', data: 'hello {{dummy.dummy_attr}}', content_type: 'text/html')
     subject = scribo_sites(:main).contents.create(kind: 'text', data: "{{dummy.dummy_attr}}|{%include 'menu'%}|", content_type: 'text/html')
 
     d = DummyObject.new('dummy')
@@ -41,7 +41,7 @@ class IncludeTagTest < ActiveSupport::TestCase
   end
 
   test 'included content receives context passed from subject as well as assigns from tag' do
-    scribo_sites(:main).contents.create(state: 'published', path: '/_menu', kind: 'text', data: 'hello {{dummy.dummy_attr}} {{name}}', content_type: 'text/html')
+    scribo_sites(:main).contents.create(path: '/_menu', kind: 'text', data: 'hello {{dummy.dummy_attr}} {{name}}', content_type: 'text/html')
     subject = scribo_sites(:main).contents.create(kind: 'text', data: "{{dummy.dummy_attr}}|{%include 'menu' name:'bob'%}|{{name}}", content_type: 'text/html')
 
     d = DummyObject.new('dummy')
