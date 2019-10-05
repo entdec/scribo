@@ -18,8 +18,10 @@ module Scribo
     end
 
     def filter_for_path(path)
-      case File.extname(path)[1..-1].to_s
-      when 'scss', 'sass'
+      case File.extname(path.to_s)[1..-1].to_s
+      when 'scss'
+        'scss'
+      when 'sass'
         'sass'
       when 'md', 'markdown', 'mkd'
         'markdown'
@@ -44,6 +46,7 @@ module Scribo
                                 end
         result += additional_extensions if additional_extensions.present?
       end
+      result += [File.extname(path).gsub(/^\./, '')]
       dir = File.dirname(path)
       ext = File.extname(path)
       base = File.basename(path, ext)
