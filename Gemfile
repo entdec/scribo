@@ -20,3 +20,8 @@ gemspec
 # bundle config local.liquor ../../components/liquor
 
 gem 'liquor', entdec: 'components/liquor', tag: '0.5.9'
+
+
+group :test do
+  gem 'pry-rails'
+end
