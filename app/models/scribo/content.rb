@@ -32,7 +32,14 @@ module Scribo
 
       path = '/' + path unless path.start_with?('/')
 
-      published.where(full_path: path == '/' ? %w[/index.html /index.link] : path)
+      if path == '/'
+        path = '/index.html'
+        variations = Scribo::Utility.variations_for_path(path)
+        variations.unshift '/index.link'
+      else
+        variations = Scribo::Utility.variations_for_path(path)
+      end
+      published.where(full_path: variations)
     end
 
     def self.identified(identifier = nil)
@@ -74,7 +81,14 @@ module Scribo
       when 'asset'
         render_asset
       when 'text', 'redirect'
-        Liquor.render(data, assigns: assigns.merge('content' => self), registers: registers.merge('content' => self), filter: filter, layout: layout&.data)
+
+        total_data = data
+        current_layout = layout
+        begin
+          total_data = Liquor.render(total_data, assigns: assigns, registers: registers.merge('content' => self), filter: filter, layout: current_layout&.data)
+          current_layout = current_layout.layout
+        end while current_layout
+        total_data
       end
     end
 

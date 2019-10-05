@@ -2,7 +2,8 @@
 
 module Scribo
   module Utility
-    extend self
+    module_function
+
     def kind_for_content_type(content_type)
       MIME::Types.type_for(content_type).any? { |t| t.media_type == 'text' } ? 'text' : 'asset'
     end
@@ -26,6 +27,28 @@ module Scribo
         'slim'
       when 'es6', 'babel', 'jsx', 'js'
         'babel'
+      end
+    end
+
+    def variations_for_path(path)
+      result = []
+      MIME::Types.type_for(path).each do |mime_type|
+        result += mime_type.extensions if mime_type.extensions
+        additional_extensions = case mime_type.content_type
+                                when 'text/css'
+                                  %w[scss sass]
+                                when 'text/html'
+                                  %w[md markdown mkd slim]
+                                when 'application/javascript'
+                                  %w[es6 babel jsx js]
+                                end
+        result += additional_extensions if additional_extensions.present?
+      end
+      dir = File.dirname(path)
+      ext = File.extname(path)
+      base = File.basename(path, ext)
+      result.uniq.map do |e|
+        (dir.end_with?('/') ? dir : dir + '/') + base + '.' + e
       end
     end
 
