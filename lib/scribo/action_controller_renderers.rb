@@ -64,7 +64,7 @@ module ActionController::Renderers
         redirect_to redirect_options.last, status: redirect_options.first
       elsif stale?(etag: content.cache_key, public: true)
         if content.kind == 'asset'
-          send_data(content.data, type: content.content_type, disposition: 'inline')
+          send_data(content.render, type: content.content_type, disposition: 'inline')
         else
           content.render(assigns, registers)
         end
