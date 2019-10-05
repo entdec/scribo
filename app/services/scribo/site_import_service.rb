@@ -12,7 +12,7 @@ module Scribo
       @zip_file = Zip::File.open(path)
 
       # Find specific entry
-      meta_info_entry = zip_file.glob('site_*/_config.yml').first
+      meta_info_entry = zip_file.glob('*/_config.yml').first
       # raise 'Site import needs a _config.yml file in the root of the zip' unless meta_info_entry
 
       @meta_info_site = if meta_info_entry
