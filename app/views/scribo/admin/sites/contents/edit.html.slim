@@ -37,7 +37,7 @@
         .row
           .col-sm-12
             br
-            - if @content.kind == 'text' && !@content.layout?
+            - if @content.kind == 'text'
               = f.association :layout, collection: @layouts, selected: @content.layout_id, label_method: :path, include_blank: true
             = f.input :kind, as: :hidden
 
