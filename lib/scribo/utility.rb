@@ -50,9 +50,10 @@ module Scribo
       dir = File.dirname(path)
       ext = File.extname(path)
       base = File.basename(path, ext)
-      result.uniq.map do |e|
+      variations = result.compact.uniq.map do |e|
         (dir.end_with?('/') ? dir : dir + '/') + base + '.' + e
       end
+      variations + [(dir.end_with?('/') ? dir : dir + '/') + base]
     end
 
     def output_content_type(content)

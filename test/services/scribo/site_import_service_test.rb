@@ -13,7 +13,7 @@ module Scribo
         assert_equal 4, subject.contents.count
         assert_equal 'text', subject.contents.located('/index.html').first.kind
         assert_equal "test\n", subject.contents.located('/index.html').first.data
-        assert_equal 'folder', subject.contents.located('/folder1').first.kind
+        assert_equal 'folder', subject.contents.located('/folder1/').first.kind
         assert_equal 'asset', subject.contents.located('/folder1/test.png').first.kind
         assert_equal 'asset', subject.contents.located('/test.png').first.kind
       end

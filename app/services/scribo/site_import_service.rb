@@ -111,12 +111,12 @@ module Scribo
       meta_info = prefill
       meta_info['state'] = 'published'
 
-      meta_info['kind'] = if File.extname(entry_name).present?
-                            Scribo::Utility.kind_for_path(entry_name)
-                          elsif entry.nil?
+      meta_info['kind'] = if entry.nil?
                             'folder'
                           elsif entry.directory?
                             'folder'
+                          elsif File.extname(entry_name).present?
+                            Scribo::Utility.kind_for_path(entry_name)
                           elsif entry&.get_input_stream&.respond_to?(:read) && entry.get_input_stream.read.encoding.name != 'ASCII-8BIT'
                             'asset'
                           else
