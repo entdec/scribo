@@ -23,7 +23,7 @@ module Scribo
           filter_options = { full_path: content.full_path, content: content }
           filter_options[:importer] = Scribo::SassC::Importer if %w[sass scss].include?(filter)
           Rails.logger.error "Scribo rendering #{content.path}, layout: #{current_layout}, registers: #{registers.keys}"
-          total_data = Liquor.render(total_data, assigns: assigns, registers: registers, filter: filter, filter_options: filter_options, layout: current_layout&.data)
+          total_data = Liquor.render(total_data, assigns: assigns, registers: registers, filter: (options.key?(:filter) ? options[:filter] :  filter), filter_options: filter_options, layout: current_layout&.data)
           current_layout = current_layout&.layout
           break unless current_layout
         end

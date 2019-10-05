@@ -1,7 +1,6 @@
 index:
   site: main
   kind: text
-  content_type: text/html
   data: Test index
   path: /
   full_path: /
@@ -9,7 +8,29 @@ index:
 layout:
   site: main
   kind: text
-  content_type: text/html
   data: layout{%yield%}layout
   path: /_layout
   full_path: /_layout
+
+
+scss_include:
+  site: main
+  kind: text
+  data: Test index
+  path: /_scss_include.scss
+  full_path: /_scss_include.scss
+  data: |
+    @mixin large-text { font: { family: Arial; size: 20px; weight: bold; } color: #ff0000;}
+
+scss:
+  site: main
+  kind: text
+  data: Test index
+  path: /test.scss
+  full_path: /test.scss
+  data: |
+    @import 'scss_include';
+    body {
+      @include large-text;
+    }
+
