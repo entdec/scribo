@@ -41,11 +41,11 @@ ActiveRecord::Schema.define(version: 2019_10_04_185602) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "position"
-    t.integer "lft"
-    t.integer "rgt"
     t.integer "depth"
     t.integer "children_count"
     t.string "full_path"
+    t.integer "rgt"
+    t.integer "lft"
     t.index ["layout_id"], name: "index_scribo_contents_on_layout_id"
     t.index ["parent_id"], name: "index_scribo_contents_on_parent_id"
     t.index ["scribo_site_id", "full_path"], name: "index_scribo_contents_full_path", unique: true

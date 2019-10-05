@@ -4,6 +4,8 @@ index:
   data: Test index
   path: /
   full_path: /
+  lft: 7
+  rgt: 8
 
 layout:
   site: main
@@ -11,7 +13,9 @@ layout:
   data: layout{%yield%}layout
   path: /_layout
   full_path: /_layout
-
+  depth: 0
+  lft: 3
+  rgt: 4
 
 scss_include:
   site: main
@@ -19,6 +23,9 @@ scss_include:
   data: Test index
   path: /_scss_include.scss
   full_path: /_scss_include.scss
+  depth: 0
+  lft: 5
+  rgt: 6
   data: |
     @mixin large-text { font: { family: Arial; size: 20px; weight: bold; } color: #ff0000;}
 
@@ -28,16 +35,22 @@ scss:
   data: Test index
   path: /test.scss
   full_path: /test.scss
+  depth: 0
+  lft: 1
+  rgt: 2
   data: |
     @import 'scss_include';
     body {
       @include large-text;
     }
 
-index:
+second_index:
   site: second
   kind: text
   data: |
     {{site.email}},{{site.social_links.rss}},{{site.social_links.github}}
   path: /
   full_path: /
+  depth: 0
+  lft: 1
+  rgt: 2

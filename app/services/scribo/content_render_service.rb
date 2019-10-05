@@ -17,23 +17,16 @@ module Scribo
       when 'asset'
         render_asset
       when 'text', 'redirect'
-        content_data = content.data
-        current_layout = content.layout
-        loop do
-          puts "Scribo rendering #{content.path}, layout: #{current_layout}, registers: #{registers.keys}"
-          content_data = render_liquor(content_data, current_layout&.data)
-          current_layout = current_layout&.layout
-          break unless current_layout
-        end
-        content_data
+        render_liquor(content.data, content.layout)
       end
     end
 
     private
 
-    def render_liquor(content_data, layout_data)
-      # content_data = render_liquor(content_data, layout_data)
-      Liquor.render(content_data, assigns: assigns, registers: registers, filter: filter, filter_options: filter_options, layout: layout_data)
+    def render_liquor(data, layout)
+      result = Liquor.render(data, assigns: assigns, registers: registers, filter: filter, filter_options: filter_options, layout: layout&.data)
+      result = render_liquor(result, layout.layout) if layout&.layout
+      result
     end
 
     def render_asset
