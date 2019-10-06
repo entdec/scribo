@@ -28,7 +28,8 @@ module Scribo
         raise "Site import needs all site content to be in one folder starting with #{base_path}/" unless entry.name.start_with?(base_path + '/')
       end
 
-      meta_info_site['name'] ||= base_path
+      meta_info_site['properties'] ||= {}
+      meta_info_site['properties']['title'] = base_path
     end
 
     def perform
@@ -72,8 +73,8 @@ module Scribo
     end
 
     def create_site
-      site = Site.where(scribable_type: meta_info_site['scribable_type'], scribable_id: meta_info_site['scribable_id']).where(name: meta_info_site['name']).first
-      site ||= Site.create(scribable_type: meta_info_site['scribable_type'], scribable_id: meta_info_site['scribable_id'], name: meta_info_site['name'])
+      site = Site.where(scribable_type: meta_info_site['scribable_type'], scribable_id: meta_info_site['scribable_id']).where("properties->>'title' = ?", meta_info_site['properties']['name']).first
+      site ||= Site.create(scribable_type: meta_info_site['scribable_type'], scribable_id: meta_info_site['scribable_id'], properties: meta_info_site['properties'])
       site.purpose = meta_info_site['purpose']
       site.properties = meta_info_site.except(%w[scribable_type scribable_id purpose contents])
       site.save!
@@ -99,7 +100,7 @@ module Scribo
       # content.caption = meta_info['caption']
       # content.breadcrumb = meta_info['breadcrumb']
       # content.keywords = meta_info['keywords']
-      content.layout = meta_info_site['contents'].find { |mi| mi['path'] == meta_info['layout'] }['record'] if meta_info['layout']
+      # content.layout = meta_info_site['contents'].find { |mi| mi['path'] == meta_info['layout'] }['record'] if meta_info['layout']
       # content.published_at = meta_info['published_at']
       content.save!
 
