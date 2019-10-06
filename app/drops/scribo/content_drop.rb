@@ -4,12 +4,16 @@ require_dependency 'scribo/application_drop'
 
 module Scribo
   class ContentDrop < ApplicationDrop
-    delegate :path, to: :@object
+    delegate :path, :excerpt, :categories, :tags, to: :@object
     delegate :site, to: :@object
 
     def initialize(object)
       @object = object
       @properties = object.properties
+    end
+
+    def url
+      @object.full_path
     end
 
     def liquid_method_missing(method)

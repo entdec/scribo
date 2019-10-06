@@ -8,6 +8,7 @@ It's designed to have the least possible impact on your database, we only use tw
 It also makes no assumptions about your data models, it does come feature packed though:
 
 - Pages
+- Posts (or articles)
 - Static assets
 - Data files
 - Layouts
@@ -15,25 +16,19 @@ It also makes no assumptions about your data models, it does come feature packed
 
 ## Installation
 
-Scribo depends on `commonmarker`, which needs `cmake` to compile, make sure you have this installed.
-
 Add this line to your application's Gemfile:
 
 ```ruby
 gem 'scribo'
 ```
 
-And then install the migrations:
-```bash
-$ bin/rails scribo:install:migrations
-```
-
-And migrate your database:
+Migrate your database:
 ```bash
 $ bin/rails db:migrate
 ```
 
-Then add Scribo to the bottom of your routes file:
+Then add Scribo to your routes file.
+Scribo consumes all URL, so make sure you put the following line at the bottom.
 
 ```ruby
 mount Scribo::Engine, at: '/'
@@ -46,7 +41,7 @@ In your controller add the following:
 scribo_layout 'generic'
 ```
 
-This will look for content with *identifier* 'generic' and render your content in that.
+This will look for a layout 'generic' and render your content in that.
 
 You'll get all your controller's class variables as additional context and those become available for liquid to use.
 On top this, we also pass 'request' and 'content' as context.

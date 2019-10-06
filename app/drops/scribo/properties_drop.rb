@@ -11,11 +11,7 @@ module Scribo
       @data_path = data_path
     end
 
-    def [](name)
-      method_missing(name)
-    end
-
-    def method_missing(method)
+    def liquid_method_missing(method)
       @object.value_at_keypath((data_path + [method.to_s]).join('.'))
     end
   end

@@ -52,5 +52,12 @@ module Scribo
       subject.layout = scribo_contents(:index)
       assert_not subject.valid?
     end
+
+    test 'find the excerpt' do
+      subject = Scribo::Content.new(kind: 'text', path: 'hello.md')
+      subject.data_with_frontmatter = "# Hello\n\nSmurrefluts"
+      assert_equal "<h1 id=\"hello\">Hello</h1>\n", subject.excerpt
+    end
+
   end
 end

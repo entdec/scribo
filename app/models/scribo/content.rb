@@ -88,6 +88,34 @@ module Scribo
       end
     end
 
+    def date
+      Time.zone.parse(properties['date']) || (post? ? post_date : nil) || created_at
+    end
+
+    def post?
+      full_path.start_with?('/_posts/')
+    end
+
+    def post_date
+      Time.zone.parse(path[0, 10], '%Y-%m-%d')
+    end
+
+    def data
+      attributes['data']&.force_encoding("utf-8")
+    end
+
+    def excerpt
+      Scribo::ContentRenderService.new(self, {}, data: self.data.gsub("\r\n", "\n\n").split("\n\n").reject(&:empty?).first, layout: false).call
+    end
+
+    def categories
+      (properties&.[]('categories') || '').split(' ')
+    end
+
+    def tags
+      (properties&.[]('tags') || '').split(' ')
+    end
+
     def content_type
       mime_type&.content_type || 'application/octet-stream'
     end

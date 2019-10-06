@@ -16,7 +16,7 @@ module Scribo
     end
 
     def posts
-      @object.contents.posts.to_a
+      @object.contents.posts.sort_by { |p| - p.date.to_i }.to_a
     end
 
     def liquid_method_missing(method)

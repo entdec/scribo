@@ -19,7 +19,7 @@ gemspec
 # bundle config --delete local.liquor
 # bundle config local.liquor ../../components/liquor
 
-gem 'liquor', entdec: 'components/liquor', tag: '0.5.10'
+gem 'liquor', entdec: 'components/liquor', tag: '0.5.13'
 gem 'key_path', git: 'git@code.entropydecelerator.com:tdegrunt/key_path.git', branch: 'master'
 
 group :test do

@@ -17,14 +17,14 @@ module Scribo
       when 'asset'
         render_asset
       when 'text', 'redirect'
-        render_liquor(content.data, content.layout)
+        render_liquor(options[:data] || content.data, options[:layout] == false ? nil : content.layout)
       end
     end
 
     private
 
     def render_liquor(data, layout)
-      result = Liquor.render(data, assigns: assigns, registers: registers, filter: filter, filter_options: filter_options, layout: layout&.data)
+      result = Liquor.render(data, assigns: assigns.merge!('content' => data), registers: registers, filter: filter, filter_options: filter_options, layout: layout&.data)
       result = render_liquor(result, layout.layout) if layout&.layout
       result
     end
@@ -50,13 +50,14 @@ module Scribo
     def filter_options
       @filter_options = { full_path: content.full_path, content: content }
       @filter_options[:importer] = Scribo::SassC::Importer if %w[sass scss].include?(filter)
+      @filter_options.merge!(markdown_filter_options) if %w[markdown].include?(filter)
       @filter_options
     end
 
     def assigns
       return @assigns if @assigns
 
-      @assigns = { 'content' => content, 'site' => content.site }
+      @assigns = { 'site' => content.site, 'page' => content }
       @assigns.merge!(options[:assigns]) if options[:assigns]
       @assigns['request'] = ActionDispatch::RequestDrop.new(context.request) if context.respond_to?(:request)
 
@@ -74,6 +75,29 @@ module Scribo
       @registers.merge!(options[:registers]) if options[:registers]
       @registers = @registers.stringify_keys
       @registers
+    end
+
+    def markdown_filter_options
+      {
+        auto_ids: true,
+        toc_levels: '1..6',
+        entity_output: 'as_char',
+        smart_quotes: 'lsquo,rsquo,ldquo,rdquo',
+        input: 'GFM',
+        hard_wrap: false,
+        guess_lang: true,
+        footnote_nr: 1,
+        show_warnings: false,
+        syntax_highlighter: 'rouge'
+
+        # syntax_highlighter_opts: {
+        #   bold_every: 8,
+        #   css: :class,
+        #   css_class: 'highlight',
+        #   formatter: ::Rouge::Formatters::HTMLLegacy,
+        #   foobar: 'lipsum'
+        # }
+      }
     end
   end
 end

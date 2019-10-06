@@ -17,7 +17,6 @@ module Scribo
     scope :purposed, ->(purpose) { where(purpose: purpose) }
 
     class << self
-
       def all_translation_keys
         parser = Scribo::LiquidParser.new
         result = {}
@@ -29,6 +28,15 @@ module Scribo
         end
         result
       end
+    end
+
+    #
+    # Calculates the total size of the site in bytes, including assets
+    #
+    # @return [Integer] size in bytes
+    #
+    def total_size
+      contents.map { |c| c.data ? c.data.size : c.asset.attachment&.download&.size || 0 }.sum
     end
   end
 end
