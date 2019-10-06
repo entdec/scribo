@@ -75,6 +75,7 @@ module Scribo
       site = Site.where(scribable_type: meta_info_site['scribable_type'], scribable_id: meta_info_site['scribable_id']).where(name: meta_info_site['name']).first
       site ||= Site.create(scribable_type: meta_info_site['scribable_type'], scribable_id: meta_info_site['scribable_id'], name: meta_info_site['name'])
       site.purpose = meta_info_site['purpose']
+      site.properties = meta_info_site.except(%w[scribable_type scribable_id purpose contents])
       site.save!
 
       site
