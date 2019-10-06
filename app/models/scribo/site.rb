@@ -30,6 +30,11 @@ module Scribo
       end
     end
 
+    # See https://jekyllrb.com/docs/permalinks/
+    def perma_link
+      @properties['permalink'] || "/:year/:month/:day/:title:output_ext"
+    end
+
     #
     # Calculates the total size of the site in bytes, including assets
     #

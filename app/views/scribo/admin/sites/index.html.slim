@@ -1,13 +1,13 @@
 table.table
   thead
     tr
-      th Name
+      th Title
       th Purpose
       th
   tbody
     - for site in @sites
       tr
-        td = link_to site.name || '-', edit_admin_site_path(site)
+        td = link_to site.properties['title'] || '-', edit_admin_site_path(site)
         td = link_to site.purpose || '-', edit_admin_site_path(site)
         td = link_to admin_site_path(site), method: :delete do
            i.fas.fa-trash

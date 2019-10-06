@@ -39,6 +39,7 @@ export default class extends Controller {
     connect() {
         const self = this;
         let mode = CodeMirror.mimeModes[this.data.get('mode')];
+        // let mode = { name: 'liquidextra', base: CodeMirror.mimeModes[this.data.get('mode')] };
 
         this.editor = CodeMirror.fromTextArea(this.textareaTarget, {
             lineNumbers: true,
@@ -48,7 +49,7 @@ export default class extends Controller {
             autoRefresh: true,
             extraKeys: { "Ctrl-Space": "autocomplete" }
         });
-        this.editor.setSize('100%', '100%');
+        this.editor.setSize('100%', this.data.get('height') || '100%');
 
         this.editor.on('dragover', function (editor, evt) {
             evt.preventDefault();
@@ -59,9 +60,10 @@ export default class extends Controller {
         });
 
         this.editor.on('drop', function (editor, evt) {
-            console.log("droppp");
-            self.fileTarget.files = evt.dataTransfer.files;
-            evt.preventDefault();
+            if (self.hasFileTarget) {
+                self.fileTarget.files = evt.dataTransfer.files;
+                evt.preventDefault();
+            }
         });
 
     }

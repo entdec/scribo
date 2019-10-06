@@ -1,9 +1,11 @@
 = render 'scribo/shared/ide' do
   = simple_form_for([:admin, @site, @content], html: {multipart: true}) do |f|
+    = f.input :kind, as: :hidden
 
     .row style="position: absolute; width: 100%; height: 100%;"
       - if @content.kind == 'asset'
         .col-sm-10
+
           input type="file" name="content[files][]" multiple="true"
           br
           - if @content.media_type == 'image'
@@ -20,6 +22,8 @@
                 br
                 | #{i} - THE QUICK BROWN FOX JUMPED OVER THE LAZY DOG.
 
+          = f.input :properties, as: :text, input_html: {value: (f.object.properties.present? ? YAML.dump(f.object.properties) : "---\n"), data: { controller: "editor", target: 'editor.textarea', "editor-height" => '250px', lang: 'application/yaml', mode: {name: 'liquid', base: 'application/yaml'}}}
+
       - else
         .col-sm-10 data-controller="editor" data-editor-mode="#{@content.content_type}"
           textarea name='content[data_with_frontmatter]' data-target="editor.textarea"
@@ -31,16 +35,4 @@
           .col-sm-12
             button name='commit' value='save' class="btn btn-primary"
               i.fas.fa-save
-            a.btn data-toggle='collapse' data-target='#advancedContainer'
-              i.fas.fa-caret-down
-
-        .row
-          .col-sm-12
-            br
-            - if @content.kind == 'text'
-              = f.association :layout, collection: @layouts, selected: @content.layout_id, label_method: :path, include_blank: true
-            = f.input :kind, as: :hidden
-
-            - if @content.kind == 'asset'
-              = f.input :properties, as: :code_mirror, input_html: {value: YAML.dump(f.object.properties), data: { height: '80px', lang: 'application/yaml', mode: {name: 'liquid', base: 'application/yaml'}}}
 

@@ -117,7 +117,7 @@ module Scribo
         @kinds = %w[text redirect asset]
 
         add_breadcrumb I18n.t('scribo.breadcrumbs.admin.sites'), :admin_sites_path if defined? add_breadcrumb
-        add_breadcrumb(@site.name, edit_admin_site_path(@site)) if defined? add_breadcrumb
+        add_breadcrumb(@site.properties['title'], edit_admin_site_path(@site)) if defined? add_breadcrumb
       end
 
       def content_params

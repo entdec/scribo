@@ -8,8 +8,6 @@ module Scribo
     acts_as_nested_set
 
     belongs_to :site, class_name: 'Site', foreign_key: 'scribo_site_id'
-    belongs_to :layout, class_name: 'Content', optional: true
-    has_many :layouted, class_name: 'Content', foreign_key: 'layout_id', dependent: :destroy
 
     validate :layout_cant_be_current_content
 
@@ -54,6 +52,11 @@ module Scribo
         # For now this makes the extension irrelevant, which is fine
         published.where("full_path LIKE '%_%'")
       end
+    end
+
+    def layout
+      return nil unless properties&.[]('layout')
+      site.contents.layout(properties['layout']).first
     end
 
     def layout?
@@ -174,7 +177,7 @@ module Scribo
     private
 
     def layout_cant_be_current_content
-      errors.add(:layout_id, "can't be current content") if layout_id == id && id.present?
+      errors.add(:base, "layout can't be layout of itself") if layout&.full_path == full_path
     end
 
     class << self

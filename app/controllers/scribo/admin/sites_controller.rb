@@ -19,12 +19,12 @@ module Scribo
       end
 
       def index
-        @sites = Site.adminable.order(:name)
+        @sites = Site.adminable
       end
 
       def edit
         @site = Site.find(params[:id])
-        add_breadcrumb(@site.name, :edit_admin_site_path) if defined? add_breadcrumb
+        add_breadcrumb(@site.properties['title'], :edit_admin_site_path) if defined? add_breadcrumb
       end
 
       def update
@@ -62,7 +62,7 @@ module Scribo
       end
 
       def site_params
-        params.require(:site).permit(:name, :purpose, :scribable_id).tap do |whitelisted|
+        params.require(:site).permit(:purpose, :scribable_id).tap do |whitelisted|
           whitelisted[:scribable] = GlobalID::Locator.locate_signed(whitelisted[:scribable_id])
           whitelisted[:properties] = YAML.safe_load(params[:site][:properties], permitted_classes: [Time]) if params[:site][:properties]
         end
