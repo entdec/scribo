@@ -16,7 +16,7 @@ module Scribo
       # raise 'Site import needs a _config.yml file in the root of the zip' unless meta_info_entry
 
       @meta_info_site = if meta_info_entry
-                          YAML.safe_load(meta_info_entry.get_input_stream.read, permitted_classes: [Time])
+                          YAML.safe_load(meta_info_entry.get_input_stream.read, permitted_classes: [Date, Time])
                         else
                           {}
                         end

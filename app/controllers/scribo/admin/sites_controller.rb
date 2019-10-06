@@ -64,7 +64,7 @@ module Scribo
       def site_params
         params.require(:site).permit(:purpose, :scribable_id).tap do |whitelisted|
           whitelisted[:scribable] = GlobalID::Locator.locate_signed(whitelisted[:scribable_id])
-          whitelisted[:properties] = YAML.safe_load(params[:site][:properties], permitted_classes: [Time]) if params[:site][:properties]
+          whitelisted[:properties] = YAML.safe_load(params[:site][:properties], permitted_classes: [Date, Time]) if params[:site][:properties]
         end
       end
     end
