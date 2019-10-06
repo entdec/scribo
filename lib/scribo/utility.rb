@@ -4,6 +4,10 @@ module Scribo
   module Utility
     module_function
 
+    def file_name(path)
+      File.basename(path, File.extname(path))
+    end
+
     def kind_for_content_type(content_type)
       MIME::Types.type_for(content_type).any? { |t| t.media_type == 'text' } ? 'text' : 'asset'
     end

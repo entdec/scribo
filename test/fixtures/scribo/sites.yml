@@ -1,13 +1,14 @@
 main:
-  name: main
   purpose: site
   scribable: one (Account)
+  properties:
+    title: main
 
 second:
-  name: second
   purpose: site
   scribable: two (Account)
   properties:
+    title: second
     email: 'email@example.com'
     social_links:
       rss: rss

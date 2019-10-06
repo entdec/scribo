@@ -2,17 +2,27 @@ index:
   site: main
   kind: text
   data: Test index
-  path: /
-  full_path: /
+  path: index.html
+  full_path: /index.html
   lft: 7
   rgt: 8
+
+layout_folder:
+  site: main
+  kind: folder
+  path: _layouts
+  full_path: /_layouts
+  depth: 0
+  lft: 9
+  rgt: 10
 
 layout:
   site: main
   kind: text
   data: layout{%yield%}layout
-  path: /_layout
-  full_path: /_layout
+  path: layout.html
+  full_path: /_layouts/layout.html
+  parent: layout_folder
   depth: 0
   lft: 3
   rgt: 4
@@ -49,8 +59,8 @@ second_index:
   kind: text
   data: |
     {{site.email}},{{site.social_links.rss}},{{site.social_links.github}}
-  path: /
-  full_path: /
+  path: /index.html
+  full_path: /index.html
   depth: 0
   lft: 1
   rgt: 2
