@@ -8,6 +8,7 @@ module Scribo
     acts_as_nested_set
 
     belongs_to :site, class_name: 'Site', foreign_key: 'scribo_site_id'
+    has_one_attached :asset
 
     validate :layout_cant_be_current_content
 
@@ -15,12 +16,10 @@ module Scribo
     after_save :set_full_path
     after_move :set_full_path
 
-    has_one_attached :asset
-
     scope :layouts, -> { where("full_path LIKE '/_layouts/%'") }
     scope :posts, -> { where("full_path LIKE '/_posts/%'") }
     scope :include, ->(name) { published.where(full_path: ["/_includes/#{name}", "/_includes/#{name}.html", "/_includes/#{name}.md"]) }
-    scope :layout, ->(name) { published.where(full_path: ["/_layouts/#{name}.html", "/_layouts/#{name}.md"]) }
+    scope :layout, ->(name) { published.where(full_path: ["/_layouts/#{name}.html", "/_layouts/#{name}.md", "/_layouts/#{name}.xml", "/_layouts/#{name}.css"]) }
     scope :data, ->(name) { published.where(full_path: ["/_data/#{name}.yml", "/_data/#{name}.yaml", "/_data/#{name}.json", "/_data/#{name}.csv", "/_data/#{name}"]) }
     scope :locale, ->(name) { published.where(full_path: "/_locales/#{name}.yml") }
     scope :published, -> { where("properties->>'published' = 'true' OR properties->>'published' IS NULL").where("properties->>'published_at' IS NULL OR properties->>'published_at' <= :now", now: Time.current.utc) }
@@ -87,7 +86,7 @@ module Scribo
         self.properties = data_with_metadata.metadata
         self.data = data_with_metadata.content
       else
-        self.data = data
+        self.data = text
       end
     end
 
