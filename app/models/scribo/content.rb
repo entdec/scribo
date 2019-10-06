@@ -91,7 +91,8 @@ module Scribo
     end
 
     def date
-      Time.zone.parse(properties['date']) || (post? ? post_date : nil) || created_at
+      prop_date = Time.zone.parse(properties['date']) rescue nil
+      prop_date || (post? ? post_date : nil) || created_at
     end
 
     def post?
@@ -176,7 +177,9 @@ module Scribo
     private
 
     def layout_cant_be_current_content
-      errors.add(:base, "layout can't be layout of itself") if layout&.full_path == full_path
+      return unless layout
+
+      errors.add(:base, "layout can't be layout of itself") if layout.full_path == full_path
     end
 
     class << self

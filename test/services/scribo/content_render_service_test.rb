@@ -14,7 +14,7 @@ module Scribo
     end
 
     test 'site drop' do
-      content = Scribo::Site.find_by_name('second').contents.first
+      content = Scribo::Site.titled('second').contents.first
 
       assert content
       subject = Scribo::ContentRenderService.new(content, {}).call

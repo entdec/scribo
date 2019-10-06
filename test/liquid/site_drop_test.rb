@@ -2,7 +2,7 @@
 
 require 'test_helper'
 
-class IncludeTagTest < ActiveSupport::TestCase
+class SiteDropTest < ActiveSupport::TestCase
   test 'renders posts' do
     contents       = scribo_sites(:main).contents
 
