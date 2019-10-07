@@ -2,6 +2,7 @@
 
 require_dependency 'scribo/application_service'
 require 'mime/types'
+require 'yaml'
 
 module Scribo
   class SiteImportService < ApplicationService
@@ -16,7 +17,7 @@ module Scribo
       # raise 'Site import needs a _config.yml file in the root of the zip' unless meta_info_entry
 
       @meta_info_site = if meta_info_entry
-                          YAML.safe_load(meta_info_entry.get_input_stream.read, permitted_classes: [Date, Time])
+                          Scribo::Utility.yaml_safe_parse(meta_info_entry.get_input_stream.read)
                         else
                           {}
                         end

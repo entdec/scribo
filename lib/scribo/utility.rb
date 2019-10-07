@@ -4,6 +4,15 @@ module Scribo
   module Utility
     module_function
 
+    def yaml_safe_parse(text)
+      permitted_classes = [Date, Time]
+      if ::Psych::VERSION < '3.1.0'
+        YAML.safe_load(text, whiltelisted_classes: permitted_classes)
+      else
+        YAML.safe_load(text, permitted_classes: permitted_classes)
+      end
+    end
+
     def file_name(path)
       File.basename(path, File.extname(path))
     end

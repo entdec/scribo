@@ -124,7 +124,7 @@ module Scribo
         params.require(:content).permit(:kind, :layout_id, :parent_id, :data, :data_with_frontmatter).tap do |w|
           w[:kind]       = 'text' if w[:kind].blank?
           if params[:content]&.[](:data_with_frontmatter)&.empty?
-            w[:properties] = YAML.safe_load(params[:content][:properties], permitted_classes: [Date, Time]) if params[:content][:properties]
+            w[:properties] = Scribo::Utility.yaml_safe_parse(params[:content][:properties]) if params[:content][:properties]
           end
         end
       end

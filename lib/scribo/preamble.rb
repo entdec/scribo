@@ -73,7 +73,7 @@ module Scribo
         state = new_state
       end
 
-      new(YAML.safe_load(preamble_lines, permitted_classes: [Date, Time]), content_lines)
+      new(Scribo::Utility.yaml_safe_parse(preamble_lines), content_lines)
     end
 
     def self.load(path, options = {})

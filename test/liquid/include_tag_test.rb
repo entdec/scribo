@@ -19,21 +19,21 @@ class IncludeTagTest < ActiveSupport::TestCase
     contents       = scribo_sites(:main).contents
     include_folder = contents.create!(path: '_includes', kind: 'folder')
     include_menu   = contents.create!(parent: include_folder, path: 'menu.html', kind: 'text', data: 'included content')
-    subject        = contents.create!(path: '/test.html', kind: 'text', data: "|{%include 'menu'%}|")
+    subject        = contents.create!(path: '/test.html', kind: 'text', data: "|{%include 'menu.html'%}|")
 
     result = Scribo::ContentRenderService.new(subject, self).call
 
     assert_equal '|included content|', result
   end
 
-  test 'includes identified content from current site' do
+  test 'does not include content from outside _includes folder in current site' do
     contents       = scribo_sites(:main).contents
     include_menu   = contents.create!(path: '_menu.html', kind: 'text', data: 'included content')
-    subject        = contents.create!(path: '/test.html', kind: 'text', data: "|{%include 'menu'%}|")
+    subject        = contents.create!(path: '/test.html', kind: 'text', data: "|{%include 'menu.html'%}|")
 
     result = Scribo::ContentRenderService.new(subject, self).call
 
-    assert_equal '|included content|', result
+    assert_equal '||', result
   end
 
 

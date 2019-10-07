@@ -18,7 +18,7 @@ module Scribo
 
     scope :layouts, -> { where("full_path LIKE '/_layouts/%'") }
     scope :posts, -> { where("full_path LIKE '/_posts/%'") }
-    scope :include, ->(name) { published.where(full_path: ["/_includes/#{name}", "/_includes/#{name}.html", "/_includes/#{name}.md"]) }
+    scope :include, ->(name) { published.where(full_path: ["/_includes/#{name}"]) }
     scope :layout, ->(name) { published.where(full_path: ["/_layouts/#{name}.html", "/_layouts/#{name}.md", "/_layouts/#{name}.xml", "/_layouts/#{name}.css"]) }
     scope :data, ->(name) { published.where(full_path: ["/_data/#{name}.yml", "/_data/#{name}.yaml", "/_data/#{name}.json", "/_data/#{name}.csv", "/_data/#{name}"]) }
     scope :locale, ->(name) { published.where(full_path: "/_locales/#{name}.yml") }

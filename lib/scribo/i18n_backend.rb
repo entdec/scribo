@@ -15,7 +15,7 @@ module Scribo
       locale_content = options[:site].contents.locale(locale).first
       return unless locale_content
 
-      scribo_value = YAML.safe_load(locale_content.data).value_at_keypath(total_key)
+      scribo_value = Scribo::Utility.yaml_safe_parse(locale_content.data).value_at_keypath(total_key)
       return unless scribo_value.present?
 
       if scribo_value.respond_to?(:gsub)

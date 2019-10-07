@@ -11,11 +11,11 @@ module Scribo
         import_path = '/' + import_path unless import_path.start_with?('/')
         import_path += File.extname(content.path)
 
-        include_content = content.site.contents.located(import_path, allow_private: true)
+        include_content = content.site.contents.located(import_path, restricted: false)
         unless include_content.present?
           # Look for /_file.ext alternative
           import_path = File.dirname(import_path) + '/_' + File.basename(import_path)
-          include_content = content.site.contents.located(import_path, allow_private: true)
+          include_content = content.site.contents.located(import_path, restricted: false)
         end
 
         if include_content.empty? && content.site.properties.value_at_keypath('sass.sass_dir')
@@ -26,12 +26,12 @@ module Scribo
           import_path = File.expand_path(path, alternate_path)
           import_path += File.extname(content.path)
 
-          include_content = content.site.contents.located(import_path, allow_private: true)
+          include_content = content.site.contents.located(import_path, restricted: false)
 
           unless include_content.present?
             # Look for /_file.ext alternative
             import_path = File.dirname(import_path) + '/_' + File.basename(import_path)
-            include_content = content.site.contents.located(import_path, allow_private: true)
+            include_content = content.site.contents.located(import_path, restricted: false)
           end
 
         end

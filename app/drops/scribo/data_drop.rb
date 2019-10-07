@@ -22,7 +22,7 @@ module Scribo
 
       case content&.content_type
       when 'text/x-yaml'
-        YAML.safe_load(content.data)
+        Scribo::Utility.yaml_safe_parse(content.data)
       when 'application/json'
         JSON.parse(content.data)
       when 'text/csv'
