@@ -22,7 +22,7 @@ module Scribo
     private
 
     def site_scope(options = {})
-      scope = Scribo::Site.named(options[:site])
+      scope = Scribo::Site.titled(options[:site])
       scope = scope.owned_by(options[:owner]) if options[:owner]
       scope
     end

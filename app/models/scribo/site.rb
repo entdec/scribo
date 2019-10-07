@@ -13,7 +13,6 @@ module Scribo
 
     scope :adminable, -> { where(scribable: Scribo.config.scribable_objects) }
     scope :owned_by, ->(owner) { where(scribable: owner) }
-    scope :named, ->(name) { where("properties->>'title' = ?", title).first } # TODO: obsolete - needs to be killed
     scope :titled, ->(title) { where("properties->>'title' = ?", title).first }
     scope :purposed, ->(purpose) { where(purpose: purpose) }
 
