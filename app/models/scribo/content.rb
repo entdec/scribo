@@ -24,37 +24,27 @@ module Scribo
     scope :locale, ->(name) { published.where(full_path: "/_locales/#{name}.yml") }
     scope :published, -> { where("properties->>'published' = 'true' OR properties->>'published' IS NULL").where("properties->>'published_at' IS NULL OR properties->>'published_at' <= :now", now: Time.current.utc) }
 
-    def self.located(path, allow_private = false)
-      return none if path.blank?
-      return none if !allow_private && File.basename(path).start_with?('_')
+    def self.located(*paths, restricted: true)
+      restricted = true if restricted.nil? # If blank it's still restricted
+      return none if paths.blank?
 
-      path = '/' + path unless path.start_with?('/')
+      paths = paths.map do |path|
+        path = '/' + path unless path.start_with?('/')
+        path = '/index.html' if path == '/'
 
-      if path == '/'
-        path = '/index.html'
-        variations = Scribo::Utility.variations_for_path(path)
-        variations.unshift '/index.link'
-      else
-        variations = Scribo::Utility.variations_for_path(path)
+        result = File.extname(path).present? ? Scribo::Utility.variations_for_path(path) : [path]
+        result.unshift(Scribo::Utility.switch_extension(path, 'link'))
+        result
       end
-      published.where(full_path: variations)
-    end
 
-    def self.identified(identifier = nil)
-      if identifier
-        path = File.dirname(identifier).gsub(/^\./, '') + '/_' + File.basename(identifier)
-        path = '/' + path unless path[0] == '/'
-
-        # Allow to be not so specific with extensions, if it clashes, you need to specify the extension
-        published.where('full_path LIKE ?', "#{path}%")
-      else
-        # For now this makes the extension irrelevant, which is fine
-        published.where("full_path LIKE '%_%'")
-      end
+      result = published.where(full_path: paths.flatten)
+      result = result.where("full_path NOT LIKE '%/\\_%'") if restricted
+      result
     end
 
     def layout
       return nil unless properties&.[]('layout')
+
       site.contents.layout(properties['layout']).first
     end
 
@@ -67,7 +57,7 @@ module Scribo
       if Scribo::Content.columns.map(&:name).include?('identifier')
         attributes['identifier']
       else
-        File.basename(path, File.extname(path)).gsub('/_', '/')
+        File.basename(path, File.extname(path))
       end
     end
 
@@ -91,7 +81,11 @@ module Scribo
     end
 
     def date
-      prop_date = Time.zone.parse(properties['date']) rescue nil
+      prop_date = begin
+                    Time.zone.parse(properties['date'])
+                  rescue StandardError
+                    nil
+                  end
       prop_date || (post? ? post_date : nil) || created_at
     end
 
@@ -104,11 +98,13 @@ module Scribo
     end
 
     def data
-      attributes['data']&.force_encoding("utf-8")
+      return attributes['data'] if kind == 'asset'
+
+      attributes['data']&.force_encoding('utf-8')
     end
 
     def excerpt
-      Scribo::ContentRenderService.new(self, {}, data: self.data.gsub("\r\n", "\n\n").split("\n\n").reject(&:empty?).first, layout: false).call
+      Scribo::ContentRenderService.new(self, {}, data: data.gsub("\r\n", "\n\n").split("\n\n").reject(&:empty?).first, layout: false).call
     end
 
     def categories
@@ -132,8 +128,7 @@ module Scribo
     end
 
     def mime_type
-      file_name = path.split('/').last.to_s
-      file_name.split('.').lazy.map { |part| MIME::Types.type_for(part).first }.detect(&:itself)
+      MIME::Types.type_for(path).first
     end
 
     def translation_scope

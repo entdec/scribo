@@ -15,18 +15,14 @@ module Scribo
       return options[:content] if options[:content].is_a?(Scribo::Content)
 
       scope = site.contents
-      scope = scope.identified(options[:identifier]) if options[:identifier]
 
-      scope = scope.located(options[:path]) if options[:path]
+      scope = scope.located(options[:path], restricted: options[:restricted]) if options[:path]
       content = if options[:root]
                   # bah
                   scope.roots.first
                 else
                   scope.first
                 end
-
-      content ||= site&.contents&.located(options[:path])&.first
-      content ||= site&.contents&.identified(options[:identifier])&.first if options[:identifier]
 
       # Find by content id
       content ||= Scribo::Content&.published&.find(options[:path][1..-1]) if options[:path] && options[:path][1..-1].length == 36

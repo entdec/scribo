@@ -8,6 +8,12 @@ module Scribo
       File.basename(path, File.extname(path))
     end
 
+    def switch_extension(path, new_extension)
+      new_extension = '.' + new_extension unless new_extension.start_with?('.')
+      ext = File.extname(path)
+      path.gsub(/#{ext}$/, new_extension)
+    end
+
     def kind_for_content_type(content_type)
       MIME::Types.type_for(content_type).any? { |t| t.media_type == 'text' } ? 'text' : 'asset'
     end
