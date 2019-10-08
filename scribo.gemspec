@@ -19,12 +19,13 @@ Gem::Specification.new do |s|
   s.files = Dir['{app,config,db,lib}/**/*', 'MIT-LICENSE', 'Rakefile', 'README.md']
 
   s.add_dependency 'awesome_nested_set', '~> 3.2'
+  s.add_dependency 'babel-transpiler', '~> 0.7'
   s.add_dependency 'liquor', '~> 0.4'
   s.add_dependency 'mime-types'
   s.add_dependency 'mimemagic'
   s.add_dependency 'pg'
   s.add_dependency 'rails', '>= 5.2'
-  s.add_dependency 'rouge', '2.2.1'
+  s.add_dependency 'rouge', '~> 3'
   s.add_dependency 'rubyzip', '~> 1.1'
   s.add_dependency 'simple_form', '> 3'
   s.add_dependency 'slim-rails', '~> 3.2'
