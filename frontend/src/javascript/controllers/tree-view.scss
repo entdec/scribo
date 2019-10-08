@@ -76,6 +76,14 @@
   }
 }
 
+.tree-view li.entry.file.selected .list-item > .tools {
+  display: inline;
+
+  a {
+    display: inline;
+  }
+}
+
 .tree-view .entry {
   font-weight: normal;
 }
