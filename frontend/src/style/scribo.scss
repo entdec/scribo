@@ -4,8 +4,10 @@
   height: 100%;
 
   .explorer-pane {
+    display: block;
+    height: 100vh;
+    overflow-y: scroll;
     flex: 0 0 340px;
-    min-height: 100vh;
   }
 
   .editor-pane {

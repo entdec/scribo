@@ -2,10 +2,8 @@
   = simple_form_for([:admin, @site, @content], html: {multipart: true}) do |f|
     = f.input :kind, as: :hidden
 
-    .row style="position: absolute; width: 100%; height: 100%;"
+    div style="position: absolute; width: 100%; height: 100%;"
       - if @content.kind == 'asset'
-        .col-sm-10
-
           input type="file" name="content[files][]" multiple="true"
           br
           - if @content.media_type == 'image'
@@ -25,14 +23,7 @@
           = f.input :properties, as: :text, input_html: {value: (f.object.properties.present? ? YAML.dump(f.object.properties) : "---\n"), data: { controller: "editor", target: 'editor.textarea', "editor-height" => '250px', lang: 'application/yaml', mode: {name: 'liquid', base: 'application/yaml'}}}
 
       - else
-        .col-sm-10 data-controller="editor" data-editor-mode="#{@content.content_type}"
+        div data-controller="editor" data-editor-mode="#{@content.content_type}"
           textarea name='content[data_with_frontmatter]' data-target="editor.textarea"
             = @content.data_with_frontmatter || 'Start typing here, or drop one or more files on this area.'
           input type="file" name="content[files][]" data-target="editor.file" multiple="true" style="margin-left: -200vh;"
-
-      .col-sm-2
-        .row
-          .col-sm-12
-            button name='commit' value='save' class="btn btn-primary"
-              i.fas.fa-save
-

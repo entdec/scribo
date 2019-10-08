@@ -129,6 +129,17 @@ export default class extends Controller {
         this.newContentContainer.removeChild(this.newContentContainer.firstChild);
     }
 
+    save(event) {
+        const self = this;
+        let parentContent = event.target.closest('li')
+        let contentId = parentContent.getAttribute('data-content');
+
+        let form = document.querySelector('form#edit_content_' + contentId)
+        form.submit();
+
+        event.stopPropagation();
+    }
+
     disconnect() {
     }
 }
