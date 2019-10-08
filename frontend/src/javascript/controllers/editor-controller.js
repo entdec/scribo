@@ -22,12 +22,13 @@ import "codemirror/addon/edit/matchtags";
 import "codemirror/addon/hint/html-hint";
 import "codemirror/addon/display/autorefresh";
 import "codemirror/addon/hint/show-hint";
-// import "codemirror-liquid";
+import "codemirror/addon/fold/foldgutter";
+import "codemirror-liquid";
 
 import "codemirror/lib/codemirror.css";
 import "codemirror/addon/dialog/dialog.css";
 import "codemirror/addon/hint/show-hint.css";
-
+import "codemirror/addon/fold/foldgutter.css";
 /***
  * IDE - Editor controller
  *
@@ -38,8 +39,8 @@ export default class extends Controller {
 
     connect() {
         const self = this;
-        let mode = CodeMirror.mimeModes[this.data.get('mode')];
-        // let mode = { name: 'liquidextra', base: CodeMirror.mimeModes[this.data.get('mode')] };
+        // let mode = CodeMirror.mimeModes[this.data.get('mode')];
+        let mode = { name: 'liquid', base: CodeMirror.mimeModes[this.data.get('mode')] };
 
         this.editor = CodeMirror.fromTextArea(this.textareaTarget, {
             lineNumbers: true,
@@ -47,7 +48,9 @@ export default class extends Controller {
             lineWrapping: true,
             tabSize: 2,
             autoRefresh: true,
-            extraKeys: { "Ctrl-Space": "autocomplete" }
+            extraKeys: { "Ctrl-Space": "autocomplete" },
+            foldGutter: true,
+            gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
         });
         this.editor.setSize('100%', this.data.get('height') || '100%');
 
