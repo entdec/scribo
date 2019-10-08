@@ -1,9 +1,26 @@
 import { Controller } from "stimulus"
 import CodeMirror from "codemirror"
+
+
+import "codemirror/addon/edit/closebrackets";
+import "codemirror/addon/edit/closetag";
+import "codemirror/addon/edit/matchtags";
+
+import "codemirror/addon/selection/active-line";
+
 import "codemirror/addon/mode/simple";
 import "codemirror/addon/mode/multiplex";
-import "codemirror/mode/htmlmixed/htmlmixed";
+import "codemirror/addon/dialog/dialog";
+import "codemirror/addon/search/searchcursor";
+import "codemirror/addon/search/search";
+import "codemirror/addon/search/jump-to-line";
+import "codemirror/addon/edit/matchtags";
+import "codemirror/addon/hint/html-hint";
+import "codemirror/addon/display/autorefresh";
+import "codemirror/addon/hint/show-hint";
+import "codemirror/addon/fold/foldgutter";
 
+import "codemirror/mode/htmlmixed/htmlmixed";
 import "codemirror/mode/slim/slim";
 import "codemirror/mode/javascript/javascript";
 import "codemirror/mode/slim/slim";
@@ -14,15 +31,6 @@ import "codemirror/mode/xml/xml";
 import "codemirror/mode/yaml/yaml";
 import "codemirror/mode/yaml-frontmatter/yaml-frontmatter";
 
-import "codemirror/addon/dialog/dialog";
-import "codemirror/addon/search/searchcursor";
-import "codemirror/addon/search/search";
-import "codemirror/addon/search/jump-to-line";
-import "codemirror/addon/edit/matchtags";
-import "codemirror/addon/hint/html-hint";
-import "codemirror/addon/display/autorefresh";
-import "codemirror/addon/hint/show-hint";
-import "codemirror/addon/fold/foldgutter";
 import "codemirror-liquid";
 
 import "codemirror/lib/codemirror.css";
@@ -48,8 +56,11 @@ export default class extends Controller {
             lineWrapping: true,
             tabSize: 2,
             autoRefresh: true,
-            extraKeys: { "Ctrl-Space": "autocomplete" },
+            extraKeys: { "Ctrl-Space": "autocomplete", "Ctrl-J": "toMatchingTag" },
             foldGutter: true,
+            autoCloseBrackets: true,
+            autoCloseTags: true,
+            matchTags: true,
             gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
         });
         this.editor.setSize('100%', this.data.get('height') || '100%');
