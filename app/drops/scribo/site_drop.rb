@@ -3,6 +3,7 @@
 require_dependency 'scribo/application_drop'
 require 'pry'
 module Scribo
+  # See https://jekyllrb.com/docs/variables/#site-variables
   class SiteDrop < ApplicationDrop
     delegate :name, to: :@object
 
@@ -11,12 +12,61 @@ module Scribo
       @properties = object.properties
     end
 
-    def data
-      Scribo::DataDrop.new(@object)
+    def time
+      Time.current
+    end
+
+    def pages
+      @object.contents.pages.to_a
     end
 
     def posts
       @object.contents.posts.sort_by { |p| - p.date.to_i }.to_a
+    end
+
+    # TODO
+    def related_posts
+      []
+    end
+
+    def static_files
+      @object.contents.assets.to_a
+    end
+
+    def html_pages
+      @object.contents.html_pages.to_a
+    end
+
+    def html_files
+      @object.contents.html_files.to_a
+    end
+
+    # TODO
+    def collections
+      []
+    end
+
+    def data
+      Scribo::DataDrop.new(@object)
+    end
+
+    # TODO
+    def documents
+      []
+    end
+
+    # TODO
+    def categories
+      []
+    end
+
+    # TODO
+    def tags
+      []
+    end
+
+    def url
+      @properties['url']
     end
 
     def liquid_method_missing(method)

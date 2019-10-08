@@ -18,11 +18,17 @@ module Scribo
 
     scope :layouts, -> { where("full_path LIKE '/_layouts/%'") }
     scope :posts, -> { where("full_path LIKE '/_posts/%'") }
+    scope :pages, -> { wwhere(kind: 'text').restricted.map(&:full_path) }
+    scope :assets, -> { where(kind: 'asset') }
+    scope :html_pages, -> { where("full_path NOT LIKE '%.html'") }
+    # html files should be non-filtered html files
+    scope :html_files, -> { where("full_path NOT LIKE '%.html'") }
     scope :include, ->(name) { published.where(full_path: ["/_includes/#{name}"]) }
     scope :layout, ->(name) { published.where(full_path: ["/_layouts/#{name}.html", "/_layouts/#{name}.md", "/_layouts/#{name}.xml", "/_layouts/#{name}.css"]) }
     scope :data, ->(name) { published.where(full_path: ["/_data/#{name}.yml", "/_data/#{name}.yaml", "/_data/#{name}.json", "/_data/#{name}.csv", "/_data/#{name}"]) }
     scope :locale, ->(name) { published.where(full_path: "/_locales/#{name}.yml") }
     scope :published, -> { where("properties->>'published' = 'true' OR properties->>'published' IS NULL").where("properties->>'published_at' IS NULL OR properties->>'published_at' <= :now", now: Time.current.utc) }
+    scope :restricted, -> { where("full_path NOT LIKE '%/\\_%'") }
 
     def self.located(*paths, restricted: true)
       restricted = true if restricted.nil? # If blank it's still restricted
@@ -38,7 +44,7 @@ module Scribo
       end
 
       result = published.where(full_path: paths.flatten)
-      result = result.where("full_path NOT LIKE '%/\\_%'") if restricted
+      result = result.restricted if restricted
       result
     end
 
@@ -129,6 +135,10 @@ module Scribo
 
     def mime_type
       MIME::Types.type_for(path).first
+    end
+
+    def dir
+      File.dirname(full_path)
     end
 
     def translation_scope
