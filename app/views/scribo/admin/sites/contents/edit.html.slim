@@ -23,7 +23,7 @@
           = f.input :properties, as: :text, input_html: {value: (f.object.properties.present? ? YAML.dump(f.object.properties) : "---\n"), data: { controller: "editor", target: 'editor.textarea', "editor-height" => '250px', lang: 'application/yaml', mode: {name: 'liquid', base: 'application/yaml'}}}
 
       - else
-        div data-controller="editor" data-editor-mode="#{@content.content_type}"
+        div data-controller="editor" data-editor-mode="#{@content.content_type}" style="display: block; height: 100%;"
           textarea name='content[data_with_frontmatter]' data-target="editor.textarea"
             = @content.data_with_frontmatter || 'Start typing here, or drop one or more files on this area.'
           input type="file" name="content[files][]" data-target="editor.file" multiple="true" style="margin-left: -200vh;"
