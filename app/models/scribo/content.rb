@@ -16,8 +16,8 @@ module Scribo
     after_save :set_full_path
     after_move :set_full_path
 
-    scope :layouts, -> { where("full_path LIKE '/_layouts/%'") }
-    scope :posts, -> { where("full_path LIKE '/_posts/%'") }
+    scope :layouts, -> { in_folder('_layouts') }
+    scope :posts, -> { in_folder('_posts') }
     scope :pages, -> { wwhere(kind: 'text').restricted.map(&:full_path) }
     scope :assets, -> { where(kind: 'asset') }
     scope :html_pages, -> { where("full_path NOT LIKE '%.html'") }
@@ -29,6 +29,7 @@ module Scribo
     scope :locale, ->(name) { published.where(full_path: "/_locales/#{name}.yml") }
     scope :published, -> { where("properties->>'published' = 'true' OR properties->>'published' IS NULL").where("properties->>'published_at' IS NULL OR properties->>'published_at' <= :now", now: Time.current.utc) }
     scope :restricted, -> { where("full_path NOT LIKE '%/\\_%'") }
+    scope :in_folder, ->(folder_name) { where("full_path LIKE '/#{folder_name}/%'") }
 
     def self.located(*paths, restricted: true)
       restricted = true if restricted.nil? # If blank it's still restricted

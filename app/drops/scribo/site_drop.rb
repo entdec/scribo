@@ -5,7 +5,7 @@ require 'pry'
 module Scribo
   # See https://jekyllrb.com/docs/variables/#site-variables
   class SiteDrop < ApplicationDrop
-    delegate :name, to: :@object
+    delegate :collections, to: :@object
 
     def initialize(object)
       @object = object
@@ -41,11 +41,6 @@ module Scribo
       @object.contents.html_files.to_a
     end
 
-    # TODO
-    def collections
-      []
-    end
-
     def data
       Scribo::DataDrop.new(@object)
     end
@@ -70,11 +65,17 @@ module Scribo
     end
 
     def liquid_method_missing(method)
-      if @properties[method.to_s].is_a? Hash
-        Scribo::PropertiesDrop.new(@properties, [method.to_s])
+      if collections.include?(method)
+        @object.contents.in_folder("_#{method}").to_a
       else
-        @properties[method.to_s]
+        # See if it's a property
+        if @properties[method.to_s].is_a? Hash
+          Scribo::PropertiesDrop.new(@properties, [method.to_s])
+        else
+          @properties[method.to_s]
+        end
       end
+
     end
   end
 end

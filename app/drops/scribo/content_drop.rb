@@ -25,11 +25,15 @@ module Scribo
     def id
     end
 
+    # FIXME: This breaks when the collection_path is set (https://jekyllrb.com/docs/collections/#setup)
     def collection
+      base_dir = @object.dir.split('/').first.gsub('_', '')
+      base_dir if @object.site.collections.include?(base_dir)
     end
 
+    # Find out how to merge properties with this drop
     def name
-      @object.path
+      @properties['name'] || @object.path
     end
 
     def next

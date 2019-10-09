@@ -64,3 +64,27 @@ second_index:
   depth: 0
   lft: 1
   rgt: 2
+
+staff_members_folder:
+  site: collection
+  kind: folder
+  path: _staff_members
+  full_path: /_staff_members
+  depth: 0
+  lft: 1
+  rgt: 2
+
+collection_jane:
+  site: collection
+  parent: staff_members_folder
+  kind: text
+  data: |
+    Jane has worked on Jekyll for the past *five years*.
+  properties:
+    name: Jane Doe
+    position: Developer
+  path: jane.md
+  full_path: /_staff_members/jane.md
+  depth: 0
+  lft: 2
+  rgt: 3

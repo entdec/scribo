@@ -32,7 +32,11 @@ module Scribo
 
     # See https://jekyllrb.com/docs/permalinks/
     def perma_link
-      @properties['permalink'] || "/:year/:month/:day/:title:output_ext"
+      properties['permalink'] || "/:year/:month/:day/:title:output_ext"
+    end
+
+    def collections
+      properties['collections'].to_h.keys.map(&:to_s) + %w[posts]
     end
 
     #

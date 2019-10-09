@@ -13,3 +13,7 @@ second:
     social_links:
       rss: rss
       github: github
+
+collection:
+  purpose: site
+
