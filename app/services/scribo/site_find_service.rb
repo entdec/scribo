@@ -22,6 +22,8 @@ module Scribo
     private
 
     def site_scope(options = {})
+      return Scribo::Site.none if options[:site].blank?
+
       scope = Scribo::Site.titled(options[:site])
       scope = scope.owned_by(options[:owner]) if options[:owner]
       scope
