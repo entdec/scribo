@@ -15,7 +15,7 @@ module Scribo
 
       site.contents.rebuild!
 
-      zip_name = 'site_' + (site.name || 'untitled')
+      zip_name = 'site_' + (site.properties['title'] || 'untitled')
       base_path = zip_name + '/'
       stringio = Zip::OutputStream.write_buffer do |zio|
         meta_info = site_meta_information
@@ -45,7 +45,7 @@ module Scribo
 
     def site_meta_information
       { version: Scribo::VERSION,
-        name: site.name,
+        name: site.properties['title'],
         purpose: site.purpose,
         scribable_type: site.scribable_type,
         scribable_id: site.scribable_id,
@@ -56,21 +56,12 @@ module Scribo
     def content_meta_information(content)
       { path: content.full_path,
         kind: content.kind,
-        content_type: content.content_type,
-        title: content.title,
-        description: content.description,
-        filter: content.filter,
-        caption: content.caption,
-        breadcrumb: content.breadcrumb,
-        keywords: content.keywords,
-        state: content.state,
         lft: content.lft,
         rgt: content.rgt,
         depth: content.depth,
         parent: content.parent&.full_path,
-        layout: content.layout&.full_path,
-        properties: content.properties,
-        published_at: content.published_at.to_time }.reject { |_, v| v.nil? }
+        properties: content.properties
+      }
     end
 
     def content_path_for_zip(content)
