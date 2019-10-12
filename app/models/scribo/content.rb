@@ -88,7 +88,7 @@ module Scribo
     end
 
     def properties=(text)
-      props = text.is_a?(String) ? Scribo::Utility.yaml_safe_parse(text) : props=text
+      props = text.is_a?(String) ? Scribo::Utility.yaml_safe_parse(text) : text
       write_attribute :properties, props
     end
 
