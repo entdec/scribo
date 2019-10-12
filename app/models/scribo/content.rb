@@ -87,6 +87,11 @@ module Scribo
       end
     end
 
+    def properties=(text)
+      props = text.is_a?(String) ? Scribo::Utility.yaml_safe_parse(text) : props=text
+      write_attribute :properties, props
+    end
+
     def date
       prop_date = begin
                     Time.zone.parse(properties['date'])
@@ -123,7 +128,7 @@ module Scribo
     end
 
     def content_type
-      mime_type&.content_type || 'application/octet-stream'
+      properties&.[]('content_type') || mime_type&.content_type || 'application/octet-stream'
     end
 
     def media_type
