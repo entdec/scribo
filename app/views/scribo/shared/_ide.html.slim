@@ -1,25 +1,40 @@
 .ide id="ide"
-  .explorer-pane
-    .tree-view data-controller="tree-view" data-tree-view-update-url="#{move_admin_site_contents_path(@site)}"
-      ul
-        li.entry.directory.open
-          a.list-item
-            span.name Contents
-            .tools
-              i.fas.fa-file-medical data-action="click->tree-view#newContent" data-kind="text" data-url="#{remote_create_admin_site_contents_url(@site)}"
-              i.fas.fa-directions data-action="click->tree-view#newContent" data-kind="redirect" data-url="#{remote_create_admin_site_contents_url(@site)}"
-              i.fas.fa-folder-plus data-action="click->tree-view#newContent" data-kind="folder" data-url="#{remote_create_admin_site_contents_url(@site)}"
+  .explorer-pane data-controller="tree-view" data-tree-view-update-url="#{move_admin_site_contents_path(@site)}"
+    .tree-view
+      div.section
+        span.title Open editors
+        .tools
+          /i.fas.fa-file-medical data-action="click->tree-view#newContent" data-kind="text" data-url="#{remote_create_admin_site_contents_url(@site)}"
+          /i.fas.fa-directions data-action="click->tree-view#newContent" data-kind="redirect" data-url="#{remote_create_admin_site_contents_url(@site)}"
+          /i.fas.fa-folder-plus data-action="click->tree-view#newContent" data-kind="folder" data-url="#{remote_create_admin_site_contents_url(@site)}"
+        ul
+          - if @content
+            li.entry.file data-content="#{@content.id}"
+              a.list-item
+                span.name data-path="#{@content.path}"
+                  = @content.path
+                  small = @content.full_path
+                .tools
+                  i.fas.fa-save data-controller="tool" data-action="click->tree-view#save"
 
-          ul
-            - @contents.roots.each do |content|
-              = render partial: 'scribo/shared/entry', locals: {content: content}
+      div.section
+        span.title = @site.title
+        .tools
+          i.fas.fa-file-medical data-action="click->tree-view#newContent" data-kind="text" data-url="#{remote_create_admin_site_contents_url(@site)}"
+          i.fas.fa-directions data-action="click->tree-view#newContent" data-kind="redirect" data-url="#{remote_create_admin_site_contents_url(@site)}"
+          i.fas.fa-folder-plus data-action="click->tree-view#newContent" data-kind="folder" data-url="#{remote_create_admin_site_contents_url(@site)}"
+          i.fas.fa-minus-square data-action="click->tree-view#collapseAll"
 
-      template data-target="tree-view.folderTemplate"
-        li.entry.directory.closed
-          a.list-item
-            span.name
-              input type="text" value="untitled"
-          ul
+        ul
+          - @contents.roots.each do |content|
+            = render partial: 'scribo/shared/entry', locals: {content: content}
+
+        template data-target="tree-view.folderTemplate"
+          li.entry.directory.closed
+            a.list-item
+              span.name
+                input type="text" value="untitled"
+            ul
 
       template data-target="tree-view.entryTemplate"
         li.entry.file

@@ -39,6 +39,11 @@ module Scribo
       properties['collections'].to_h.keys.map(&:to_s) + %w[posts]
     end
 
+    def title
+      properties['title']
+    end
+
+
     #
     # Calculates the total size of the site in bytes, including assets
     #

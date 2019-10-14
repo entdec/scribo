@@ -62,6 +62,14 @@ export default class extends Controller {
 
     }
 
+    collapseAll(event) {
+        const self = this;
+        self.element.querySelectorAll('li.directory').forEach(el => {
+            el.classList.remove('open');
+            el.classList.add('closed');
+        });
+    }
+
     newContent(event) {
         let kind = event.target.closest('i[data-action]').getAttribute('data-kind');
         let url = event.target.closest('i[data-action]').getAttribute('data-url');

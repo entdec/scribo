@@ -12,9 +12,7 @@ li.entry class="#{content.id == @content.id ? 'selected' : ''} #{content.kind ==
     a.list-item data-controller="tree-item" data-action="click->tree-item#start dblclick->tree-item#rename" data-tree-item-url="#{edit_admin_site_content_url(content.site, content)}" data-tree-item-rename-url="#{rename_admin_site_content_url(content.site, content)}"
       span.name data-path="#{content.path}" = content.path
       .tools
-        - if content.id == @content.id
-          i.fas.fa-save data-controller="tool" data-action="click->tree-view#save"
-        - else
+        - if content.id != @content.id
           i.fas.fa-trash-alt data-controller="tool" data-action="click->tool#start" data-tool-url="#{destroy_admin_site_content_path(@site, content)}" data-tool-method="delete" data-tool-confirm="Are you sure you want to delete this content?"
   ul data-parent="#{content.id}"
     - content.children.order('lft ASC').each do |child|

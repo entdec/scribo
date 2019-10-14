@@ -11,13 +11,48 @@
     padding-left: 10px;
   }
 
-  > ul {
-    padding-left: 0;
-  }
-
   li {
     list-style-type: none;
     padding-left: 0;
+  }
+
+  .section {
+    display: block;
+    padding-left: 4px;
+    position: relative;
+
+    .title {
+      font-weight: bold;
+      text-transform: uppercase;
+      background-repeat: no-repeat;
+      background-position: 0px 50%;
+      padding-left: 0px;
+      line-height: 25px;
+      height: 25px;
+    }
+
+    > ul {
+      padding-left: 0;
+    }
+
+  }
+
+  & .section > .tools {
+    display: none;
+    position: absolute;
+    right: 5px;
+
+      i {
+        padding: 5px;
+      }
+  }
+
+  & > .section:hover > .tools {
+    display: inline;
+
+    a {
+      display: inline;
+    }
   }
 
   .list-item {
@@ -33,6 +68,10 @@
     padding-left: 18px;
     line-height: 25px;
     height: 25px;
+
+    small {
+      padding-left: 5px;
+    }
   }
 
   a.list-item {
@@ -91,6 +130,10 @@
 .tree-view .entry.selected {
   font-weight: bold;
   background-color: lightgray;
+}
+
+.tree-view .list-item .name {
+  background-size: 18px 18px;
 }
 
 .tree-view .directory.closed > .list-item .name {
