@@ -57,7 +57,7 @@ module Scribo
         end
       end
 
-      site.contents.rebuild!
+      # site.contents.rebuild!
 
       zip_file.close
       site
@@ -88,7 +88,7 @@ module Scribo
 
       parent = meta_info_site['contents'].find { |mi| mi['path'] == meta_info['parent'] }['record'] if meta_info['parent']
 
-      site.contents.rebuild!(validate: false) # WHY
+      # site.contents.rebuild!(validate: false) # WHY
       content = site.contents.find_or_create_by(path: File.basename(meta_info['path']), full_path: meta_info['path'], parent: parent)
 
       content.kind = meta_info['kind']
