@@ -5,7 +5,7 @@ require_dependency 'scribo/application_record'
 module Scribo
   # Represents any content in the system
   class Content < ApplicationRecord
-    acts_as_nested_set
+    acts_as_nested_set scope: :scribo_site
 
     belongs_to :site, class_name: 'Site', foreign_key: 'scribo_site_id'
     has_one_attached :asset

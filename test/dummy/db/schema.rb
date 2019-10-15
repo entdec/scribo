@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_06_153241) do
+ActiveRecord::Schema.define(version: 2019_10_12_152526) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 2019_10_06_153241) do
 
   create_table "scribo_contents", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
     t.uuid "scribo_site_id"
-    t.string "kind"
+    t.string "kind", default: "text"
     t.string "path"
     t.binary "data"
     t.jsonb "properties"
