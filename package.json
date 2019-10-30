@@ -9,6 +9,7 @@
     "frontend/dist"
   ],
   "scripts": {
+    "copy": "cp frontend/dist/scribo.css ~/Development/soverin/dashboard/vendor/assets/stylesheets; cp frontend/dist/scribo.js ~/Development/soverin/dashboard/vendor/assets/javascripts",
     "build": "webpack -p --config webpack.config.js --color",
     "watch": "webpack -w --config webpack.config.js --color"
   },

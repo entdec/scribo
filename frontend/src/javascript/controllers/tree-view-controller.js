@@ -71,8 +71,8 @@ export default class extends Controller {
     }
 
     newContent(event) {
-        let kind = event.target.closest('i[data-action]').getAttribute('data-kind');
-        let url = event.target.closest('i[data-action]').getAttribute('data-url');
+        let kind = event.target.closest('[data-action]').getAttribute('data-kind');
+        let url = event.target.closest('[data-action]').getAttribute('data-url');
 
         let template = 'entryTemplateTarget'
         if (kind == 'folder') {
@@ -80,7 +80,13 @@ export default class extends Controller {
         }
 
         this.newContentNode = document.importNode(this[template].content, true);
-        this.newContentContainer = event.target.closest('li.directory').querySelector('ul')
+
+        let closestDirectory = event.target.closest('li.directory');
+        if (closestDirectory) {
+            this.newContentContainer = closestDirectory.querySelector('ul')
+        } else {
+            this.newContentContainer = event.target.closest('.section').querySelector('ul');
+        }
         console.log(this.newContentContainer);
         this.newContentContainer.prepend(this.newContentNode);
 
