@@ -70,7 +70,7 @@ module Scribo
     end
 
     def data_with_frontmatter
-      return data if kind != 'text'
+      return asset.attachment&.download || data if kind != 'text'
 
       result = ''
       result += (YAML.dump(properties) + "---\n") if properties.present?
