@@ -41,6 +41,7 @@ module Scribo
 
         result = File.extname(path).present? ? Scribo::Utility.variations_for_path(path) : [path]
         result.unshift(Scribo::Utility.switch_extension(path, 'link'))
+        result.unshift(Scribo::Utility.switch_extension(path, 'html'))
         result
       end
 
