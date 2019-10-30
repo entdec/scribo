@@ -43,9 +43,9 @@ module Scribo
         result.unshift(Scribo::Utility.switch_extension(path, 'link'))
         result.unshift(Scribo::Utility.switch_extension(path, 'html'))
         result
-      end
+      end.flatten
 
-      result = published.where(full_path: paths.flatten)
+      result = published.where(full_path: paths).or(published.where("properties->>'permalink' IN (?)", paths))
       result = result.restricted if restricted
       result
     end
