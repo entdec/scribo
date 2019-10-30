@@ -59,13 +59,17 @@ module Scribo
     def assigns
       return @assigns if @assigns
 
-      @assigns = { 'site' => content.site, 'page' => content }
+      @assigns = {}
       @assigns.merge!(options[:assigns]) if options[:assigns]
-      @assigns['request'] = ActionDispatch::RequestDrop.new(context.request) if context.respond_to?(:request)
 
       context.instance_variables.reject { |i| i.to_s.starts_with?('@_') }.each do |i|
         @assigns[i.to_s[1..-1]] = context.instance_variable_get(i)
       end
+
+      @assigns['request'] = ActionDispatch::RequestDrop.new(context.request) if context.respond_to?(:request)
+      @assigns['site'] = content.site
+      @assigns['page'] = content
+
       @assigns = @assigns.stringify_keys
       @assigns
     end
