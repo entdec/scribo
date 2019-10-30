@@ -18,11 +18,11 @@ module Scribo
 
     scope :layouts, -> { in_folder('_layouts') }
     scope :posts, -> { in_folder('_posts') }
-    scope :pages, -> { wwhere(kind: 'text').restricted.map(&:full_path) }
+    scope :pages, -> { where(kind: 'text').restricted.map(&:full_path) }
     scope :assets, -> { where(kind: 'asset') }
-    scope :html_pages, -> { where("full_path NOT LIKE '%.html'") }
+    scope :html_pages, -> { where("full_path LIKE '%.html'") }
     # html files should be non-filtered html files
-    scope :html_files, -> { where("full_path NOT LIKE '%.html'") }
+    scope :html_files, -> { where("full_path LIKE '%.html'") }
     scope :include, ->(name) { published.where(full_path: ["/_includes/#{name}"]) }
     scope :layout, ->(name) { published.where(full_path: ["/_layouts/#{name}.html", "/_layouts/#{name}.md", "/_layouts/#{name}.xml", "/_layouts/#{name}.css"]) }
     scope :data, ->(name) { published.where(full_path: ["/_data/#{name}.yml", "/_data/#{name}.yaml", "/_data/#{name}.json", "/_data/#{name}.csv", "/_data/#{name}"]) }
