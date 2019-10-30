@@ -45,6 +45,9 @@
       i {
         padding: 5px;
       }
+      svg {
+        margin: 5px;
+      }
   }
 
   & > .section:hover > .tools {
@@ -104,6 +107,9 @@
 
     i {
       padding: 5px;
+    }
+    svg {
+      margin: 5px;
     }
 }
 
