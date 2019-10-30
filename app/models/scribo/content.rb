@@ -45,8 +45,10 @@ module Scribo
         result
       end.flatten
 
-      result = published.where(full_path: paths).or(published.where("properties->>'permalink' IN (?)", paths))
+      result = published.where(full_path: paths)
       result = result.restricted if restricted
+      result = result.or(published.where("properties->>'permalink' IN (?)", paths))
+
       result
     end
 
