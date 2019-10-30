@@ -21,8 +21,8 @@ module Scribo
       @object.date
     end
 
-    # TODO
     def id
+      @object.full_path
     end
 
     # FIXME: This breaks when the collection_path is set (https://jekyllrb.com/docs/collections/#setup)
