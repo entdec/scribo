@@ -10,7 +10,7 @@ module Scribo
       # * store#[]=(key, value) - Used to set a value
       # * store#keys            - Used to get all keys
       #
-      total_key = [locale, options[:scope]].join('.') + key
+      total_key = key.start_with?('.') ? [locale, options[:scope]].join('.') + key : [locale, key].join('.')
 
       locale_content = options[:site].contents.locale(locale).first
       return unless locale_content
