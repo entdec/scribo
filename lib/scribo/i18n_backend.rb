@@ -12,6 +12,7 @@ module Scribo
       #
       total_key = key.start_with?('.') ? [locale, options[:scope]].join('.') + key : [locale, key].join('.')
 
+      # TODO: Cache locale
       locale_content = options[:site].contents.locale(locale).first
       return unless locale_content
 
