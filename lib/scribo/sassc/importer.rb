@@ -49,7 +49,7 @@ end
 module Tilt
   class Template
     def eval_file
-      options[:full_path]
+      options[:full_path] || file || '(__TEMPLATE__)'
     end
   end
 end
