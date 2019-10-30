@@ -62,7 +62,7 @@ module Scribo
       end
 
       def site_params
-        params.require(:site).permit(:purpose, :scribable_id).tap do |whitelisted|
+        params.require(:site).permit(:scribable_id).tap do |whitelisted|
           whitelisted[:scribable] = GlobalID::Locator.locate_signed(whitelisted[:scribable_id])
           whitelisted[:properties] = Scribo::Utility.yaml_safe_parse(params[:site][:properties]) if params[:site][:properties]
         end
