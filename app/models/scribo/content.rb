@@ -18,7 +18,7 @@ module Scribo
 
     scope :layouts, -> { in_folder('_layouts') }
     scope :posts, -> { in_folder('_posts') }
-    scope :pages, -> { where(kind: 'text').restricted.map(&:full_path) }
+    scope :pages, -> { where(kind: 'text').restricted }
     scope :assets, -> { where(kind: 'asset') }
     scope :html_pages, -> { where("full_path LIKE '%.html'") }
     # html files should be non-filtered html files

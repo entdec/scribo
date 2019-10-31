@@ -36,7 +36,7 @@ module Scribo
 
       def index
         # nothing here
-        redirect_to edit_admin_site_content_url(@site, @contents.first)
+        redirect_to edit_admin_site_content_url(@site, @contents.pages.first)
       end
 
       def edit
