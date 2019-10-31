@@ -2,6 +2,15 @@
 
 module Scribo
   class I18nBackend < I18n::Backend::Simple
+    def initialize(*params)
+      super
+      @scribo_data = {}
+      ActiveSupport::Notifications.subscribe "start_processing.action_controller" do |_name, _started, _finished, _unique_id, _data|
+        Rails.logger.info 'Resetting scribo translation cache'
+        @scribo_data = {}
+      end
+    end
+
     def translate(locale, key, options = {})
       return unless options[:site]
 
@@ -12,11 +21,17 @@ module Scribo
       #
       total_key = key.start_with?('.') ? [locale, options[:scope]].join('.') + key : [locale, key].join('.')
 
-      # TODO: Cache locale
-      locale_content = options[:site].contents.locale(locale).first
-      return unless locale_content
+      unless @scribo_data.key?(locale)
+        locale_content = options[:site].contents.locale(locale).first
+        unless locale_content
+          @scribo_data[locale] = nil
+          return
+        end
 
-      scribo_value = Scribo::Utility.yaml_safe_parse(locale_content.data).value_at_keypath(total_key)
+        @scribo_data[locale] = Scribo::Utility.yaml_safe_parse(locale_content.data)
+      end
+
+      scribo_value = @scribo_data[locale].value_at_keypath(total_key)
       return unless scribo_value.present?
 
       if scribo_value.respond_to?(:gsub)
