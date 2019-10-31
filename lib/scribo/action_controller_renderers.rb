@@ -15,7 +15,8 @@ module ActionController::Renderers
         redirect_to redirect_options.last, status: redirect_options.first
       elsif stale?(etag: content.cache_key, public: true)
         if content.kind == 'asset'
-          send_data(Scribo::ContentRenderService.new(content, self, options).call, type: content.content_type, disposition: 'inline')
+          data = Rails.cache.fetch("#{content.cache_key}/asset", expires_in: 12.hours) { Scribo::ContentRenderService.new(content, self, options).call }
+          send_data(data, type: content.content_type, disposition: 'inline')
         else
           Scribo::ContentRenderService.new(content, self, options).call
         end
