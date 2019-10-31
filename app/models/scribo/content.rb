@@ -95,6 +95,14 @@ module Scribo
       write_attribute :properties, props
     end
 
+    def permalink
+      properties&.[]('permalink')
+    end
+
+    def url
+      permalink || full_path
+    end
+
     def date
       prop_date = begin
                     Time.zone.parse(properties['date'])
@@ -109,7 +117,7 @@ module Scribo
     end
 
     def post_date
-      Time.zone.parse(path[0, 10], '%Y-%m-%d')
+      Time.zone.strptime(path[0, 10], '%Y-%m-%d')
     end
 
     def data
@@ -119,7 +127,9 @@ module Scribo
     end
 
     def excerpt
-      Scribo::ContentRenderService.new(self, {}, data: data.gsub("\r\n", "\n\n").split("\n\n").reject(&:empty?).first, layout: false).call
+      # FIXME: This is a terrible implementation
+      excerpt_part = data.gsub("\r\n", "\n\n").split("\n\n").reject(&:empty?).reject { |p| p.start_with?('#') }.first
+      Scribo::ContentRenderService.new(self, {}, data: excerpt_part, layout: false).call
     end
 
     def categories

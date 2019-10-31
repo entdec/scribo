@@ -5,16 +5,12 @@ require_dependency 'scribo/application_drop'
 module Scribo
   # https://jekyllrb.com/docs/variables/#page-variables
   class ContentDrop < ApplicationDrop
-    delegate :path, :excerpt, :categories, :tags, :dir, to: :@object
+    delegate :url, :path, :excerpt, :categories, :tags, :dir, to: :@object
     delegate :site, to: :@object
 
     def initialize(object)
       @object = object
       @properties = object.properties
-    end
-
-    def url
-      @object.full_path
     end
 
     def date
