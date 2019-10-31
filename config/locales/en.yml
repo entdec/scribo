@@ -7,8 +7,9 @@ en:
         translations: Translations
         sites: "Sites"
     context_menu:
-      add: Add
-      import: Import
-      export: Export
-      ide: IDE
+      add: Create new site
+      import: Import a site
+      export: Download site
+      editor: Start editor
+      delete: Delete site
 

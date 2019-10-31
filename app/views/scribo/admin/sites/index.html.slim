@@ -8,8 +8,19 @@ table.table
     - for site in @sites
       tr
         td = link_to site.properties['title'] || '-', edit_admin_site_path(site)
-        td = link_to site.purpose || '-', edit_admin_site_path(site)
-        td = link_to admin_site_path(site), method: :delete do
+        td
+          - if site.contents.present?
+            =< link_to(edit_admin_site_content_path(site, site.contents.first), title: t('scribo.context_menu.editor')) do
+              i.fas.fa-edit
+          - else
+            =< link_to(new_admin_site_content_path(site), title: t('scribo.context_menu.editor')) do
+              i.fas.fa-edit
+          | &nbsp;
+          - if site.contents.count > 0
+            =< link_to(export_admin_site_path(site), 'data-turbolinks' => 'false', title: t('scribo.context_menu.export')) do
+              i.fas.fa-download
+          | &nbsp;
+          = link_to admin_site_path(site), title: t('scribo.context_menu.delete'), method: :delete, "data-confirm" => "Are you sure you want to delete this site?" do
            i.fas.fa-trash
 
 - content_for :context_menu do
