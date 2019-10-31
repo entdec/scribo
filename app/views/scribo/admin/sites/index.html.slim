@@ -9,7 +9,7 @@ table.table
         td = link_to site.properties['title'] || '-', edit_admin_site_path(site)
         td
           - if site.contents.present?
-            =< link_to(edit_admin_site_content_path(site, site.contents.first), title: t('scribo.context_menu.editor')) do
+            =< link_to(admin_site_contents_path(site), title: t('scribo.context_menu.editor')) do
               i.fas.fa-edit
           - else
             =< link_to(new_admin_site_content_path(site), title: t('scribo.context_menu.editor')) do
