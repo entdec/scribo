@@ -4,9 +4,6 @@
       div.section
         span.title Open editors
         .tools
-          /i.fas.fa-file-medical data-action="click->tree-view#newContent" data-kind="text" data-url="#{remote_create_admin_site_contents_url(@site)}"
-          /i.fas.fa-directions data-action="click->tree-view#newContent" data-kind="redirect" data-url="#{remote_create_admin_site_contents_url(@site)}"
-          /i.fas.fa-folder-plus data-action="click->tree-view#newContent" data-kind="folder" data-url="#{remote_create_admin_site_contents_url(@site)}"
         ul
           - if @content
             li.entry.file data-content="#{@content.id}"
@@ -15,15 +12,14 @@
                   = @content.path
                   small = @content.full_path
                 .tools
-                  i.fas.fa-save data-controller="tool" data-action="click->tree-view#save"
+                  i.fas.fa-save data-controller="tool" data-action="click->tree-view#save" title="Save file"
 
       div.section
         span.title = @site.title
         .tools
-          i.fas.fa-file-medical data-action="click->tree-view#newContent" data-kind="text" data-url="#{remote_create_admin_site_contents_url(@site)}"
-          i.fas.fa-directions data-action="click->tree-view#newContent" data-kind="redirect" data-url="#{remote_create_admin_site_contents_url(@site)}"
-          i.fas.fa-folder-plus data-action="click->tree-view#newContent" data-kind="folder" data-url="#{remote_create_admin_site_contents_url(@site)}"
-          i.fas.fa-minus-square data-action="click->tree-view#collapseAll"
+          i.fas.fa-file-medical data-action="click->tree-view#newContent" data-kind="text" data-url="#{remote_create_admin_site_contents_url(@site)}" title="Add file"
+          i.fas.fa-folder-plus data-action="click->tree-view#newContent" data-kind="folder" data-url="#{remote_create_admin_site_contents_url(@site)}" title="Add folder"
+          i.fas.fa-minus-square data-action="click->tree-view#collapseAll" title="Collapse all folders"
 
         ul
           - @contents.roots.each do |content|

@@ -10,7 +10,7 @@ module ActionController::Renderers
       self.content_type ||= Scribo::Utility.output_content_type(content)
 
       Scribo.config.logger.info "Scribo: rendering #{content.id} last-updated #{content.updated_at} cache-key #{content.cache_key} path #{content.path} identifier #{content.identifier}"
-      if content.kind == 'redirect'
+      if content.redirect?
         redirect_options = Scribo::Content.redirect_options(Scribo::ContentRenderService.new(content, self, options).call)
         redirect_to redirect_options.last, status: redirect_options.first
       elsif stale?(etag: content.cache_key, public: true)

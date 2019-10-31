@@ -16,7 +16,7 @@ module Scribo
       case content.kind
       when 'asset'
         render_asset
-      when 'text', 'redirect'
+      when 'text'
         render_liquor(options[:data] || content.data, options[:layout] == false ? nil : content.layout)
       end
     end

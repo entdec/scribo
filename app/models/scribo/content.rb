@@ -58,6 +58,10 @@ module Scribo
       site.contents.layout(properties['layout']).first
     end
 
+    def redirect?
+      extname == 'link'
+    end
+
     def layout?
       full_path.start_with?('/_layouts/')
     end
@@ -158,6 +162,10 @@ module Scribo
 
     def dir
       File.dirname(full_path)
+    end
+
+    def extname
+      File.extname(full_path).tr('.', '')
     end
 
     def translation_scope
