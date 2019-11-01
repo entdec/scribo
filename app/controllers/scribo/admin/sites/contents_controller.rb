@@ -71,7 +71,7 @@ module Scribo
       end
 
       def destroy
-        flash_and_redirect @content.destroy, edit_admin_site_content_url(@site, @contents.first), 'Content deleted successfully', 'There were problems deleting the content'
+        flash_and_redirect @content.destroy, admin_site_contents_url(@site), 'Content deleted successfully', 'There were problems deleting the content'
       end
 
       def move
@@ -111,7 +111,7 @@ module Scribo
             c.save!
           end
         end
-        render json: { tree_view: render_to_string('scribo/shared/_tree-view', layout: false, locals: { site: @site}) }
+        render json: { html: render_to_string('scribo/shared/_tree-view', layout: false, locals: { site: @site }) }
       end
 
       private
