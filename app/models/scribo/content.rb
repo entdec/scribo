@@ -52,10 +52,15 @@ module Scribo
       result
     end
 
-    def layout
-      return nil unless properties&.[]('layout')
+    # FIXME: Layout should be  'default' if layout is not present, but when?
+    def layout_name
+      properties&.key?('layout') ? properties&.[]('layout') : ''
+    end
 
-      site.contents.layout(properties['layout']).first
+    def layout
+      return nil unless layout_name.present?
+
+      site.contents.layout(layout_name).first
     end
 
     def redirect?

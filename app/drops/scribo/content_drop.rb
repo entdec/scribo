@@ -29,11 +29,11 @@ module Scribo
 
     # Find out how to merge properties with this drop
     def name
-      @properties['name'] || @object.path
+      @properties&.[]('name') || @object.path
     end
 
     def layout
-      @properties['layout']
+      @object.layout_name
     end
 
     def next
