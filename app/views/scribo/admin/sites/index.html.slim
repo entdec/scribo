@@ -3,12 +3,14 @@ table.table
     tr
       th Title
       th Base URL
+      th For
       th Actions
   tbody
     - for site in @sites
       tr
         td = link_to site.title, edit_admin_site_path(site)
         td = site.baseurl
+        td = site.scribable_for
         td
           = link_to edit_admin_site_path(site), title: t('scribo.context_menu.edit') do
             i.fas.fa-edit
