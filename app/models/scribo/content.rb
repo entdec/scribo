@@ -20,7 +20,7 @@ module Scribo
     scope :posts, -> { in_folder('_posts') }
     scope :pages, -> { where(kind: 'text').restricted }
     scope :assets, -> { where(kind: 'asset') }
-    scope :html_pages, -> { where("full_path LIKE '%.html'") }
+    scope :html_pages, -> { where("full_path LIKE '%.html' OR full_path LIKE '%.md'") }
     # html files should be non-filtered html files
     scope :html_files, -> { where("full_path LIKE '%.html'") }
     scope :include, ->(name) { published.where(full_path: ["/_includes/#{name}"]) }
