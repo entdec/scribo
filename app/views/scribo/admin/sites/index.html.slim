@@ -6,7 +6,7 @@ table.table
   tbody
     - for site in @sites
       tr
-        td = link_to site.properties['title'] || '-', edit_admin_site_path(site)
+        td = link_to site.title, edit_admin_site_path(site)
         td
           - if site.contents.present?
             =< link_to(admin_site_contents_path(site), title: t('scribo.context_menu.editor')) do

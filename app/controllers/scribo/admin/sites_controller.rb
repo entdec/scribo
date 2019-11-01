@@ -15,7 +15,7 @@ module Scribo
       end
 
       def create
-        flash_and_redirect @site.save, admin_sites_path, 'Sites created successfully', 'There were problems creating the site'
+        flash_and_redirect @site.save, admin_site_contents_path(@site), 'Site created successfully', 'There were problems creating the site'
       end
 
       def index

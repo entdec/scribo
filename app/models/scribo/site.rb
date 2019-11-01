@@ -5,6 +5,8 @@ require_dependency 'scribo/liquid/parser'
 
 module Scribo
   class Site < ApplicationRecord
+    NEW_SITE_NAME = "Untitled site"
+
     belongs_to :scribable, polymorphic: true, optional: true
 
     has_many :contents, class_name: 'Content', foreign_key: 'scribo_site_id', dependent: :destroy
@@ -15,6 +17,8 @@ module Scribo
     scope :owned_by, ->(owner) { where(scribable: owner) }
     scope :titled, ->(title) { where("properties->>'title' = ?", title).first }
     scope :purposed, ->(purpose) { where(purpose: purpose) }
+
+    before_create :create_index_page
 
     class << self
       def all_translation_keys
@@ -32,7 +36,7 @@ module Scribo
 
     # See https://jekyllrb.com/docs/permalinks/
     def perma_link
-      properties['permalink'] || "/:year/:month/:day/:title:output_ext"
+      properties['permalink'] || '/:year/:month/:day/:title:output_ext'
     end
 
     def collections
@@ -40,9 +44,12 @@ module Scribo
     end
 
     def title
-      properties['title']
+      properties['title'] || NEW_SITE_NAME
     end
 
+    def properties
+      attributes['properties'].present? ? attributes['properties'] : { 'title' => NEW_SITE_NAME }
+    end
 
     #
     # Calculates the total size of the site in bytes, including assets
@@ -51,6 +58,12 @@ module Scribo
     #
     def total_size
       contents.map { |c| c.data ? c.data.size : c.asset.attachment&.download&.size || 0 }.sum
+    end
+
+    private
+
+    def create_index_page
+      contents.build(kind: 'text', path: 'index.html', data: "<html>\n  <head><title>#{title}</title></head>\n  <body></body>\n</html>")
     end
   end
 end
