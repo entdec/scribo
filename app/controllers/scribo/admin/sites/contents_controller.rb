@@ -6,7 +6,7 @@ module Scribo
   module Admin
     class Sites::ContentsController < ApplicationAdminController
       before_action :set_objects
-      skip_before_action :verify_authenticity_token, only: %i[move rename remote_create]
+      skip_before_action :verify_authenticity_token, only: %i[move rename remote_create upload]
 
       def new
         add_breadcrumb('New content', new_admin_site_content_path(@site)) if defined? add_breadcrumb
@@ -101,11 +101,24 @@ module Scribo
         render json: { url: edit_admin_site_content_path(@site, new_content) }
       end
 
+      def upload
+        if params[:content][:files]
+          params[:content][:files].each do |extra_file|
+            c = @site.contents.new(kind: Scribo::Utility.kind_for_content_type(extra_file.content_type))
+            c.path = extra_file.original_filename
+            c.data = extra_file.read
+            c.parent_id = params[:content][:parent_id]
+            c.save!
+          end
+        end
+        render json: { tree_view: render_to_string('scribo/shared/_tree-view', layout: false, locals: { site: @site}) }
+      end
+
       private
 
       def set_objects
         @site          = Scribo::Site.find(params[:site_id])
-        @contents      = @site.contents.roots
+        @contents      = @site.contents.roots.reorder(:path)
         @content       = if params[:id]
                            Content.where(site: params[:site_id]).find(params[:id])
                          else

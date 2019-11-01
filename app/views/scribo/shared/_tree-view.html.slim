@@ -1,0 +1,37 @@
+div.section
+  span.title Open editors
+  .tools
+  ul
+    - if @content
+      li.entry.file data-content="#{@content.id}"
+        a.list-item
+          span.name data-path="#{@content.path}"
+            = @content.path
+            small = @content.full_path
+          .tools
+            i.fas.fa-save data-controller="tool" data-action="click->tree-view#save" title="Save file"
+
+div.section
+  span.title = @site.title
+  .tools
+    i.fas.fa-file-medical data-action="click->tree-view#newContent" data-kind="text" data-url="#{remote_create_admin_site_contents_url(@site)}" title="Add file"
+    i.fas.fa-folder-plus data-action="click->tree-view#newContent" data-kind="folder" data-url="#{remote_create_admin_site_contents_url(@site)}" title="Add folder"
+    i.fas.fa-minus-square data-action="click->tree-view#collapseAll" title="Collapse all folders"
+
+  ul
+    - @contents.roots.reorder(:path).each do |content|
+      = render partial: 'scribo/shared/entry', locals: {content: content}
+
+  template data-target="tree-view.folderTemplate"
+    li.entry.directory.closed
+      a.list-item
+        span.name
+          input type="text" value="untitled"
+      ul
+
+template data-target="tree-view.entryTemplate"
+  li.entry.file
+    a.list-item
+      span.name data-content-type="text/plain"
+        input type="text" value="untitled"
+    ul

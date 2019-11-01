@@ -10,6 +10,7 @@ Scribo::Engine.routes.draw do
         end
         collection do
           post 'remote_create'
+          post 'upload'
           put 'move', as: :move
         end
         resources :parts, controller: 'sites/contents/parts'
