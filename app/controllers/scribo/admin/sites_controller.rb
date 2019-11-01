@@ -57,6 +57,7 @@ module Scribo
                   else
                     params[:site] ? Site.new(site_params) : Site.new
                   end
+        @site.create_index_page unless @site.persisted?
       end
 
       def site_params

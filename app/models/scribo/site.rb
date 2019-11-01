@@ -17,8 +17,6 @@ module Scribo
     scope :owned_by, ->(owner) { where(scribable: owner) }
     scope :titled, ->(title) { where("properties->>'title' = ?", title).first }
 
-    before_create :create_index_page
-
     def self.for_path(path)
       return none if path.blank?
 
@@ -38,6 +36,10 @@ module Scribo
         end
         result
       end
+    end
+
+    def scribable_for
+      "#{scribable.class.name.demodulize.underscore}:#{scribable}"
     end
 
     # See https://jekyllrb.com/docs/permalinks/
@@ -69,8 +71,6 @@ module Scribo
     def total_size
       contents.map { |c| c.data ? c.data.size : c.asset.attachment&.download&.size || 0 }.sum
     end
-
-    private
 
     def create_index_page
       contents.build(kind: 'text', path: 'index.html', data: "<html>\n  <head><title>#{title}</title></head>\n  <body></body>\n</html>")
