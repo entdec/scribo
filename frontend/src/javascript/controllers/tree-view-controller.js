@@ -156,6 +156,9 @@ export default class extends Controller {
     }
 
     deleteContent(event) {
+        event.stopPropagation();
+        event.cancelBubble = true;
+
         let elm = event.target.closest('[data-action]')
 
         let result = true;
@@ -179,7 +182,6 @@ export default class extends Controller {
                 }
             });
         });
-        event.stopPropagation();
     }
 
     disconnect() {
