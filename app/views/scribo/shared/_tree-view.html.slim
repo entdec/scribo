@@ -9,7 +9,7 @@ div.section
             = @content.path
             small = @content.full_path
           .tools
-            i.fas.fa-save data-controller="tool" data-action="click->tree-view#save" title=I18n.t('scribo.tools.save')
+            i.fas.fa-save data-action="click->tree-view#save" title=I18n.t('scribo.tools.save')
 
 div.section
   span.title = @site.title
