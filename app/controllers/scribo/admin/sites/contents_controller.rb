@@ -107,10 +107,6 @@ module Scribo
       end
 
       def upload
-        # frozen_string_literal: true
-        # nothing here
-        # add_breadcrumb(@content.name || @content.identifier || @content.path, edit_admin_site_content_path(@site, @content)) if defined? add_breadcrumb
-        # Just store extra files
         params[:content][:files]&.each do |extra_file|
           c = @site.contents.new(kind: Scribo::Utility.kind_for_content_type(extra_file.content_type))
           c.path = extra_file.original_filename
