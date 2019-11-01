@@ -14,7 +14,6 @@ module Scribo
 
       # Find specific entry
       meta_info_entry = zip_file.glob('*/_config.yml').first
-      # raise 'Site import needs a _config.yml file in the root of the zip' unless meta_info_entry
 
       @meta_info_site = if meta_info_entry
                           Scribo::Utility.yaml_safe_parse(meta_info_entry.get_input_stream.read)
@@ -36,14 +35,11 @@ module Scribo
     def perform
       site = create_site
 
-      # FIXME: Ones with layout could still go wrong
       (0..max_depth).to_a.each do |depth|
-        zip_file.glob('**/*').reject { |e| e.name == "#{base_path}/_config.yml" || e.name.start_with?('__MACOSX/') || e.name.end_with?('/.DS_Store') || e.name.start_with?('/.') }.each do |entry|
+        zip_file.glob('**/*').reject { |e| e.name == "#{base_path}/_config.yml" || e.name.start_with?('__MACOSX/') || e.name.end_with?('/.DS_Store') || e.name.start_with?("#{base_path}/.") }.each do |entry|
           entry_path = entry_path(base_path, entry.name)
           next if entry_path.empty?
           next if entry_depth(entry_path) != depth
-
-          # puts "depth: #{depth} - entrypath: #{entry_path} - entry depth: #{entry_depth(entry_path)} => #{entry_path}"
 
           if depth.positive?
             parts = entry_path.split('/')[1..-1]
@@ -57,8 +53,6 @@ module Scribo
         end
       end
 
-      # site.contents.rebuild!
-
       zip_file.close
       site
     end
@@ -66,7 +60,7 @@ module Scribo
     private
 
     def max_depth
-      @maxdepth ||= zip_file.glob('**/*').reject { |e| e.name == "#{base_path}/_config.yml" || e.name.start_with?('__MACOSX/') || e.name.end_with?('/.DS_Store') }.map do |entry|
+      @maxdepth ||= zip_file.glob('**/*').reject { |e| e.name == "#{base_path}/_config.yml" || e.name.start_with?('__MACOSX/') || e.name.end_with?('/.DS_Store') || e.name.start_with?("#{base_path}/.") }.map do |entry|
         entry_path = entry_path(base_path, entry.name)
         entry_depth(entry_path)
       end.max
@@ -74,10 +68,9 @@ module Scribo
     end
 
     def create_site
-      site = Site.where(scribable_type: meta_info_site['scribable_type'], scribable_id: meta_info_site['scribable_id']).where("properties->>'title' = ?", meta_info_site['properties']['name']).first
-      site ||= Site.create(scribable_type: meta_info_site['scribable_type'], scribable_id: meta_info_site['scribable_id'], properties: meta_info_site['properties'])
-      site.purpose = meta_info_site['purpose']
-      site.properties = meta_info_site.except('contents', 'scribable_id', 'scribable_type', 'properties', 'purpose', 'version')
+      site = Site.where(scribable: scribable_object_for(meta_info_site['for'])).where("properties->>'title' = ?", meta_info_site['properties']['title']).where("properties->>'baseurl' = ?", meta_info_site['properties']['baseurl']).first
+      site ||= Site.create(scribable: scribable_object_for(meta_info_site['for']), properties: meta_info_site['properties'])
+      site.properties = meta_info_site.except('contents', 'for', 'properties')
       site.save!
 
       site
@@ -87,27 +80,14 @@ module Scribo
       meta_info = meta_info_for_entry_name(meta_info_site, entry_path, entry)
 
       parent = meta_info_site['contents'].find { |mi| mi['path'] == meta_info['parent'] }['record'] if meta_info['parent']
-
-      # site.contents.rebuild!(validate: false) # WHY
       content = site.contents.find_or_create_by(path: File.basename(meta_info['path']), full_path: meta_info['path'], parent: parent)
 
       content.kind = meta_info['kind']
       content.data_with_frontmatter = entry.get_input_stream.read if entry&.get_input_stream&.respond_to?(:read)
       content.properties ||= meta_info['properties']
-
-      # content.title = meta_info['title']
-      # content.description = meta_info['description']
-      # content.filter = meta_info['filter']
-      # content.caption = meta_info['caption']
-      # content.breadcrumb = meta_info['breadcrumb']
-      # content.keywords = meta_info['keywords']
-      # content.layout = meta_info_site['contents'].find { |mi| mi['path'] == meta_info['layout'] }['record'] if meta_info['layout']
-      # content.published_at = meta_info['published_at']
       content.save!
 
       meta_info['record'] = content
-
-      # content.update_columns(lft: meta_info['lft'].to_i, rgt: meta_info['rgt'].to_i, depth: meta_info['depth'].to_i)
     end
 
     def guess_info_for_entry_name(prefill, entry_name, entry)
@@ -132,8 +112,6 @@ module Scribo
 
     def meta_info_for_entry_name(meta_info_site, entry_path, entry)
       path = entry_path
-      # path = path.gsub(/\.html$/, '')
-      # path = '/' if path == '/index'
       meta_info = (meta_info_site['contents'] || []).find { |m| m['path'] == path }
       unless meta_info
         meta_info = guess_info_for_entry_name({ 'path' => path }, entry_path, entry)
@@ -149,6 +127,17 @@ module Scribo
 
     def entry_depth(entry_path)
       entry_path.split('/').size - 2
+    end
+
+    def scribable_object_for(str)
+      return Scribo.config.scribable_objects.first unless str
+
+      klass, name = str.split(':')
+      result = Scribo.config.scribable_objects.find do |so|
+        so.class.name.demodulize.underscore == klass && so.to_s == name
+      end
+      result ||= Scribo.config.scribable_objects.first
+      result
     end
   end
 end

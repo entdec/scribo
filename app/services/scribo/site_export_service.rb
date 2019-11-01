@@ -24,10 +24,7 @@ module Scribo
           content_path = content_path_for_zip(content)
           next unless content_path
 
-          puts "content_path: #{content_path}"
-
-          meta_info[:contents] << content_meta_information(content)
-
+          meta_info['contents'] << content_meta_information(content)
           next if content.kind == 'folder'
 
           zio.put_next_entry(base_path + content_path)
@@ -44,33 +41,27 @@ module Scribo
     private
 
     def site_meta_information
-      { version: Scribo::VERSION,
-        name: site.properties['title'],
-        purpose: site.purpose,
-        scribable_type: site.scribable_type,
-        scribable_id: site.scribable_id,
-        properties: {},
-        contents: [] }.reject { |_, v| v.nil? }
+      result = site.properties || {}
+      result['for'] = site.scribable_for
+      result['contents'] = []
+      result
     end
 
     def content_meta_information(content)
-      { path: content.full_path,
+      {
+        path: content.full_path,
         kind: content.kind,
+        properties: content.properties&.reject { |_k, value| value.empty? },
         lft: content.lft,
         rgt: content.rgt,
         depth: content.depth,
-        parent: content.parent&.full_path,
-        properties: content.properties
+        parent: content.parent&.full_path
       }
     end
 
     def content_path_for_zip(content)
       zip_path = content.full_path[0] == '/' ? content.full_path[1..-1] : content.full_path
-      # zip_path = '' if zip_path == '/'
-      # zip_path = 'index' if zip_path.blank?
-      # zip_path += '.html' if File.extname(zip_path).blank?
       zip_path
     end
-
   end
 end
