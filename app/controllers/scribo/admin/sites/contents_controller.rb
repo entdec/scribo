@@ -6,7 +6,7 @@ module Scribo
   module Admin
     class Sites::ContentsController < ApplicationAdminController
       before_action :set_objects
-      skip_before_action :verify_authenticity_token, only: %i[move rename remote_create upload]
+      skip_before_action :verify_authenticity_token, only: %i[move rename remote_create upload destroy]
 
       def new
         add_breadcrumb('New content', new_admin_site_content_path(@site)) if defined? add_breadcrumb
@@ -71,7 +71,9 @@ module Scribo
       end
 
       def destroy
-        flash_and_redirect @content.destroy, admin_site_contents_url(@site), 'Content deleted successfully', 'There were problems deleting the content'
+        @content.destroy
+        @content = @contents.pages.first
+        render json: { html: render_to_string('scribo/shared/_tree-view', layout: false, locals: { site: @site }) }
       end
 
       def move
@@ -95,21 +97,26 @@ module Scribo
         if params[:parent]
           parent = @site.contents.find(params[:parent])
           new_content.move_to_child_with_index(parent, 0)
-        else
-          new_content.move_to_left_of(@contents[0])
         end
-        render json: { url: edit_admin_site_content_path(@site, new_content) }
+        url = if new_content.kind == 'folder'
+                admin_site_contents_path(@site)
+              else
+                edit_admin_site_content_path(@site, new_content)
+              end
+        render json: { url: url }
       end
 
       def upload
-        if params[:content][:files]
-          params[:content][:files].each do |extra_file|
-            c = @site.contents.new(kind: Scribo::Utility.kind_for_content_type(extra_file.content_type))
-            c.path = extra_file.original_filename
-            c.data = extra_file.read
-            c.parent_id = params[:content][:parent_id]
-            c.save!
-          end
+        # frozen_string_literal: true
+        # nothing here
+        # add_breadcrumb(@content.name || @content.identifier || @content.path, edit_admin_site_content_path(@site, @content)) if defined? add_breadcrumb
+        # Just store extra files
+        params[:content][:files]&.each do |extra_file|
+          c = @site.contents.new(kind: Scribo::Utility.kind_for_content_type(extra_file.content_type))
+          c.path = extra_file.original_filename
+          c.data = extra_file.read
+          c.parent_id = params[:content][:parent_id]
+          c.save!
         end
         render json: { html: render_to_string('scribo/shared/_tree-view', layout: false, locals: { site: @site }) }
       end

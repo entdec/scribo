@@ -95,6 +95,7 @@ export default class extends Controller {
         input.setAttribute('data-url', url)
         console.log(input);
         input.focus()
+        input.setSelectionRange(0, input.value.length);
 
         input.addEventListener('keyup', this.createContent.bind(this));
         input.addEventListener('blur', this.cancelCreate.bind(this));
@@ -151,6 +152,33 @@ export default class extends Controller {
         let form = document.querySelector('form#edit_content_' + contentId)
         form.submit();
 
+        event.stopPropagation();
+    }
+
+    deleteContent(event) {
+        let elm = event.target.closest('[data-action]')
+
+        let result = true;
+        if (elm.getAttribute('data-confirm')) {
+            result = confirm(elm.getAttribute('data-confirm'))
+        }
+        if (!result) {
+            return;
+        }
+
+        let formData = new FormData();
+        formData.append('_method', 'DELETE');
+        fetch(elm.getAttribute('data-url'), {
+            method: 'POST',
+            body: formData
+        }).then((response) => {
+            response.json().then(function (data) {
+                let node = document.querySelector(".tree-view");
+                if (node) {
+                    node.innerHTML = data.html;
+                }
+            });
+        });
         event.stopPropagation();
     }
 
