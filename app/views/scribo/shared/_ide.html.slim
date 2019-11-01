@@ -1,5 +1,5 @@
 .ide id="ide"
-  .explorer-pane data-controller="tree-view" data-tree-view-update-url="#{move_admin_site_contents_path(@site)}"
+  .explorer-pane data-controller="tree-view upload" data-tree-view-update-url="#{move_admin_site_contents_path(@site)}" data-upload-url="#{upload_admin_site_contents_url(@site)}" data-upload-replace-content-selector=".tree-view" data-upload-extra-data=%[{}]
     .tree-view
         = render partial: 'scribo/shared/tree-view'
 

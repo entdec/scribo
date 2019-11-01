@@ -25,5 +25,4 @@
       - else
         div data-controller="editor" data-editor-mode="#{@content.content_type}" style="display: block; height: 100%;"
           textarea name='content[data_with_frontmatter]' data-target="editor.textarea"
-            = @content.data_with_frontmatter || 'Start typing here, or drop one or more files on this area.'
-          input type="file" name="content[files][]" data-target="editor.file" multiple="true" style="margin-left: -200vh;"
+            = @content.data_with_frontmatter || 'Start typing here'

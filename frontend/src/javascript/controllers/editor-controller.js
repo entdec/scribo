@@ -64,22 +64,6 @@ export default class extends Controller {
             gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
         });
         this.editor.setSize('100%', this.data.get('height') || '100%');
-
-        this.editor.on('dragover', function (editor, evt) {
-            evt.preventDefault();
-        });
-
-        this.editor.on('dragenter', function (editor, evt) {
-            evt.preventDefault();
-        });
-
-        this.editor.on('drop', function (editor, evt) {
-            if (self.hasFileTarget) {
-                self.fileTarget.files = evt.dataTransfer.files;
-                evt.preventDefault();
-            }
-        });
-
     }
 
     disconnect() {

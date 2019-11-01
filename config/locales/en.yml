@@ -11,6 +11,12 @@ en:
       edit: Edit
       import: Import a site
       export: Download site
-      editor: Start editor
+      editor: Open Editor
       delete: Delete site
-
+    tools:
+      new_file: New file
+      new_folder: New folder
+      delete_file: Delete file
+      delete_folder: Delete folder
+      collapse_all: Collapse all
+      save: Save
