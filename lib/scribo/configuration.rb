@@ -9,7 +9,7 @@ module Scribo
     attr_accessor   :default_robots_txt
     attr_accessor :default_favicon_ico
     attr_writer   :scribable_objects
-    attr_writer   :site_for_hostname
+    attr_writer   :site_for_uri
     attr_writer   :admin_mount_point
     attr_writer   :current_site
 
@@ -78,9 +78,9 @@ module Scribo
       [*instance_exec(&@scribable_objects)] if @scribable_objects
     end
 
-    # Which site to use for a certain host_name
-    def site_for_hostname(host_name)
-      instance_exec(host_name, &@site_for_hostname) if @site_for_hostname
+    # Which site to use for a certain uri
+    def site_for_uri(uri)
+      instance_exec(uri, &@site_for_uri) if @site_for_uri
     end
 
     def current_site(options = {})

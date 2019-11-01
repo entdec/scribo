@@ -15,7 +15,7 @@ module Scribo
 
       site ||= Scribo.config.current_site(options)
       site ||= site_scope(options).first
-      site ||= Scribo.config.site_for_hostname(options[:hostname]) if options[:hostname]
+      site ||= Scribo.config.site_for_uri(options[:hostname]) if options[:hostname]
       site
     end
 

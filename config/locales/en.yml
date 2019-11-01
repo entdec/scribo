@@ -8,6 +8,7 @@ en:
         sites: "Sites"
     context_menu:
       add: Create new site
+      edit: Edit
       import: Import a site
       export: Download site
       editor: Start editor

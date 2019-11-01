@@ -5,7 +5,7 @@ require_dependency 'scribo/liquid/parser'
 
 module Scribo
   class Site < ApplicationRecord
-    NEW_SITE_NAME = "Untitled site"
+    NEW_SITE_NAME = 'Untitled site'
 
     belongs_to :scribable, polymorphic: true, optional: true
 
@@ -16,9 +16,15 @@ module Scribo
     scope :adminable, -> { where(scribable: Scribo.config.scribable_objects) }
     scope :owned_by, ->(owner) { where(scribable: owner) }
     scope :titled, ->(title) { where("properties->>'title' = ?", title).first }
-    scope :purposed, ->(purpose) { where(purpose: purpose) }
 
     before_create :create_index_page
+
+    def self.for_path(path)
+      return none if path.blank?
+
+      paths = path.split('/').map.with_index { |_part, i| path.split('/')[0..i].join('/') }
+      where("properties->>'baseurl' IN (?) OR properties->>'baseurl' IS NULL", paths).order("COALESCE(LENGTH(scribo_sites.properties->>'baseurl'), 0) DESC")
+    end
 
     class << self
       def all_translation_keys
@@ -47,8 +53,12 @@ module Scribo
       properties['title'] || NEW_SITE_NAME
     end
 
+    def baseurl
+      properties['baseurl'] || '/'
+    end
+
     def properties
-      attributes['properties'].present? ? attributes['properties'] : { 'title' => NEW_SITE_NAME }
+      attributes['properties'].present? ? attributes['properties'] : { 'title' => NEW_SITE_NAME, 'baseurl' => '/' }
     end
 
     #

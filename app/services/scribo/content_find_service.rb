@@ -16,7 +16,11 @@ module Scribo
 
       scope = site.contents
 
-      scope = scope.located(options[:path], restricted: options[:restricted]) if options[:path]
+      if options[:path]
+        path = options[:path]
+        path = path[site.baseurl.length..-1] if path.start_with?(site.baseurl)
+        scope = scope.located(path, restricted: options[:restricted])
+      end
       content = if options[:root]
                   # bah
                   scope.roots.first
