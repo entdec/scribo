@@ -18,7 +18,7 @@ class SeoTag < LiquorTag
 <title>#{site.properties['title']}</title>
 <meta name="generator" content="Scribo #{Scribo::VERSION}" />
 <meta property="og:title" content="#{content.site.title}" />
-<meta name="author" content="#{site.properties['author']}" />
+<meta name="author" content="#{site.properties['author'].is_a?(String) ? site.properties['author'] : ''}" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="#{site.properties['description']}" />
 <meta property="og:description" content="#{site.properties['description']}" />
