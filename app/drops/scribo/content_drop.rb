@@ -32,6 +32,10 @@ module Scribo
       @properties['name'] || @object.path
     end
 
+    def layout
+      @properties['layout']
+    end
+
     def next
       @object.right_sibling
     end
