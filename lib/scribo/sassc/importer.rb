@@ -3,13 +3,18 @@
 module Scribo
   module SassC
     class Importer < ::SassC::Importer
-      def imports(path, parent_path)
+      def imports(path, _parent_path)
         content = options[:content]
 
-        import_path = File.expand_path(path, File.dirname(parent_path))
-        # import_path += '/' unless import_path.end_with?('/')
-        import_path = '/' + import_path unless import_path.start_with?('/')
-        import_path += File.extname(content.path)
+        import_path = ''
+        if path.start_with?('/')
+          import_path += path
+        else
+          import_path += content.site.properties.value_at_keypath('sass.sass_dir') || '_sass'
+          import_path += '/' unless import_path.end_with?('/')
+          import_path += path
+          import_path += File.extname(content.path)
+        end
 
         include_content = content.site.contents.located(import_path, restricted: false)
         unless include_content.present?
