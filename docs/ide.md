@@ -9,4 +9,9 @@ The explorer shows all files and folders in the site. The explorer allows you to
 - add new files to your site by dragging files onto the tree
 
 ## Code editor
-The code editor allows you to edit files. It provides syntax highlighting.
+The code editor allows you to edit files. It provides syntax highlighting, allows you to collapse regions.
+The following shortcuts are available:
+
+- cmd-f / ctrl-f: Find
+- option-cmd-f / alt-ctrl-f: Replace
+
