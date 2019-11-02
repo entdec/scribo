@@ -3,6 +3,7 @@ import "./tree-view.scss";
 import "element-closest";
 
 import Sortable from 'sortablejs';
+import { runInNewContext } from "vm";
 
 /***
  * Treeview controller
@@ -81,7 +82,7 @@ export default class extends Controller {
             template = 'folderTemplateTarget'
         }
 
-        this.newContentNode = document.importNode(this[template].content, true);
+        let newContentNode = document.importNode(this[template].content, true);
 
         let closestDirectory = event.target.closest('li.directory');
         if (closestDirectory) {
@@ -89,7 +90,7 @@ export default class extends Controller {
         } else {
             this.newContentContainer = event.target.closest('.section').querySelector('ul');
         }
-        this.newContentContainer.prepend(this.newContentNode);
+        this.newContentContainer.prepend(newContentNode);
 
         let input = this.newContentContainer.querySelector('input')
         input.setAttribute('data-kind', kind)
@@ -97,7 +98,9 @@ export default class extends Controller {
         input.focus()
         input.setSelectionRange(0, input.value.length);
 
-        input.addEventListener('keyup', this._createContent.bind(this));
+        input.addEventListener('keyup', function (event) {
+            this._createContent(event, newContentNode);
+        }.bind(this));
         input.addEventListener('blur', this._cancelCreate.bind(this));
 
         event.stopPropagation();
@@ -301,9 +304,8 @@ export default class extends Controller {
         nameSpan.innerText = name
     }
 
-    _createContent(event) {
+    _createContent(event, newContentContainer) {
         const self = this;
-        let parentContent = event.target.closest('li.directory')
 
         let input = self.newContentContainer.querySelector('input')
         let nameSpan = self.newContentContainer.querySelector('span.name')
@@ -323,17 +325,16 @@ export default class extends Controller {
                     path: input.value
                 })
             }).then((response) => {
-                response.json().then(function (data) {
-                    if (window.Turbolinks) {
-                        Turbolinks.visit(data['url'])
-                    } else {
-                        window.location.href = data['url']
-                    }
 
-                    self._cancelCreate(event)
-                });
+                if (response.status == 200) {
+                    response.json().then(function (data) {
+                        document.querySelector('.editor-pane').innerHTML = data.html;
+                        self._cancelCreate(event)
+                        self.newContentContainer.insertAdjacentHTML('afterbegin', data.itemHtml)
+                    });
+                }
+
             });
-            self._cancelCreate(event)
 
         } else if (event.key == 'Escape') {
             self._cancelCreate(event)

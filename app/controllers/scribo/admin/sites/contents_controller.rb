@@ -70,7 +70,14 @@ module Scribo
               else
                 edit_admin_site_content_path(@site, new_content)
               end
-        render json: { url: url }
+        # render json: { url: url }
+        render json: {
+          content: {
+            id: @content.id, path: @content.path, full_path: @content.full_path, url: admin_site_content_path(@site, new_content)
+          },
+          html: render_to_string('edit', layout: false),
+          itemHtml: render_to_string('scribo/shared/_entry', layout: false, locals: { content: new_content })
+        }
       end
 
       def upload

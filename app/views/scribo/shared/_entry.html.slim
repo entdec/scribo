@@ -1,4 +1,4 @@
-li.entry class="#{content.id == @content.id ? 'selected' : ''} #{content.kind == 'folder' ? 'directory open' : 'file'}" data-content="#{content.id}" data-at-content="#{@content.id}" data-controller="#{content.kind == 'folder' ? 'upload' : ''}" data-upload-url="#{upload_admin_site_contents_url(@site)}" data-upload-replace-content-selector=".tree-view" data-upload-extra-data=%[{"content[parent_id]": "#{content.id}"}]
+li.entry class="#{content.kind == 'folder' ? 'directory open' : 'file'}" data-content="#{content.id}" data-at-content="#{@content.id}" data-controller="#{content.kind == 'folder' ? 'upload' : ''}" data-upload-url="#{upload_admin_site_contents_url(@site)}" data-upload-replace-content-selector=".tree-view" data-upload-extra-data=%[{"content[parent_id]": "#{content.id}"}]
   - if content.kind == 'folder'
     a.list-item data-action="dblclick->tree-view#rename" data-tree-view-rename-url="#{rename_admin_site_content_url(content.site, content)}"
       span.name data-path="#{content.path}" = content.path
