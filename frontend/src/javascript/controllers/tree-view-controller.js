@@ -153,9 +153,13 @@ export default class extends Controller {
     _createContent(event) {
         const self = this;
         let parentContent = event.target.closest('li.directory')
+
+        let input = self.newContentContainer.querySelector('input')
+        let nameSpan = self.newContentContainer.querySelector('span.name')
+        nameSpan.setAttribute('data-path', input.value)
+
         if (event.key == "Enter") {
             let parent = self.newContentContainer.getAttribute('data-parent')
-            let input = self.newContentContainer.querySelector('input')
 
             fetch(input.getAttribute('data-url'), {
                 method: 'POST',
