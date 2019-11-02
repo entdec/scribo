@@ -229,14 +229,24 @@ export default class extends Controller {
         // let event = this.clicked;
         this.clicked = null;
         event.stopPropagation();
+        let closestA = event.target.closest('a');
 
-        fetch(event.target.closest('a').getAttribute('data-tree-view-url'), {
+        fetch(closestA.getAttribute('data-tree-view-url'), {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
             }
         }).then((response) => {
             response.json().then(function (data) {
+
+                let treeView = document.querySelector('.tree-view')
+                let lastSelected = treeView.querySelector('li.entry.selected');
+                if (lastSelected) {
+                    lastSelected.classList.remove('selected');
+                }
+
+                let liEntry = closestA.closest('li.entry');
+                liEntry.classList.add('selected');
 
                 let openEditors = document.querySelector('ul.openEditors')
 
@@ -246,17 +256,6 @@ export default class extends Controller {
                 }
 
                 openEditors.innerHTML = content;
-                // this.insertionPointTarget.insertAdjacentHTML('beforebegin', content)
-
-                // let listItem = document.importNode(this.listItemTemplateTarget.content, true);
-
-                // listItem.childNodes[0].getAttributeNames().forEach(attr => {
-                //     listItem.childNodes[0].setAttribute(attr, this.template(listItem.childNodes[0].getAttribute(attr), listItemData));
-                // });
-                // listItem.childNodes[0].innerHTML = this.template(listItem.childNodes[0].innerHTML, event.detail);
-                // this.itemListTarget.appendChild(listItem);
-
-
                 document.querySelector('.editor-pane').innerHTML = data.html;
             });
         });
