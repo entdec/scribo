@@ -148,8 +148,10 @@ export default class extends Controller {
     // Opens content in the editor pane
     open(event) {
         const self = this;
+        let closestA = event.target.closest('a');
 
-        if (event.target.closest('a').firstChild.tagName == 'INPUT') {
+        // Is a rename currently happening? If so abort
+        if (closestA.querySelector('input')) {
             return;
         }
         this.clicked = event;
@@ -162,18 +164,27 @@ export default class extends Controller {
     // Rename content
     rename(event) {
         const self = this;
-
         this.clicked = null;
         let closestA = event.target.closest('a');
+
+        // Is a rename currently happening? If so abort
+        if (closestA.querySelector('input')) {
+            return;
+        }
+
         let input = document.createElement('input')
+        let nameSpan = closestA.firstChild;
         input.type = 'text'
-        input.value = closestA.firstChild.innerText
+        input.value = nameSpan.innerText
 
         input.addEventListener('keyup', this._renameContent.bind(this));
         input.addEventListener('blur', this._cancelRename.bind(this));
 
-        closestA.firstChild.style.display = 'none'
-        closestA.insertBefore(input, closestA.firstChild)
+        // nameSpan.style.display = 'none'
+        closestA.querySelector('.tools').style.display = 'none'
+        nameSpan.innerText = ''
+        nameSpan.appendChild(input)
+        // closestA.insertBefore(input, nameSpan)
         input.focus()
         input.setSelectionRange(0, input.value.length);
 
@@ -225,7 +236,7 @@ export default class extends Controller {
                     to: newName,
                 })
             }).then((response) => {
-                closestA.firstChild.nextSibling.innerText = newName;
+                // closestA.firstChild.nextSibling.innerText = newName;
                 self._cancelRename(event)
             });
         } else if (event.key == 'Escape') {
@@ -236,9 +247,13 @@ export default class extends Controller {
     _cancelRename(event) {
         const self = this;
         let closestA = event.target.closest('a');
+        let nameSpan = closestA.firstChild;
+        let input = nameSpan.querySelector('input')
+        closestA.querySelector('.tools').style.display = ''
 
-        closestA.removeChild(closestA.firstChild)
-        closestA.firstChild.style.display = ''
+        let name = input.value;
+        nameSpan.removeChild(input)
+        nameSpan.innerText = name
     }
 
     _createContent(event) {
