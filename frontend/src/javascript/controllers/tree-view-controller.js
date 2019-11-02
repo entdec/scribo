@@ -85,23 +85,24 @@ export default class extends Controller {
         let newContentNode = document.importNode(this[template].content, true);
 
         let closestDirectory = event.target.closest('li.directory');
+        let newContentContainer = event.target.closest('.section').querySelector('ul');
         if (closestDirectory) {
-            this.newContentContainer = closestDirectory.querySelector('ul')
-        } else {
-            this.newContentContainer = event.target.closest('.section').querySelector('ul');
+            newContentContainer = closestDirectory.querySelector('ul')
         }
-        this.newContentContainer.prepend(newContentNode);
+        newContentContainer.prepend(newContentNode);
 
-        let input = this.newContentContainer.querySelector('input')
+        let input = newContentContainer.querySelector('input')
         input.setAttribute('data-kind', kind)
         input.setAttribute('data-url', url)
         input.focus()
         input.setSelectionRange(0, input.value.length);
 
         input.addEventListener('keyup', function (event) {
-            this._createContent(event, newContentNode);
+            this._createContent(event, newContentContainer);
         }.bind(this));
-        input.addEventListener('blur', this._cancelCreate.bind(this));
+        input.addEventListener('blur', function (event) {
+            this._cancelCreate(event, newContentContainer);
+        }.bind(this));
 
         event.stopPropagation();
     }
@@ -307,12 +308,12 @@ export default class extends Controller {
     _createContent(event, newContentContainer) {
         const self = this;
 
-        let input = self.newContentContainer.querySelector('input')
-        let nameSpan = self.newContentContainer.querySelector('span.name')
+        let input = newContentContainer.querySelector('input')
+        let nameSpan = newContentContainer.querySelector('span.name')
         nameSpan.setAttribute('data-path', input.value)
 
         if (event.key == "Enter") {
-            let parent = self.newContentContainer.getAttribute('data-parent')
+            let parent = newContentContainer.getAttribute('data-parent')
 
             fetch(input.getAttribute('data-url'), {
                 method: 'POST',
@@ -329,21 +330,21 @@ export default class extends Controller {
                 if (response.status == 200) {
                     response.json().then(function (data) {
                         document.querySelector('.editor-pane').innerHTML = data.html;
-                        self._cancelCreate(event)
-                        self.newContentContainer.insertAdjacentHTML('afterbegin', data.itemHtml)
+                        self._cancelCreate(event, newContentContainer)
+                        newContentContainer.insertAdjacentHTML('afterbegin', data.itemHtml)
                     });
                 }
 
             });
 
         } else if (event.key == 'Escape') {
-            self._cancelCreate(event)
+            self._cancelCreate(event, newContentContainer)
         }
 
     }
 
-    _cancelCreate(event) {
-        this.newContentContainer.removeChild(this.newContentContainer.firstChild);
+    _cancelCreate(event, newContentContainer) {
+        newContentContainer.removeChild(newContentContainer.firstChild);
     }
 
 }
