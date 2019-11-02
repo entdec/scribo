@@ -8,7 +8,7 @@ li.entry class="#{content.id == @content.id ? 'selected' : ''} #{content.kind ==
         i.fas.fa-trash-alt data-action="click->tree-view#deleteContent" data-url="#{admin_site_content_path(@site, content)}" data-confirm=I18n.t('scribo.confirm.delete_folder') title=I18n.t('scribo.tools.delete_folder')
 
   - else
-    a.list-item data-controller="tree-item" data-action="click->tree-item#start dblclick->tree-item#rename" data-tree-item-url="#{edit_admin_site_content_url(content.site, content)}" data-tree-item-rename-url="#{rename_admin_site_content_url(content.site, content)}"
+    a.list-item data-controller="tree-item" data-action="click->tree-item#open dblclick->tree-item#rename" data-tree-item-url="#{edit_admin_site_content_url(content.site, content)}" data-tree-item-rename-url="#{rename_admin_site_content_url(content.site, content)}"
       span.name data-path="#{content.path}" = content.path
       .tools
         i.fas.fa-trash-alt data-action="click->tree-view#deleteContent" data-url="#{admin_site_content_path(@site, content)}" data-confirm=I18n.t('scribo.confirm.delete_file') title=I18n.t('scribo.tools.delete_file')
