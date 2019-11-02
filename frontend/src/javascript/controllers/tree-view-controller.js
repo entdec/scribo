@@ -147,6 +147,8 @@ export default class extends Controller {
 
     // Opens content in the editor pane
     open(event) {
+        const self = this;
+
         if (event.target.closest('a').firstChild.tagName == 'INPUT') {
             return;
         }
@@ -159,16 +161,19 @@ export default class extends Controller {
 
     // Rename content
     rename(event) {
+        const self = this;
+
         this.clicked = null;
+        let closestA = event.target.closest('a');
         let input = document.createElement('input')
         input.type = 'text'
-        input.value = this.element.firstChild.innerText
+        input.value = closestA.firstChild.innerText
 
-        input.addEventListener('keyup', this._renameContent.bind(this, event));
-        input.addEventListener('blur', this._cancelRename.bind(this, event));
+        input.addEventListener('keyup', this._renameContent.bind(this));
+        input.addEventListener('blur', this._cancelRename.bind(this));
 
-        this.element.firstChild.style.display = 'none'
-        this.element.insertBefore(input, this.element.firstChild)
+        closestA.firstChild.style.display = 'none'
+        closestA.insertBefore(input, closestA.firstChild)
         input.focus()
         input.setSelectionRange(0, input.value.length);
 
@@ -183,7 +188,8 @@ export default class extends Controller {
     // Private
 
     _open(event) {
-        console.log("_open", event);
+        const self = this;
+
         if (this.clicked == null) {
             return;
         }
@@ -191,11 +197,6 @@ export default class extends Controller {
         this.clicked = null;
         event.stopPropagation();
 
-        // if (window.Turbolinks) {
-        //     Turbolinks.visit(this.data.get('url'));
-        // } else {
-        //     window.location.href = this.data.get('url');
-        // }
         fetch(event.target.closest('a').getAttribute('data-tree-view-url'), {
             method: 'GET',
             headers: {
@@ -211,9 +212,11 @@ export default class extends Controller {
 
     _renameContent(event) {
         const self = this;
-        let newName = this.element.firstChild.value;
+        let closestA = event.target.closest('a');
+
+        let newName = closestA.firstChild.value;
         if (event.key == "Enter") {
-            fetch(self.data.get('rename-url'), {
+            fetch(closestA.getAttribute('tree-view-rename-url'), {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -222,7 +225,7 @@ export default class extends Controller {
                     to: newName,
                 })
             }).then((response) => {
-                self.element.firstChild.nextSibling.innerText = newName;
+                closestA.firstChild.nextSibling.innerText = newName;
                 self._cancelRename(event)
             });
         } else if (event.key == 'Escape') {
@@ -232,8 +235,10 @@ export default class extends Controller {
 
     _cancelRename(event) {
         const self = this;
-        self.element.removeChild(self.element.firstChild)
-        self.element.firstChild.style.display = ''
+        let closestA = event.target.closest('a');
+
+        closestA.removeChild(closestA.firstChild)
+        closestA.firstChild.style.display = ''
     }
 
     _createContent(event) {
