@@ -29,7 +29,7 @@ template data-target="tree-view.entryTemplate"
     ul
 
 template data-target="tree-view.openEditorTemplate"
-  li.entry.file data-content="${id}"
+  li.entry.file data-content="${id}" data-url="${url}"
     a.list-item
       span.name data-path="${path}"
         | ${path}

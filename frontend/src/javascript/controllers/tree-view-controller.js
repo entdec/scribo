@@ -110,7 +110,25 @@ export default class extends Controller {
         let contentId = parentContent.getAttribute('data-content');
 
         let form = document.querySelector('form#edit_content_' + contentId)
-        form.submit();
+
+        let formData = new FormData();
+        formData.append('_method', 'PATCH');
+        if (form.querySelector('textarea[name="content[properties]"]')) {
+            formData.append('content[properties]', this._editorControllerForElement(form.querySelector('textarea[name="content[properties]"]')).editor.getValue());
+        }
+        if (form.querySelector('textarea[name="content[data_with_frontmatter]"]')) {
+            formData.append('content[data_with_frontmatter]', this._editorControllerForElement(form.querySelector('textarea[name="content[data_with_frontmatter]"]')).editor.getValue());
+        }
+        fetch(parentContent.getAttribute('data-url'), {
+            method: 'POST',
+            body: formData
+        }).then((response) => {
+            if (response.status == 200) {
+                response.json().then(function (data) {
+                    document.querySelector('.editor-pane').innerHTML = data.html;
+                });
+            }
+        });
 
         event.stopPropagation();
     }
@@ -197,6 +215,10 @@ export default class extends Controller {
     }
 
     // Private
+
+    _editorControllerForElement(elm) {
+        return this.application.getControllerForElementAndIdentifier(elm, "editor");
+    }
 
     _open(event) {
         const self = this;

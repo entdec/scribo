@@ -6,36 +6,36 @@ module Scribo
   module Admin
     class Sites::ContentsController < ApplicationAdminController
       before_action :set_objects
-      skip_before_action :verify_authenticity_token, only: %i[move rename remote_create upload destroy]
+      skip_before_action :verify_authenticity_token, only: %i[update move rename remote_create upload destroy]
 
-      def new
-        add_breadcrumb('New content', new_admin_site_content_path(@site)) if defined? add_breadcrumb
-        render :edit
-      end
+      # def new
+      #   add_breadcrumb('New content', new_admin_site_content_path(@site)) if defined? add_breadcrumb
+      #   render :edit
+      # end
 
-      def create
-        flash_and_redirect @content.save, edit_admin_site_content_url(@site, @content), 'Content created successfully', 'There were problems creating the content'
-      end
+      # def create
+      #   flash_and_redirect @content.save, edit_admin_site_content_url(@site, @content), 'Content created successfully', 'There were problems creating the content'
+      # end
 
       def index
-        # nothing here
-        # redirect_to edit_admin_site_content_url(@site, @contents.pages.first)
+        # This now renders the IDE
       end
 
       def edit
         # add_breadcrumb(@content.name || @content.identifier || @content.path, edit_admin_site_content_path(@site, @content)) if defined? add_breadcrumb
         @content = Content.find(params[:id])
 
-        render json: { content: {id: @content.id, path: @content.path, full_path: @content.full_path}, html: render_to_string('edit', layout: false) }
+        render json: { content: { id: @content.id, path: @content.path, full_path: @content.full_path, url: admin_site_content_path(@site, @content) }, html: render_to_string('edit', layout: false) }
       end
 
       def update
-        flash_and_redirect @content.update(content_params), edit_admin_site_content_url(@site, @content), 'Content updated successfully', "There were problems updating the content: #{@content.errors.messages}"
+        @content.update(content_params)
+        render json: { content: { id: @content.id, path: @content.path, full_path: @content.full_path, url: admin_site_content_path(@site, @content) }, html: render_to_string('edit', layout: false) }
       end
 
-      def show
-        redirect_to admin_site_contents_path(@site)
-      end
+      # def show
+      #   redirect_to admin_site_contents_path(@site)
+      # end
 
       def destroy
         @content.destroy
