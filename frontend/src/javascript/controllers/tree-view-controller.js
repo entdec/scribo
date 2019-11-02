@@ -269,7 +269,6 @@ export default class extends Controller {
                     to: newName,
                 })
             }).then((response) => {
-                // closestA.firstChild.nextSibling.innerText = newName;
                 self._cancelRename(event)
             });
         } else if (event.key == 'Escape') {
@@ -348,7 +347,6 @@ export default class extends Controller {
     _setOpenEditor(dataContent) {
         const self = this;
 
-        console.log(dataContent);
         let openEditors = document.querySelector('ul.openEditors')
 
         let content = self.openEditorTemplateTarget.innerHTML;
@@ -356,10 +354,7 @@ export default class extends Controller {
             content = content.replace(new RegExp('\\$\\{' + key + '\\}', 'g'), value)
         }
 
-        console.log(content);
         openEditors.innerHTML = content;
-
     }
-
 }
 
