@@ -17,6 +17,5 @@
           = YAML.dump(@content.properties)
 
     - else
-      div data-controller="editor" data-editor-mode="#{@content.content_type}" style="display: block; height: 100%;"
-        textarea name='content[data_with_frontmatter]' data-target="editor.textarea"
-          = @content.data_with_frontmatter || 'Start typing here'
+      textarea name='content[data_with_frontmatter]' data-controller="editor" data-target="editor.textarea" data-editor-mode="#{@content.content_type}" style="display: block; height: 100%;"
+        = @content.data_with_frontmatter || 'Start typing here'
