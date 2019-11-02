@@ -225,6 +225,10 @@ export default class extends Controller {
         const self = this;
         let closestA = event.target.closest('a');
 
+        let input = closestA.querySelector('input')
+        let nameSpan = closestA.querySelector('span.name')
+        nameSpan.setAttribute('data-path', input.value)
+
         let newName = closestA.firstChild.value;
         if (event.key == "Enter") {
             fetch(closestA.getAttribute('tree-view-rename-url'), {
