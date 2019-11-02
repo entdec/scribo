@@ -19,12 +19,14 @@ module Scribo
 
       def index
         # nothing here
-        redirect_to edit_admin_site_content_url(@site, @contents.pages.first)
+        # redirect_to edit_admin_site_content_url(@site, @contents.pages.first)
       end
 
       def edit
         # add_breadcrumb(@content.name || @content.identifier || @content.path, edit_admin_site_content_path(@site, @content)) if defined? add_breadcrumb
         @content = Content.find(params[:id])
+
+        render json: { html: render_to_string('edit', layout: false) }
       end
 
       def update

@@ -51,12 +51,24 @@ export default class extends Controller {
         }
         let event = this.clicked;
         this.clicked = null;
-        if (window.Turbolinks) {
-            Turbolinks.visit(this.data.get('url'));
-        } else {
-            window.location.href = this.data.get('url');
-        }
         event.stopPropagation();
+
+        // if (window.Turbolinks) {
+        //     Turbolinks.visit(this.data.get('url'));
+        // } else {
+        //     window.location.href = this.data.get('url');
+        // }
+        fetch(this.data.get('url'), {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then((response) => {
+            response.json().then(function (data) {
+                document.querySelector('.editor-pane').innerHTML = data.html;
+            });
+        });
+
     }
 
     _renameContent(event) {

@@ -1,8 +1,8 @@
 div.section
   span.title Open editors
   .tools
-  ul
-    - if @content
+  - if @content.persisted?
+    ul
       li.entry.file data-content="#{@content.id}"
         a.list-item
           span.name data-path="#{@content.path}"
