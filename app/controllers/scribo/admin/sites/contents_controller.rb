@@ -14,24 +14,7 @@ module Scribo
       end
 
       def create
-        if params[:content][:files]
-
-          contents = []
-          params[:content][:files].each do |file|
-            c = @site.contents.new(kind: Scribo::Utility.kind_for_content_type(extra_file.content_type))
-
-            c.content_type = file.content_type
-            c.path = file.original_filename
-            c.data = file.read
-            c.save!
-
-            contents << c
-          end
-
-          flash_and_redirect contents.first.valid?, edit_admin_site_content_url(@site, contents.first), 'Content created successfully', 'There were problems creating the content'
-        else
-          flash_and_redirect @content.save, edit_admin_site_content_url(@site, @content), 'Content created successfully', 'There were problems creating the content'
-        end
+        flash_and_redirect @content.save, edit_admin_site_content_url(@site, @content), 'Content created successfully', 'There were problems creating the content'
       end
 
       def index
@@ -45,25 +28,7 @@ module Scribo
       end
 
       def update
-        if params[:content][:files]
-
-          file = params[:content][:files].first
-
-          @content.kind = Scribo::Utility.kind_for_content_type(file.content_type)
-          @content.data = file.read
-
-          # Just store extra files
-          params[:content][:files][1..-1].each do |extra_file|
-            c = @site.contents.new(kind: Scribo::Utility.kind_for_content_type(extra_file.content_type))
-            c.path = extra_file.original_filename
-            c.data = extra_file.read
-            c.save!
-          end
-
-          flash_and_redirect @content.save, edit_admin_site_content_url(@site, @content), 'Content updated successfully', 'There were problems updating the content'
-        else
-          flash_and_redirect @content.update(content_params), edit_admin_site_content_url(@site, @content), 'Content updated successfully', "There were problems updating the content: #{@content.errors.messages}"
-        end
+        flash_and_redirect @content.update(content_params), edit_admin_site_content_url(@site, @content), 'Content updated successfully', "There were problems updating the content: #{@content.errors.messages}"
       end
 
       def show
@@ -137,7 +102,7 @@ module Scribo
       end
 
       def content_params
-        params.require(:content).permit(:kind, :layout_id, :parent_id, :data, :data_with_frontmatter, :properties)
+        params.require(:content).permit(:data_with_frontmatter, :properties)
       end
     end
   end

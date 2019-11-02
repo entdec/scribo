@@ -1,11 +1,7 @@
 = render 'scribo/shared/ide' do
-  = simple_form_for([:admin, @site, @content], html: {multipart: true}) do |f|
-    = f.input :kind, as: :hidden
-
+  = simple_form_for([:admin, @site, @content]) do |f|
     div style="position: absolute; width: 100%; height: 100%;"
       - if @content.kind == 'asset'
-          input type="file" name="content[files][]" multiple="true"
-          br
           - if @content.media_type == 'image'
             img src=content_path(@content) style="max-width: 100%; border: 1px dashed #ccc;"
           - if @content.media_type == 'font'
@@ -16,11 +12,10 @@
               }
             - for i in [10, 12, 14, 16, 18, 20, 22, 24]
               div style="font-family: MyWebFont; font-size: #{i}px;"
-                | #{i} - the quick brown fox jumped over the lazy dog.
-                br
-                | #{i} - THE QUICK BROWN FOX JUMPED OVER THE LAZY DOG.
+                | #{i} - THE QUICK BROWN FOX JUMPED OVER THE LAZY DOG. the quick brown fox jumped over the lazy dog.
 
-          = f.input :properties, as: :text, input_html: {value: (f.object.properties.present? ? YAML.dump(f.object.properties) : "---\n"), data: { controller: "editor", target: 'editor.textarea', "editor-height" => '250px', lang: 'application/yaml', mode: {name: 'liquid', base: 'application/yaml'}}}
+          textarea name='content[properties]' data-controller="editor" data-target="editor.textarea" data-editor-height='250px' data-editor-mode='application/yaml'
+            = YAML.dump(@content.properties)
 
       - else
         div data-controller="editor" data-editor-mode="#{@content.content_type}" style="display: block; height: 100%;"
