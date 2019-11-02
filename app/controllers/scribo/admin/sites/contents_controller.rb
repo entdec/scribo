@@ -73,7 +73,7 @@ module Scribo
       def destroy
         @content.destroy
         @content = @contents.pages.first
-        render json: { html: render_to_string('scribo/shared/_tree-view', layout: false, locals: { site: @site }) }
+        render json: { html: '' }
       end
 
       def move

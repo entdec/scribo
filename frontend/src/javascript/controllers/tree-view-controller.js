@@ -175,12 +175,12 @@ export default class extends Controller {
             method: 'POST',
             body: formData
         }).then((response) => {
-            response.json().then(function (data) {
-                let node = document.querySelector(".tree-view");
-                if (node) {
-                    node.innerHTML = data.html;
+            if (response.status == 200) {
+                let node = elm.closest("li");
+                if (node.parentNode) {
+                    node.parentNode.removeChild(node);
                 }
-            });
+            }
         });
     }
 
