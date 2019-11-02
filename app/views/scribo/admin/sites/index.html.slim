@@ -14,12 +14,8 @@ table.table
         td
           = link_to edit_admin_site_path(site), title: t('scribo.context_menu.edit') do
             i.fas.fa-edit
-          - if site.contents.present?
-            =< link_to(admin_site_contents_path(site), title: t('scribo.context_menu.editor')) do
-              i.fas.fa-code
-          - else
-            =< link_to(new_admin_site_content_path(site), title: t('scribo.context_menu.editor')) do
-              i.fas.fa-edit
+          =< link_to(admin_site_contents_path(site), title: t('scribo.context_menu.ide')) do
+            i.fas.fa-code
           | &nbsp;
           - if site.contents.count > 0
             =< link_to(export_admin_site_path(site), 'data-turbolinks' => 'false', title: t('scribo.context_menu.export')) do

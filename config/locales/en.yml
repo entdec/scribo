@@ -11,7 +11,7 @@ en:
       edit: Edit
       import: Import a site
       export: Download site
-      editor: Open Editor
+      ide: Open IDE
       delete: Delete site
     tools:
       new_file: New file

@@ -12,9 +12,4 @@
   - unless @site.new_record?
     - if @site.contents.count > 0
       =< link_to(t('scribo.context_menu.export'), export_admin_site_path, class: 'btn btn-primary', 'data-turbolinks' => 'false')
-    ruby:
-        first_content = @site.contents.first
-    - if first_content
-      =< link_to(t('scribo.context_menu.editor'), edit_admin_site_content_path(@site, @site.contents.first), class: 'btn btn-primary')
-    - else
-      =< link_to(t('scribo.context_menu.editor'), new_admin_site_content_path(@site), class: 'btn btn-primary')
+      =< link_to(t('scribo.context_menu.ide'), admin_site_contents_path(@site), class: 'btn btn-primary')

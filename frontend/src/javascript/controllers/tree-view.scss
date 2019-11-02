@@ -176,6 +176,36 @@
 .tree-view .directory.closed > .list-item .name[data-path*='data'] { background-image: url(../../images/icons/folder-database.svg); }
 .tree-view .directory.open > .list-item .name[data-path*='data'] {  background-image: url(../../images/icons/folder-database-open.svg); }
 
+.tree-view .directory.closed > .list-item .name[data-path*='style'] { background-image: url(../../images/icons/folder-css.svg); }
+.tree-view .directory.open > .list-item .name[data-path*='syle'] {  background-image: url(../../images/icons/folder-css-open.svg); }
+
+.tree-view .directory.closed > .list-item .name[data-path*='css'] { background-image: url(../../images/icons/folder-css.svg); }
+.tree-view .directory.open > .list-item .name[data-path*='css'] {  background-image: url(../../images/icons/folder-css-open.svg); }
+
+.tree-view .directory.closed > .list-item .name[data-path*='sass'] { background-image: url(../../images/icons/folder-sass.svg); }
+.tree-view .directory.open > .list-item .name[data-path*='sass'] {  background-image: url(../../images/icons/folder-sass-open.svg); }
+
+.tree-view .directory.closed > .list-item .name[data-path*='scripts'] { background-image: url(../../images/icons/folder-javascript.svg); }
+.tree-view .directory.open > .list-item .name[data-path*='scripts'] {  background-image: url(../../images/icons/folder-javascript-open.svg); }
+
+.tree-view .directory.closed > .list-item .name[data-path*='layout'] { background-image: url(../../images/icons/folder-layout.svg); }
+.tree-view .directory.open > .list-item .name[data-path*='layout'] {  background-image: url(../../images/icons/folder-layout-open.svg); }
+
+.tree-view .directory.closed > .list-item .name[data-path*='pages'] { background-image: url(../../images/icons/folder-views.svg); }
+.tree-view .directory.open > .list-item .name[data-path*='pages'] {  background-image: url(../../images/icons/folder-views-open.svg); }
+
+.tree-view .directory.closed > .list-item .name[data-path*='post'] { background-image: url(../../images/icons/folder-archive.svg); }
+.tree-view .directory.open > .list-item .name[data-path*='post'] {  background-image: url(../../images/icons/folder-archive-open.svg); }
+
+.tree-view .directory.closed > .list-item .name[data-path*='component'] { background-image: url(../../images/icons/folder-component.svg); }
+.tree-view .directory.open > .list-item .name[data-path*='component'] {  background-image: url(../../images/icons/folder-component-open.svg); }
+
+.tree-view .directory.closed > .list-item .name[data-path*='lib'] { background-image: url(../../images/icons/folder-lib.svg); }
+.tree-view .directory.open > .list-item .name[data-path*='lib'] {  background-image: url(../../images/icons/folder-lib-open.svg); }
+
+.tree-view .directory.closed > .list-item .name[data-path*='include'] { background-image: url(../../images/icons/folder-include.svg); }
+.tree-view .directory.open > .list-item .name[data-path*='include'] {  background-image: url(../../images/icons/folder-include-open.svg); }
+
 // text
 .tree-view .file > .list-item .name[data-path$='.txt']              {background-image: url(../../images/icons/document.svg);}
 .tree-view .file > .list-item .name[data-path$='.html']               {background-image: url(../../images/icons/html.svg);}
@@ -191,9 +221,13 @@
 
 .tree-view .file > .list-item .name[data-path$='.md']                {background-image: url(../../images/icons/markdown.svg);}
 .tree-view .file > .list-item .name[data-path$='.markdown']                {background-image: url(../../images/icons/markdown.svg);}
+.tree-view .file > .list-item .name[data-path='LICENSE']         {background-image: url(../../images/icons/markdown.svg);}
 
 // script
 .tree-view .file > .list-item .name[data-path$='.js']         {background-image: url(../../images/icons/javascript.svg);}
+.tree-view .file > .list-item .name[data-path$='.rb']         {background-image: url(../../images/icons/ruby.svg);}
+.tree-view .file > .list-item .name[data-path='Gemfile']         {background-image: url(../../images/icons/ruby.svg);}
+.tree-view .file > .list-item .name[data-path='Gemfile.lock']         {background-image: url(../../images/icons/ruby.svg);}
 
 // image
 .tree-view .file > .list-item .name[data-path$='.png']     {background-image: url(../../images/icons/image.svg);}
