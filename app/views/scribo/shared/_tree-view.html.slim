@@ -29,10 +29,10 @@ template data-target="tree-view.entryTemplate"
     ul
 
 template data-target="tree-view.openEditorTemplate"
-  li.entry.file data-content="content.id"
+  li.entry.file data-content="${id}"
     a.list-item
-      span.name data-path="content.path"
-        | content.path
-        small content.full_path
+      span.name data-path="${path}"
+        | ${path}
+        small ${full_path}
       .tools
         i.fas.fa-save data-action="click->tree-view#save" title=I18n.t('scribo.tools.save')

@@ -10,7 +10,7 @@ import Sortable from 'sortablejs';
  * Manages the tree view
  */
 export default class extends Controller {
-    static targets = ["folderTemplate", "entryTemplate"];
+    static targets = ["folderTemplate", "entryTemplate", "openEditorTemplate"];
 
     connect() {
         const self = this;
@@ -215,6 +215,26 @@ export default class extends Controller {
             }
         }).then((response) => {
             response.json().then(function (data) {
+
+                let openEditors = document.querySelector('ul.openEditors')
+
+                let content = self.openEditorTemplateTarget.innerHTML;
+                for (let [key, value] of Object.entries(data.content)) {
+                    content = content.replace(new RegExp('\\$\\{' + key + '\\}', 'g'), value)
+                }
+
+                openEditors.innerHTML = content;
+                // this.insertionPointTarget.insertAdjacentHTML('beforebegin', content)
+
+                // let listItem = document.importNode(this.listItemTemplateTarget.content, true);
+
+                // listItem.childNodes[0].getAttributeNames().forEach(attr => {
+                //     listItem.childNodes[0].setAttribute(attr, this.template(listItem.childNodes[0].getAttribute(attr), listItemData));
+                // });
+                // listItem.childNodes[0].innerHTML = this.template(listItem.childNodes[0].innerHTML, event.detail);
+                // this.itemListTarget.appendChild(listItem);
+
+
                 document.querySelector('.editor-pane').innerHTML = data.html;
             });
         });
