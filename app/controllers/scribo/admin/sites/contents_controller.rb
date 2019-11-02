@@ -60,23 +60,23 @@ module Scribo
       end
 
       def remote_create
-        new_content = @site.contents.create(path: params[:path], kind: params[:kind])
+        @content = @site.contents.create(path: params[:path], kind: params[:kind])
         if params[:parent]
           parent = @site.contents.find(params[:parent])
-          new_content.move_to_child_with_index(parent, 0)
+          @content.move_to_child_with_index(parent, 0)
         end
-        url = if new_content.kind == 'folder'
+        url = if @content.kind == 'folder'
                 admin_site_contents_path(@site)
               else
-                edit_admin_site_content_path(@site, new_content)
+                edit_admin_site_content_path(@site, @content)
               end
         # render json: { url: url }
         render json: {
           content: {
-            id: @content.id, path: @content.path, full_path: @content.full_path, url: admin_site_content_path(@site, new_content)
+            id: @content.id, kind: @content.kind, path: @content.path, full_path: @content.full_path, url: admin_site_content_path(@site, @content)
           },
           html: render_to_string('edit', layout: false),
-          itemHtml: render_to_string('scribo/shared/_entry', layout: false, locals: { content: new_content })
+          itemHtml: render_to_string('scribo/shared/_entry', layout: false, locals: { content: @content })
         }
       end
 

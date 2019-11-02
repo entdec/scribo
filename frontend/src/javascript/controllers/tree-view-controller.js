@@ -202,11 +202,10 @@ export default class extends Controller {
         input.addEventListener('keyup', this._renameContent.bind(this));
         input.addEventListener('blur', this._cancelRename.bind(this));
 
-        // nameSpan.style.display = 'none'
         closestA.querySelector('.tools').style.display = 'none'
         nameSpan.innerText = ''
         nameSpan.appendChild(input)
-        // closestA.insertBefore(input, nameSpan)
+
         input.focus()
         input.setSelectionRange(0, input.value.length);
 
@@ -243,23 +242,8 @@ export default class extends Controller {
         }).then((response) => {
             response.json().then(function (data) {
 
-                let treeView = document.querySelector('.tree-view')
-                let lastSelected = treeView.querySelector('li.entry.selected');
-                if (lastSelected) {
-                    lastSelected.classList.remove('selected');
-                }
-
-                let liEntry = closestA.closest('li.entry');
-                liEntry.classList.add('selected');
-
-                let openEditors = document.querySelector('ul.openEditors')
-
-                let content = self.openEditorTemplateTarget.innerHTML;
-                for (let [key, value] of Object.entries(data.content)) {
-                    content = content.replace(new RegExp('\\$\\{' + key + '\\}', 'g'), value)
-                }
-
-                openEditors.innerHTML = content;
+                self._selectEntry(closestA.closest('li.entry'))
+                self._setOpenEditor(data.content)
                 document.querySelector('.editor-pane').innerHTML = data.html;
             });
         });
@@ -329,9 +313,13 @@ export default class extends Controller {
 
                 if (response.status == 200) {
                     response.json().then(function (data) {
-                        document.querySelector('.editor-pane').innerHTML = data.html;
                         self._cancelCreate(event, newContentContainer)
                         newContentContainer.insertAdjacentHTML('afterbegin', data.itemHtml)
+                        if (data.content.kind != 'folder') {
+                            document.querySelector('.editor-pane').innerHTML = data.html;
+                            self._selectEntry(newContentContainer.querySelector('li.' + (data.content.kind == 'folder' ? 'folder' : 'file')))
+                            self._setOpenEditor(data.content)
+                        }
                     });
                 }
 
@@ -345,6 +333,32 @@ export default class extends Controller {
 
     _cancelCreate(event, newContentContainer) {
         newContentContainer.removeChild(newContentContainer.firstChild);
+    }
+
+    _selectEntry(element) {
+        let treeView = document.querySelector('.tree-view')
+        let lastSelected = treeView.querySelector('li.entry.selected');
+        if (lastSelected) {
+            lastSelected.classList.remove('selected');
+        }
+
+        element.classList.add('selected');
+    }
+
+    _setOpenEditor(dataContent) {
+        const self = this;
+
+        console.log(dataContent);
+        let openEditors = document.querySelector('ul.openEditors')
+
+        let content = self.openEditorTemplateTarget.innerHTML;
+        for (let [key, value] of Object.entries(dataContent)) {
+            content = content.replace(new RegExp('\\$\\{' + key + '\\}', 'g'), value)
+        }
+
+        console.log(content);
+        openEditors.innerHTML = content;
+
     }
 
 }
