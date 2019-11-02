@@ -1,15 +1,7 @@
 div.section
   span.title Open editors
   .tools
-  - if @content.persisted?
-    ul
-      li.entry.file data-content="#{@content.id}"
-        a.list-item
-          span.name data-path="#{@content.path}"
-            = @content.path
-            small = @content.full_path
-          .tools
-            i.fas.fa-save data-action="click->tree-view#save" title=I18n.t('scribo.tools.save')
+  ul.openEditors
 
 div.section
   span.title = @site.title
@@ -35,3 +27,12 @@ template data-target="tree-view.entryTemplate"
       span.name data-path="untitled.html"
         input type="text" value="untitled.html"
     ul
+
+template data-target="tree-view.openEditorTemplate"
+  li.entry.file data-content="content.id"
+    a.list-item
+      span.name data-path="content.path"
+        | content.path
+        small content.full_path
+      .tools
+        i.fas.fa-save data-action="click->tree-view#save" title=I18n.t('scribo.tools.save')

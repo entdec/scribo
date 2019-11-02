@@ -26,7 +26,7 @@ module Scribo
         # add_breadcrumb(@content.name || @content.identifier || @content.path, edit_admin_site_content_path(@site, @content)) if defined? add_breadcrumb
         @content = Content.find(params[:id])
 
-        render json: { html: render_to_string('edit', layout: false) }
+        render json: { content: {id: @content.id, path: @content.path, full_path: @content.full_path}, html: render_to_string('edit', layout: false) }
       end
 
       def update
