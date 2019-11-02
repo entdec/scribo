@@ -62,6 +62,7 @@ export default class extends Controller {
 
     }
 
+    // Collapse all folders
     collapseAll(event) {
         const self = this;
         self.element.querySelectorAll('li.directory').forEach(el => {
@@ -70,7 +71,8 @@ export default class extends Controller {
         });
     }
 
-    newContent(event) {
+    // Create content
+    create(event) {
         let kind = event.target.closest('[data-action]').getAttribute('data-kind');
         let url = event.target.closest('[data-action]').getAttribute('data-url');
 
@@ -87,63 +89,21 @@ export default class extends Controller {
         } else {
             this.newContentContainer = event.target.closest('.section').querySelector('ul');
         }
-        console.log(this.newContentContainer);
         this.newContentContainer.prepend(this.newContentNode);
 
         let input = this.newContentContainer.querySelector('input')
         input.setAttribute('data-kind', kind)
         input.setAttribute('data-url', url)
-        console.log(input);
         input.focus()
         input.setSelectionRange(0, input.value.length);
 
-        input.addEventListener('keyup', this.createContent.bind(this));
-        input.addEventListener('blur', this.cancelCreate.bind(this));
+        input.addEventListener('keyup', this._createContent.bind(this));
+        input.addEventListener('blur', this._cancelCreate.bind(this));
 
         event.stopPropagation();
     }
 
-    createContent(event) {
-        const self = this;
-        let parentContent = event.target.closest('li.directory')
-        if (event.key == "Enter") {
-            let parent = self.newContentContainer.getAttribute('data-parent')
-            let input = self.newContentContainer.querySelector('input')
-
-            fetch(input.getAttribute('data-url'), {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    parent: parent,
-                    kind: input.getAttribute('data-kind'),
-                    path: input.value
-                })
-            }).then((response) => {
-                response.json().then(function (data) {
-                    console.log(data);
-                    if (window.Turbolinks) {
-                        Turbolinks.visit(data['url'])
-                    } else {
-                        window.location.href = data['url']
-                    }
-
-                    self.cancelCreate(event)
-                });
-            });
-            self.cancelCreate(event)
-
-        } else if (event.key == 'Escape') {
-            self.cancelCreate(event)
-        }
-
-    }
-
-    cancelCreate(event) {
-        this.newContentContainer.removeChild(this.newContentContainer.firstChild);
-    }
-
+    // Save content
     save(event) {
         const self = this;
         let parentContent = event.target.closest('li')
@@ -155,7 +115,8 @@ export default class extends Controller {
         event.stopPropagation();
     }
 
-    deleteContent(event) {
+    // Delete content
+    delete(event) {
         event.stopPropagation();
         event.cancelBubble = true;
 
@@ -186,5 +147,48 @@ export default class extends Controller {
 
     disconnect() {
     }
+
+    // Private
+
+    _createContent(event) {
+        const self = this;
+        let parentContent = event.target.closest('li.directory')
+        if (event.key == "Enter") {
+            let parent = self.newContentContainer.getAttribute('data-parent')
+            let input = self.newContentContainer.querySelector('input')
+
+            fetch(input.getAttribute('data-url'), {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    parent: parent,
+                    kind: input.getAttribute('data-kind'),
+                    path: input.value
+                })
+            }).then((response) => {
+                response.json().then(function (data) {
+                    if (window.Turbolinks) {
+                        Turbolinks.visit(data['url'])
+                    } else {
+                        window.location.href = data['url']
+                    }
+
+                    self._cancelCreate(event)
+                });
+            });
+            self._cancelCreate(event)
+
+        } else if (event.key == 'Escape') {
+            self._cancelCreate(event)
+        }
+
+    }
+
+    _cancelCreate(event) {
+        this.newContentContainer.removeChild(this.newContentContainer.firstChild);
+    }
+
 }
 
