@@ -149,6 +149,8 @@ export default class extends Controller {
 
     // Delete content
     delete(event) {
+        const self = this;
+
         event.stopPropagation();
         event.cancelBubble = true;
 
@@ -174,6 +176,7 @@ export default class extends Controller {
             if (response.status == 200) {
                 let node = elm.closest("li");
                 if (node.parentNode) {
+                    self._closeOpenEditor(node.getAttribute('data-content'));
                     node.parentNode.removeChild(node);
                 }
             }
@@ -372,6 +375,15 @@ export default class extends Controller {
         }
 
         openEditors.innerHTML = content;
+    }
+
+    _closeOpenEditor(content_id) {
+        let openEditors = document.querySelector('ul.openEditors')
+        let editorItem = openEditors.querySelector(`li[data-content="${content_id}"]`)
+        if (editorItem) {
+            openEditors.removeChild(editorItem);
+            document.querySelector('.editor-pane').innerHTML = '';
+        }
     }
 }
 
