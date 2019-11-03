@@ -6,26 +6,16 @@ module Scribo
   module Admin
     class Sites::ContentsController < ApplicationAdminController
       before_action :set_objects
-      skip_before_action :verify_authenticity_token, only: %i[update move rename remote_create upload destroy]
-
-      # def new
-      #   add_breadcrumb('New content', new_admin_site_content_path(@site)) if defined? add_breadcrumb
-      #   render :edit
-      # end
-
-      # def create
-      #   flash_and_redirect @content.save, edit_admin_site_content_url(@site, @content), 'Content created successfully', 'There were problems creating the content'
-      # end
+      skip_before_action :verify_authenticity_token, only: %i[update move rename create upload destroy]
 
       def index
         # This now renders the IDE
+        @contents = @site.contents.roots.reorder(:path)
       end
 
       def edit
-        # add_breadcrumb(@content.name || @content.identifier || @content.path, edit_admin_site_content_path(@site, @content)) if defined? add_breadcrumb
-        @content = Content.find(params[:id])
-
-        render json: { content: { id: @content.id, path: @content.path, full_path: @content.full_path, url: admin_site_content_path(@site, @content) }, html: render_to_string('edit', layout: false) }
+        # Either json/html
+        @contents = @site.contents.roots.reorder(:path) if request.format == :html
       end
 
       def update
@@ -33,9 +23,9 @@ module Scribo
         render json: { content: { id: @content.id, path: @content.path, full_path: @content.full_path, url: admin_site_content_path(@site, @content) }, html: render_to_string('edit', layout: false) }
       end
 
-      # def show
-      #   redirect_to admin_site_contents_path(@site)
-      # end
+      def show
+        render :edit
+      end
 
       def destroy
         @content.destroy
@@ -59,18 +49,13 @@ module Scribo
         head 200
       end
 
-      def remote_create
+      def create
         @content = @site.contents.create(path: params[:path], kind: params[:kind])
         if params[:parent]
           parent = @site.contents.find(params[:parent])
           @content.move_to_child_with_index(parent, 0)
         end
-        url = if @content.kind == 'folder'
-                admin_site_contents_path(@site)
-              else
-                edit_admin_site_content_path(@site, @content)
-              end
-        # render json: { url: url }
+
         render json: {
           content: {
             id: @content.id, kind: @content.kind, path: @content.path, full_path: @content.full_path, url: admin_site_content_path(@site, @content)
@@ -95,19 +80,11 @@ module Scribo
 
       def set_objects
         @site          = Scribo::Site.find(params[:site_id])
-        @contents      = @site.contents.roots.reorder(:path)
         @content       = if params[:id]
-                           Content.where(site: params[:site_id]).find(params[:id])
+                           @site.contents.find(params[:id])
                          else
                            params[:content] ? @site.contents.new(content_params) : @site.contents.new
                          end
-        @layouts       = @site.contents.layouts
-
-        @sites = Scribo::Site.order(:name)
-        @kinds = %w[text redirect asset]
-
-        add_breadcrumb I18n.t('scribo.breadcrumbs.admin.sites'), :admin_sites_path if defined? add_breadcrumb
-        add_breadcrumb(@site.properties['title'], edit_admin_site_path(@site)) if defined? add_breadcrumb
       end
 
       def content_params

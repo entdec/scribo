@@ -38,6 +38,7 @@ export default class extends Controller {
                     fetch(self.data.get('update-url'), {
                         method: 'PUT',
                         headers: {
+                            'Accept': 'application/json, text/javascript',
                             'Content-Type': 'application/json'
                         },
                         body: JSON.stringify({
@@ -125,6 +126,10 @@ export default class extends Controller {
         }
         fetch(parentContent.getAttribute('data-url'), {
             method: 'POST',
+            headers: {
+                'Accept': 'application/json, text/javascript',
+                'Content-Type': 'multipart/form-data' // application/x-www-form-urlencoded
+            },
             body: formData
         }).then((response) => {
             if (response.status == 200) {
@@ -237,7 +242,7 @@ export default class extends Controller {
         fetch(closestA.getAttribute('data-tree-view-url'), {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json'
+                'Accept': 'application/json, text/javascript'
             }
         }).then((response) => {
             response.json().then(function (data) {
@@ -263,6 +268,7 @@ export default class extends Controller {
             fetch(closestA.getAttribute('tree-view-rename-url'), {
                 method: 'PUT',
                 headers: {
+                    'Accept': 'application/json, text/javascript',
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
@@ -301,6 +307,7 @@ export default class extends Controller {
             fetch(input.getAttribute('data-url'), {
                 method: 'POST',
                 headers: {
+                    'Accept': 'application/json, text/javascript',
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({

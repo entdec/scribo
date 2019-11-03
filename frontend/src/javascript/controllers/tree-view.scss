@@ -197,8 +197,8 @@
 .tree-view .directory.closed > .list-item .name[data-path*='post'] { background-image: url(../../images/icons/folder-archive.svg); }
 .tree-view .directory.open > .list-item .name[data-path*='post'] {  background-image: url(../../images/icons/folder-archive-open.svg); }
 
-.tree-view .directory.closed > .list-item .name[data-path*='component'] { background-image: url(../../images/icons/folder-component.svg); }
-.tree-view .directory.open > .list-item .name[data-path*='component'] {  background-image: url(../../images/icons/folder-component-open.svg); }
+.tree-view .directory.closed > .list-item .name[data-path*='component'] { background-image: url(../../images/icons/folder-components.svg); }
+.tree-view .directory.open > .list-item .name[data-path*='component'] {  background-image: url(../../images/icons/folder-components-open.svg); }
 
 .tree-view .directory.closed > .list-item .name[data-path*='lib'] { background-image: url(../../images/icons/folder-lib.svg); }
 .tree-view .directory.open > .list-item .name[data-path*='lib'] {  background-image: url(../../images/icons/folder-lib-open.svg); }

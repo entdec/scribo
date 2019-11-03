@@ -8,7 +8,7 @@ Scribo::Engine.routes.draw do
           put 'rename', as: :rename
         end
         collection do
-          post 'remote_create'
+          # post 'remote_create'
           post 'upload'
           put 'move', as: :move
         end
