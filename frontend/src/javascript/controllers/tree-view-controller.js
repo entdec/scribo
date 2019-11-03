@@ -33,7 +33,21 @@ export default class extends Controller {
       if (editorItem) {
         editorItem.classList.add('dirty')
       }
-    });
+    })
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key == 's' && event.metaKey == true) {
+        event.preventDefault()
+        event.stopPropagation()
+        event.cancelBubble = true
+
+        let selectedItem = document.querySelector('.tree-view li.entry.selected')
+        if (selectedItem) {
+          let contentId = selectedItem.getAttribute('data-content')
+          self._saveOpenEditor(contentId)
+        }
+      }
+    })
 
     self.element.querySelectorAll('ul').forEach(el => {
       new Sortable(el, {
@@ -392,5 +406,24 @@ export default class extends Controller {
       openEditors.removeChild(editorItem)
       document.querySelector('.editor-pane').innerHTML = ''
     }
+  }
+
+  _saveOpenEditor(contentId) {
+    const openEditors = document.querySelector('ul.openEditors')
+    const editorItem = openEditors.querySelector(`li.dirty[data-content="${contentId}"]`)
+    if (editorItem) {
+      this._triggerEvent(editorItem.querySelector('[data-action="click->tree-view#save"]'), 'click')
+      editorItem.classList.remove('dirty')
+    }
+  }
+
+  _triggerEvent(el, name, data) {
+    if (typeof window.CustomEvent === 'function') {
+      var event = new CustomEvent(name, { detail: data })
+    } else {
+      var event = document.createEvent('CustomEvent')
+      event.initCustomEvent(name, true, true, data)
+    }
+    el.dispatchEvent(event)
   }
 }
