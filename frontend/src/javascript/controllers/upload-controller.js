@@ -37,6 +37,9 @@ export default class extends Controller {
 
       fetch(self.data.get('url'), {
         method: 'POST',
+        headers: {
+          'X-CSRF-Token': document.querySelector('meta[name=csrf-token]').content
+        },
         body: formData
       }).then((response) => {
         response.json().then(function (data) {

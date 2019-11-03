@@ -6,21 +6,15 @@ module Scribo
   module Admin
     class Sites::ContentsController < ApplicationAdminController
       before_action :set_objects
-      skip_before_action :verify_authenticity_token, only: %i[update move rename create upload destroy]
 
-      def index
-        # This now renders the IDE
-        @contents = @site.contents.roots.reorder(:path)
-      end
+      # Render the IDE
+      def index; end
 
-      def edit
-        # Either json/html
-        @contents = @site.contents.roots.reorder(:path) if request.format == :html
-      end
+      def edit; end
 
       def update
         @content.update(content_params)
-        render json: { content: { id: @content.id, path: @content.path, full_path: @content.full_path, url: admin_site_content_path(@site, @content) }, html: render_to_string('edit', layout: false) }
+        render :edit
       end
 
       def show
@@ -29,7 +23,7 @@ module Scribo
 
       def destroy
         @content.destroy
-        @content = @contents.pages.first
+        # @content = @site.contents.pages.first
         render json: { html: '' }
       end
 
@@ -60,7 +54,7 @@ module Scribo
           content: {
             id: @content.id, kind: @content.kind, path: @content.path, full_path: @content.full_path, url: admin_site_content_path(@site, @content)
           },
-          html: render_to_string('edit', layout: false),
+          html: render_to_string('scribo/admin/sites/contents/_form', layout: false, formats: [:html]),
           itemHtml: render_to_string('scribo/shared/_entry', layout: false, locals: { content: @content })
         }
       end
@@ -73,6 +67,8 @@ module Scribo
           c.parent_id = params[:content][:parent_id]
           c.save!
         end
+        # TODO: Only partial rerender the tree
+        @contents      = @site.contents.roots.reorder(:path)
         render json: { html: render_to_string('scribo/shared/_tree-view', layout: false, locals: { site: @site }) }
       end
 
@@ -85,6 +81,7 @@ module Scribo
                          else
                            params[:content] ? @site.contents.new(content_params) : @site.contents.new
                          end
+        @contents      = @site.contents.roots.reorder(:path) if request.format == :html
       end
 
       def content_params

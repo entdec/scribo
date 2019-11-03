@@ -39,7 +39,8 @@ export default class extends Controller {
                         method: 'PUT',
                         headers: {
                             'Accept': 'application/json, text/javascript',
-                            'Content-Type': 'application/json'
+                            'Content-Type': 'application/json',
+                            'X-CSRF-Token': document.querySelector('meta[name=csrf-token]').content
                         },
                         body: JSON.stringify({
                             id: contentId,
@@ -126,9 +127,13 @@ export default class extends Controller {
         }
         fetch(parentContent.getAttribute('data-url'), {
             method: 'POST',
+            // headers: {
+            //     'Accept': 'application/json, text/javascript',
+            //     'Content-Type': 'multipart/form-data' // application/x-www-form-urlencoded
+            // },
             headers: {
                 'Accept': 'application/json, text/javascript',
-                'Content-Type': 'multipart/form-data' // application/x-www-form-urlencoded
+                'X-CSRF-Token': form.querySelector('input[name="authenticity_token"]').value
             },
             body: formData
         }).then((response) => {
@@ -161,6 +166,9 @@ export default class extends Controller {
         formData.append('_method', 'DELETE');
         fetch(elm.getAttribute('data-url'), {
             method: 'POST',
+            headers: {
+                'X-CSRF-Token': document.querySelector('meta[name=csrf-token]').content
+            },
             body: formData
         }).then((response) => {
             if (response.status == 200) {
@@ -245,6 +253,7 @@ export default class extends Controller {
                 'Accept': 'application/json, text/javascript'
             }
         }).then((response) => {
+            console.log(response);
             response.json().then(function (data) {
 
                 self._selectEntry(closestA.closest('li.entry'))
@@ -265,11 +274,12 @@ export default class extends Controller {
 
         let newName = closestA.firstChild.value;
         if (event.key == "Enter") {
-            fetch(closestA.getAttribute('tree-view-rename-url'), {
+            fetch(closestA.getAttribute('data-tree-view-rename-url'), {
                 method: 'PUT',
                 headers: {
                     'Accept': 'application/json, text/javascript',
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'X-CSRF-Token': document.querySelector('meta[name=csrf-token]').content
                 },
                 body: JSON.stringify({
                     to: newName,
@@ -308,7 +318,8 @@ export default class extends Controller {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json, text/javascript',
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'X-CSRF-Token': document.querySelector('meta[name=csrf-token]').content
                 },
                 body: JSON.stringify({
                     parent: parent,
