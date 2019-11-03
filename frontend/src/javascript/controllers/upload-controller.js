@@ -43,7 +43,7 @@ export default class extends Controller {
         body: formData
       }).then((response) => {
         response.json().then(function (data) {
-          let node = document.querySelector(self.data.get('replace-content-selector'));
+          let node = document.querySelector(data.selector);
           if (node) {
             node.innerHTML = data.html;
           }

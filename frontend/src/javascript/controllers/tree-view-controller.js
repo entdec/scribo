@@ -253,7 +253,6 @@ export default class extends Controller {
                 'Accept': 'application/json, text/javascript'
             }
         }).then((response) => {
-            console.log(response);
             response.json().then(function (data) {
 
                 self._selectEntry(closestA.closest('li.entry'))

@@ -51,16 +51,14 @@ module Scribo
       end
 
       def upload
+        @parent = @site.contents.find(params[:content][:parent_id]) if params[:content][:parent_id]
+
         params[:content][:files]&.each do |extra_file|
-          c = @site.contents.new(kind: Scribo::Utility.kind_for_content_type(extra_file.content_type))
-          c.path = extra_file.original_filename
-          c.data = extra_file.read
-          c.parent_id = params[:content][:parent_id]
-          c.save!
+          @site.contents.create(kind: Scribo::Utility.kind_for_content_type(extra_file.content_type),
+                                path: extra_file.original_filename, data: extra_file.read, parent: @parent)
         end
-        # TODO: Only partial rerender the tree
-        @contents      = @site.contents.roots.reorder(:path)
-        render json: { html: render_to_string('scribo/shared/_tree-view', layout: false, locals: { site: @site }) }
+
+        @contents = @site.contents.roots.reorder(:path) unless @parent
       end
 
       private
