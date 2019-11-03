@@ -23,8 +23,7 @@ module Scribo
 
       def destroy
         @content.destroy
-        # @content = @site.contents.pages.first
-        render json: { html: '' }
+        head 200
       end
 
       def move
@@ -49,14 +48,6 @@ module Scribo
           parent = @site.contents.find(params[:parent])
           @content.move_to_child_with_index(parent, 0)
         end
-
-        render json: {
-          content: {
-            id: @content.id, kind: @content.kind, path: @content.path, full_path: @content.full_path, url: admin_site_content_path(@site, @content)
-          },
-          html: render_to_string('scribo/admin/sites/contents/_form', layout: false, formats: [:html]),
-          itemHtml: render_to_string('scribo/shared/_entry', layout: false, locals: { content: @content })
-        }
       end
 
       def upload
