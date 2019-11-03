@@ -1,9 +1,8 @@
-import { Controller } from "stimulus"
-import "./tree-view.scss";
-import "element-closest";
+import { Controller } from 'stimulus'
+import './tree-view.scss'
+import 'element-closest'
 
-import Sortable from 'sortablejs';
-import { runInNewContext } from "vm";
+import Sortable from 'sortablejs'
 
 /***
  * Treeview controller
@@ -11,379 +10,370 @@ import { runInNewContext } from "vm";
  * Manages the tree view
  */
 export default class extends Controller {
-    static targets = ["folderTemplate", "entryTemplate", "openEditorTemplate"];
+  static targets = ['folderTemplate', 'entryTemplate', 'openEditorTemplate'];
 
-    connect() {
-        const self = this;
+  connect() {
+    const self = this
 
-        self.element.querySelectorAll('li.directory').forEach(el => {
-            el.addEventListener('click', event => {
-                event.stopPropagation();
-                if (event.target.closest('li.entry').classList.contains('directory')) {
-                    el.classList.toggle('open');
-                    el.classList.toggle('closed');
-                }
-            });
-        });
-
-        self.element.querySelectorAll('ul').forEach(el => {
-            new Sortable(el, {
-                group: 'nested',
-                animation: 150,
-                fallbackOnBody: true,
-                swapThreshold: 0.65,
-                onEnd: (evt) => {
-                    let contentId = evt.item.getAttribute('data-content');
-                    let parentId = evt.to.getAttribute('data-parent');
-                    fetch(self.data.get('update-url'), {
-                        method: 'PUT',
-                        headers: {
-                            'Accept': 'application/json, text/javascript',
-                            'Content-Type': 'application/json',
-                            'X-CSRF-Token': document.querySelector('meta[name=csrf-token]').content
-                        },
-                        body: JSON.stringify({
-                            id: contentId,
-                            to: parentId,
-                            index: evt.newIndex
-                        })
-                    }).then((response) => {
-                    });
-                },
-                onMove: function (evt) {
-                    let parentId = evt.to.getAttribute('data-parent');
-                    if (parentId) {
-                        let file = document.querySelector('[data-content="' + parentId + '"]').classList.contains('file');
-                        if (file) {
-                            evt.preventDefault();
-                            return false;
-                        }
-                    }
-                }
-            });
-        });
-
-    }
-
-    // Collapse all folders
-    collapseAll(event) {
-        const self = this;
-        self.element.querySelectorAll('li.directory').forEach(el => {
-            el.classList.remove('open');
-            el.classList.add('closed');
-        });
-    }
-
-    // Create content
-    create(event) {
-        let kind = event.target.closest('[data-action]').getAttribute('data-kind');
-        let url = event.target.closest('[data-action]').getAttribute('data-url');
-
-        let template = 'entryTemplateTarget'
-        if (kind == 'folder') {
-            template = 'folderTemplateTarget'
-        }
-
-        let newContentNode = document.importNode(this[template].content, true);
-
-        let closestDirectory = event.target.closest('li.directory');
-        let newContentContainer = event.target.closest('.section').querySelector('ul');
-        if (closestDirectory) {
-            newContentContainer = closestDirectory.querySelector('ul')
-        }
-        newContentContainer.prepend(newContentNode);
-
-        let input = newContentContainer.querySelector('input')
-        input.setAttribute('data-kind', kind)
-        input.setAttribute('data-url', url)
-        input.focus()
-        input.setSelectionRange(0, input.value.length);
-
-        input.addEventListener('keyup', function (event) {
-            this._createContent(event, newContentContainer);
-        }.bind(this));
-        input.addEventListener('blur', function (event) {
-            this._cancelCreate(event, newContentContainer);
-        }.bind(this));
-
-        event.stopPropagation();
-    }
-
-    // Save content
-    save(event) {
-        const self = this;
-        let parentContent = event.target.closest('li')
-        let contentId = parentContent.getAttribute('data-content');
-
-        let form = document.querySelector('form#edit_content_' + contentId)
-
-        let formData = new FormData();
-        formData.append('_method', 'PATCH');
-        if (form.querySelector('textarea[name="content[properties]"]')) {
-            formData.append('content[properties]', this._editorControllerForElement(form.querySelector('textarea[name="content[properties]"]')).editor.getValue());
-        }
-        if (form.querySelector('textarea[name="content[data_with_frontmatter]"]')) {
-            formData.append('content[data_with_frontmatter]', this._editorControllerForElement(form.querySelector('textarea[name="content[data_with_frontmatter]"]')).editor.getValue());
-        }
-        fetch(parentContent.getAttribute('data-url'), {
-            method: 'POST',
-            // headers: {
-            //     'Accept': 'application/json, text/javascript',
-            //     'Content-Type': 'multipart/form-data' // application/x-www-form-urlencoded
-            // },
-            headers: {
-                'Accept': 'application/json, text/javascript',
-                'X-CSRF-Token': form.querySelector('input[name="authenticity_token"]').value
-            },
-            body: formData
-        }).then((response) => {
-            if (response.status == 200) {
-                response.json().then(function (data) {
-                    document.querySelector('.editor-pane').innerHTML = data.html;
-                });
-            }
-        });
-
-        event.stopPropagation();
-    }
-
-    // Delete content
-    delete(event) {
-        const self = this;
-
-        event.stopPropagation();
-        event.cancelBubble = true;
-
-        let elm = event.target.closest('[data-action]')
-
-        let result = true;
-        if (elm.getAttribute('data-confirm')) {
-            result = confirm(elm.getAttribute('data-confirm'))
-        }
-        if (!result) {
-            return;
-        }
-
-        let formData = new FormData();
-        formData.append('_method', 'DELETE');
-        fetch(elm.getAttribute('data-url'), {
-            method: 'POST',
-            headers: {
-                'X-CSRF-Token': document.querySelector('meta[name=csrf-token]').content
-            },
-            body: formData
-        }).then((response) => {
-            if (response.status == 200) {
-                let node = elm.closest("li");
-                if (node.parentNode) {
-                    self._closeOpenEditor(node.getAttribute('data-content'));
-                    node.parentNode.removeChild(node);
-                }
-            }
-        });
-    }
-
-    // Opens content in the editor pane
-    open(event) {
-        const self = this;
-        let closestA = event.target.closest('a');
-
-        // Is a rename currently happening? If so abort
-        if (closestA.querySelector('input')) {
-            return;
-        }
-        this.clicked = event;
-        setTimeout(this._open.bind(this, event), 500)
+    self.element.querySelectorAll('li.directory').forEach(el => {
+      el.addEventListener('click', event => {
         event.stopPropagation()
-        event.preventDefault()
-        return false
-    }
-
-    // Rename content
-    rename(event) {
-        const self = this;
-        this.clicked = null;
-        let closestA = event.target.closest('a');
-
-        // Is a rename currently happening? If so abort
-        if (closestA.querySelector('input')) {
-            return;
+        if (event.target.closest('li.entry').classList.contains('directory')) {
+          el.classList.toggle('open')
+          el.classList.toggle('closed')
         }
+      })
+    })
 
-        let input = document.createElement('input')
-        let nameSpan = closestA.firstChild;
-        input.type = 'text'
-        input.value = nameSpan.innerText
-
-        input.addEventListener('keyup', this._renameContent.bind(this));
-        input.addEventListener('blur', this._cancelRename.bind(this));
-
-        closestA.querySelector('.tools').style.display = 'none'
-        nameSpan.innerText = ''
-        nameSpan.appendChild(input)
-
-        input.focus()
-        input.setSelectionRange(0, input.value.length);
-
-        event.stopPropagation()
-        event.preventDefault()
-        return false
-    }
-
-    disconnect() {
-    }
-
-    // Private
-
-    _editorControllerForElement(elm) {
-        return this.application.getControllerForElementAndIdentifier(elm, "editor");
-    }
-
-    _open(event) {
-        const self = this;
-
-        if (this.clicked == null) {
-            return;
-        }
-        // let event = this.clicked;
-        this.clicked = null;
-        event.stopPropagation();
-        let closestA = event.target.closest('a');
-
-        fetch(closestA.getAttribute('data-tree-view-url'), {
-            method: 'GET',
+    self.element.querySelectorAll('ul').forEach(el => {
+      new Sortable(el, {
+        group: 'nested',
+        animation: 150,
+        fallbackOnBody: true,
+        swapThreshold: 0.65,
+        onEnd: (evt) => {
+          const contentId = evt.item.getAttribute('data-content')
+          const parentId = evt.to.getAttribute('data-parent')
+          fetch(self.data.get('update-url'), {
+            method: 'PUT',
             headers: {
-                'Accept': 'application/json, text/javascript'
+              Accept: 'application/json, text/javascript',
+              'Content-Type': 'application/json',
+              'X-CSRF-Token': document.querySelector('meta[name=csrf-token]').content
+            },
+            body: JSON.stringify({
+              id: contentId,
+              to: parentId,
+              index: evt.newIndex
+            })
+          }).then((response) => {
+          })
+        },
+        onMove: function (evt) {
+          const parentId = evt.to.getAttribute('data-parent')
+          if (parentId) {
+            const file = document.querySelector('[data-content="' + parentId + '"]').classList.contains('file')
+            if (file) {
+              evt.preventDefault()
+              return false
             }
-        }).then((response) => {
-            response.json().then(function (data) {
-
-                self._selectEntry(closestA.closest('li.entry'))
-                self._setOpenEditor(data.content)
-                document.querySelector('.editor-pane').innerHTML = data.html;
-            });
-        });
-
-    }
-
-    _renameContent(event) {
-        const self = this;
-        let closestA = event.target.closest('a');
-
-        let input = closestA.querySelector('input')
-        let nameSpan = closestA.querySelector('span.name')
-        nameSpan.setAttribute('data-path', input.value)
-
-        let newName = closestA.firstChild.value;
-        if (event.key == "Enter") {
-            fetch(closestA.getAttribute('data-tree-view-rename-url'), {
-                method: 'PUT',
-                headers: {
-                    'Accept': 'application/json, text/javascript',
-                    'Content-Type': 'application/json',
-                    'X-CSRF-Token': document.querySelector('meta[name=csrf-token]').content
-                },
-                body: JSON.stringify({
-                    to: newName,
-                })
-            }).then((response) => {
-                self._cancelRename(event)
-            });
-        } else if (event.key == 'Escape') {
-            self._cancelRename(event)
+          }
         }
+      })
+    })
+  }
+
+  // Collapse all folders
+  collapseAll(event) {
+    const self = this
+    self.element.querySelectorAll('li.directory').forEach(el => {
+      el.classList.remove('open')
+      el.classList.add('closed')
+    })
+  }
+
+  // Create content
+  create(event) {
+    const kind = event.target.closest('[data-action]').getAttribute('data-kind')
+    const url = event.target.closest('[data-action]').getAttribute('data-url')
+
+    let template = 'entryTemplateTarget'
+    if (kind == 'folder') {
+      template = 'folderTemplateTarget'
     }
 
-    _cancelRename(event) {
-        const self = this;
-        let closestA = event.target.closest('a');
-        let nameSpan = closestA.firstChild;
-        let input = nameSpan.querySelector('input')
-        closestA.querySelector('.tools').style.display = ''
+    const newContentNode = document.importNode(this[template].content, true)
 
-        let name = input.value;
-        nameSpan.removeChild(input)
-        nameSpan.innerText = name
+    const closestDirectory = event.target.closest('li.directory')
+    let newContentContainer = event.target.closest('.section').querySelector('ul')
+    if (closestDirectory) {
+      newContentContainer = closestDirectory.querySelector('ul')
+    }
+    newContentContainer.prepend(newContentNode)
+
+    const input = newContentContainer.querySelector('input')
+    input.setAttribute('data-kind', kind)
+    input.setAttribute('data-url', url)
+    input.focus()
+    input.setSelectionRange(0, input.value.length)
+
+    input.addEventListener('keyup', function (event) {
+      this._createContent(event, newContentContainer)
+    }.bind(this))
+    input.addEventListener('blur', function (event) {
+      this._cancelCreate(event, newContentContainer)
+    }.bind(this))
+
+    event.stopPropagation()
+  }
+
+  // Save content
+  save(event) {
+    const self = this
+    const parentContent = event.target.closest('li')
+    const contentId = parentContent.getAttribute('data-content')
+
+    const form = document.querySelector('form#edit_content_' + contentId)
+
+    const formData = new FormData()
+    formData.append('_method', 'PATCH')
+    if (form.querySelector('textarea[name="content[properties]"]')) {
+      formData.append('content[properties]', this._editorControllerForElement(form.querySelector('textarea[name="content[properties]"]')).editor.getValue())
+    }
+    if (form.querySelector('textarea[name="content[data_with_frontmatter]"]')) {
+      formData.append('content[data_with_frontmatter]', this._editorControllerForElement(form.querySelector('textarea[name="content[data_with_frontmatter]"]')).editor.getValue())
+    }
+    fetch(parentContent.getAttribute('data-url'), {
+      method: 'POST',
+      // headers: {
+      //     'Accept': 'application/json, text/javascript',
+      //     'Content-Type': 'multipart/form-data' // application/x-www-form-urlencoded
+      // },
+      headers: {
+        Accept: 'application/json, text/javascript',
+        'X-CSRF-Token': form.querySelector('input[name="authenticity_token"]').value
+      },
+      body: formData
+    }).then((response) => {
+      if (response.status == 200) {
+        response.json().then(function (data) {
+          document.querySelector('.editor-pane').innerHTML = data.html
+        })
+      }
+    })
+
+    event.stopPropagation()
+  }
+
+  // Delete content
+  delete(event) {
+    const self = this
+
+    event.stopPropagation()
+    event.cancelBubble = true
+
+    const elm = event.target.closest('[data-action]')
+
+    let result = true
+    if (elm.getAttribute('data-confirm')) {
+      result = confirm(elm.getAttribute('data-confirm'))
+    }
+    if (!result) {
+      return
     }
 
-    _createContent(event, newContentContainer) {
-        const self = this;
+    const formData = new FormData()
+    formData.append('_method', 'DELETE')
+    fetch(elm.getAttribute('data-url'), {
+      method: 'POST',
+      headers: {
+        'X-CSRF-Token': document.querySelector('meta[name=csrf-token]').content
+      },
+      body: formData
+    }).then((response) => {
+      if (response.status == 200) {
+        const node = elm.closest('li')
+        if (node.parentNode) {
+          self._closeOpenEditor(node.getAttribute('data-content'))
+          node.parentNode.removeChild(node)
+        }
+      }
+    })
+  }
 
-        let input = newContentContainer.querySelector('input')
-        let nameSpan = newContentContainer.querySelector('span.name')
-        nameSpan.setAttribute('data-path', input.value)
+  // Opens content in the editor pane
+  open(event) {
+    const self = this
+    const closestA = event.target.closest('a')
 
-        if (event.key == "Enter") {
-            let parent = newContentContainer.getAttribute('data-parent')
+    // Is a rename currently happening? If so abort
+    if (closestA.querySelector('input')) {
+      return
+    }
+    this.clicked = event
+    setTimeout(this._open.bind(this, event), 500)
+    event.stopPropagation()
+    event.preventDefault()
+    return false
+  }
 
-            fetch(input.getAttribute('data-url'), {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json, text/javascript',
-                    'Content-Type': 'application/json',
-                    'X-CSRF-Token': document.querySelector('meta[name=csrf-token]').content
-                },
-                body: JSON.stringify({
-                    parent: parent,
-                    kind: input.getAttribute('data-kind'),
-                    path: input.value
-                })
-            }).then((response) => {
+  // Rename content
+  rename(event) {
+    const self = this
+    this.clicked = null
+    const closestA = event.target.closest('a')
 
-                if (response.status == 200) {
-                    response.json().then(function (data) {
-                        self._cancelCreate(event, newContentContainer)
-                        newContentContainer.insertAdjacentHTML('afterbegin', data.itemHtml)
-                        if (data.content.kind != 'folder') {
-                            document.querySelector('.editor-pane').innerHTML = data.html;
-                            self._selectEntry(newContentContainer.querySelector('li.' + (data.content.kind == 'folder' ? 'folder' : 'file')))
-                            self._setOpenEditor(data.content)
-                        }
-                    });
-                }
+    // Is a rename currently happening? If so abort
+    if (closestA.querySelector('input')) {
+      return
+    }
 
-            });
+    const input = document.createElement('input')
+    const nameSpan = closestA.firstChild
+    input.type = 'text'
+    input.value = nameSpan.innerText
 
-        } else if (event.key == 'Escape') {
+    input.addEventListener('keyup', this._renameContent.bind(this))
+    input.addEventListener('blur', this._cancelRename.bind(this))
+
+    closestA.querySelector('.tools').style.display = 'none'
+    nameSpan.innerText = ''
+    nameSpan.appendChild(input)
+
+    input.focus()
+    input.setSelectionRange(0, input.value.length)
+
+    event.stopPropagation()
+    event.preventDefault()
+    return false
+  }
+
+  disconnect() {
+  }
+
+  // Private
+
+  _editorControllerForElement(elm) {
+    return this.application.getControllerForElementAndIdentifier(elm, 'editor')
+  }
+
+  _open(event) {
+    const self = this
+
+    if (this.clicked == null) {
+      return
+    }
+    // let event = this.clicked;
+    this.clicked = null
+    event.stopPropagation()
+    const closestA = event.target.closest('a')
+
+    fetch(closestA.getAttribute('data-tree-view-url'), {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json, text/javascript'
+      }
+    }).then((response) => {
+      response.json().then(function (data) {
+        self._selectEntry(closestA.closest('li.entry'))
+        self._setOpenEditor(data.content)
+        document.querySelector('.editor-pane').innerHTML = data.html
+      })
+    })
+  }
+
+  _renameContent(event) {
+    const self = this
+    const closestA = event.target.closest('a')
+
+    const input = closestA.querySelector('input')
+    const nameSpan = closestA.querySelector('span.name')
+    nameSpan.setAttribute('data-path', input.value)
+
+    const newName = closestA.firstChild.value
+    if (event.key == 'Enter') {
+      fetch(closestA.getAttribute('data-tree-view-rename-url'), {
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json, text/javascript',
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': document.querySelector('meta[name=csrf-token]').content
+        },
+        body: JSON.stringify({
+          to: newName
+        })
+      }).then((response) => {
+        self._cancelRename(event)
+      })
+    } else if (event.key == 'Escape') {
+      self._cancelRename(event)
+    }
+  }
+
+  _cancelRename(event) {
+    const closestA = event.target.closest('a')
+    const nameSpan = closestA.firstChild
+    const input = nameSpan.querySelector('input')
+    closestA.querySelector('.tools').style.display = ''
+
+    const name = input.value
+    nameSpan.removeChild(input)
+    nameSpan.innerText = name
+  }
+
+  _createContent(event, newContentContainer) {
+    const self = this
+
+    const input = newContentContainer.querySelector('input')
+    const nameSpan = newContentContainer.querySelector('span.name')
+    nameSpan.setAttribute('data-path', input.value)
+
+    if (event.key == 'Enter') {
+      const parent = newContentContainer.getAttribute('data-parent')
+
+      fetch(input.getAttribute('data-url'), {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json, text/javascript',
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': document.querySelector('meta[name=csrf-token]').content
+        },
+        body: JSON.stringify({
+          parent: parent,
+          kind: input.getAttribute('data-kind'),
+          path: input.value
+        })
+      }).then((response) => {
+        if (response.status == 200) {
+          response.json().then(function (data) {
             self._cancelCreate(event, newContentContainer)
+            newContentContainer.insertAdjacentHTML('afterbegin', data.itemHtml)
+            if (data.content.kind != 'folder') {
+              document.querySelector('.editor-pane').innerHTML = data.html
+              self._selectEntry(newContentContainer.querySelector('li.' + (data.content.kind == 'folder' ? 'folder' : 'file')))
+              self._setOpenEditor(data.content)
+            }
+          })
         }
+      })
+    } else if (event.key == 'Escape') {
+      self._cancelCreate(event, newContentContainer)
+    }
+  }
 
+  _cancelCreate(event, newContentContainer) {
+    newContentContainer.removeChild(newContentContainer.firstChild)
+  }
+
+  _selectEntry(element) {
+    const treeView = document.querySelector('.tree-view')
+    const lastSelected = treeView.querySelector('li.entry.selected')
+    if (lastSelected) {
+      lastSelected.classList.remove('selected')
     }
 
-    _cancelCreate(event, newContentContainer) {
-        newContentContainer.removeChild(newContentContainer.firstChild);
+    element.classList.add('selected')
+  }
+
+  _setOpenEditor(dataContent) {
+    const self = this
+
+    const openEditors = document.querySelector('ul.openEditors')
+
+    let content = self.openEditorTemplateTarget.innerHTML
+    for (const [key, value] of Object.entries(dataContent)) {
+      content = content.replace(new RegExp('\\$\\{' + key + '\\}', 'g'), value)
     }
 
-    _selectEntry(element) {
-        let treeView = document.querySelector('.tree-view')
-        let lastSelected = treeView.querySelector('li.entry.selected');
-        if (lastSelected) {
-            lastSelected.classList.remove('selected');
-        }
+    openEditors.innerHTML = content
+  }
 
-        element.classList.add('selected');
+  _closeOpenEditor(contentId) {
+    const openEditors = document.querySelector('ul.openEditors')
+    const editorItem = openEditors.querySelector(`li[data-content="${contentId}"]`)
+    if (editorItem) {
+      openEditors.removeChild(editorItem)
+      document.querySelector('.editor-pane').innerHTML = ''
     }
-
-    _setOpenEditor(dataContent) {
-        const self = this;
-
-        let openEditors = document.querySelector('ul.openEditors')
-
-        let content = self.openEditorTemplateTarget.innerHTML;
-        for (let [key, value] of Object.entries(dataContent)) {
-            content = content.replace(new RegExp('\\$\\{' + key + '\\}', 'g'), value)
-        }
-
-        openEditors.innerHTML = content;
-    }
-
-    _closeOpenEditor(content_id) {
-        let openEditors = document.querySelector('ul.openEditors')
-        let editorItem = openEditors.querySelector(`li[data-content="${content_id}"]`)
-        if (editorItem) {
-            openEditors.removeChild(editorItem);
-            document.querySelector('.editor-pane').innerHTML = '';
-        }
-    }
+  }
 }
-

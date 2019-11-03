@@ -13,6 +13,18 @@
     "build": "webpack -p --config webpack.config.js --color",
     "watch": "webpack -w --config webpack.config.js --color"
   },
+  "standard.options": {
+    "globals": [
+      "$",
+      "jQuery",
+      "fetch"
+    ],
+    "ignore": [
+      "node_modules/**"
+    ],
+    "plugins": [],
+    "parser": "babel-eslint"
+  },
   "browserslist": "> 1%",
   "dependencies": {
     "codemirror": "^5.48.4",
@@ -25,6 +37,7 @@
     "@gitlab/svgs": "^1.68.0",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
+    "babel-eslint": "^10.0.3",
     "babel-loader": "^7.1.2",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-syntax-dynamic-import": "^6.18.0",
@@ -41,6 +54,7 @@
     "node-sass": "^4.12.0",
     "postcss-custom-properties": "^8.0.9",
     "sass-loader": "^7.3.1",
+    "standard": "^14.3.1",
     "style-loader": "^1.0.0",
     "url-loader": "^2.1.0",
     "webpack": "^4.39.2",
