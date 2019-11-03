@@ -25,6 +25,16 @@ export default class extends Controller {
       })
     })
 
+    document.addEventListener('editor.changed', (event) => {
+      const contentId = event.originalTarget.closest('form').getAttribute('id').split('_')[2]
+
+      const openEditors = document.querySelector('ul.openEditors')
+      const editorItem = openEditors.querySelector(`li[data-content="${contentId}"]`)
+      if (editorItem) {
+        editorItem.classList.add('dirty')
+      }
+    });
+
     self.element.querySelectorAll('ul').forEach(el => {
       new Sortable(el, {
         group: 'nested',
@@ -243,7 +253,14 @@ export default class extends Controller {
     if (this.clicked == null) {
       return
     }
-    // let event = this.clicked;
+
+    if (document.querySelector('ul.openEditors li.dirty')) {
+      let result = confirm("You have unsaved changes, do you want close this editor?")
+      if (!result) {
+        return
+      }
+    }
+
     this.clicked = null
     event.stopPropagation()
     const closestA = event.target.closest('a')

@@ -16,6 +16,24 @@
     padding-left: 0;
   }
 
+  ul.openEditors {
+    li {
+      font-style: italic;
+
+      [data-action="click->tree-view#save"] {
+        display: none;
+      }
+    }
+
+    li.dirty {
+      font-style: normal;
+
+      [data-action="click->tree-view#save"] {
+        display: inline;
+      }
+    }
+  }
+
   .section {
     display: block;
     padding-left: 4px;
