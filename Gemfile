@@ -19,8 +19,8 @@ gemspec
 # bundle config --delete local.liquor
 # bundle config local.liquor ../../components/liquor
 
-gem 'liquor', entdec: 'components/liquor', tag: '0.5.18'
 gem 'key_path', git: 'git@code.entropydecelerator.com:tdegrunt/key_path.git', branch: 'master'
+gem 'liquor', entdec: 'components/liquor', tag: '0.5.18'
 
 group :test do
   gem 'pry-rails'

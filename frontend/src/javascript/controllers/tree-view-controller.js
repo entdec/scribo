@@ -306,7 +306,7 @@ export default class extends Controller {
     const nameSpan = closestA.querySelector('span.name')
     nameSpan.setAttribute('data-path', input.value)
 
-    const newName = closestA.firstChild.value
+    const newName = input.value
     if (event.key == 'Enter') {
       fetch(closestA.getAttribute('data-tree-view-rename-url'), {
         method: 'PUT',
