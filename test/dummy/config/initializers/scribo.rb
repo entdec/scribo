@@ -3,7 +3,7 @@
 Scribo.setup do |config|
   config.base_controller = '::ApplicationController'
   # config.logger = Logger.new('/dev/null')
-  config.site_for_hostname = lambda do |_host_name, purpose = :site|
+  config.site_for_uri = lambda do |_host_name, purpose = :site|
     Account.find_by(name: 'One').sites.purposed(purpose).first
   end
 end
