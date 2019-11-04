@@ -32,11 +32,11 @@ module Scribo
       content ||= Scribo::Content&.published&.find(options[:path][1..-1]) if options[:path] && options[:path][1..-1].length == 36
 
       if options[:path] == '/humans.txt'
-        content = Scribo::Content.new(kind: 'text', content_type: 'text/plain', data: Scribo.config.default_humans_txt)
+        content = Scribo::Content.new(kind: 'text', path: '/humans.txt', full_path: '/humans.txt', data: Scribo.config.default_humans_txt)
       elsif options[:path] == '/robots.txt'
-        content = Scribo::Content.new(kind: 'text', content_type: 'text/plain', data: Scribo.config.default_robots_txt)
+        content = Scribo::Content.new(kind: 'text', path: '/robots.txt', full_path: '/robots.txt', data: Scribo.config.default_robots_txt)
       elsif options[:path] == '/favicon.ico'
-        content = Scribo::Content.new(kind: 'asset', content_type: 'image/x-icon', data: Base64.decode64(Scribo.config.default_favicon_ico))
+        content = Scribo::Content.new(kind: 'asset', path: '/favicon.ico', full_path: '/favicon.ico', data: Base64.decode64(Scribo.config.default_favicon_ico))
       end
 
       # FIXME: Find a better way for this

@@ -20,8 +20,8 @@ module Scribo
     def self.for_path(path)
       return none if path.blank?
 
-      paths = path.split('/').map.with_index { |_part, i| path.split('/')[0..i].join('/') }
-      paths = ['/'] if paths.empty?
+      paths = path.split('/').map.with_index { |_part, i| path.split('/')[0..i].join('/') }.reject(&:empty?)
+      paths <<= '/'
 
       where("properties->>'baseurl' IN (?) OR properties->>'baseurl' IS NULL", paths).order(Arel.sql("COALESCE(LENGTH(scribo_sites.properties->>'baseurl'), 0) DESC"))
     end
