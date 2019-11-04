@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_12_152526) do
+ActiveRecord::Schema.define(version: 2019_11_04_162054) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,17 +27,17 @@ ActiveRecord::Schema.define(version: 2019_10_12_152526) do
     t.string "kind", default: "text"
     t.string "path"
     t.binary "data"
-    t.jsonb "properties"
+    t.jsonb "properties", default: {}
     t.uuid "parent_id"
     t.datetime "published_at", default: -> { "timezone('UTC'::text, CURRENT_TIMESTAMP)" }
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "position"
+    t.integer "lft"
+    t.integer "rgt"
     t.integer "depth"
     t.integer "children_count"
     t.string "full_path"
-    t.integer "rgt"
-    t.integer "lft"
     t.index ["parent_id"], name: "index_scribo_contents_on_parent_id"
     t.index ["scribo_site_id", "full_path"], name: "index_scribo_contents_full_path", unique: true
     t.index ["scribo_site_id", "path"], name: "index_scribo_contents_path"
