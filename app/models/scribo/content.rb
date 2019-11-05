@@ -31,19 +31,16 @@ module Scribo
     scope :restricted, -> { where("full_path NOT LIKE '/\\_%'") }
     scope :in_folder, ->(folder_name) { where("full_path LIKE '/#{folder_name}/%'") }
 
-    def self.located(*paths, restricted: true)
+    def self.located(path, restricted: true)
       restricted = true if restricted.nil? # If blank it's still restricted
-      return none if paths.blank?
 
-      paths = paths.map do |path|
-        path = '/' + path unless path.start_with?('/')
-        path = '/index.html' if path == '/'
+      path = '/' + path unless path.start_with?('/')
+      path = '/index.html' if path == '/'
 
-        result = File.extname(path).present? ? Scribo::Utility.variations_for_path(path) : [path]
-        result.unshift(Scribo::Utility.switch_extension(path, 'link'))
-        result.unshift(Scribo::Utility.switch_extension(path, 'html'))
-        result
-      end.flatten
+      path = Scribo::Utility.switch_extension(path, 'html') unless File.extname(path).present?
+      paths = Scribo::Utility.variations_for_path(path)
+      paths.unshift(Scribo::Utility.switch_extension(path, 'link'))
+      paths
 
       result = published.where(full_path: paths)
       result = result.restricted if restricted
@@ -56,7 +53,7 @@ module Scribo
       where("to_tsvector(scribo_contents.data || ' ' || COALESCE(scribo_contents.properties::text, '')) @@ to_tsquery(?)", search_string)
     end
 
-    # FIXME: Layout should be  'default' if layout is not present, but when?
+    # FIXME: Layout should be 'default' if layout is not present, but when?
     def layout_name
       properties&.key?('layout') ? properties&.[]('layout') : ''
     end
