@@ -40,9 +40,7 @@ module Scribo
     def filter
       return options[:filter] if options.key?(:filter)
 
-      if Scribo::Content.columns.map(&:name).include?('filter') && content.filter
-        content.filter
-      elsif content.properties&.key?('filter')
+      if content.properties.key?('filter')
         content.properties['filter']
       elsif content.path
         Scribo::Utility.filter_for_path(content.path)
