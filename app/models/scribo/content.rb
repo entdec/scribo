@@ -84,7 +84,8 @@ module Scribo
       return asset.attachment&.download || data if kind != 'text'
 
       result = ''
-      result += (YAML.dump(properties) + "---\n") if properties.present?
+      # User attributes['properties'] here, to always use content-local properties
+      result += (YAML.dump(attributes['properties']) + "---\n") if attributes['properties'].present?
 
       result + data.to_s
     end
@@ -99,8 +100,9 @@ module Scribo
       end
     end
 
+    # Used for merging
     def properties
-
+      attributes['properties']
     end
 
     def properties=(text)
