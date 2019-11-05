@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_05_073053) do
+ActiveRecord::Schema.define(version: 2019_11_05_091503) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,7 +29,6 @@ ActiveRecord::Schema.define(version: 2019_11_05_073053) do
     t.text "data"
     t.jsonb "properties", default: {}
     t.uuid "parent_id"
-    t.datetime "published_at", default: -> { "timezone('UTC'::text, CURRENT_TIMESTAMP)" }
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "position"

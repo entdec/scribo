@@ -53,7 +53,7 @@ module Scribo
     end
 
     def self.search(search_string)
-      where("to_tsvector(scribo_contents.data || ' ' || scribo_contents.properties::text) @@ to_tsquery(?)", search_string)
+      where("to_tsvector(scribo_contents.data || ' ' || COALESCE(scribo_contents.properties::text, '')) @@ to_tsquery(?)", search_string)
     end
 
     # FIXME: Layout should be  'default' if layout is not present, but when?

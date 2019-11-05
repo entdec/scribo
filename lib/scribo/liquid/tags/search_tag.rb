@@ -13,13 +13,13 @@ class SearchTag < LiquorBlock
     super
 
     current_content = context.registers['content']
-    request = context.registers['request']
+    request = context.registers['controller'].request
 
     contents = current_content.site.contents.published.search(request.params[argv1])
 
     result = ''
     context.stack do
-      context['results'] = contents.map { |content| ContentDrop.new(content) }
+      context['results'] = contents.map { |content| Scribo::ContentDrop.new(content) }
       result += render_body
     end
     result
