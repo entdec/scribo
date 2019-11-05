@@ -16,7 +16,10 @@ module Scribo
           import_path += path
           import_path += File.extname(content.path)
           import_path = File.expand_path(import_path, content.site.sass_dir)
-          import_path = content.site.sass_dir + import_path unless import_path.start_with?(content.site.sass_dir)
+          unless import_path.start_with?(content.site.sass_dir)
+            # import_path always starts with /
+            import_path = content.site.sass_dir + import_path[1..-1]
+          end
         end
 
         include_content = content.site.contents.located(import_path, restricted: false)
@@ -44,7 +47,7 @@ module Scribo
 
         end
 
-        puts "No import found: #{import_path}" unless include_content.first
+        Scribo.config.warn "SassC::Importer: No import found: #{import_path}" unless include_content.first
         # FIXME: Add context
         # Here we don't use a filter
         source = ContentRenderService.new(include_content.first, {}, filter: nil).call || ''
