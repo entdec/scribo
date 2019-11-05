@@ -65,6 +65,13 @@ module Scribo
       attributes['properties'].present? ? attributes['properties'] : { 'title' => NEW_SITE_NAME, 'baseurl' => '/' }
     end
 
+    def sass_dir
+      result = properties.value_at_keypath('sass.sass_dir') || '/_sass/'
+      result = '/' + result unless result.start_with?('/')
+
+      result
+    end
+
     #
     # Calculates the total size of the site in bytes, including assets
     #

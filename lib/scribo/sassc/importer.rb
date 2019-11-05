@@ -10,10 +10,13 @@ module Scribo
         if path.start_with?('/')
           import_path += path
         else
-          import_path += content.site.properties.value_at_keypath('sass.sass_dir') || '_sass'
+          import_path += content.site.sass_dir
           import_path += '/' unless import_path.end_with?('/')
+
           import_path += path
           import_path += File.extname(content.path)
+          import_path = File.expand_path(import_path, content.site.sass_dir)
+          import_path = content.site.sass_dir + import_path unless import_path.start_with?(content.site.sass_dir)
         end
 
         include_content = content.site.contents.located(import_path, restricted: false)
