@@ -28,7 +28,7 @@ module Scribo
     scope :data, ->(name) { published.where(full_path: %W[/_data/#{name}.yml /_data/#{name}.yaml /_data/#{name}.json /_data/#{name}.csv /_data/#{name}]) }
     scope :locale, ->(name) { published.where(full_path: "/_locales/#{name}.yml") }
     scope :published, -> { where("properties->>'published' = 'true' OR properties->>'published' IS NULL").where("properties->>'published_at' IS NULL OR properties->>'published_at' <= :now", now: Time.current.utc) }
-    scope :restricted, -> { where("full_path NOT LIKE '%/\\_%'") }
+    scope :restricted, -> { where("full_path NOT LIKE '/\\_%'") }
     scope :in_folder, ->(folder_name) { where("full_path LIKE '/#{folder_name}/%'") }
 
     def self.located(*paths, restricted: true)
