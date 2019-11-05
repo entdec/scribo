@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_04_162054) do
+ActiveRecord::Schema.define(version: 2019_11_05_073053) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,7 +26,7 @@ ActiveRecord::Schema.define(version: 2019_11_04_162054) do
     t.uuid "scribo_site_id"
     t.string "kind", default: "text"
     t.string "path"
-    t.binary "data"
+    t.text "data"
     t.jsonb "properties", default: {}
     t.uuid "parent_id"
     t.datetime "published_at", default: -> { "timezone('UTC'::text, CURRENT_TIMESTAMP)" }
@@ -49,7 +49,6 @@ ActiveRecord::Schema.define(version: 2019_11_04_162054) do
     t.uuid "scribable_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "purpose", default: "site"
     t.jsonb "properties", default: {}, null: false
     t.index ["scribable_type", "scribable_id"], name: "index_scribo_sites_on_scribable_type_and_scribable_id"
   end

@@ -5,7 +5,7 @@ require_dependency 'scribo/application_record'
 module Scribo
   # Represents any content in the system
   class Content < ApplicationRecord
-    acts_as_nested_set scope: :scribo_site
+    acts_as_nested_set scope: :scribo_site, counter_cache: :children_count
 
     belongs_to :site, class_name: 'Site', foreign_key: 'scribo_site_id'
     has_one_attached :asset
@@ -24,8 +24,8 @@ module Scribo
     # html files should be non-filtered html files
     scope :html_files, -> { where("full_path LIKE '%.html'") }
     scope :include, ->(name) { published.where(full_path: ["/_includes/#{name}"]) }
-    scope :layout, ->(name) { published.where(full_path: ["/_layouts/#{name}.html", "/_layouts/#{name}.md", "/_layouts/#{name}.xml", "/_layouts/#{name}.css"]) }
-    scope :data, ->(name) { published.where(full_path: ["/_data/#{name}.yml", "/_data/#{name}.yaml", "/_data/#{name}.json", "/_data/#{name}.csv", "/_data/#{name}"]) }
+    scope :layout, ->(name) { published.where(full_path: %W[/_layouts/#{name}.html /_layouts/#{name}.md /_layouts/#{name}.xml /_layouts/#{name}.css]) }
+    scope :data, ->(name) { published.where(full_path: %W[/_data/#{name}.yml /_data/#{name}.yaml /_data/#{name}.json /_data/#{name}.csv /_data/#{name}]) }
     scope :locale, ->(name) { published.where(full_path: "/_locales/#{name}.yml") }
     scope :published, -> { where("properties->>'published' = 'true' OR properties->>'published' IS NULL").where("properties->>'published_at' IS NULL OR properties->>'published_at' <= :now", now: Time.current.utc) }
     scope :restricted, -> { where("full_path NOT LIKE '%/\\_%'") }
@@ -50,6 +50,10 @@ module Scribo
       result = result.or(published.where("properties->>'permalink' IN (?)", paths))
 
       result
+    end
+
+    def self.search(search_string)
+      where("to_tsvector(scribo_contents.data || ' ' || scribo_contents.properties::text) @@ to_tsquery(?)", search_string)
     end
 
     # FIXME: Layout should be  'default' if layout is not present, but when?
