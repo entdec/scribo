@@ -19,6 +19,18 @@ module Scribo
       if options[:path]
         path = options[:path]
         path = path[site.baseurl.length..-1] if path.start_with?(site.baseurl)
+
+        # Deal with collections
+        path_parts = path.split('/')
+        first_path_part = path_parts[0]
+
+        if site.collections.include?(first_path_part)
+          path_parts[0] = '_' + path_parts[0]
+          options[:restricted] = false
+          path = path_parts.join('/')
+        end
+        # End - Deal with collections
+
         scope = scope.located(path, restricted: options[:restricted])
       end
       content = if options[:root]
