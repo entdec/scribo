@@ -25,3 +25,5 @@ class SearchTag < LiquorBlock
     result
   end
 end
+
+Liquid::Template.register_tag('search', SearchTag)
