@@ -40,7 +40,6 @@ module Scribo
       path = Scribo::Utility.switch_extension(path, 'html') unless File.extname(path).present?
       paths = Scribo::Utility.variations_for_path(path)
       paths.unshift(Scribo::Utility.switch_extension(path, 'link'))
-      paths
 
       result = published.where(full_path: paths)
       result = result.restricted if restricted
@@ -98,6 +97,10 @@ module Scribo
       else
         self.data = text
       end
+    end
+
+    def properties
+
     end
 
     def properties=(text)

@@ -19,7 +19,7 @@
 # form.class_name:: class name of the model specified (original name, not the drop)
 # form.errors:: errors of the exposed object
 #
-require_relative '../drops/form_drop'
+# require_relative '../drops/form_drop'
 
 class FormTag < LiquorBlock
   def render(context)
@@ -46,7 +46,7 @@ class FormTag < LiquorBlock
     end
 
     context.stack do
-      context['form'] = FormDrop.new(argv1)
+      context['form'] = Scribo::FormDrop.new(argv1)
       result          += render_body
     end
     result += %[</form>]
