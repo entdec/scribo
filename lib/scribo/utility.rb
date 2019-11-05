@@ -42,7 +42,7 @@ module Scribo
         'markdown'
       when 'slim'
         'slim'
-      when 'es6', 'babel', 'jsx', 'js'
+      when 'es6', 'babel', 'jsx'
         'babel'
       end
     end
