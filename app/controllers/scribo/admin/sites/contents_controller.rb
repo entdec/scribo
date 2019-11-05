@@ -31,7 +31,7 @@ module Scribo
           new_parent = @site.contents.find(params[:to])
           @content.move_to_child_with_index(new_parent, params[:index])
         else
-          @content.move_to_left_of(@contents[params[:index]])
+          @content.update(parent_id: nil)
         end
 
         head 200
