@@ -51,7 +51,7 @@ module Scribo
       {
         path: content.full_path,
         kind: content.kind,
-        properties: content.properties&.reject { |_k, value| value.empty? },
+        properties: content.properties&.reject { |_k, value| !value.present? },
         lft: content.lft,
         rgt: content.rgt,
         depth: content.depth,
