@@ -26,7 +26,10 @@ module Scribo
     scope :include, ->(name) { published.where(full_path: ["/_includes/#{name}"]) }
     scope :layout, ->(name) { published.where(full_path: %W[/_layouts/#{name}.html /_layouts/#{name}.md /_layouts/#{name}.xml /_layouts/#{name}.css]) }
     scope :data, ->(name) { published.where(full_path: %W[/_data/#{name}.yml /_data/#{name}.yaml /_data/#{name}.json /_data/#{name}.csv /_data/#{name}]) }
+
     scope :locale, ->(name) { published.where(full_path: "/_locales/#{name}.yml") }
+    scope :locales, -> { published.in_folder('_locales') }
+
     scope :published, -> { where("properties->>'published' = 'true' OR properties->>'published' IS NULL").where("properties->>'published_at' IS NULL OR properties->>'published_at' <= :now", now: Time.current.utc) }
     scope :restricted, -> { where("full_path NOT LIKE '/\\_%'") }
     scope :in_folder, ->(folder_name) { where("full_path LIKE '/#{folder_name}/%'") }
@@ -180,11 +183,8 @@ module Scribo
     end
 
     def translation_scope
-      scope = []
-
-      p = full_path.tr('/', '.')[1..-1]
-      scope << (p.present? ? p : 'index')
-
+      scope = File.dirname(full_path).split('/')
+      scope << File.basename(full_path, File.extname(full_path))
       scope.join('.')
     end
 

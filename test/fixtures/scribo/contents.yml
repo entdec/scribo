@@ -88,3 +88,29 @@ collection_jane:
   depth: 0
   lft: 2
   rgt: 3
+
+locales_folder:
+  site: translate_site
+  kind: folder
+  path: _locales
+  full_path: /_locales
+  depth: 0
+  lft: 1
+  rgt: 2
+
+locale_en:
+  site: translate_site
+  parent: locales_folder
+  kind: text
+  data: |
+    en:
+      test: 'Test on root of locale'
+      index:
+        test: 'Test'
+      some:
+        key:
+          title: Title here
+  path: en.yml
+  full_path: /_locales/en.yml
+  lft: 2
+  rgt: 3

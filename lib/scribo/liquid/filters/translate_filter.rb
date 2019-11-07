@@ -16,14 +16,26 @@ module TranslateFilter
   #
 
   def translate(input, options = {})
-    scope = Liquor.config.translation_scope(@context).split('.')
-    locale = options.delete('locale')
+    content = @context.registers['content']
+    return unless content
 
-    begin
-      result = I18n.translate(input, options, locale: locale, scope: scope.join('.'), site: @context.registers['content']&.site)
-      return result if !(result.nil? || result.include?('translation missing:'))
-      scope.pop
-    end while !scope.empty?
+    result = nil
+
+    Scribo.i18n_store.with(content) do
+      locale = options.delete('locale')
+
+      key = input
+      scope = nil
+
+      if key.start_with?('.')
+        key = input[1..-1]
+        scope = content.translation_scope
+      end
+
+      result = I18n.t(key, options, locale: locale, scope: scope, cascade: { skip_root: false })
+    end
+
+    result
   end
   alias_method :t, :translate
 end

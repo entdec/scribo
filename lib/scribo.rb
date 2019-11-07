@@ -15,7 +15,7 @@ require 'scribo/action_view_helpers'
 require 'scribo/action_controller_renderers'
 require 'scribo/configuration'
 require 'scribo/engine'
-require 'scribo/i18n_backend'
+require 'scribo/i18n_store'
 require 'scribo/liquid/parser'
 require 'scribo/preamble'
 require 'scribo/sassc/importer'
@@ -32,6 +32,10 @@ module Scribo
     def setup
       @config = Configuration.new
       yield config
+    end
+
+    def i18n_store
+      @i18n_store ||= Scribo::I18nStore.new
     end
   end
 
