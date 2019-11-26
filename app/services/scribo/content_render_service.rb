@@ -13,10 +13,9 @@ module Scribo
     end
 
     def perform
-      case content.kind
-      when 'asset'
+      if content.kind == 'asset'
         render_asset
-      when 'text'
+      else
         render_liquor(options[:data] || content.data, options[:layout] == false ? nil : content.layout)
       end
     end
