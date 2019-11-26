@@ -17,10 +17,10 @@ module Scribo
       errors = if @model&.instance_variable_get('@object')
                  @model.instance_variable_get('@object').errors
                else
-                 ActiveModel::Errors.new([])
+                 ::ActiveModel::Errors.new([])
                end
 
-      ActiveModel::ErrorsDrop.new errors
+      ::Scribo::ActiveModel::ErrorsDrop.new errors
     end
   end
 end
