@@ -64,6 +64,14 @@ module Scribo
       @properties['url']
     end
 
+    def current_locale
+      I18n.locale.to_s
+    end
+
+    def locale
+      @properties['locale']
+    end
+
     def liquid_method_missing(method)
       if collections.include?(method)
         @object.contents.in_folder("_#{method}").to_a
