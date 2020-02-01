@@ -63,7 +63,7 @@ module Scribo
         @assigns[i.to_s[1..-1]] = context.instance_variable_get(i)
       end
 
-      @assigns['request'] = ActionDispatch::RequestDrop.new(context.request) if context.respond_to?(:request)
+      @assigns['request'] = Scribo::ActionDispatch::RequestDrop.new(context.request) if context.respond_to?(:request)
       @assigns['site'] = content.site
       @assigns['page'] = content
 
