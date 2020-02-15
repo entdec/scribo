@@ -13,9 +13,9 @@
               div style="font-family: MyWebFont; font-size: #{i}px;"
                 | #{i} - THE QUICK BROWN FOX JUMPED OVER THE LAZY DOG. the quick brown fox jumped over the lazy dog.
 
-          textarea name='content[properties]' data-controller="editor" data-target="editor.textarea" data-editor-height='250px' data-editor-mode='application/yaml'
+          textarea name='content[properties]' data-controller="scribo-editor" data-target="scribo-editor.textarea" data-scribo-editor-height='250px' data-scribo-editor-mode='application/yaml'
             = YAML.dump(@content.properties)
 
       - else
-        textarea name='content[data_with_frontmatter]' data-controller="editor" data-target="editor.textarea" data-editor-mode="#{@content.content_type}" style="display: block; height: 100%;"
+        textarea name='content[data_with_frontmatter]' data-controller="scribo-editor" data-target="scribo-editor.textarea" data-scribo-editor-mode="#{@content.content_type}" style="display: block; height: 100%;"
           = @content.data_with_frontmatter || 'Start typing here'

@@ -25,11 +25,12 @@ export default class extends Controller {
       })
     })
 
-    document.addEventListener('editor.changed', (event) => {
+    document.addEventListener('scribo-editor.changed', (event) => {
       const contentId = event.detail.textarea.closest('form').getAttribute('id').split('_')[2]
 
       const openEditors = document.querySelector('ul.openEditors')
       const editorItem = openEditors.querySelector(`li[data-content="${contentId}"]`)
+
       if (editorItem) {
         editorItem.classList.add('dirty')
       }
