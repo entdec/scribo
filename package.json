@@ -1,6 +1,6 @@
 {
   "name": "scribo",
-  "version": "1.0.0",
+  "version": "0.3.58",
   "main": "frontend/dist/scribo.js",
   "repository": "git@code.entropydecelerator.com:components/scribo.git",
   "author": "Tom de Grunt <tom@degrunt.nl>",
@@ -22,7 +22,9 @@
     "ignore": [
       "node_modules/**"
     ],
-    "plugins": [],
+    "plugins": [
+
+    ],
     "parser": "babel-eslint"
   },
   "browserslist": "> 1%",
