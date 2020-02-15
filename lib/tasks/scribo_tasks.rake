@@ -19,7 +19,13 @@ namespace :scribo do
     load version_file
     puts "Updated version to #{Scribo::VERSION}"
 
-    `git commit lib/scribo/version.rb -m "Version #{Scribo::VERSION}"`
+    package = JSON.parse(File.read('./package.json'))
+    package['version'] = Scribo::VERSION
+    File.open('./package.json', 'w') do |file|
+      file.puts(JSON.pretty_generate(package))
+    end
+
+    `git commit package.json lib/scribo/version.rb -m "Version #{Scribo::VERSION}"`
     `git push`
     `git tag #{Scribo::VERSION}`
     `git push --tags`
