@@ -264,7 +264,7 @@ export default class extends Controller {
   // Private
 
   _editorControllerForElement(elm) {
-    return this.application.getControllerForElementAndIdentifier(elm, 'editor')
+    return this.application.getControllerForElementAndIdentifier(elm, 'scribo-editor')
   }
 
   _open(event) {
