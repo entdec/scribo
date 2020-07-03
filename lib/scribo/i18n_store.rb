@@ -22,8 +22,6 @@ module Scribo
   end
 
   class I18nStore
-    attr_reader :content
-
     def initialize; end
 
     def keys
@@ -53,22 +51,29 @@ module Scribo
 
     def with(content)
       with_custom_backend do
-        @content = content
+        self.content = some_content
         yield
-        @content = nil
+        self.content = nil
       end
+    end
+
+    def content
+      Thread.current[:scribo_i18n_store_content]
+    end
+
+    def content=(content)
+      Thread.current[:scribo_i18n_store_content] = content
     end
 
     private
 
     def with_custom_backend
-      @old_backend = I18n.backend
+      Thread.current[:scribo_i18n_store_old_backend] = I18n.backend
       I18n.backend = I18n::Backend::Chain.new(custom_i18n_backend, I18n.backend)
 
       yield
-
-      I18n.backend = @old_backend
-      @old_backend = nil
+``
+      I18n.backend = Thread.current[:scribo_i18n_store_old_backend]
     end
 
     def locales
