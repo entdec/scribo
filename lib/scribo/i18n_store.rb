@@ -51,8 +51,8 @@ module Scribo
 
     def with(content)
       with_custom_backend do
-        self.content = some_content
-        yield
+        self.content = content
+        yield(content)
         self.content = nil
       end
     end
