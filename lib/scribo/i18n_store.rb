@@ -72,7 +72,7 @@ module Scribo
       I18n.backend = I18n::Backend::Chain.new(custom_i18n_backend, I18n.backend)
 
       yield
-``
+
       I18n.backend = Thread.current[:scribo_i18n_store_old_backend]
     end
 
