@@ -28,31 +28,20 @@ $ bin/rails db:migrate
 ```
 
 Then add Scribo to your routes file.
-Scribo consumes all URL, so make sure you put the following line at the bottom.
+Scribo consumes all URLs, so make sure you put the following line at the bottom of your routes.rb.
 
 ```ruby
 mount Scribo::Engine, at: '/'
 ```
 
-## Rendering your content within a scribo layout
+## Using your controllers with scribo
 
 In your controller add the following:
 ```ruby
-scribo_layout 'generic'
+render(scribo: current_site, path: '/index', restricted: false, owner: Account.first)
 ```
 
-This will look for a layout 'generic' and render your content in that.
-
-You'll get all your controller's class variables as additional context and those become available for liquid to use.
-On top this, we also pass 'request' and 'content' as context.
-
-The easiest possible layout would be:
-```html
-<html>
-<head></head>
-<body>{%yield%}</body>
-</html>
-```
+This will look for `index` in the `current_site`.
 
 ## Testing
 
