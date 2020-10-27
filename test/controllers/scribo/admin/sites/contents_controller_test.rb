@@ -4,7 +4,7 @@ require 'test_helper'
 
 module Scribo
   module Admin
-    class Sites::ContentsControllerTest < ActionDispatch::IntegrationTest
+    class Sites::ContentsControllerTest < ::ActionDispatch::IntegrationTest
       include Engine.routes.url_helpers
 
       test 'should get new' do
