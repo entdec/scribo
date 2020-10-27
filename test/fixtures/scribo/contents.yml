@@ -33,8 +33,8 @@ sass_folder:
   path: _sass
   full_path: /_sass
   depth: 0
-  lft: 9
-  rgt: 10
+  lft: 10
+  rgt: 11
 
 scss_include:
   site: main
