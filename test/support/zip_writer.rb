@@ -13,7 +13,7 @@ class ZipFileGenerator
     buffer = Zip::OutputStream.write_buffer do |zipfile|
       write_entries entries, '', zipfile
     end
-    f.write(buffer.string)
+    f.write(buffer.string&.force_encoding('utf-8'))
     f.flush
   end
 

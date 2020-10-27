@@ -6,4 +6,10 @@ Scribo.setup do |config|
   config.site_for_uri = lambda do |_uri|
     Account.find_by(name: 'One').sites.for_path('/').first
   end
+
+  config.scribable_objects = lambda do
+    return [] unless Account.current
+
+    [Account.current]
+  end
 end
