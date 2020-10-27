@@ -47,7 +47,7 @@ module Scribo
 
         end
 
-        Scribo.config.warn "SassC::Importer: No import found: #{import_path}" unless include_content.first
+        Scribo.config.logger.warn "SassC::Importer: No import found: #{import_path}" unless include_content.first
         # FIXME: Add context
         # Here we don't use a filter
         source = ContentRenderService.new(include_content.first, {}, filter: nil).call || ''

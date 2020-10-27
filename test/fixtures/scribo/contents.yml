@@ -27,12 +27,21 @@ layout:
   lft: 3
   rgt: 4
 
+sass_folder:
+  site: main
+  kind: folder
+  path: _sass
+  full_path: /_sass
+  depth: 0
+  lft: 9
+  rgt: 10
+
 scss_include:
   site: main
   kind: text
-  data: Test index
-  path: /_scss_include.scss
-  full_path: /_scss_include.scss
+  path: /_sass/_scss_include.scss
+  full_path: /_sass/_scss_include.scss
+  parent: sass_folder
   depth: 0
   lft: 5
   rgt: 6
@@ -42,7 +51,6 @@ scss_include:
 scss:
   site: main
   kind: text
-  data: Test index
   path: /test.scss
   full_path: /test.scss
   depth: 0
