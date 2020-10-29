@@ -4,11 +4,16 @@ Scribo.setup do |config|
   config.base_controller = '::ApplicationController'
 
   # Make it less verbose
-  config.logger = Logger.new('/dev/null')
-  config.logger.level = Logger::FATAL
+  if Rails.env.test?
+    config.logger = Logger.new('/dev/null')
+    config.logger.level = Logger::FATAL
+  else
+    config.logger = Rails.logger
+    config.logger.level = Logger::DEBUG
+  end
 
   config.site_for_uri = lambda do |_uri|
-    Account.find_by(name: 'One').sites.for_path('/').first
+    Account.first.sites.for_path('/').first
   end
 
   config.scribable_objects = lambda do
