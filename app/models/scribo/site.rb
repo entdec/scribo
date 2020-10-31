@@ -23,7 +23,7 @@ module Scribo
       paths = path.split('/').map.with_index { |_part, i| path.split('/')[0..i].join('/') }.reject(&:empty?)
       paths <<= '/'
 
-      where("properties->>'baseurl' IN (?) OR properties->>'baseurl' IS NULL", paths).order(Arel.sql("COALESCE(LENGTH(scribo_sites.properties->>'baseurl'), 0) DESC"))
+      where("properties->>'baseurl' IN (?) OR properties->>'baseurl' = '' OR properties->>'baseurl' IS NULL", paths).order(Arel.sql("COALESCE(LENGTH(scribo_sites.properties->>'baseurl'), 0) DESC"))
     end
 
     class << self
@@ -41,6 +41,8 @@ module Scribo
     end
 
     def scribable_for
+      return unless scribable
+
       "#{scribable.class.name.demodulize.underscore}:#{scribable}"
     end
 
@@ -79,10 +81,6 @@ module Scribo
     #
     def total_size
       contents.map { |c| c.data ? c.data.size : c.asset.attachment&.download&.size || 0 }.sum
-    end
-
-    def create_index_page
-      contents.build(kind: 'text', path: 'index.html', data: "<html>\n  <head><title>#{title}</title></head>\n  <body></body>\n</html>")
     end
   end
 end

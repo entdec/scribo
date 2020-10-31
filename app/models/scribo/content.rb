@@ -13,6 +13,7 @@ module Scribo
     validate :layout_cant_be_current_content
 
     before_save :upload_asset
+
     after_save :set_full_path
     after_move :set_full_path
 
@@ -20,7 +21,7 @@ module Scribo
     scope :posts, -> { in_folder('_posts') }
     scope :pages, -> { where(kind: 'text').restricted }
     scope :assets, -> { where(kind: 'asset') }
-    scope :html_pages, -> { where("full_path LIKE '%.html' OR full_path LIKE '%.md'") }
+    scope :html_pages, -> { where("full_path LIKE '%.html' OR full_path LIKE '%.md' OR full_path LIKE '%.markdown'") }
     # html files should be non-filtered html files
     scope :html_files, -> { where("full_path LIKE '%.html'") }
     scope :include, ->(name) { published.where(full_path: ["/_includes/#{name}"]) }
