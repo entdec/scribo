@@ -37,6 +37,10 @@ module Scribo
     def i18n_store
       @i18n_store ||= Scribo::I18nStore.new
     end
+
+    def logger
+      @config.logger
+    end
   end
 
   # Include helpers
