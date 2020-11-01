@@ -8,11 +8,12 @@ It's designed to have the least possible impact on your database, we only use tw
 It also makes no assumptions about your data models, it does come feature packed though:
 
 - Pages
-- Posts (or articles)
+- Blog (with permalinks & categories)
 - Static assets
-- Data files
+- Data files (think: make a page based on an Excel sheet)
 - Layouts
 - [Liquid](http://liquidmarkup.org) templating
+- Mostly [Jekyll](https://jekyllrb.com) compatibile
 
 ## Installation
 
