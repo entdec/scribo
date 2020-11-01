@@ -4,8 +4,8 @@ index:
   data: Test index
   path: index.html
   full_path: /index.html
-  lft: 7
-  rgt: 8
+  lft: 0
+  rgt: 1
 
 layout_folder:
   site: main
@@ -13,8 +13,8 @@ layout_folder:
   path: _layouts
   full_path: /_layouts
   depth: 0
-  lft: 9
-  rgt: 10
+  lft: 10
+  rgt: 20
 
 layout:
   site: main
@@ -24,8 +24,8 @@ layout:
   full_path: /_layouts/layout.html
   parent: layout_folder
   depth: 0
-  lft: 3
-  rgt: 4
+  lft: 11
+  rgt: 12
 
 sass_folder:
   site: main
@@ -33,8 +33,8 @@ sass_folder:
   path: _sass
   full_path: /_sass
   depth: 0
-  lft: 10
-  rgt: 11
+  lft: 20
+  rgt: 30
 
 scss_include:
   site: main
@@ -43,8 +43,8 @@ scss_include:
   full_path: /_sass/_scss_include.scss
   parent: sass_folder
   depth: 0
-  lft: 5
-  rgt: 6
+  lft: 21
+  rgt: 22
   data: |
     @mixin large-text { font: { family: Arial; size: 20px; weight: bold; } color: #ff0000;}
 
@@ -54,8 +54,8 @@ scss:
   path: /test.scss
   full_path: /test.scss
   depth: 0
-  lft: 1
-  rgt: 2
+  lft: 30
+  rgt: 31
   data: |
     @import 'scss_include';
     body {
@@ -79,8 +79,8 @@ staff_members_folder:
   path: _staff_members
   full_path: /_staff_members
   depth: 0
-  lft: 1
-  rgt: 2
+  lft: 10
+  rgt: 22
 
 collection_jane:
   site: collection
@@ -94,8 +94,8 @@ collection_jane:
   path: jane.md
   full_path: /_staff_members/jane.md
   depth: 0
-  lft: 2
-  rgt: 3
+  lft: 11
+  rgt: 12
 
 locales_folder:
   site: translate_site
@@ -103,8 +103,8 @@ locales_folder:
   path: _locales
   full_path: /_locales
   depth: 0
-  lft: 1
-  rgt: 2
+  lft: 10
+  rgt: 20
 
 locale_en:
   site: translate_site
@@ -120,5 +120,6 @@ locale_en:
           title: Title here
   path: en.yml
   full_path: /_locales/en.yml
-  lft: 2
-  rgt: 3
+  depth: 1
+  lft: 11
+  rgt: 12

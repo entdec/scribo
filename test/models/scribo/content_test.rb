@@ -4,6 +4,36 @@ require 'test_helper'
 
 module Scribo
   class ContentTest < ActiveSupport::TestCase
+    test 'sets full path correctly for root content and path index.html' do
+      @site = Scribo::Site.create!
+      subject = @site.contents.create!(kind: 'text', path: 'index.html', data: 'something')
+
+      assert_equal '/index.html', subject.full_path
+    end
+
+    test 'sets full path correctly for root content and path index.md' do
+      @site = Scribo::Site.create!
+      subject = @site.contents.create!(kind: 'text', path: 'index.md', data: 'something')
+
+      assert_equal '/index.md', subject.full_path
+    end
+
+    test 'sets full path correctly for subfolder and path index.html' do
+      @site = Scribo::Site.create!
+      folder = @site.contents.create!(kind: 'folder', path: 'smurrefluts')
+      subject = @site.contents.create!(parent:folder, kind: 'text', path: 'index.html', data: 'something')
+
+      assert_equal '/smurrefluts/index.html', subject.full_path
+    end
+
+    test 'sets full path correctly for post and post 2020-11-01-test.md' do
+      @site = Scribo::Site.create!
+      folder = @site.contents.create!(kind: 'folder', path: '_posts')
+      subject = @site.contents.create!(parent: folder, kind: 'text', path: '2020-11-01-test.md', data: '# something')
+
+      assert_equal '/2020/11/01/test.md', subject.full_path
+    end
+
     test 'renders simple text content' do
       subject = scribo_contents(:index)
       result = Scribo::ContentRenderService.new(subject, self).call

@@ -10,6 +10,7 @@ module Scribo
     belongs_to :site, class_name: 'Site', foreign_key: 'scribo_site_id'
     has_one_attached :asset
 
+    validate :post_path
     validate :layout_cant_be_current_content
 
     before_save :upload_asset
@@ -19,7 +20,7 @@ module Scribo
 
     scope :layouts, -> { in_folder('_layouts') }
     scope :posts, -> { in_folder('_posts') }
-    scope :pages, -> { where(kind: 'text').restricted }
+    scope :pages, -> { not_in_folder('_posts').restricted.where(kind: 'text') }
     scope :assets, -> { where(kind: 'asset') }
     scope :html_pages, -> { where("full_path LIKE '%.html' OR full_path LIKE '%.md' OR full_path LIKE '%.markdown'") }
     # html files should be non-filtered html files
@@ -33,7 +34,11 @@ module Scribo
 
     scope :published, -> { where("properties->>'published' = 'true' OR properties->>'published' IS NULL").where("properties->>'published_at' IS NULL OR properties->>'published_at' <= :now", now: Time.current.utc) }
     scope :restricted, -> { where("full_path NOT LIKE '/\\_%'") }
-    scope :in_folder, ->(folder_name) { where("full_path LIKE '/#{folder_name}/%'") }
+
+    scope :not_in_folder, ->(folder_name) { where("id NOT IN (?)", Scribo::Content.where(kind: 'folder').find_by(path: folder_name)&.descendants&.pluck(:id)||[]) }
+    scope :in_folder, ->(folder_name) { where(id: Scribo::Content.where(kind: 'folder').find_by(path: folder_name)&.descendants&.pluck(:id)||[]) }
+
+    scope :permalinked, ->(paths) { where("properties->>'permalink' IN (?)", paths) }
 
     def self.located(path, restricted: true)
       restricted = true if restricted.nil? # If blank it's still restricted
@@ -47,7 +52,7 @@ module Scribo
 
       result = published.where(full_path: paths)
       result = result.restricted if restricted
-      result = result.or(published.where("properties->>'permalink' IN (?)", paths))
+      result = result.or(published.permalinked(paths))
 
       result
     end
@@ -123,16 +128,19 @@ module Scribo
     end
 
     def date
+      return nil if !post?
+
       prop_date = begin
                     Time.zone.parse(properties['date'])
                   rescue StandardError
                     nil
                   end
-      prop_date || (post? ? post_date : nil) || created_at
+
+      prop_date || post_date
     end
 
     def post?
-      full_path.start_with?('/_posts/')
+      ancestors.map(&:path).join('/').start_with?('_posts')
     end
 
     def post_date
@@ -152,6 +160,8 @@ module Scribo
     end
 
     def categories
+      return [] if !post?
+
       (properties&.[]('categories') || '').split(' ')
     end
 
@@ -196,7 +206,13 @@ module Scribo
     def set_full_path
       return unless respond_to?(:full_path_changed?)
 
-      result = (ancestors.map(&:path) << path).join('/')
+      if post?
+        result = categories.join('/') + '/'
+        result += date.strftime("%Y/%m/%d/")
+        result += path[11..-1]
+      else
+        result = (ancestors.map(&:path) << path).join('/')
+      end
       result = '/' + result unless result.start_with?('/')
 
       update_column(:full_path, result)
@@ -219,6 +235,12 @@ module Scribo
     end
 
     private
+
+    def post_path
+      return unless post?
+
+      errors.add(:path, "path must be of format YYYY-MM-DD-title") unless path.match(/[0-9]{4}-[0-9]{2}-[0-9]{2}-.*/)
+    end
 
     def layout_cant_be_current_content
       return unless layout

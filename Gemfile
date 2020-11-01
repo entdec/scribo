@@ -22,6 +22,8 @@ gemspec
 gem 'key_path', git: 'git@code.entropydecelerator.com:tdegrunt/key_path.git', branch: 'master'
 gem 'liquor', entdec: 'components/liquor', tag: '0.6.2'
 
+gem 'rubocop'
+
 group :test do
   gem 'pry-rails'
 end
