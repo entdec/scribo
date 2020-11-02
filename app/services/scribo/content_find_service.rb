@@ -42,7 +42,7 @@ module Scribo
 
       # Find by content id
       if options[:path] && options[:path][1..-1].length == 36
-        content ||= Scribo::Content&.published&.find(options[:path][1..-1])
+        content ||= Scribo::Content&.published&.find_by_id(options[:path][1..-1])
       end
 
       if options[:path] == '/humans.txt'
