@@ -21,7 +21,7 @@ module Scribo
     test 'sets full path correctly for subfolder and path index.html' do
       @site = Scribo::Site.create!
       folder = @site.contents.create!(kind: 'folder', path: 'smurrefluts')
-      subject = @site.contents.create!(parent:folder, kind: 'text', path: 'index.html', data: 'something')
+      subject = @site.contents.create!(parent: folder, kind: 'text', path: 'index.html', data: 'something')
 
       assert_equal '/smurrefluts/index.html', subject.full_path
     end
@@ -87,6 +87,5 @@ module Scribo
       subject.data_with_frontmatter = "# Hello\n\nSmurrefluts"
       assert_equal "<p>Smurrefluts</p>\n", subject.excerpt
     end
-
   end
 end

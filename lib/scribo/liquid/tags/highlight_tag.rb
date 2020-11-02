@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-
 class HighlightBlock < Liquid::Block
   include Liquid::StandardFilters
 
@@ -9,7 +8,7 @@ class HighlightBlock < Liquid::Block
   # forms: name, name=value, or name="<quoted list>"
   #
   # <quoted list> is a space-separated list of numbers
-  SYNTAX = %r!^([a-zA-Z0-9.+#_-]+)((\s+\w+(=(\w+|"([0-9]+\s)*[0-9]+"))?)*)$!.freeze
+  SYNTAX = /^([a-zA-Z0-9.+#_-]+)((\s+\w+(=(\w+|"([0-9]+\s)*[0-9]+"))?)*)$/.freeze
 
   def initialize(tag_name, markup, tokens)
     super
@@ -27,18 +26,18 @@ class HighlightBlock < Liquid::Block
     end
   end
 
-  LEADING_OR_TRAILING_LINE_TERMINATORS = %r!\A(\n|\r)+|(\n|\r)+\z!.freeze
+  LEADING_OR_TRAILING_LINE_TERMINATORS = /\A(\n|\r)+|(\n|\r)+\z/.freeze
 
   def render(context)
-    prefix = context["highlighter_prefix"] || ""
-    suffix = context["highlighter_suffix"] || ""
-    code = super.to_s.gsub(LEADING_OR_TRAILING_LINE_TERMINATORS, "")
+    prefix = context['highlighter_prefix'] || ''
+    suffix = context['highlighter_suffix'] || ''
+    code = super.to_s.gsub(LEADING_OR_TRAILING_LINE_TERMINATORS, '')
 
     output =
       case context.registers[:site]&.highlighter
-      when "rouge"
+      when 'rouge'
         render_rouge(code)
-      when "pygments"
+      when 'pygments'
         render_pygments(code, context)
       else
         render_codehighlighter(code)
@@ -50,7 +49,7 @@ class HighlightBlock < Liquid::Block
 
   private
 
-  OPTIONS_REGEX = %r!(?:\w="[^"]*"|\w=\w|\w)+!.freeze
+  OPTIONS_REGEX = /(?:\w="[^"]*"|\w=\w|\w)+/.freeze
 
   def parse_options(input)
     options = {}
@@ -58,7 +57,7 @@ class HighlightBlock < Liquid::Block
 
     # Split along 3 possible forms -- key="<quoted list>", key=value, or key
     input.scan(OPTIONS_REGEX) do |opt|
-      key, value = opt.split("=")
+      key, value = opt.split('=')
       # If a quoted list, convert to array
       if value&.include?('"')
         value.delete!('"')
@@ -67,41 +66,41 @@ class HighlightBlock < Liquid::Block
       options[key.to_sym] = value || true
     end
 
-    options[:linenos] = "inline" if options[:linenos] == true
+    options[:linenos] = 'inline' if options[:linenos] == true
     options
   end
 
   def render_pygments(code, _context)
-    Scribo.logger.warn "Warning: Highlight Tag no longer supports rendering with Pygments. Using the default highlighter, Rouge, instead."
+    Scribo.logger.warn 'Warning: Highlight Tag no longer supports rendering with Pygments. Using the default highlighter, Rouge, instead.'
     render_rouge(code)
   end
 
   def render_rouge(code)
-    require "rouge"
+    require 'rouge'
     formatter = ::Rouge::Formatters::HTMLLegacy.new(
-      :line_numbers => @highlight_options[:linenos],
-      :wrap         => false,
-      :css_class    => "highlight",
-      :gutter_class => "gutter",
-      :code_class   => "code"
+      line_numbers: @highlight_options[:linenos],
+      wrap: false,
+      css_class: 'highlight',
+      gutter_class: 'gutter',
+      code_class: 'code'
     )
     lexer = ::Rouge::Lexer.find_fancy(@lang, code) || Rouge::Lexers::PlainText
     formatter.format(lexer.lex(code))
   end
 
   def render_codehighlighter(code)
-    Scribo.logger.warn "Warning: Highlight Tag no longer supports rendering with Pygments. Using the default highlighter, Rouge, instead."
+    Scribo.logger.warn 'Warning: Highlight Tag no longer supports rendering with Pygments. Using the default highlighter, Rouge, instead.'
     render_rouge(code)
   end
 
   def add_code_tag(code)
     code_attributes = [
-      "class=\"language-#{@lang.to_s.tr("+", "-")}\"",
-      "data-lang=\"#{@lang}\"",
-    ].join(" ")
+      "class=\"language-#{@lang.to_s.tr('+', '-')}\"",
+      "data-lang=\"#{@lang}\""
+    ].join(' ')
     "<figure class=\"highlight\"><pre><code #{code_attributes}>"\
     "#{code.chomp}</code></pre></figure>"
   end
 end
 
-Liquid::Template.register_tag("highlight", HighlightBlock)
+Liquid::Template.register_tag('highlight', HighlightBlock)

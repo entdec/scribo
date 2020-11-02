@@ -45,12 +45,14 @@ class FieldsForTag < LiquorBlock
   private
 
   def new_model
-    new_model = @context["form.model.#{argv1}"] rescue nil
+    new_model = begin
+      @context["form.model.#{argv1}"]
+    rescue StandardError
+      nil
+    end
     unless new_model
 
-      association_name = if argv1.match(/([^\[\]])+/)
-                           Regexp.last_match(0)
-                         end
+      association_name = (Regexp.last_match(0) if argv1.match(/([^\[\]])+/))
 
       new_model = begin
         reflection = real_object_from_drop(@context['form.model']).class.reflect_on_association(association_name)

@@ -9,7 +9,6 @@ class IncludeTagTest < ActiveSupport::TestCase
     include_menu   = contents.create!(parent: include_folder, path: 'menu.html', kind: 'text', data: 'included content', properties: { published: false })
     subject        = contents.create!(path: '/test.html', kind: 'text', data: "|{%include 'menu'%}|")
 
-
     result = Scribo::ContentRenderService.new(subject, self).call
 
     assert_equal '||', result
@@ -36,9 +35,8 @@ class IncludeTagTest < ActiveSupport::TestCase
     assert_equal '||', result
   end
 
-
   test 'does not include content from other site' do
-    include_folder = scribo_sites(:second ).contents.create!(path: '_includes', kind: 'folder')
+    include_folder = scribo_sites(:second).contents.create!(path: '_includes', kind: 'folder')
     scribo_sites(:second).contents.create!(parent: include_folder, path: 'menu', kind: 'text', data: 'included content')
     subject = scribo_sites(:main).contents.create!(path: '/test.html', kind: 'text', data: "|{%include 'menu'%}|")
 

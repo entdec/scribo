@@ -24,4 +24,3 @@ module Scribo
     end
   end
 end
-

@@ -41,7 +41,9 @@ module Scribo
                 end
 
       # Find by content id
-      content ||= Scribo::Content&.published&.find(options[:path][1..-1]) if options[:path] && options[:path][1..-1].length == 36
+      if options[:path] && options[:path][1..-1].length == 36
+        content ||= Scribo::Content&.published&.find(options[:path][1..-1])
+      end
 
       if options[:path] == '/humans.txt'
         content ||= Scribo::Content.new(kind: 'text', path: '/humans.txt', full_path: '/humans.txt', data: Scribo.config.default_humans_txt)

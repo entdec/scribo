@@ -36,5 +36,5 @@ Style/GuardClause:
 Style/ClassAndModuleChildren:
   Enabled: false
 
-Layout/TrailingBlankLines:
+Layout/TrailingEmptyLines:
   Enabled: true

@@ -41,7 +41,9 @@ module Scribo
       end
 
       def import
-        flash_and_redirect Scribo::SiteImportService.new(params[:site][:zip_file].path).call, admin_sites_path, 'Site imported successfully', 'There were problems importing the site' if request.post?
+        if request.post?
+          flash_and_redirect Scribo::SiteImportService.new(params[:site][:zip_file].path).call, admin_sites_path, 'Site imported successfully', 'There were problems importing the site'
+        end
       end
 
       def export
@@ -62,7 +64,9 @@ module Scribo
       def site_params
         params.require(:site).permit(:scribable_id).tap do |whitelisted|
           whitelisted[:scribable] = GlobalID::Locator.locate_signed(whitelisted[:scribable_id])
-          whitelisted[:properties] = Scribo::Utility.yaml_safe_parse(params[:site][:properties]) if params[:site][:properties]
+          if params[:site][:properties]
+            whitelisted[:properties] = Scribo::Utility.yaml_safe_parse(params[:site][:properties])
+          end
         end
       end
     end

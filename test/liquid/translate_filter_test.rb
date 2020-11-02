@@ -43,5 +43,4 @@ class TranslateFilterTest < ActiveSupport::TestCase
     result = I18n.t('some.hatseflats')
     assert_equal 'Hatseflats', result
   end
-
 end

@@ -13,7 +13,7 @@ class FeedMetaTag < LiquorTag
     site = content.site
     request = context.registers['controller'].request
 
-    %Q[
+    %[
       <!-- Begin Scribo Feed Meta tag #{Scribo::VERSION} -->
     ]
   end

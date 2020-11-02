@@ -47,7 +47,7 @@ class FormTag < LiquorBlock
 
     context.stack do
       context['form'] = Scribo::FormDrop.new(argv1)
-      result          += render_body
+      result += render_body
     end
     result += %[</form>]
     result

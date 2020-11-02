@@ -83,7 +83,6 @@ module Scribo
           @properties[method.to_s]
         end
       end
-
     end
   end
 end

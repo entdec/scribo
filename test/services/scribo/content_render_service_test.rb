@@ -30,9 +30,8 @@ module Scribo
         subject = Scribo::ContentFindService.new(site, path: '/assets/main.css').perform
         result = Scribo::ContentRenderService.new(subject, {}).perform
 
-        assert_includes result, "Reset some basic elements"
+        assert_includes result, 'Reset some basic elements'
       end
     end
-
   end
 end

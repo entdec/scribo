@@ -25,7 +25,9 @@ module Scribo
       @base_path = nil
       zip_file.glob('**/*').reject { |e| e.name.start_with?('__MACOSX/') || e.name.end_with?('/.DS_Store') }.each do |entry|
         @base_path ||= entry.name.split('/').first
-        raise "Site import needs all site content to be in one folder starting with #{base_path}/" unless entry.name.start_with?(base_path + '/')
+        unless entry.name.start_with?(base_path + '/')
+          raise "Site import needs all site content to be in one folder starting with #{base_path}/"
+        end
       end
 
       meta_info_site['properties'] ||= {}
@@ -79,7 +81,9 @@ module Scribo
     def create_content(site, entry_path, entry)
       meta_info = meta_info_for_entry_name(meta_info_site, entry_path, entry)
 
-      parent = meta_info_site['contents'].find { |mi| mi['path'] == meta_info['parent'] }['record'] if meta_info['parent']
+      if meta_info['parent']
+        parent = meta_info_site['contents'].find { |mi| mi['path'] == meta_info['parent'] }['record']
+      end
       content = site.contents.find_or_create_by(path: File.basename(meta_info['path']), full_path: meta_info['path'], parent: parent)
 
       content.kind = meta_info['kind']

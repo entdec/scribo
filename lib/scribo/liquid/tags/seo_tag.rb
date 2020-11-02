@@ -13,7 +13,7 @@ class SeoTag < LiquorTag
     site = content.site
     request = context.registers['controller'].request
 
-    %Q[
+    %[
 <!-- Begin Scribo SEO tag #{Scribo::VERSION} -->
 <title>#{site.properties['title']}</title>
 <meta name="generator" content="Scribo #{Scribo::VERSION}" />

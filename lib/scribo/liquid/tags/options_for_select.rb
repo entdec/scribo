@@ -23,7 +23,7 @@ class OptionsForSelectTag < LiquorTag
 
     if sargs.present?
       options = options.map do |option|
-        result = sargs.map {|a| option[a.to_s] }
+        result = sargs.map { |a| option[a.to_s] }
         result = result.first if result.length == 1
         result
       end

@@ -35,8 +35,8 @@ module Scribo
     scope :published, -> { where("properties->>'published' = 'true' OR properties->>'published' IS NULL").where("properties->>'published_at' IS NULL OR properties->>'published_at' <= :now", now: Time.current.utc) }
     scope :restricted, -> { where("full_path NOT LIKE '/\\_%'") }
 
-    scope :not_in_folder, ->(folder_name) { where("id NOT IN (?)", Scribo::Content.where(kind: 'folder').find_by(path: folder_name)&.descendants&.pluck(:id)||[]) }
-    scope :in_folder, ->(folder_name) { where(id: Scribo::Content.where(kind: 'folder').find_by(path: folder_name)&.descendants&.pluck(:id)||[]) }
+    scope :not_in_folder, ->(folder_name) { where("id NOT IN (?)", Scribo::Content.where(kind: 'folder').find_by(path: folder_name)&.descendants&.pluck(:id) || []) }
+    scope :in_folder, ->(folder_name) { where(id: Scribo::Content.where(kind: 'folder').find_by(path: folder_name)&.descendants&.pluck(:id) || []) }
 
     scope :permalinked, ->(paths) { where("properties->>'permalink' IN (?)", paths) }
 
@@ -52,9 +52,7 @@ module Scribo
 
       result = published.where(full_path: paths)
       result = result.restricted if restricted
-      result = result.or(published.permalinked(paths))
-
-      result
+      result.or(published.permalinked(paths))
     end
 
     def self.search(search_string)
@@ -128,13 +126,13 @@ module Scribo
     end
 
     def date
-      return nil if !post?
+      return nil unless post?
 
       prop_date = begin
-                    Time.zone.parse(properties['date'])
-                  rescue StandardError
-                    nil
-                  end
+        Time.zone.parse(properties['date'])
+      rescue StandardError
+        nil
+      end
 
       prop_date || post_date
     end
@@ -160,7 +158,7 @@ module Scribo
     end
 
     def categories
-      return [] if !post?
+      return [] unless post?
 
       (properties&.[]('categories') || '').split(' ')
     end

@@ -23,7 +23,9 @@ class AssetTag < LiquorTag
     return "<!-- asset '#{argv1}' not found -->" unless content
 
     full_path = content.full_path
-    full_path = context.registers['controller'].helpers.scribo.content_path(content) if File.basename(full_path).include?('/_')
+    if File.basename(full_path).include?('/_')
+      full_path = context.registers['controller'].helpers.scribo.content_path(content)
+    end
 
     case content&.media_type
     when 'image'

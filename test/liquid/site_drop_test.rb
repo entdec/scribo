@@ -40,9 +40,8 @@ class SiteDropTest < ActiveSupport::TestCase
     site.save
 
     subject = Scribo::SiteDrop.new(site)
-    content = site.contents.create(kind: 'text', data: "{%for staff_member in site.staff_members%}{{staff_member.name}}{%endfor%}")
+    content = site.contents.create(kind: 'text', data: '{%for staff_member in site.staff_members%}{{staff_member.name}}{%endfor%}')
 
-    assert_equal "Jane Doe", Scribo::ContentRenderService.new(content, self).call
+    assert_equal 'Jane Doe', Scribo::ContentRenderService.new(content, self).call
   end
-
 end
