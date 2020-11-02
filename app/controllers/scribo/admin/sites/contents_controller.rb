@@ -53,9 +53,9 @@ module Scribo
       def upload
         @parent = @site.contents.find(params[:content][:parent_id]) if params[:content][:parent_id]
 
-        params[:content][:files]&.each do |extra_file|
-          @site.contents.create(kind: Scribo::Utility.kind_for_content_type(extra_file.content_type),
-                                path: extra_file.original_filename, data: extra_file.read, parent: @parent)
+        params[:content][:files]&.each do |file|
+          @site.contents.create(kind: Scribo::Utility.kind_for_content_type(file.content_type),
+                                path: file.original_filename, data: file.read, parent: @parent)
         end
 
         @contents = @site.contents.roots.reorder(:path) unless @parent
