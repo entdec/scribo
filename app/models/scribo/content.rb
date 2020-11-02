@@ -35,7 +35,7 @@ module Scribo
     scope :published, -> { where("properties->>'published' = 'true' OR properties->>'published' IS NULL").where("properties->>'published_at' IS NULL OR properties->>'published_at' <= :now", now: Time.current.utc) }
     scope :restricted, -> { where("full_path NOT LIKE '/\\_%'") }
 
-    scope :not_in_folder, ->(folder_name) { where("id NOT IN (?)", Scribo::Content.where(kind: 'folder').find_by(path: folder_name)&.descendants&.pluck(:id) || []) }
+    scope :not_in_folder, ->(folder_name) { where('id NOT IN (?)', Scribo::Content.where(kind: 'folder').find_by(path: folder_name)&.descendants&.pluck(:id) || []) }
     scope :in_folder, ->(folder_name) { where(id: Scribo::Content.where(kind: 'folder').find_by(path: folder_name)&.descendants&.pluck(:id) || []) }
 
     scope :permalinked, ->(paths) { where("properties->>'permalink' IN (?)", paths) }
@@ -206,7 +206,7 @@ module Scribo
 
       if post?
         result = categories.join('/') + '/'
-        result += date.strftime("%Y/%m/%d/")
+        result += date.strftime('%Y/%m/%d/')
         result += path[11..-1]
       else
         result = (ancestors.map(&:path) << path).join('/')
@@ -237,7 +237,7 @@ module Scribo
     def post_path
       return unless post?
 
-      errors.add(:path, "path must be of format YYYY-MM-DD-title") unless path.match(/[0-9]{4}-[0-9]{2}-[0-9]{2}-.*/)
+      errors.add(:path, 'path must be of format YYYY-MM-DD-title') unless path.match(/[0-9]{4}-[0-9]{2}-[0-9]{2}-.*/)
     end
 
     def layout_cant_be_current_content
