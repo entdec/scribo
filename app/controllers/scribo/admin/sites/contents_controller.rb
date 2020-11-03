@@ -51,14 +51,17 @@ module Scribo
       end
 
       def upload
-        @parent = @site.contents.find(params[:content][:parent_id]) if params[:content][:parent_id]
+        @parent = Scribo::Content.find(params[:content][:parent_id])
 
         params[:content][:files]&.each do |file|
-          @site.contents.create(kind: Scribo::Utility.kind_for_content_type(file.content_type),
-                                path: file.original_filename, data: file.read, parent: @parent)
+          content = @site.contents.create!(kind: Scribo::Utility.kind_for_content_type(file.content_type),
+                                           path: file.original_filename, data: file.read)
+
+          # FIXME: We're moving it here, because we had problems with asset uploading and having a parent
+          content.move_to_child_with_index(@parent, 0) if @parent
         end
 
-        @contents = @site.contents.roots.reorder(:path) unless @parent
+        @contents = @site.contents.roots.reorder(:path) # unless params[:content][:parent_id]
       end
 
       private

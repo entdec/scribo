@@ -224,7 +224,12 @@ module Scribo
       return unless data
       return unless data.size.positive?
 
-      asset.attach(io: StringIO.new.tap { |s| s.write(data) && s.rewind }, filename: path, content_type: content_type)
+      si = StringIO.new
+      si.write(data)
+      si.rewind
+
+      asset.attach(io: si, filename: path, content_type: content_type)
+
       self.data = nil
     end
 
