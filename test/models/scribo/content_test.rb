@@ -18,6 +18,18 @@ module Scribo
       assert_equal '/index.md', subject.full_path
     end
 
+    test 'creating of content uploads assets into storage' do
+      @site = Scribo::Site.create!
+
+      data = File.read(File.expand_path('../../files/150.png', __dir__))
+      subject = @site.contents.create!(kind: 'asset', path: '150.png', data: data)
+
+      assert_equal '/150.png', subject.full_path
+      refute subject.data
+      assert subject.asset.attached?
+      assert_equal data, subject.asset.download.force_encoding('utf-8')
+    end
+
     test 'sets full path correctly for subfolder and path index.html' do
       @site = Scribo::Site.create!
       folder = @site.contents.create!(kind: 'folder', path: 'smurrefluts')

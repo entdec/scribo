@@ -18,6 +18,6 @@ class ApplicationController < ActionController::Base
   end
 
   def default_url_options
-    { :host => "example.com" }
+    { host: 'example.com' }
   end
 end
