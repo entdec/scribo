@@ -13,6 +13,7 @@ module Scribo
     validate :post_path
     validate :layout_cant_be_current_content
 
+    before_save :store_properties, if: :config?
     before_save :upload_asset
 
     after_save :set_full_path
@@ -141,6 +142,10 @@ module Scribo
       ancestors.map(&:path).join('/').start_with?('_posts')
     end
 
+    def config?
+      full_path == '/_config.yml'
+    end
+
     def post_date
       Time.zone.strptime(path[0, 10], '%Y-%m-%d')
     end
@@ -218,6 +223,12 @@ module Scribo
       children.each(&:set_full_path)
     end
 
+    def asset?
+      kind == 'asset'
+    end
+
+    private
+
     def upload_asset
       return unless asset?
       # return unless data.present? -> Breaks with utf8?
@@ -233,11 +244,9 @@ module Scribo
       self.data = nil
     end
 
-    def asset?
-      kind == 'asset'
+    def store_properties
+      site.update(properties: YAML.safe_load(attributes['data']))
     end
-
-    private
 
     def post_path
       return unless post?
