@@ -38,7 +38,7 @@ module Scribo
       site = create_site
 
       (0..max_depth).to_a.each do |depth|
-        zip_file.glob('**/*').reject { |e| e.name == "#{base_path}/_config.yml" || e.name.start_with?('__MACOSX/') || e.name.end_with?('/.DS_Store') || e.name.start_with?("#{base_path}/.") }.each do |entry|
+        zip_file.glob('**/*').reject { |e| e.name.start_with?('__MACOSX/') || e.name.end_with?('/.DS_Store') || e.name.start_with?("#{base_path}/.") }.each do |entry|
           entry_path = entry_path(base_path, entry.name)
           next if entry_path.empty?
           next if entry_depth(entry_path) != depth
@@ -62,7 +62,7 @@ module Scribo
     private
 
     def max_depth
-      @maxdepth ||= zip_file.glob('**/*').reject { |e| e.name == "#{base_path}/_config.yml" || e.name.start_with?('__MACOSX/') || e.name.end_with?('/.DS_Store') || e.name.start_with?("#{base_path}/.") }.map do |entry|
+      @maxdepth ||= zip_file.glob('**/*').reject { |e| e.name.start_with?('__MACOSX/') || e.name.end_with?('/.DS_Store') || e.name.start_with?("#{base_path}/.") }.map do |entry|
         entry_path = entry_path(base_path, entry.name)
         entry_depth(entry_path)
       end.max

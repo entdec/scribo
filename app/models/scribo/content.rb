@@ -245,7 +245,9 @@ module Scribo
     end
 
     def store_properties
-      site.update(properties: YAML.safe_load(attributes['data']))
+      return unless attributes['data'].present?
+
+      site.update(properties: Scribo::Utility.yaml_safe_parse(attributes['data']))
     end
 
     def post_path

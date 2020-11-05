@@ -10,7 +10,8 @@ module Scribo
         subject = Scribo::SiteImportService.new(f.path).call
 
         assert subject
-        assert_equal 4, subject.contents.count
+        assert_equal 5, subject.contents.count
+        assert_equal 'text', subject.contents.located('/_config.yml', restricted: false).first.kind
         assert_equal 'text', subject.contents.located('/index.html').first.kind
         assert_equal "test\n", subject.contents.located('/index.html').first.data
         assert_equal 'folder', subject.contents.located('/folder1').first.kind
@@ -25,7 +26,8 @@ module Scribo
         subject = Scribo::SiteImportService.new(f.path).call
 
         assert subject
-        assert_equal 4, subject.contents.count
+        assert_equal 5, subject.contents.count
+        assert_equal 'text', subject.contents.located('/_config.yml', restricted: false).first.kind
         assert_equal 'text', subject.contents.located('/index.html').first.kind
         assert_equal "test\n", subject.contents.located('/index.html').first.data
         assert_equal 'folder', subject.contents.located('/folder1').first.kind
@@ -40,7 +42,8 @@ module Scribo
         subject = Scribo::SiteImportService.new(f.path).call
 
         assert subject
-        assert_equal 4, subject.contents.count
+        assert_equal 5, subject.contents.count
+        assert_equal 'text', subject.contents.located('/_config.yml', restricted: false).first.kind
         assert_equal 'text', subject.contents.located('/index.html').first.kind
         assert_equal "test\n", subject.contents.located('/index.html').first.data
         assert_equal 'folder', subject.contents.located('/folder1').first.kind
