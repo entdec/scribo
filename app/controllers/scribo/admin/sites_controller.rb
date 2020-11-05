@@ -22,19 +22,6 @@ module Scribo
         @sites = Site.adminable
       end
 
-      def edit
-        @site = Site.find(params[:id])
-        add_breadcrumb(@site.properties['title'], :edit_admin_site_path) if defined? add_breadcrumb
-      end
-
-      def update
-        flash_and_redirect @site.update(site_params), admin_sites_path, 'Site updated successfully', 'There were problems updating the site'
-      end
-
-      def show
-        redirect_to :edit_admin_site
-      end
-
       def destroy
         @site.contents.rebuild!
         flash_and_redirect @site.destroy, admin_sites_url, 'Site deleted successfully', 'There were problems deleting the site'
@@ -55,18 +42,15 @@ module Scribo
 
       def set_objects
         @site = if params[:id]
-                    Site.adminable.find(params[:id])
-                  else
-                    params[:site] ? Site.new(site_params) : Site.new
-                  end
+                  Site.adminable.find(params[:id])
+                else
+                  params[:site] ? Site.new(site_params) : Site.new
+                end
       end
 
       def site_params
         params.require(:site).permit(:scribable_id).tap do |whitelisted|
           whitelisted[:scribable] = GlobalID::Locator.locate_signed(whitelisted[:scribable_id])
-          if params[:site][:properties]
-            whitelisted[:properties] = Scribo::Utility.yaml_safe_parse(params[:site][:properties])
-          end
         end
       end
     end
