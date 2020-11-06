@@ -8,13 +8,9 @@ module Scribo
       before_action :set_objects, except: [:index]
 
       def new
-        if Scribo.config.scribable_objects.count == 1
-          @site.scribable = Scribo.config.scribable_objects.first
-          @site.save!
-          redirect_to(admin_site_contents_path(@site)) and return
-        else
-          render :edit
-        end
+        @site.scribable = Scribo.config.scribable_objects.first
+        @site.save!
+        redirect_to(admin_site_contents_path(@site)) and return
       end
 
       def create

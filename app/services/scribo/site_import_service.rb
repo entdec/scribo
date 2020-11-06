@@ -6,142 +6,86 @@ require 'yaml'
 
 module Scribo
   class SiteImportService < ApplicationService
-    attr_reader :path, :zip_file, :meta_info_site, :base_path
+    attr_reader :path
 
     def initialize(path)
+      super()
       @path = path
-      @zip_file = Zip::File.open(path)
-
-      # Find specific entry
-      meta_info_entry = zip_file.glob('*/_config.yml').first
-
-      @meta_info_site = if meta_info_entry
-                          Scribo::Utility.yaml_safe_parse(meta_info_entry.get_input_stream.read)
-                        else
-                          {}
-                        end
-      meta_info_site['contents'] = [] unless meta_info_site['contents']
-
-      @base_path = nil
-      zip_file.glob('**/*').reject { |e| e.name.start_with?('__MACOSX/') || e.name.end_with?('/.DS_Store') }.each do |entry|
-        @base_path ||= entry.name.split('/').first
-        unless entry.name.start_with?(base_path + '/')
-          raise "Site import needs all site content to be in one folder starting with #{base_path}/"
-        end
-      end
-
-      meta_info_site['properties'] ||= {}
-      meta_info_site['properties']['title'] = base_path
     end
 
     def perform
-      site = create_site
+      Dir.mktmpdir do |dir|
+        Dir.chdir(dir) do
+          unzip(dir)
 
-      (0..max_depth).to_a.each do |depth|
-        zip_file.glob('**/*').reject { |e| e.name.start_with?('__MACOSX/') || e.name.end_with?('/.DS_Store') || e.name.start_with?("#{base_path}/.") }.each do |entry|
-          entry_path = entry_path(base_path, entry.name)
-          next if entry_path.empty?
-          next if entry_depth(entry_path) != depth
+          Dir.glob('**/*').each do |name|
+            parent = if File.dirname(name) == name
+                       nil
+                     else
+                       site.contents.located(File.dirname(name), restricted: false).first
+                     end
 
-          if depth.positive?
-            parts = entry_path.split('/')[1..-1]
-            (parts.size - 1).times do |t|
-              sub_path = '/' + parts[0..t].join('/')
-
-              create_content(site, sub_path, nil)
+            content = site.contents.find_or_create_by(path: File.basename(name), full_path: name, parent: parent)
+            if File.directory?(name)
+              content.kind = 'folder'
+            else
+              File.open(name) do |f|
+                content.kind = Scribo::Utility.kind_for_path(name)
+                content.data_with_frontmatter = f.read
+              end
             end
+            content.save!
           end
-          create_content(site, entry_path, entry)
         end
       end
-
-      zip_file.close
       site
     end
 
     private
 
-    def max_depth
-      @maxdepth ||= zip_file.glob('**/*').reject { |e| e.name.start_with?('__MACOSX/') || e.name.end_with?('/.DS_Store') || e.name.start_with?("#{base_path}/.") }.map do |entry|
-        entry_path = entry_path(base_path, entry.name)
-        entry_depth(entry_path)
-      end.max
-      @maxdepth
-    end
+    def unzip(dir)
+      Zip::File.open(path) do |zipfile|
+        zipfile.reject { |e| e.name.start_with?('__MACOSX/') || e.name.end_with?('/.DS_Store') }.each do |f|
+          file_path = File.join(dir, f.name[base_path(zipfile).length..-1])
+          FileUtils.mkdir_p(File.dirname(file_path)) unless File.exist?(File.dirname(file_path))
 
-    def create_site
-      site = Site.where(scribable: scribable_object_for(meta_info_site['for'])).where("properties->>'title' = ?", meta_info_site['properties']['title']).where("properties->>'baseurl' = ?", meta_info_site['properties']['baseurl']).first
-      site ||= Site.create(scribable: scribable_object_for(meta_info_site['for']), properties: meta_info_site['properties'])
-      site.properties = meta_info_site.except('contents', 'for', 'properties')
-      site.save!
-
-      site
-    end
-
-    def create_content(site, entry_path, entry)
-      meta_info = meta_info_for_entry_name(meta_info_site, entry_path, entry)
-
-      if meta_info['parent']
-        parent = meta_info_site['contents'].find { |mi| mi['path'] == meta_info['parent'] }['record']
+          f.extract(file_path) unless File.exist?(file_path)
+        end
       end
-      content = site.contents.find_or_create_by(path: File.basename(meta_info['path']), full_path: meta_info['path'], parent: parent)
-
-      content.kind = meta_info['kind']
-      content.data_with_frontmatter = entry.get_input_stream.read if entry&.get_input_stream&.respond_to?(:read)
-      content.properties ||= meta_info['properties']
-      content.save!
-
-      meta_info['record'] = content
     end
 
-    def guess_info_for_entry_name(prefill, entry_name, entry)
-      meta_info = prefill
-      meta_info['state'] = 'published'
+    def base_path(zipfile)
+      return @base_path if @base_path
 
-      meta_info['kind'] = if entry.nil?
-                            'folder'
-                          elsif entry.directory?
-                            'folder'
-                          elsif File.extname(entry_name).present?
-                            Scribo::Utility.kind_for_path(entry_name)
-                          elsif entry&.get_input_stream&.respond_to?(:read) && entry.get_input_stream.read.encoding.name != 'ASCII-8BIT'
-                            'asset'
-                          else
-                            'text'
-                          end
-
-      meta_info['published_at'] = Time.new
-      meta_info
-    end
-
-    def meta_info_for_entry_name(meta_info_site, entry_path, entry)
-      path = entry_path
-      meta_info = (meta_info_site['contents'] || []).find { |m| m['path'] == path }
-      unless meta_info
-        meta_info = guess_info_for_entry_name({ 'path' => path }, entry_path, entry)
-        meta_info['parent'] = File.dirname(entry_path) if entry_depth(entry_path).positive?
-        meta_info_site['contents'] << meta_info
+      @base_path = nil
+      zipfile.reject { |e| e.name.start_with?('__MACOSX/') || e.name.end_with?('/.DS_Store') }.each do |f|
+        @base_path ||= if f.directory?
+                         f.name
+                       elsif f.name.include?('/')
+                         f.name.split('/').first
+                       end
+        @base_path = '' if @base_path.nil? && !File.dirname(f.name).start_with?("#{@base_path}/")
       end
-      meta_info
+      @base_path = '' if @base_path == './'
+      @base_path
     end
 
-    def entry_path(base_path, entry_name)
-      entry_name[base_path.size..-1].gsub(%r[/$], '')
+    def site
+      return @site if @site
+
+      scribable = GlobalID::Locator.locate_signed(properties['for'])
+      scribable ||= Scribo.config.scribable_objects.first
+
+      @site = Site.where(scribable: scribable)
+                  .where("properties->>'title' = ?", properties['title'])
+                  .where("properties->>'baseurl' = ?", properties['baseurl']).first
+
+      @site ||= Site.create!(scribable: scribable, properties: properties)
     end
 
-    def entry_depth(entry_path)
-      entry_path.split('/').size - 2
-    end
-
-    def scribable_object_for(str)
-      return Scribo.config.scribable_objects.first unless str
-
-      klass, name = str.split(':')
-      result = Scribo.config.scribable_objects.find do |so|
-        so.class.name.demodulize.underscore == klass && so.to_s == name
-      end
-      result ||= Scribo.config.scribable_objects.first
-      result
+    def properties
+      @properties = Scribo::Utility.yaml_safe_parse(File.read('_config.yml')) if File.exist?('_config.yml')
+      @properties ||= {}
     end
   end
 end
