@@ -63,6 +63,14 @@ module Scribo
       properties['baseurl'] || '/'
     end
 
+    def thumbnail
+      properties['thumbnail']
+    end
+
+    def url
+      properties['url']
+    end
+
     def properties
       attributes['properties'].present? ? attributes['properties'] : { 'title' => NEW_SITE_NAME, 'baseurl' => '/' }
     end

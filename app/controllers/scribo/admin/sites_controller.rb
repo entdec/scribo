@@ -7,11 +7,14 @@ module Scribo
     class SitesController < ApplicationAdminController
       before_action :set_objects, except: [:index]
 
-      add_breadcrumb I18n.t('scribo.breadcrumbs.admin.sites'), :admin_sites_path if defined? add_breadcrumb
-
       def new
-        add_breadcrumb('New site', :new_admin_site_path) if defined? add_breadcrumb
-        render :edit
+        if Scribo.config.scribable_objects.count == 1
+          @site.scribable = Scribo.config.scribable_objects.first
+          @site.save!
+          redirect_to(admin_site_contents_path(@site)) and return
+        else
+          render :edit
+        end
       end
 
       def create
@@ -46,6 +49,9 @@ module Scribo
                 else
                   params[:site] ? Site.new(site_params) : Site.new
                 end
+
+        @scribable_objects = Scribo.config.scribable_objects.map { |so| ["#{so.name} (#{so.class.name.demodulize})", so.to_sgid] }
+        @selected = @scribable_objects.find { |so| GlobalID::Locator.locate_signed(so[1]) == @site.scribable }
       end
 
       def site_params
