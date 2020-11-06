@@ -20,7 +20,11 @@ module Scribo
     def self.for_path(path)
       return none if path.blank?
 
-      paths = path.split('/').map.with_index { |_part, i| path.split('/')[0..i].join('/') }.reject(&:empty?)
+      # Remove any segment which does not end in /
+      path = path[0..-(path.reverse.index('/').to_i + 1)]
+
+      paths = []
+      paths.concat(path.split('/').map.with_index { |_, i| path.split('/')[0..i].join('/') }.reject(&:empty?))
       paths <<= '/'
 
       where("properties->>'baseurl' IN (?) OR properties->>'baseurl' = '' OR properties->>'baseurl' IS NULL", paths).order(Arel.sql("COALESCE(LENGTH(scribo_sites.properties->>'baseurl'), 0) DESC"))
