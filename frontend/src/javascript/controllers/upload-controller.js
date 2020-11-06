@@ -9,6 +9,9 @@ export default class extends Controller {
 
   connect() {
     const self = this;
+    if(!self.data.has('param-name')) {
+      console.warn(this.element, "has no data-upload-param attribute, uploads may not work")
+    };
 
     self.element.addEventListener('dragover', function (evt) {
       evt.preventDefault();

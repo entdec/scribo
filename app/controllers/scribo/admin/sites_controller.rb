@@ -27,8 +27,9 @@ module Scribo
       end
 
       def import
-        if request.post?
-          flash_and_redirect Scribo::SiteImportService.new(params[:site][:zip_file].path).call, admin_sites_path, 'Site imported successfully', 'There were problems importing the site'
+        @sites = Site.adminable
+        params[:files].each do |file|
+          Scribo::SiteImportService.new(file.path).call
         end
       end
 
@@ -40,6 +41,8 @@ module Scribo
       private
 
       def set_objects
+        @sites = Site.adminable
+
         @site = if params[:id]
                   Site.adminable.find(params[:id])
                 else
