@@ -57,17 +57,9 @@ module Scribo
     def base_path(zipfile)
       return @base_path if @base_path
 
-      @base_path = nil
-      zipfile.reject { |e| e.name.start_with?('__MACOSX/') || e.name.end_with?('/.DS_Store') }.each do |f|
-        @base_path ||= if f.directory?
-                         f.name
-                       elsif f.name.include?('/')
-                         f.name.split('/').first
-                       end
-        @base_path = '' if @base_path.nil? && !File.dirname(f.name).start_with?("#{@base_path}/")
-      end
-      @base_path = '' if @base_path == './'
-      @base_path
+      base_paths = zipfile.reject { |e| e.name.start_with?('__MACOSX/') || e.name.end_with?('/.DS_Store') }
+                          .map { |f| f.name.split('/').first }.uniq
+      @base_path = base_paths.size == 1 ? base_paths.first : ''
     end
 
     def site

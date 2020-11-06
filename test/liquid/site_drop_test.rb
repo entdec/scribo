@@ -44,4 +44,15 @@ class SiteDropTest < ActiveSupport::TestCase
 
     assert_equal 'Jane Doe', Scribo::ContentRenderService.new(content, self).call
   end
+
+  test 'iterate over hashes in properties' do
+    site = scribo_sites(:empty)
+    site.properties = { 'social': { 'facebook': '1', 'twitter': 2 } }
+    site.save
+
+    subject = Scribo::SiteDrop.new(site)
+    content = site.contents.create(kind: 'text', data: '{%for platform in site.social%}{{platform[0]}}:{{platform[1]}}|{%endfor%}')
+
+    assert_equal 'twitter:2|facebook:1|', Scribo::ContentRenderService.new(content, self).call
+  end
 end

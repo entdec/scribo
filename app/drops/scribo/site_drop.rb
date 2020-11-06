@@ -77,11 +77,11 @@ module Scribo
         @object.contents.in_folder("_#{method}").to_a
       else
         # See if it's a property
-        if @properties[method.to_s].is_a? Hash
-          Scribo::PropertiesDrop.new(@properties, [method.to_s])
-        else
+        # if @properties[method.to_s].is_a? Hash
+          # Scribo::PropertiesDrop.new(@properties, [method.to_s])
+        # else
           @properties[method.to_s]
-        end
+        # end
       end
     end
   end

@@ -21,3 +21,7 @@ collection:
 translate_site:
   properties:
     baseurl: /
+
+empty:
+  properties:
+    baseurl: /collection

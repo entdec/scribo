@@ -23,15 +23,13 @@ module Scribo
     end
 
     test 'site import and rendering' do
-      Tempfile.open(['hello', '.zip']) do |f|
-        ZipFileGenerator.new('test/files/mysite', folder_entries: false).write(f)
-        site = Scribo::SiteImportService.new(f.path).call
+      f = ZipFileGenerator.new('test/files/mysite', folder_entries: false).write
+      site = Scribo::SiteImportService.new(f.path).call
 
-        subject = Scribo::ContentFindService.new(site, path: '/assets/main.css').perform
-        result = Scribo::ContentRenderService.new(subject, {}).perform
+      subject = Scribo::ContentFindService.new(site, path: '/assets/main.css').perform
+      result = Scribo::ContentRenderService.new(subject, {}).perform
 
-        assert_includes result, 'Reset some basic elements'
-      end
+      assert_includes result, 'Reset some basic elements'
     end
   end
 end
