@@ -5,14 +5,14 @@ en:
         sites: Sites
         contents: Contents
         translations: Translations
-        sites: "Sites"
-    context_menu:
-      add: Create new site
-      edit: Edit
-      import: Import a site
+    sites:
       export: Download site
       ide: Open IDE
+      preview: Preview
       delete: Delete site
+      delete_confirm: Are you sure you want to delete this site?
+      upload: Drop a zip to import a site
+      create: Create a new site
     tools:
       new_file: New file
       new_folder: New folder
