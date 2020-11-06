@@ -27,12 +27,14 @@ export default class extends Controller {
       evt.cancelBubble = true;
 
       let formData = new FormData();
-      for (let [key, value] of Object.entries(JSON.parse(self.data.get('extra-data')))) {
-        formData.append(key, value);
+      if(self.data.has('extra-data')) {
+        for (let [key, value] of Object.entries(JSON.parse(self.data.get('extra-data')))) {
+          formData.append(key, value);
+        }
       }
 
       for (let i = 0; i < evt.dataTransfer.files.length; i++) {
-        formData.append('content[files][]', evt.dataTransfer.files[i]);
+        formData.append(self.data.get('param-name'), evt.dataTransfer.files[i]);
       }
 
       fetch(self.data.get('url'), {
