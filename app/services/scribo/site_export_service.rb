@@ -16,7 +16,7 @@ module Scribo
 
       site.contents.rebuild!
 
-      zip_name = "site_#{site.properties['title'] || 'untitled'}"
+      zip_name = (site.properties['title'] || 'untitled').to_s
       base_path = "#{zip_name}/"
 
       stringio = Zip::OutputStream.write_buffer do |zio|
