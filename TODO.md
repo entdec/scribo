@@ -20,9 +20,17 @@
 - Local tags
   Local tags (https://github.com/Shopify/liquid/pull/590) - a way to make tags only available for certain templates
   ie include should not be available for messages.
-
 - Search tag
 - Mail tag
+
+## Jekyll compatibility
+
+- Check filters from Jekyll: https://github.com/jekyll/jekyll/blob/c9b84e2b354067e61cf9878f27665c5c1c02481c/lib/jekyll/filters.rb
+- Pagination: https://jekyllrb.com/docs/pagination/
+
+## Permissions / scribable
+
+- Switch to one scribable object, site new will only take first one, so will site import.
 
 ## IDE
 

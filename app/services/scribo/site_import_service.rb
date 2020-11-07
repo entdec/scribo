@@ -65,8 +65,7 @@ module Scribo
     def site
       return @site if @site
 
-      scribable = GlobalID::Locator.locate_signed(properties['for'])
-      scribable ||= Scribo.config.scribable_objects.first
+      scribable = Scribo.config.scribable_objects.first
 
       @site = Site.where(scribable: scribable)
                   .where("properties->>'title' = ?", properties['title'])
