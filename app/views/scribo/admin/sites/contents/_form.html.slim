@@ -3,7 +3,7 @@
       - if @content.kind == 'asset'
           - if @content.media_type == 'image'
             img src=content_path(@content) style="max-width: 100%; border: 1px dashed #ccc;"
-          - if @content.media_type == 'font'
+          - if @content.media_type == 'font' || @content.mime_type == "application/vnd.ms-fontobject"
             css:
               @font-face {
                 font-family: 'MyWebFont';
@@ -13,7 +13,7 @@
               div style="font-family: MyWebFont; font-size: #{i}px;"
                 | #{i} - THE QUICK BROWN FOX JUMPED OVER THE LAZY DOG. the quick brown fox jumped over the lazy dog.
 
-          textarea name='content[properties]' data-controller="scribo-editor" data-target="scribo-editor.textarea" data-scribo-editor-height='250px' data-scribo-editor-mode='application/yaml'
+          /textarea name='content[properties]' data-controller="scribo-editor" data-target="scribo-editor.textarea" data-scribo-editor-height='250px' data-scribo-editor-mode='application/yaml'
             = YAML.dump(@content.properties)
 
       - else
