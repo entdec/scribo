@@ -47,11 +47,7 @@ module Scribo
     def liquid_method_missing(method)
       return nil unless @properties
 
-      if @properties[method.to_s].is_a? Hash
-        Scribo::PropertiesDrop.new(@properties, [method.to_s])
-      else
-        @properties[method.to_s]
-      end
+      @properties[method.to_s]
     end
   end
 end
