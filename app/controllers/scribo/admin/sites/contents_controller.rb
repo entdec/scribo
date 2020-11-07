@@ -51,7 +51,7 @@ module Scribo
       end
 
       def upload
-        @parent = Scribo::Content.find(params[:content][:parent_id])
+        @parent = Scribo::Content.find(params[:content][:parent_id]) if params[:content][:parent_id]
 
         params[:content][:files]&.each do |file|
           content = @site.contents.create!(kind: Scribo::Utility.kind_for_content_type(file.content_type),
