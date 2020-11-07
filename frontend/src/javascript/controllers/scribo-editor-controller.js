@@ -43,7 +43,7 @@ import "codemirror/addon/fold/foldgutter.css";
  * Control codemirror
  */
 export default class extends Controller {
-    static targets = ["textarea", "file"];
+    static targets = ["textarea"];
 
     connect() {
         const self = this;
