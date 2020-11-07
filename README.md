@@ -14,6 +14,12 @@ It also makes no assumptions about your data models, it does come feature packed
 - Layouts
 - [Liquid](http://liquidmarkup.org) templating
 - Mostly [Jekyll](https://jekyllrb.com) compatibile
+- Use of [YAML](https://yaml.org) in front-matter and configuration
+
+## Documentation
+
+- [YAML](https://learn-the-web.algonquindesign.ca/topics/markdown-yaml-cheat-sheet/#yaml) cheatsheet
+- Quick [YAML](https://learnxinyminutes.com/docs/yaml/) introduction
 
 ## Installation
 
