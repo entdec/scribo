@@ -6,9 +6,9 @@
         = site.title
         - if site.url
           =< link_to site.url, title: t('scribo.sites.preview') do
-            i.fas.fa-eye
+            i.fal.fa-eye
         - if site.contents.count > 0
           =< link_to(export_admin_site_path(site), 'data-turbolinks' => 'false', title: t('scribo.sites.export')) do
-            i.fas.fa-download
+            i.fal.fa-download
         =< link_to admin_site_path(site), title: t('scribo.sites.delete'), method: :delete, "data-confirm" => t('scribo.sites.delete_confirm') do
-          i.fas.fa-trash
+          i.fal.fa-trash-alt
