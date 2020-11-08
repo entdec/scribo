@@ -3,15 +3,15 @@ li.entry class="#{content.kind == 'folder' ? 'directory open' : 'file'}" data-co
     a.list-item data-action="dblclick->tree-view#rename" data-tree-view-rename-url="#{rename_admin_site_content_url(content.site, content)}"
       span.name data-path="#{content.path}" = content.path
       .tools
-        i.fas.fa-file-medical data-action="click->tree-view#create" data-kind="text" data-url="#{admin_site_contents_url(@site)}" title=I18n.t('scribo.tools.new_file')
-        i.fas.fa-folder-plus data-action="click->tree-view#create" data-kind="folder" data-url="#{admin_site_contents_url(@site)}" title=I18n.t('scribo.tools.new_folder')
-        i.fas.fa-trash-alt data-action="click->tree-view#delete" data-url="#{admin_site_content_path(@site, content)}" data-confirm=I18n.t('scribo.confirm.delete_folder') title=I18n.t('scribo.tools.delete_folder')
+        i.fal.fa-file-plus data-action="click->tree-view#create" data-kind="text" data-url="#{admin_site_contents_url(@site)}" title=I18n.t('scribo.tools.new_file')
+        i.fal.fa-folder-plus data-action="click->tree-view#create" data-kind="folder" data-url="#{admin_site_contents_url(@site)}" title=I18n.t('scribo.tools.new_folder')
+        i.fal.fa-trash-alt data-action="click->tree-view#delete" data-url="#{admin_site_content_path(@site, content)}" data-confirm=I18n.t('scribo.confirm.delete_folder') title=I18n.t('scribo.tools.delete_folder')
 
   - else
     a.list-item data-action="click->tree-view#open dblclick->tree-view#rename" data-tree-view-url="#{edit_admin_site_content_url(content.site, content)}" data-tree-view-rename-url="#{rename_admin_site_content_url(content.site, content)}"
       span.name data-path="#{content.path}" = content.path
       .tools
-        i.fas.fa-trash-alt data-action="click->tree-view#delete" data-url="#{admin_site_content_path(@site, content)}" data-confirm=I18n.t('scribo.confirm.delete_file') title=I18n.t('scribo.tools.delete_file')
+        i.fal.fa-trash-alt data-action="click->tree-view#delete" data-url="#{admin_site_content_path(@site, content)}" data-confirm=I18n.t('scribo.confirm.delete_file') title=I18n.t('scribo.tools.delete_file')
   ul data-parent="#{content.id}"
     - content.children.reorder(:path).each do |child|
       = render partial: 'scribo/shared/entry', locals: {content: child}

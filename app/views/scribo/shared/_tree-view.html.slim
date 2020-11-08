@@ -6,9 +6,9 @@ div.section
 div.section
   span.title = @site.title
   .tools
-    i.fas.fa-file-medical data-action="click->tree-view#create" data-kind="text" data-url="#{admin_site_contents_url(@site)}" title=I18n.t('scribo.tools.new_file')
-    i.fas.fa-folder-plus data-action="click->tree-view#create" data-kind="folder" data-url="#{admin_site_contents_url(@site)}" title=I18n.t('scribo.tools.new_folder')
-    i.fas.fa-minus-square data-action="click->tree-view#collapseAll" title=I18n.t('scribo.tools.collapse_all')
+    i.fal.fa-file-plus data-action="click->tree-view#create" data-kind="text" data-url="#{admin_site_contents_url(@site)}" title=I18n.t('scribo.tools.new_file')
+    i.fal.fa-folder-plus data-action="click->tree-view#create" data-kind="folder" data-url="#{admin_site_contents_url(@site)}" title=I18n.t('scribo.tools.new_folder')
+    i.fal.fa-minus-square data-action="click->tree-view#collapseAll" title=I18n.t('scribo.tools.collapse_all')
 
   ul
     - @contents.roots.reorder(:path).each do |content|
@@ -35,4 +35,4 @@ template data-target="tree-view.openEditorTemplate"
         | ${path}
         small ${full_path}
       .tools
-        i.fas.fa-save data-action="click->tree-view#save" title=I18n.t('scribo.tools.save')
+        i.fal.fa-save data-action="click->tree-view#save" title=I18n.t('scribo.tools.save')
