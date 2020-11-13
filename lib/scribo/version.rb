@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
 module Scribo
-  VERSION = '0.3.62'
+  VERSION = '0.3.63'
 end
