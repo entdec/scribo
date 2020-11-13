@@ -45,6 +45,15 @@ class SiteDropTest < ActiveSupport::TestCase
     assert_equal 'Jane Doe', Scribo::ContentRenderService.new(content, self).call
   end
 
+  test 'setting up collections, allows you to iterate over them and get content' do
+    site = scribo_sites(:collection)
+    site.properties = { 'collections': { 'staff_members': { 'output': true } } }
+    site.save
+
+    subject = Scribo::SiteDrop.new(site)
+    content = site.contents.create(kind: 'text', data: '{%for staff_member in site.staff_members%}{{staff_member.content}}{%endfor%}')
+    assert_equal "<p>Jane has worked on Jekyll for the past <em>five years</em>.</p>\n", Scribo::ContentRenderService.new(content, self).call
+  end
   test 'iterate over hashes in properties' do
     site = scribo_sites(:empty)
     site.properties = { 'social': { 'facebook': '1', 'twitter': 2 } }

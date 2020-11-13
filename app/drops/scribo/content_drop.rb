@@ -44,6 +44,10 @@ module Scribo
       @object.left_sibling
     end
 
+    def content
+      @object.content(@context.registers['controller'])
+    end
+
     def liquid_method_missing(method)
       return nil unless @properties
 

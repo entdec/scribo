@@ -51,7 +51,7 @@ module Scribo
       search_path = Scribo::Utility.switch_extension(search_path, 'html') unless File.extname(search_path).present?
       search_paths = Scribo::Utility.variations_for_path(search_path)
       search_paths.unshift(Scribo::Utility.switch_extension(search_path, 'link'))
-      search_paths.unshift(path)
+      search_paths.unshift(path) # deal with permalinks
 
       result = published.where(full_path: search_paths)
       result = result.restricted if restricted
@@ -148,6 +148,10 @@ module Scribo
       Scribo::ContentRenderService.new(self, {}, data: excerpt_part, layout: false).call
     end
 
+    def content(context)
+      Scribo::ContentRenderService.new(self, context, {}).call
+    end
+
     def categories
       return [] unless post?
 
@@ -199,6 +203,8 @@ module Scribo
         result = categories.join('/') + '/'
         result += date.strftime('%Y/%m/%d/')
         result += path[11..-1]
+      elsif part_of_collection?
+        result = "#{collection_name}/#{path}"
       else
         result = (ancestors.map(&:path) << path).join('/')
       end
@@ -207,6 +213,18 @@ module Scribo
       update_column(:full_path, result)
 
       children.each(&:set_full_path)
+    end
+
+    def collection_name
+      return nil unless part_of_collection?
+
+      parent.path[1..-1]
+    end
+
+    def part_of_collection?
+      return false unless parent&.path&.start_with?('_')
+
+      site.collections.include?(parent.path[1..-1])
     end
 
     def redirect?
@@ -254,6 +272,7 @@ module Scribo
       return unless attributes['data'].present?
 
       site.update(properties: Scribo::Utility.yaml_safe_parse(attributes['data']))
+      site.reshuffle!
     end
 
     def post_path

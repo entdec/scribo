@@ -44,6 +44,10 @@ module Scribo
       end
     end
 
+    def reshuffle!
+      contents.roots.each(&:set_full_path)
+    end
+
     def scribable_for
       return unless scribable
 

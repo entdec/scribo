@@ -46,6 +46,15 @@ module Scribo
       assert_equal '/2020/11/01/test.md', subject.full_path
     end
 
+    test 'sets full path correctly for collection and document smurrefluts.md' do
+      @site = Scribo::Site.create!(properties: { 'collections': { 'docs': { 'output': true } } })
+      folder = @site.contents.create!(kind: 'folder', path: '_docs')
+      subject = @site.contents.create!(parent: folder, kind: 'text', path: 'smurrefluts.md', data: '# smurrefluts')
+
+      assert subject.part_of_collection?
+      assert_equal '/docs/smurrefluts.md', subject.full_path
+    end
+
     test 'renders simple text content' do
       subject = scribo_contents(:index)
       result = Scribo::ContentRenderService.new(subject, self).call
