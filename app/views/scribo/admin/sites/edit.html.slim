@@ -1,3 +1,0 @@
-= simple_form_for([:admin, @site], url: @site.new_record? ? admin_sites_path : admin_site_path, html: {multipart: true}) do |f|
-  = f.association :scribable, label: 'For', collection: @scribable_objects, selected: @selected
-  = f.button :button, 'Save', name: 'commit', value: 'save', class: 'btn-primary', data: { disable_with: 'Save' }

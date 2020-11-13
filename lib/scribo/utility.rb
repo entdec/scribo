@@ -24,8 +24,9 @@ module Scribo
     end
 
     def kind_for_path(path)
-      known_text = %w[scss sass less slim es6 babel jsx]
-      if known_text.include?(File.extname(path)[1..-1].to_s)
+      known_text_files = %[Gemfile]
+      known_text = %w[scss sass less slim es6 babel jsx json]
+      if known_text.include?(File.extname(path)[1..-1].to_s) || known_text_files.include?(File.basename(path))
         'text'
       else
         MIME::Types.type_for(path).any? { |t| t.media_type == 'text' } ? 'text' : 'asset'
