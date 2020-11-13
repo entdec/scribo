@@ -37,6 +37,5 @@
 - Allow for multiple tabs and open editors
 - Search for content
 - Use localstorage for changes to prevent loss
-- Allow to switch to WYSIWYG - https://github.com/laobubu/hypermd/
 - Allow export, preview from IDE
 - Allow to go back to sites index
