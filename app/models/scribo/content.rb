@@ -44,16 +44,18 @@ module Scribo
     def self.located(path, restricted: true)
       restricted = true if restricted.nil? # If blank it's still restricted
 
-      path = "/#{path}" unless path.start_with?('/')
-      path = "#{path}/index.html" if path.ends_with?('/')
+      search_path = path
+      search_path = "/#{search_path}" unless search_path.start_with?('/')
+      search_path = "#{search_path}index.html" if search_path.ends_with?('/')
 
-      path = Scribo::Utility.switch_extension(path, 'html') unless File.extname(path).present?
-      paths = Scribo::Utility.variations_for_path(path)
-      paths.unshift(Scribo::Utility.switch_extension(path, 'link'))
+      search_path = Scribo::Utility.switch_extension(search_path, 'html') unless File.extname(search_path).present?
+      search_paths = Scribo::Utility.variations_for_path(search_path)
+      search_paths.unshift(Scribo::Utility.switch_extension(search_path, 'link'))
+      search_paths.unshift(path)
 
-      result = published.where(full_path: paths)
+      result = published.where(full_path: search_paths)
       result = result.restricted if restricted
-      result.or(published.permalinked(paths))
+      result.or(published.permalinked(search_paths))
     end
 
     def self.search(search_string)

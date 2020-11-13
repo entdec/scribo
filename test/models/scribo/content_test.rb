@@ -99,5 +99,10 @@ module Scribo
       subject.data_with_frontmatter = "# Hello\n\nSmurrefluts"
       assert_equal "<p>Smurrefluts</p>\n", subject.excerpt
     end
+
+    test 'locate /' do
+      subject = Scribo::Content.located('/').to_sql
+      assert_includes subject, "('/', '/index.link', '/index.html', '/index.htm', '/index.htmlx', '/index.shtml', '/index.htx', '/index.md', '/index.markdown', '/index.mkd', '/index.slim', '/index')"
+    end
   end
 end
