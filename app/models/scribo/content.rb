@@ -271,8 +271,15 @@ module Scribo
     def store_properties
       return unless attributes['data'].present?
 
-      site.update(properties: Scribo::Utility.yaml_safe_parse(attributes['data']))
-      site.reshuffle!
+      new_properties = Scribo::Utility.yaml_safe_parse(attributes['data'])
+      old_properties = site.properties
+      site.update(properties: new_properties)
+
+      # Only reshuffle if they need to
+      if old_properties['collections'] != new_properties['collections'] ||
+         old_properties['permalink'] != new_properties['permalink']
+        site.reshuffle!
+      end
     end
 
     def post_path
