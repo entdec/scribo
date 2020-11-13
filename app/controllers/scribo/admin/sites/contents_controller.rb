@@ -73,7 +73,7 @@ module Scribo
                          else
                            params[:content] ? @site.contents.new(content_params) : @site.contents.new
                          end
-        @contents      = @site.contents.roots.reorder(:path) if request.format == :html
+        @contents      = @site.contents.roots.where(kind: 'folder').reorder(:path) + @site.contents.roots.where("kind <> 'folder'").reorder(:path)
       end
 
       def content_params
