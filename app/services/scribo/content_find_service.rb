@@ -37,7 +37,12 @@ module Scribo
                   # bah
                   scope.roots.first
                 else
-                  scope.first
+                  scope = if scope.first&.folder?
+                            # Redirect
+                            Scribo::Content.new(kind: 'text', path: '/directory.link', full_path: '/directory.link', data: "#{options[:path]}/")
+                          else
+                            scope.first
+                          end
                 end
 
       # Find by content id

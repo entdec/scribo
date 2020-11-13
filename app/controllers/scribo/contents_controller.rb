@@ -8,7 +8,7 @@ module Scribo
     protect_from_forgery except: :show
 
     def show
-      render scribo: Scribo.config.site_for_uri(URI.parse(request.original_url)), path: request.path
+      render scribo: Scribo.config.site_for_uri(URI.parse(request.original_url)), path: request.original_fullpath
     rescue StandardError => e
       Scribo.config.logger.error '--- Content rendering errors: ' + '-' * 49
       Scribo.config.logger.error '=> ' + e.backtrace.map(&:to_s).join("\n") + ': ' + e.message
