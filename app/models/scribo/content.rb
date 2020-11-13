@@ -44,8 +44,8 @@ module Scribo
     def self.located(path, restricted: true)
       restricted = true if restricted.nil? # If blank it's still restricted
 
-      path = '/' + path unless path.start_with?('/')
-      path = '/index.html' if path == '/'
+      path = "/#{path}" unless path.start_with?('/')
+      path = "#{path}/index.html" if path.ends_with?('/')
 
       path = Scribo::Utility.switch_extension(path, 'html') unless File.extname(path).present?
       paths = Scribo::Utility.variations_for_path(path)
@@ -225,6 +225,10 @@ module Scribo
 
     def asset?
       kind == 'asset'
+    end
+
+    def folder?
+      kind == 'folder'
     end
 
     private
