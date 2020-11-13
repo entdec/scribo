@@ -98,8 +98,7 @@ module Scribo
 
     test 'layout cant be current content' do
       subject = scribo_contents(:layout)
-      subject.properties = {}
-      subject.properties['layout'] = Scribo::Utility.file_name(scribo_contents(:layout).path)
+      subject.update(properties: { layout: Scribo::Utility.file_name(scribo_contents(:layout).path) })
       assert_not subject.valid?
     end
 
@@ -112,6 +111,26 @@ module Scribo
     test 'locate /' do
       subject = Scribo::Content.located('/').to_sql
       assert_includes subject, "('/', '/index.link', '/index.html', '/index.htm', '/index.htmlx', '/index.shtml', '/index.htx', '/index.md', '/index.markdown', '/index.mkd', '/index.slim', '/index')"
+    end
+
+    test 'content properties with site defaults' do
+      skip
+
+      @site = Scribo::Site.create!(properties: { 'defaults': ['scope': { path: 'section' }, 'values': { layout: 'specific-layout' }] })
+      folder = @site.contents.create!(kind: 'folder', path: 'section')
+      subject = @site.contents.create!(parent: folder, kind: 'text', path: 'smurrefluts.md', data: '# smurrefluts')
+
+      assert_equal({ 'layout' => 'specific-layout' }, subject.defaults)
+      assert_equal 'specific-layout', subject.properties['layout']
+    end
+
+    test 'content properties with site defaults, out of scope' do
+      @site = Scribo::Site.create!(properties: { 'defaults': ['scope': { path: 'section' }, 'values': { layout: 'specific-layout' }] })
+      folder = @site.contents.create!(kind: 'folder', path: 'blasection')
+      subject = @site.contents.create!(parent: folder, kind: 'text', path: 'smurrefluts.md', data: '# smurrefluts')
+
+      assert_equal({}, subject.defaults)
+      assert_nil subject.properties['layout']
     end
   end
 end

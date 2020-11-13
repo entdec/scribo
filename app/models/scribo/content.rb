@@ -5,6 +5,8 @@ require_dependency 'scribo/application_record'
 module Scribo
   # Represents any content in the system
   class Content < ApplicationRecord
+    @@site_properties = {}
+
     acts_as_nested_set scope: :scribo_site, counter_cache: :children_count
 
     belongs_to :site, class_name: 'Site', foreign_key: 'scribo_site_id'
@@ -102,9 +104,46 @@ module Scribo
       end
     end
 
-    # Used for merging
+    # Used for merging with defaults
     def properties
       attributes['properties']
+      # defaults.merge(attributes['properties'] || {})
+    end
+
+    def site_properties
+      return unless scribo_site_id
+      return @@site_properties[scribo_site_id] if @@site_properties[scribo_site_id]
+
+      @@site_properties[scribo_site_id] = site.properties
+    end
+
+    def defaults
+      site_defaults = site_properties&.[]('defaults')
+      return {} unless site_defaults
+      return {} unless full_path
+
+      props = site_defaults.find do |d|
+        s = d['scope']
+        next unless s
+
+        result = false
+
+        if s['path']
+          result = true
+          p = s['path']
+          unless p.include?('*')
+            p = "/#{p}" unless p.start_with?('/')
+            p = "#{p}/" unless p.ends_with?('/')
+            p += '*'
+          end
+
+          result &= File.fnmatch?(p, full_path.to_s, File::FNM_EXTGLOB)
+        end
+
+        result
+      end
+
+      (props || {}).fetch('values', {})
     end
 
     def properties=(text)
