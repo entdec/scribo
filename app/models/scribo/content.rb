@@ -71,14 +71,6 @@ module Scribo
       site.contents.layout(layout_name).first
     end
 
-    def redirect?
-      extname == 'link'
-    end
-
-    def layout?
-      full_path.start_with?('/_layouts/')
-    end
-
     def identifier
       # TODO: Remove this
       if Scribo::Content.columns.map(&:name).include?('identifier')
@@ -136,14 +128,6 @@ module Scribo
       end
 
       prop_date || post_date
-    end
-
-    def post?
-      ancestors.map(&:path).join('/').start_with?('_posts')
-    end
-
-    def config?
-      full_path == '/_config.yml'
     end
 
     def post_date
@@ -221,6 +205,22 @@ module Scribo
       update_column(:full_path, result)
 
       children.each(&:set_full_path)
+    end
+
+    def redirect?
+      extname == 'link'
+    end
+
+    def layout?
+      full_path.start_with?('/_layouts/')
+    end
+
+    def post?
+      ancestors.map(&:path).join('/').start_with?('_posts')
+    end
+
+    def config?
+      full_path == '/_config.yml'
     end
 
     def asset?
