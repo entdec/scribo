@@ -13,8 +13,8 @@ module Scribo
       File.basename(path, File.extname(path))
     end
 
-    def switch_extension(path, new_extension)
-      new_extension = '.' + new_extension unless new_extension.start_with?('.')
+    def switch_extension(path, new_extension = '')
+      new_extension = '.' + new_extension if new_extension.present? && !new_extension.start_with?('.')
       ext = File.extname(path)
       path.gsub(/#{ext}$/, new_extension)
     end
@@ -49,6 +49,7 @@ module Scribo
     end
 
     def variations_for_path(path)
+      path = path.to_s
       result = []
       MIME::Types.type_for(path).each do |mime_type|
         result += mime_type.extensions if mime_type.extensions
