@@ -44,24 +44,9 @@ module Scribo
     def self.located(path, restricted: true)
       restricted = true if restricted.nil? # If blank it's still restricted
 
-      search_path = path
-      search_path = "/#{search_path}" unless search_path.start_with?('/')
-      search_path = "#{search_path}index.html" if search_path.ends_with?('/')
-
-      search_path = Scribo::Utility.switch_extension(search_path, 'html') unless File.extname(search_path).present?
-      search_paths = Scribo::Utility.variations_for_path(search_path)
-
-      search_path = path.sub(%r[/$], '')
-      secondary_paths = Scribo::Utility.switch_extension(search_path, 'html') unless File.extname(search_path).present?
-      secondary_paths = Scribo::Utility.variations_for_path(secondary_paths)
-      search_paths.concat(secondary_paths) # deal with urls ending (wrongly) in /
-
-      search_paths.unshift(Scribo::Utility.switch_extension(search_path, 'link'))
-      search_paths.unshift(path) # deal with permalinks
-
-      result = published.where(full_path: search_paths)
+      result = published.where(full_path: search_paths_for(path))
       result = result.restricted if restricted
-      result.or(published.permalinked(search_paths))
+      result.or(published.permalinked(search_paths_for(path)))
     end
 
     # Uses https://www.postgresql.org/docs/current/textsearch-controls.html
@@ -204,25 +189,6 @@ module Scribo
       super + '-' + I18n.locale.to_s
     end
 
-    def set_full_path
-      return unless respond_to?(:full_path_changed?)
-
-      if post?
-        result = categories.join('/') + '/'
-        result += date.strftime('%Y/%m/%d/')
-        result += path[11..-1]
-      elsif part_of_collection?
-        result = "#{collection_name}/#{path}"
-      else
-        result = (ancestors.map(&:path) << path).join('/')
-      end
-      result = '/' + result unless result.start_with?('/')
-
-      update_column(:full_path, result)
-
-      children.each(&:set_full_path)
-    end
-
     def collection_name
       return nil unless part_of_collection?
 
@@ -259,7 +225,52 @@ module Scribo
       kind == 'folder'
     end
 
+    def self.search_paths_for(path)
+      search_paths = []
+
+      search_path = path
+      search_path = "/#{search_path}" unless search_path.start_with?('/')
+      search_path = "#{search_path}index.html" if search_path.ends_with?('/')
+
+      search_paths.concat(alternative_paths_for(search_path))
+
+      secondary_search_path = path.sub(%r[/$], '')
+      if secondary_search_path != '' && secondary_search_path != search_path
+        search_paths.concat(alternative_paths_for(secondary_search_path))
+      end
+
+      search_paths.unshift(path) if search_paths.exclude?(path) # deal with permalinks
+
+      search_paths
+    end
+
+    def self.alternative_paths_for(search_path)
+      search_paths = []
+      search_path = Scribo::Utility.switch_extension(search_path, 'html') unless File.extname(search_path).present?
+      search_paths.concat(Scribo::Utility.variations_for_path(search_path))
+      search_paths << Scribo::Utility.switch_extension(search_path, 'link')
+    end
+
     private
+
+    def set_full_path
+      return unless respond_to?(:full_path_changed?)
+
+      if post?
+        result = categories.join('/') + '/'
+        result += date.strftime('%Y/%m/%d/')
+        result += path[11..-1]
+      elsif part_of_collection?
+        result = "#{collection_name}/#{path}"
+      else
+        result = (ancestors.map(&:path) << path).join('/')
+      end
+      result = '/' + result unless result.start_with?('/')
+
+      update_column(:full_path, result)
+
+      children.each(&:set_full_path)
+    end
 
     def upload_asset
       return unless asset?

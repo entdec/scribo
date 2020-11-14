@@ -108,11 +108,6 @@ module Scribo
       assert_equal "<p>Smurrefluts</p>\n", subject.excerpt
     end
 
-    test 'locate /' do
-      subject = Scribo::Content.located('/').to_sql
-      assert_includes subject, "('/', '/index.link', '/index.html', '/index.htm', '/index.htmlx', '/index.shtml', '/index.htx', '/index.md', '/index.markdown', '/index.mkd', '/index.slim', '/index')"
-    end
-
     test 'content properties with site defaults' do
       skip
 
@@ -129,8 +124,26 @@ module Scribo
       folder = @site.contents.create!(kind: 'folder', path: 'blasection')
       subject = @site.contents.create!(parent: folder, kind: 'text', path: 'smurrefluts.md', data: '# smurrefluts')
 
-      assert_equal({}, subject.defaults)
+      assert_equal({}, @site.defaults_for(subject))
       assert_nil subject.properties['layout']
+    end
+
+    test 'finds all alternatives path for /' do
+      subject = Scribo::Content.search_paths_for('/')
+
+      assert_equal %w[/ /index /index.htm /index.html /index.htmlx /index.htx /index.link /index.markdown /index.md /index.mkd /index.shtml /index.slim], subject.sort
+    end
+
+    test 'finds all alternatives path for /index' do
+      subject = Scribo::Content.search_paths_for('/index')
+
+      assert_equal %w[/index /index.htm /index.html /index.htmlx /index.htx /index.link /index.markdown /index.md /index.mkd /index.shtml /index.slim], subject.sort
+    end
+
+    test 'finds all alternatives path for /docs/' do
+      subject = Scribo::Content.search_paths_for('/docs/')
+
+      assert_equal %w[/docs /docs.htm /docs.html /docs.htmlx /docs.htx /docs.link /docs.markdown /docs.md /docs.mkd /docs.shtml /docs.slim /docs/ /docs/index /docs/index.htm /docs/index.html /docs/index.htmlx /docs/index.htx /docs/index.link /docs/index.markdown /docs/index.md /docs/index.mkd /docs/index.shtml /docs/index.slim], subject.sort
     end
   end
 end
