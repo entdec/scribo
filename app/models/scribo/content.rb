@@ -50,6 +50,12 @@ module Scribo
 
       search_path = Scribo::Utility.switch_extension(search_path, 'html') unless File.extname(search_path).present?
       search_paths = Scribo::Utility.variations_for_path(search_path)
+
+      search_path = path.sub(%r[/$], '')
+      secondary_paths = Scribo::Utility.switch_extension(search_path, 'html') unless File.extname(search_path).present?
+      secondary_paths = Scribo::Utility.variations_for_path(secondary_paths)
+      search_paths.concat(secondary_paths) # deal with urls ending (wrongly) in /
+
       search_paths.unshift(Scribo::Utility.switch_extension(search_path, 'link'))
       search_paths.unshift(path) # deal with permalinks
 
@@ -121,7 +127,9 @@ module Scribo
     end
 
     def url
-      permalink || full_path
+      result = permalink || Scribo::Utility.switch_extension(full_path)
+      result += '/' unless result.end_with?('/')
+      result
     end
 
     def date
