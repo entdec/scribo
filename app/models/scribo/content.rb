@@ -5,8 +5,6 @@ require_dependency 'scribo/application_record'
 module Scribo
   # Represents any content in the system
   class Content < ApplicationRecord
-    @@site_properties = {}
-
     acts_as_nested_set scope: :scribo_site, counter_cache: :children_count
 
     belongs_to :site, class_name: 'Site', foreign_key: 'scribo_site_id'
@@ -106,15 +104,9 @@ module Scribo
       # defaults.merge(attributes['properties'] || {})
     end
 
-    def site_properties
-      return unless scribo_site_id
-      return @@site_properties[scribo_site_id] if @@site_properties[scribo_site_id]
-
-      @@site_properties[scribo_site_id] = site.properties
-    end
-
+    # FIXME: This is too slow to use
     def defaults
-      site_defaults = site_properties&.[]('defaults')
+      site_defaults = site.properties&.[]('defaults')
       return {} unless site_defaults
       return {} unless full_path
 
