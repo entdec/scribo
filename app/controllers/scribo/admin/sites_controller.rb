@@ -8,9 +8,9 @@ module Scribo
       before_action :set_objects, except: [:index]
 
       def new
-        @site.scribable = Scribo.config.scribable_objects.first
-        @site.save!
-        redirect_to(admin_site_contents_path(@site)) and return
+        @site = Scribo::Site.create!
+        redirect_to(admin_site_contents_path(@site))
+        nil
       end
 
       def create
@@ -42,21 +42,7 @@ module Scribo
 
       def set_objects
         @sites = Site.adminable
-
-        @site = if params[:id]
-                  Site.adminable.find(params[:id])
-                else
-                  params[:site] ? Site.new(site_params) : Site.new
-                end
-
-        @scribable_objects = Scribo.config.scribable_objects.map { |so| ["#{so.name} (#{so.class.name.demodulize})", so.to_sgid] }
-        @selected = @scribable_objects.find { |so| GlobalID::Locator.locate_signed(so[1]) == @site.scribable }
-      end
-
-      def site_params
-        params.require(:site).permit(:scribable_id).tap do |whitelisted|
-          whitelisted[:scribable] = GlobalID::Locator.locate_signed(whitelisted[:scribable_id])
-        end
+        @site = Site.adminable.find(params[:id]) if params[:id]
       end
     end
   end

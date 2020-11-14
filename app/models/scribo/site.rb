@@ -7,9 +7,11 @@ module Scribo
   class Site < ApplicationRecord
     NEW_SITE_NAME = 'Untitled site'
 
-    belongs_to :scribable, polymorphic: true, optional: true
+    belongs_to :scribable, polymorphic: true
 
     has_many :contents, class_name: 'Content', foreign_key: 'scribo_site_id', dependent: :destroy
+
+    before_validation :store_scribable
 
     attr_accessor :zip_file
 
@@ -46,12 +48,6 @@ module Scribo
 
     def reshuffle!
       contents.roots.each(&:set_full_path)
-    end
-
-    def scribable_for
-      return unless scribable
-
-      "#{scribable.class.name.demodulize.underscore}:#{scribable}"
     end
 
     # See https://jekyllrb.com/docs/permalinks/
@@ -128,6 +124,14 @@ module Scribo
     #
     def total_size
       contents.map { |c| c.data ? c.data.size : c.asset.attachment&.download&.size || 0 }.sum
+    end
+
+    private
+
+    def store_scribable
+      return if scribable
+
+      self.scribable = Scribo.config.current_scribable
     end
   end
 end

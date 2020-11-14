@@ -20,7 +20,7 @@ scss:
 #sites
   = render partial: 'sites'
 
-= link_to(new_admin_site_path) do
+= link_to(new_admin_site_path, { 'data-turbolinks' => false }) do
   div.site
     img src="https://via.placeholder.com/200x200.png?text=%2B"
       .title = t('scribo.sites.create')

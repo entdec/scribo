@@ -1,22 +1,22 @@
 module Scribo
   class Configuration
     attr_accessor :admin_authentication_module, :base_controller, :supported_mime_types, :default_404_txt, :default_humans_txt, :default_robots_txt, :default_favicon_ico
-    attr_writer :logger, :scribable_objects, :site_for_uri, :admin_mount_point, :current_site
+    attr_writer :logger, :scribable_objects, :current_scribable, :site_for_uri, :admin_mount_point, :current_site
 
     def initialize
       @logger = Logger.new(STDOUT)
       @logger.level = Logger::INFO
       @base_controller = '::ApplicationController'
       @supported_mime_types = {
-          image:    %w[image/gif image/png image/jpeg image/bmp image/webp image/svg+xml],
-          text:     %w[text/plain text/html application/json application/xml],
-          style:    %w[text/css],
-          script:   %w[text/javascript application/javascript application/x-javascript],
-          audio:    %w[audio/midi audio/mpeg audio/webm audio/ogg audio/wav],
-          video:    %w[video/webm video/ogg video/mp4],
-          document: %w[application/msword application/vnd.ms-powerpoint application/vnd.ms-excel application/pdf application/zip],
-          font:     %w[font/collection font/otf font/sfnt font/ttf font/woff font/woff2 application/font-ttf application/x-font-ttf application/vnd.ms-fontobject application/font-woff],
-          other:    %w[application/octet-stream]
+        image: %w[image/gif image/png image/jpeg image/bmp image/webp image/svg+xml],
+        text: %w[text/plain text/html application/json application/xml],
+        style: %w[text/css],
+        script: %w[text/javascript application/javascript application/x-javascript],
+        audio: %w[audio/midi audio/mpeg audio/webm audio/ogg audio/wav],
+        video: %w[video/webm video/ogg video/mp4],
+        document: %w[application/msword application/vnd.ms-powerpoint application/vnd.ms-excel application/pdf application/zip],
+        font: %w[font/collection font/otf font/sfnt font/ttf font/woff font/woff2 application/font-ttf application/x-font-ttf application/vnd.ms-fontobject application/font-woff],
+        other: %w[application/octet-stream]
       }
       @default_404_txt = '404 Not Found'
       @default_humans_txt = <<~HUMANS_TXT
@@ -62,10 +62,14 @@ module Scribo
       @admin_mount_point ||= '/scribo'
     end
 
-    # By default all users can see all sites.
-    # scribable_object is called when creating a new site, you can return your own object
+    # Only used to limit what users can see when using admin
     def scribable_objects
       [*instance_exec(&@scribable_objects)] if @scribable_objects
+    end
+
+    # Used to set current scribable, used when creating new sites or importing sites
+    def current_scribable
+      instance_exec(&@current_scribable) if @current_scribable
     end
 
     # Which site to use for a certain uri
