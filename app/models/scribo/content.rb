@@ -77,12 +77,7 @@ module Scribo
     end
 
     def identifier
-      # TODO: Remove this
-      if Scribo::Content.columns.map(&:name).include?('identifier')
-        attributes['identifier']
-      else
-        File.basename(path, File.extname(path))
-      end
+      File.basename(path, File.extname(path))
     end
 
     def data_with_frontmatter
