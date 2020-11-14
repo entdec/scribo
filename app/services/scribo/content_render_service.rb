@@ -17,7 +17,16 @@ module Scribo
       if content.kind == 'asset'
         render_asset
       else
-        render_liquor(options[:data] || content.data, options[:layout] == false ? nil : content.layout)
+        layout = options[:layout] == false ? nil : content.layout
+
+        # FIXME: Though this works for layout, we need to be able to merge all properties with defaults
+        # Luckily this is mostly used for layouts
+        if options[:site]
+          layout_name = options[:site].defaults_for(content)['layout']
+          layout ||= options[:site].contents.layout(layout_name).first if layout_name
+        end
+
+        render_liquor(options[:data] || content.data, layout)
       end
     end
 

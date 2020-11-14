@@ -107,39 +107,13 @@ module Scribo
       # defaults.merge(attributes['properties'] || {})
     end
 
-    # FIXME: This is too slow to use
-    def defaults
-      site_defaults = site.properties&.[]('defaults')
-      return {} unless site_defaults
-      return {} unless full_path
-
-      props = site_defaults.find do |d|
-        s = d['scope']
-        next unless s
-
-        result = false
-
-        if s['path']
-          result = true
-          p = s['path']
-          unless p.include?('*')
-            p = "/#{p}" unless p.start_with?('/')
-            p = "#{p}/" unless p.ends_with?('/')
-            p += '*'
-          end
-
-          result &= File.fnmatch?(p, full_path.to_s, File::FNM_EXTGLOB)
-        end
-
-        result
-      end
-
-      (props || {}).fetch('values', {})
-    end
-
     def properties=(text)
       props = text.is_a?(String) ? Scribo::Utility.yaml_safe_parse(text) : text
       write_attribute :properties, props
+    end
+
+    def type
+      collection_name
     end
 
     def permalink

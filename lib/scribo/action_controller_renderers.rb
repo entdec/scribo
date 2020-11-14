@@ -3,7 +3,9 @@
 # Add scribo as a renderer
 module ActionController::Renderers
   add :scribo do |site, options|
-    site = Scribo::SiteFindService.new(options.merge(site: site, uri: URI.parse(request.original_url))).call
+    options.merge!(site: site, uri: URI.parse(request.original_url))
+
+    site = Scribo::SiteFindService.new(options).call
     site ||= Scribo::Site.new
     content = Scribo::ContentFindService.new(site, options).call
 

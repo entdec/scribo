@@ -90,6 +90,37 @@ module Scribo
       result
     end
 
+    def defaults_for(content)
+      site_defaults = properties&.[]('defaults')
+      return {} unless site_defaults
+      return {} unless content.full_path
+
+      props = site_defaults.find do |d|
+        s = d['scope']
+        next unless s
+
+        result = false
+
+        if s['path']
+          result = true
+          p = s['path']
+          unless p.include?('*')
+            p = "/#{p}" unless p.start_with?('/')
+            p = "#{p}/" unless p.ends_with?('/')
+            p += '*'
+          end
+
+          result &= File.fnmatch?(p, content.full_path.to_s, File::FNM_EXTGLOB)
+        end
+
+        result &= s['type'] == content.type if s['type']
+
+        result
+      end
+
+      (props || {}).fetch('values', {})
+    end
+
     #
     # Calculates the total size of the site in bytes, including assets
     #
