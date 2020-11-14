@@ -13,14 +13,12 @@
 ## Site/Content
 
 - Front-matter defaults - https://jekyllrb.com/docs/configuration/front-matter-defaults/
-- Verify work on collections: https://jekyllrb.com/docs/collections/
 
 ## Liquid
 
 - Local tags
   Local tags (https://github.com/Shopify/liquid/pull/590) - a way to make tags only available for certain templates
   ie include should not be available for messages.
-- Search tag
 - Mail tag
 
 ## Jekyll compatibility
