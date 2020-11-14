@@ -7,15 +7,32 @@ module Scribo
     include Engine.routes.url_helpers
 
     setup do
+      @png_data = Base64.decode64('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==')
       Account.first.current!
       @site = Scribo::Site.create!(scribable: Account.current)
       assert_equal Account.current, @site.scribable
       @site.contents.create!(kind: 'text', path: 'index.html', data: 'Hello')
+      @site.contents.create!(kind: 'text', path: 'test.link', data: '/index')
+      @site.contents.create!(kind: 'asset', path: 'asset.png', data: @png_data)
     end
 
-    test 'should get show' do
-      get root_url
+    test 'should show content' do
+      get '/'
       assert_response :success
+      assert_equal 'Hello', @response.body
+      assert_equal 'text/html', @response.media_type
+    end
+
+    test 'should get redirected' do
+      get '/test'
+      assert_redirected_to '/index'
+    end
+
+    test 'should get asset' do
+      get '/asset.png'
+      assert_equal @png_data, @response.body
+      assert_equal 'image/png', @response.media_type
+      assert @response.headers['Etag']
     end
   end
 end
