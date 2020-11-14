@@ -63,11 +63,12 @@ module Scribo
       where("to_tsvector(scribo_contents.data || ' ' || COALESCE(scribo_contents.properties::text, '')) @@ to_tsquery(?)", search_string)
     end
 
-    # FIXME: Layout should be 'default' if layout is not present, but when?
+    # Name of the currently in use layout
     def layout_name
       properties&.key?('layout') ? properties&.[]('layout') : ''
     end
 
+    # Layout as content
     def layout
       return nil unless layout_name.present?
 
@@ -78,6 +79,7 @@ module Scribo
       File.basename(path, File.extname(path))
     end
 
+    # Data with frontmatter, used for maintenance and import/export
     def data_with_frontmatter
       return asset.attachment&.download || data if kind != 'text'
 
@@ -88,6 +90,7 @@ module Scribo
       result + data.to_s
     end
 
+    # Data with frontmatter setter
     def data_with_frontmatter=(text)
       if kind == 'text'
         data_with_metadata = Scribo::Preamble.parse(text)
