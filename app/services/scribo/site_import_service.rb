@@ -8,6 +8,8 @@ module Scribo
   class SiteImportService < ApplicationService
     attr_reader :path
 
+    IGNORED_FILES = [%r[^__MACOS/], %r[/\.DS_Store], %r[^/_site]].freeze
+
     def initialize(path)
       super()
       @path = path
@@ -45,7 +47,7 @@ module Scribo
 
     def unzip(dir)
       Zip::File.open(path) do |zipfile|
-        zipfile.reject { |e| e.name.start_with?('__MACOSX/') || e.name.end_with?('/.DS_Store') }.each do |f|
+        zipfile.reject { |e| IGNORED_FILES.any? { |r| r.match(e.name) } }.each do |f|
           file_path = File.join(dir, f.name[base_path(zipfile).length..-1])
           FileUtils.mkdir_p(File.dirname(file_path)) unless File.exist?(File.dirname(file_path))
 
@@ -57,7 +59,7 @@ module Scribo
     def base_path(zipfile)
       return @base_path if @base_path
 
-      base_paths = zipfile.reject { |e| e.name.start_with?('__MACOSX/') || e.name.end_with?('/.DS_Store') }
+      base_paths = zipfile.reject { |e| IGNORED_FILES.any? { |r| r.match(e.name) } }
                           .map { |f| f.name.split('/').first }.uniq
       @base_path = base_paths.size == 1 ? base_paths.first : ''
     end
@@ -65,7 +67,7 @@ module Scribo
     def site
       return @site if @site
 
-      @site = Site.where(scribable: scribable)
+      @site = Site.where(scribable: Scribo.config.current_scribable)
                   .where("properties->>'title' = ?", properties['title'])
                   .where("properties->>'baseurl' = ?", properties['baseurl']).first
 
