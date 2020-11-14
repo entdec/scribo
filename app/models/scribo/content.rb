@@ -183,10 +183,6 @@ module Scribo
       Scribo::ContentRenderService.new(self, {}, data: excerpt_part, layout: false).call
     end
 
-    def content(context)
-      Scribo::ContentRenderService.new(self, context, {}).call
-    end
-
     def categories
       return [] unless post?
 

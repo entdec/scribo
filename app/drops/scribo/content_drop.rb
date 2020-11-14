@@ -45,7 +45,7 @@ module Scribo
     end
 
     def content
-      @object.content(@context.registers['controller'])
+      Scribo::ContentRenderService.new(@object, @context.registers['controller'], {}).call
     end
 
     def liquid_method_missing(method)
