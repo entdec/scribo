@@ -24,7 +24,7 @@ module Scribo
       when 'text/x-yaml'
         Scribo::Utility.yaml_safe_parse(content.data)
       when 'application/json'
-        JSON.parse(content.data)
+        ::JSON.parse(content.data)
       when 'text/csv'
         CSV.parse(content.data, headers: true)
       end
