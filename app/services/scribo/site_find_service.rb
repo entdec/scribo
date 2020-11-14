@@ -7,6 +7,7 @@ module Scribo
     attr_reader :options
 
     def initialize(options = {})
+      super()
       @options = options
     end
 

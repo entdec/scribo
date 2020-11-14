@@ -7,6 +7,7 @@ module Scribo
     attr_reader :content, :context, :options
 
     def initialize(content, context, options = {})
+      super()
       @content = content
       @context = context
       @options = options
