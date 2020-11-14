@@ -76,6 +76,7 @@ module Scribo
       @assigns['request'] = Scribo::ActionDispatch::RequestDrop.new(context.request) if context.respond_to?(:request)
       @assigns['site'] = content.site
       @assigns['page'] = content
+      @assigns['paginator'] = Scribo::PaginatorDrop.new(content.site, content)
 
       @assigns = @assigns.stringify_keys
       @assigns
