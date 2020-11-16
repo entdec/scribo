@@ -72,7 +72,7 @@ module Scribo
                   .where("properties->>'title' = ?", properties['title'])
                   .where("properties->>'baseurl' = ?", properties['baseurl']).first
 
-      @site ||= Site.create!(properties: properties, scribable: scribable)
+      @site ||= Site.create!(properties: properties, scribable: @scribable)
     end
 
     def properties
