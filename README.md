@@ -15,6 +15,7 @@ It also makes no assumptions about your data models, it does come feature packed
 - [Liquid](http://liquidmarkup.org) templating
 - Mostly [Jekyll](https://jekyllrb.com) compatibile
 - Use of [YAML](https://yaml.org) in front-matter and configuration
+- Use of [Jekyll themes](https://jekyllrb.com/docs/themes/)
 
 ## Documentation
 
