@@ -1,6 +1,6 @@
 {
   "name": "scribo",
-  "version": "0.3.66",
+  "version": "0.4.1",
   "main": "frontend/dist/scribo.js",
   "repository": "git@code.entropydecelerator.com:components/scribo.git",
   "author": "Tom de Grunt <tom@degrunt.nl>",
