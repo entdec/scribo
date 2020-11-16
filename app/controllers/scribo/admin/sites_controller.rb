@@ -8,7 +8,7 @@ module Scribo
       before_action :set_objects, except: [:index]
 
       def new
-        @site = Scribo::Site.create!
+        @site = Scribo::Site.create!(scribable: @scribable)
         redirect_to(admin_site_contents_path(@site))
         nil
       end
@@ -29,7 +29,7 @@ module Scribo
       def import
         @sites = Site.adminable
         params[:files].each do |file|
-          Scribo::SiteImportService.new(file.path).call
+          Scribo::SiteImportService.new(file.path, @scribable).call
         end
       end
 
@@ -43,6 +43,7 @@ module Scribo
       def set_objects
         @sites = Site.adminable
         @site = Site.adminable.find(params[:id]) if params[:id]
+        @scribable = GlobalID::Locator.locate_signed(params[:scribable])
       end
     end
   end
