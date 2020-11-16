@@ -1,7 +1,7 @@
 module Scribo
   class Configuration
     attr_accessor :admin_authentication_module, :base_controller, :supported_mime_types, :default_404_txt, :default_humans_txt, :default_robots_txt, :default_favicon_ico
-    attr_writer :logger, :scribable_objects, :current_scribable, :site_for_uri, :admin_mount_point, :current_site
+    attr_writer :logger, :scribable_objects, :current_scribable, :after_site_create, :site_for_uri, :admin_mount_point, :current_site
 
     def initialize
       @logger = Logger.new(STDOUT)
@@ -75,6 +75,11 @@ module Scribo
     # Which site to use for a certain uri
     def site_for_uri(uri)
       instance_exec(uri, &@site_for_uri) if @site_for_uri
+    end
+
+    # What to do after a site create (only for new sites, not imported sites)
+    def after_site_create(site)
+      instance_exec(site, &@after_site_create) if @after_site_create
     end
 
     def current_site(options = {})

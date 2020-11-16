@@ -251,8 +251,6 @@ module Scribo
       search_paths << Scribo::Utility.switch_extension(search_path, 'link')
     end
 
-    private
-
     def set_full_path
       return unless respond_to?(:full_path_changed?)
 
@@ -271,6 +269,8 @@ module Scribo
 
       children.each(&:set_full_path)
     end
+
+    private
 
     def upload_asset
       return unless asset?

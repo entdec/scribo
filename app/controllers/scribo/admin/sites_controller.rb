@@ -9,6 +9,7 @@ module Scribo
 
       def new
         @site = Scribo::Site.create!(scribable: @scribable)
+        Scribo.config.after_site_create(@site)
         redirect_to(admin_site_contents_path(@site))
         nil
       end
