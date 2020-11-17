@@ -10,10 +10,9 @@ module Scribo
 
     IGNORED_FILES = [%r[^__MACOS/], %r[/\.DS_Store], %r[^/_site]].freeze
 
-    def initialize(path, scribable = nil)
+    def initialize(path)
       super()
       @path = path
-      @scribable = scribable
     end
 
     def perform
@@ -68,11 +67,11 @@ module Scribo
     def site
       return @site if @site
 
-      @site = Site.where(scribable: @scribable || Scribo.config.current_scribable)
+      @site = Site.where(scribable: Scribo.config.current_scribable)
                   .where("properties->>'title' = ?", properties['title'])
                   .where("properties->>'baseurl' = ?", properties['baseurl']).first
 
-      @site ||= Site.create!(properties: properties, scribable: @scribable)
+      @site ||= Site.create!(properties: properties)
     end
 
     def properties
