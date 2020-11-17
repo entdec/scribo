@@ -15,14 +15,13 @@ export default class extends Controller {
   connect() {
     const self = this
 
-    self.element.querySelectorAll('li.directory').forEach(el => {
-      el.addEventListener('click', event => {
-        event.stopPropagation()
-        if (event.target.closest('li.entry').classList.contains('directory')) {
-          el.classList.toggle('open')
-          el.classList.toggle('closed')
-        }
-      })
+    self.element.addEventListener('click', event => {
+      event.stopPropagation()
+      let el = event.target.closest('li.entry');
+      if (event.target.closest('li.entry').classList.contains('directory')) {
+        el.classList.toggle('open')
+        el.classList.toggle('closed')
+      }
     })
 
     document.addEventListener('scribo-editor.changed', (event) => {
