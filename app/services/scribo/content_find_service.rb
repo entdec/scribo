@@ -34,16 +34,20 @@ module Scribo
 
         scope = scope.located(path, restricted: options[:restricted])
       end
+
+      # FIXME: Not to pretty
       content = if options[:root]
-                  # bah
                   scope.roots.first
                 else
-                  scope = if scope.first&.folder?
-                            # Redirect
-                            Scribo::Content.new(kind: 'text', path: '/directory.link', full_path: '/directory.link', data: "#{options[:path]}/")
-                          else
-                            scope.first
-                          end
+                  result = scope.where.not(kind: 'folder').first
+
+                  result = scope.where(kind: 'folder').first unless scope.present?
+
+                  if result&.folder?
+                    result = Scribo::Content.new(kind: 'text', path: '/directory.link', full_path: '/directory.link', data: "#{options[:path]}/")
+                  end
+
+                  result
                 end
 
       # Find by content id

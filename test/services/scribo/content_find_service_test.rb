@@ -35,5 +35,14 @@ module Scribo
       result = Scribo::ContentFindService.new(@site, { path: '/2020/11/01/nice.html' }).call
       assert_equal subject, result
     end
+
+    test 'finds content with same url as folder' do
+      @site = Scribo::Site.create!
+      folder = @site.contents.create!(kind: 'folder', path: 'blog')
+      subject = @site.contents.create!(parent: folder, kind: 'text', path: 'index.md', data: '# something')
+
+      result = Scribo::ContentFindService.new(@site, { path: '/blog/' }).call
+      assert_equal subject, result
+    end
   end
 end
