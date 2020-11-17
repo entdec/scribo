@@ -10,6 +10,7 @@
 ## Site/Content
 
 - Front-matter defaults - https://jekyllrb.com/docs/configuration/front-matter-defaults/
+- Versioned content
 
 ## Liquid
 
