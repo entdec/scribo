@@ -2,9 +2,6 @@
 
 ## General
 
-- Fix issue with streaming mp4 in Safari
-  See: https://stackoverflow.com/questions/28008564/streaming-mp4-in-chrome-with-rails-nginx-and-send-file
-
 - Feature: Controller, view and path overrides
   Allow users to override controllers and views (like devise), describe how this should be done.
   This to enable admin pages with authentication, or regular content with authentication.
@@ -23,7 +20,6 @@
 
 ## Jekyll compatibility
 
-- Properties defaults (for more than layout)
 - Check filters from Jekyll: https://github.com/jekyll/jekyll/blob/c9b84e2b354067e61cf9878f27665c5c1c02481c/lib/jekyll/filters.rb
 
 ## IDE
