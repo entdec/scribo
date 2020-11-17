@@ -281,6 +281,12 @@ module Scribo
       children.each(&:set_full_path)
     end
 
+    def tree_path
+      result = (ancestors.map(&:path) << path).join('/')
+      result = '/' + result unless result.start_with?('/')
+      result
+    end
+
     private
 
     def upload_asset

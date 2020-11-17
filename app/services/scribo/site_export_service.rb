@@ -37,7 +37,7 @@ module Scribo
     private
 
     def content_path_for_zip(content)
-      content.full_path[0] == '/' ? content.full_path[1..-1] : content.full_path
+      content.tree_path[0] == '/' ? content.tree_path[1..-1] : content.tree_path
     end
   end
 end
