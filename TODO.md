@@ -23,13 +23,8 @@
 
 ## Jekyll compatibility
 
+- Properties defaults (for more than layout)
 - Check filters from Jekyll: https://github.com/jekyll/jekyll/blob/c9b84e2b354067e61cf9878f27665c5c1c02481c/lib/jekyll/filters.rb
-- Pagination: https://jekyllrb.com/docs/pagination/
-
-  /blog/
-  /blog/2/
-  /blog/3/
-  etc
 
 ## IDE
 

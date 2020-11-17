@@ -137,13 +137,18 @@ module Scribo
     test 'finds all alternatives path for /index' do
       subject = Scribo::Content.search_paths_for('/index')
 
-      assert_equal %w[/index /index.htm /index.html /index.htmlx /index.htx /index.link /index.markdown /index.md /index.mkd /index.shtml /index.slim], subject.sort
+      assert_equal %w[/index /index.htm /index.html /index.htmlx /index.htx /index.link /index.markdown /index.md /index.mkd /index.shtml /index.slim /index/], subject.sort
     end
 
     test 'finds all alternatives path for /docs/' do
       subject = Scribo::Content.search_paths_for('/docs/')
 
       assert_equal %w[/docs /docs.htm /docs.html /docs.htmlx /docs.htx /docs.link /docs.markdown /docs.md /docs.mkd /docs.shtml /docs.slim /docs/ /docs/index /docs/index.htm /docs/index.html /docs/index.htmlx /docs/index.htx /docs/index.link /docs/index.markdown /docs/index.md /docs/index.mkd /docs/index.shtml /docs/index.slim], subject.sort
+    end
+
+    test 'finds all alternatives path for /blog/2/' do
+      subject = Scribo::Content.search_paths_for('/blog/2/')
+      assert_equal %w[/blog /blog.htm /blog.html /blog.htmlx /blog.htx /blog.link /blog.markdown /blog.md /blog.mkd /blog.shtml /blog.slim /blog/ /blog/index /blog/index.htm /blog/index.html /blog/index.htmlx /blog/index.htx /blog/index.link /blog/index.markdown /blog/index.md /blog/index.mkd /blog/index.shtml /blog/index.slim], subject.sort
     end
   end
 end

@@ -225,11 +225,16 @@ module Scribo
       kind == 'folder'
     end
 
+    def self.paginated?(path)
+      path.match(%r[/(\d+)/$])
+    end
+
     def self.search_paths_for(path)
       search_paths = []
 
       search_path = path
       search_path = "/#{search_path}" unless search_path.start_with?('/')
+      search_path.gsub!(%r[/\d/$], '/') if paginated?(search_path)
       search_path = "#{search_path}index.html" if search_path.ends_with?('/')
 
       search_paths.concat(alternative_paths_for(search_path))
@@ -239,9 +244,15 @@ module Scribo
         search_paths.concat(alternative_paths_for(secondary_search_path))
       end
 
-      search_paths.unshift(path) if search_paths.exclude?(path) # deal with permalinks
+      permalink_paths = [path]
 
-      search_paths
+      normalized_path = path
+      normalized_path = "/#{normalized_path}" unless normalized_path.start_with?('/')
+      normalized_path = "#{normalized_path}/" unless normalized_path.ends_with?('/')
+      permalink_paths << normalized_path
+      search_paths.concat(permalink_paths) # deal with permalinks
+
+      search_paths.uniq
     end
 
     def self.alternative_paths_for(search_path)

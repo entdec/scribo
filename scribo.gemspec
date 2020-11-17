@@ -29,6 +29,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'rubyzip', '> 1.1'
   s.add_dependency 'simple_form', '> 3'
   s.add_dependency 'slim-rails', '~> 3.2'
+  s.add_dependency 'kaminari'
 
   s.add_development_dependency 'minitest', '~> 5.11'
   s.add_development_dependency 'minitest-reporters', '~> 1.1'
