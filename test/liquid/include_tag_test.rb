@@ -50,6 +50,7 @@ class IncludeTagTest < ActiveSupport::TestCase
     scribo_sites(:main).contents.create!(parent: include_folder, path: 'menu', kind: 'text', data: 'hello {{dummy.dummy_attr}}')
     subject = scribo_sites(:main).contents.create!(path: '/test.html', kind: 'text', data: "{{dummy.dummy_attr}}|{%include 'menu'%}|")
 
+    # In case your wondering: context instance-variables are automatically passed to liquid
     @dummy = DummyObject.new('dummy')
     result = Scribo::ContentRenderService.new(subject, self).call
 
@@ -58,7 +59,7 @@ class IncludeTagTest < ActiveSupport::TestCase
 
   test 'included content receives context passed from subject as well as assigns from tag' do
     include_folder = scribo_sites(:main).contents.create!(path: '_includes', kind: 'folder')
-    scribo_sites(:main).contents.create!(parent: include_folder, path: 'menu', kind: 'text', data: 'hello {{dummy.dummy_attr}} {{name}}')
+    scribo_sites(:main).contents.create!(parent: include_folder, path: 'menu', kind: 'text', data: 'hello {{dummy.dummy_attr}} {{include.name}}')
     subject = scribo_sites(:main).contents.create!(path: '/test.html', kind: 'text', data: "{{dummy.dummy_attr}}|{%include 'menu' name:'bob'%}|{{name}}")
 
     @dummy = DummyObject.new('dummy')

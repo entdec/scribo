@@ -18,7 +18,7 @@ class IncludeTag < LiquorTag
 
     result = ''
     context.stack do
-      attr_args.stringify_keys.each { |key, value| context[key] = value }
+      context['include'] = Scribo::IncludeDrop.new(attr_args.deep_stringify_keys)
       result += Liquor.render(content, context: context, registers: context.registers)
     end
     result
