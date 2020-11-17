@@ -59,6 +59,11 @@ module Scribo
       properties['collections'].to_h.keys.map(&:to_s) + %w[posts]
     end
 
+    def output_collection?(collection)
+      col = properties['collections'].to_h[collection.to_s]
+      col['output'] == true
+    end
+
     def title
       properties['title'] || NEW_SITE_NAME
     end

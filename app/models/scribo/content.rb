@@ -263,13 +263,13 @@ module Scribo
     end
 
     def set_full_path
-      return unless respond_to?(:full_path_changed?)
+      return unless saved_changes.include?(:path)
 
       if post?
         result = categories.join('/') + '/'
         result += date.strftime('%Y/%m/%d/')
         result += path[11..-1]
-      elsif part_of_collection?
+      elsif part_of_collection? && site.output_collection?(collection_name)
         result = "#{collection_name}/#{path}"
       else
         result = (ancestors.map(&:path) << path).join('/')
