@@ -234,7 +234,7 @@ module Scribo
 
       search_path = path
       search_path = "/#{search_path}" unless search_path.start_with?('/')
-      search_path.gsub!(%r[/\d/$], '/') if paginated?(search_path)
+      search_path.gsub!(%r[/\d+/$], '/') if paginated?(search_path)
       search_path = "#{search_path}index.html" if search_path.ends_with?('/')
 
       search_paths.concat(alternative_paths_for(search_path))
