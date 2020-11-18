@@ -55,6 +55,17 @@ module Scribo
       assert_equal '/docs/smurrefluts.md', subject.full_path
     end
 
+    test 'search based on contents' do
+      @site = Scribo::Site.create!
+      page1 = @site.contents.create!(kind: 'text', path: 'page1.md', data: 'this is page 1')
+      page2 = @site.contents.create!(kind: 'text', path: 'page2.md', data: 'this is page 2')
+      page3 = @site.contents.create!(kind: 'text', path: 'page3.md', data: 'hello')
+
+      contents = @site.contents.search('this is page')
+      assert_equal 2, contents.size
+      assert_equal [page1, page2].sort, contents.sort
+    end
+
     test 'renders simple text content' do
       subject = scribo_contents(:index)
       result = Scribo::ContentRenderService.new(subject, self).call
