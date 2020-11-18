@@ -51,7 +51,7 @@ module Scribo
 
     # Uses https://www.postgresql.org/docs/current/textsearch-controls.html
     def self.search(search_string)
-      where("to_tsvector(scribo_contents.data || ' ' || COALESCE(scribo_contents.properties::text, '')) @@ to_tsquery(?)", "'#{search_string}'")
+      where("to_tsvector(scribo_contents.data || ' ' || COALESCE(scribo_contents.properties::text, '')) @@ to_tsquery(?)", search_string)
     end
 
     # Name of the currently in use layout

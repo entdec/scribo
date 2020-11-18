@@ -55,13 +55,26 @@ module Scribo
       assert_equal '/docs/smurrefluts.md', subject.full_path
     end
 
-    test 'search based on contents' do
+    test 'search based on any word' do
       @site = Scribo::Site.create!
-      page1 = @site.contents.create!(kind: 'text', path: 'page1.md', data: 'this is page 1')
-      page2 = @site.contents.create!(kind: 'text', path: 'page2.md', data: 'page this is 2')
-      page3 = @site.contents.create!(kind: 'text', path: 'page3.md', data: 'hello')
+      page1 = @site.contents.create!(kind: 'text', path: 'page1.md', data: 'this is the amazing page 1')
+      page2 = @site.contents.create!(kind: 'text', path: 'page2.md', data: 'my page is amazing')
+      page3 = @site.contents.create!(kind: 'text', path: 'page3.md', data: 'hello page')
+      page4 = @site.contents.create!(kind: 'text', path: 'page4.md', data: 'bye bye bye')
 
-      contents = @site.contents.search('this page')
+      contents = @site.contents.search('amazing | page')
+      assert_equal 3, contents.size
+      assert_equal [page1, page2, page3].sort, contents.sort
+    end
+
+    test 'search based on all words' do
+      @site = Scribo::Site.create!
+      page1 = @site.contents.create!(kind: 'text', path: 'page1.md', data: 'this is the amazing page 1')
+      page2 = @site.contents.create!(kind: 'text', path: 'page2.md', data: 'my page is amazing')
+      page3 = @site.contents.create!(kind: 'text', path: 'page3.md', data: 'hello page')
+      page4 = @site.contents.create!(kind: 'text', path: 'page4.md', data: 'bye bye bye')
+
+      contents = @site.contents.search('amazing & page')
       assert_equal 2, contents.size
       assert_equal [page1, page2].sort, contents.sort
     end
