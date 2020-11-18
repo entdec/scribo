@@ -262,8 +262,8 @@ module Scribo
       search_paths << Scribo::Utility.switch_extension(search_path, 'link')
     end
 
-    def set_full_path
-      return unless saved_changes.include?(:path)
+    def set_full_path(force = false)
+      return unless !force || saved_changes.include?(:path)
 
       if post?
         result = categories.join('/') + '/'
@@ -278,7 +278,7 @@ module Scribo
 
       update_column(:full_path, result)
 
-      children.each(&:set_full_path)
+      children.each { |child| child.set_full_path(true) }
     end
 
     def tree_path
