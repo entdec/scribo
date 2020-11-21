@@ -38,8 +38,7 @@ import "codemirror/addon/dialog/dialog.css";
 import "codemirror/addon/hint/show-hint.css";
 import "codemirror/addon/fold/foldgutter.css";
 
-import "codemirror/theme/3024-day.css";
-import "codemirror/theme/3024-night.css";
+import "codemirror/theme/monokai.css";
 /***
  * IDE - Editor controller
  *
@@ -66,6 +65,7 @@ export default class extends Controller {
       matchTags: true,
       gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
     });
+
     if(window.matchMedia('(prefers-color-scheme: dark)').matches) {
       this.editor.setOption('theme', 'monokai');
     }
