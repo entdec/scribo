@@ -66,10 +66,8 @@ export default class extends Controller {
       matchTags: true,
       gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
     });
-    if (window.matchMedia('prefers-color-scheme: dark').matches) {
-      this.editor.setOption('theme', '3024-night');
-    } else {
-      this.editor.setOption('theme', '3024-day');
+    if((window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      this.editor.setOption('theme', 'monokai');
     }
 
     this.editor.setSize('100%', this.data.get('height') || '100%');
