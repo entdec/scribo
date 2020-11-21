@@ -66,7 +66,7 @@ export default class extends Controller {
       matchTags: true,
       gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
     });
-    if((window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    if(window.matchMedia('(prefers-color-scheme: dark)').matches) {
       this.editor.setOption('theme', 'monokai');
     }
 
