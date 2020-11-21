@@ -37,42 +37,51 @@ import "codemirror/lib/codemirror.css";
 import "codemirror/addon/dialog/dialog.css";
 import "codemirror/addon/hint/show-hint.css";
 import "codemirror/addon/fold/foldgutter.css";
+
+import "codemirror/theme/3024-day.css";
+import "codemirror/theme/3024-night.css";
 /***
  * IDE - Editor controller
  *
  * Control codemirror
  */
 export default class extends Controller {
-    static targets = ["textarea"];
+  static targets = ["textarea"];
 
-    connect() {
-        const self = this;
+  connect() {
+    const self = this;
 
-        let mode = { name: 'liquid', base: CodeMirror.mimeModes[this.data.get('mode')] };
+    let mode = { name: 'liquid', base: CodeMirror.mimeModes[this.data.get('mode')] };
 
-        this.editor = CodeMirror.fromTextArea(this.textareaTarget, {
-            lineNumbers: true,
-            mode: { name: 'yaml-frontmatter', base: mode },
-            lineWrapping: true,
-            tabSize: 2,
-            autoRefresh: true,
-            extraKeys: { "Ctrl-Space": "autocomplete", "Ctrl-J": "toMatchingTag" },
-            foldGutter: true,
-            autoCloseBrackets: true,
-            autoCloseTags: true,
-            matchTags: true,
-            gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
-        });
-        this.editor.setSize('100%', this.data.get('height') || '100%');
-
-        this.editor.on('change', function (editor, evt) {
-            let event = new CustomEvent('scribo-editor.changed', { bubbles: true, cancelable: true, detail: { textarea: self.textareaTarget, editor: self.editor, dirty: !self.editor.getDoc().isClean() } });
-            self.element.dispatchEvent(event);
-        });
+    this.editor = CodeMirror.fromTextArea(this.textareaTarget, {
+      lineNumbers: true,
+      mode: { name: 'yaml-frontmatter', base: mode },
+      lineWrapping: true,
+      tabSize: 2,
+      autoRefresh: true,
+      extraKeys: { "Ctrl-Space": "autocomplete", "Ctrl-J": "toMatchingTag" },
+      foldGutter: true,
+      autoCloseBrackets: true,
+      autoCloseTags: true,
+      matchTags: true,
+      gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
+    });
+    if (window.matchMedia('prefers-color-scheme: dark').matches) {
+      this.editor.setOption('theme', '3024-night');
+    } else {
+      this.editor.setOption('theme', '3024-day');
     }
 
-    disconnect() {
-        this.editor.toTextArea();
-    }
+    this.editor.setSize('100%', this.data.get('height') || '100%');
+
+    this.editor.on('change', function (editor, evt) {
+      let event = new CustomEvent('scribo-editor.changed', { bubbles: true, cancelable: true, detail: { textarea: self.textareaTarget, editor: self.editor, dirty: !self.editor.getDoc().isClean() } });
+      self.element.dispatchEvent(event);
+    });
+  }
+
+  disconnect() {
+    this.editor.toTextArea();
+  }
 }
 
