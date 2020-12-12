@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_dependency 'scribo/application_drop'
+require 'csv'
 
 module Scribo
   class DataDrop < ApplicationDrop
@@ -26,7 +27,7 @@ module Scribo
       when 'application/json'
         ::JSON.parse(content.data)
       when 'text/csv'
-        CSV.parse(content.data, headers: true)
+        CSV.parse(content.data, headers: true, liberal_parsing: true, quote_char: '"', col_sep: ';', row_sep: "\r\n").map(&:to_h)
       end
     end
   end
