@@ -65,8 +65,10 @@ module Scribo
     end
 
     def output_collection?(collection)
+      return true if collection.to_s == 'posts'
+
       col = properties['collections'].to_h[collection.to_s]
-      col['output'] == true
+      col&.[]('output') == true
     end
 
     def title
