@@ -8,9 +8,12 @@ class SiteDropTest < ActiveSupport::TestCase
 
     posts_folder = contents.create!(path: '_posts', kind: 'folder')
 
-    subject = contents.create!(path: '/home.html', kind: 'text', data: '{%if site.posts.size > 0%}{%for post in site.posts%}{{post.title}}{%endfor%}{%endif%}')
-    post1   = contents.create!(parent: posts_folder, path: '2019-05-24-post1.html', kind: 'text', data: 'post1', properties: { title: 'my post1', date: '2019-05-24T21:03:36.000+05:30' })
-    post2   = contents.create!(parent: posts_folder, path: '2019-05-23-post2.html', kind: 'text', data: 'post2', properties: { title: 'my post2', date: '2019-05-23T21:03:36.000+05:30' })
+    subject = contents.create!(path: '/home.html', kind: 'text',
+                               data: '{%if site.posts.size > 0%}{%for post in site.posts%}{{post.title}}{%endfor%}{%endif%}')
+    post1   = contents.create!(parent: posts_folder, path: '2019-05-24-post1.html', kind: 'text', data: 'post1',
+                               properties: { title: 'my post1', date: '2019-05-24T21:03:36.000+05:30' })
+    post2   = contents.create!(parent: posts_folder, path: '2019-05-23-post2.html', kind: 'text', data: 'post2',
+                               properties: { title: 'my post2', date: '2019-05-23T21:03:36.000+05:30' })
 
     result = Scribo::ContentRenderService.new(subject, nil).call
 
@@ -39,8 +42,10 @@ class SiteDropTest < ActiveSupport::TestCase
     site.properties = { 'collections': { 'staff_members': { 'output': true } } }
     site.save
 
-    subject = Scribo::SiteDrop.new(site)
-    content = site.contents.create(kind: 'text', data: '{%for staff_member in site.staff_members%}{{staff_member.name}}{%endfor%}')
+    posts_folder = site.contents.create!(path: '_posts', kind: 'folder')
+
+    content = site.contents.create(kind: 'text',
+                                   data: '{%for staff_member in site.staff_members%}{{staff_member.name}}{%endfor%}')
 
     assert_equal 'Jane Doe', Scribo::ContentRenderService.new(content, self).call
   end
@@ -50,18 +55,33 @@ class SiteDropTest < ActiveSupport::TestCase
     site.properties = { 'collections': { 'staff_members': { 'output': true } } }
     site.save
 
-    subject = Scribo::SiteDrop.new(site)
-    content = site.contents.create(kind: 'text', data: '{%for staff_member in site.staff_members%}{{staff_member.content}}{%endfor%}')
-    assert_equal "<p>Jane has worked on Jekyll for the past <em>five years</em>.</p>\n", Scribo::ContentRenderService.new(content, self).call
+    content = site.contents.create(kind: 'text',
+                                   data: '{%for staff_member in site.staff_members%}{{staff_member.content}}{%endfor%}')
+    assert_equal "<p>Jane has worked on Jekyll for the past <em>five years</em>.</p>\n",
+                 Scribo::ContentRenderService.new(content, self).call
   end
   test 'iterate over hashes in properties' do
     site = scribo_sites(:empty)
     site.properties = { 'social': { 'facebook': '1', 'twitter': 2 } }
     site.save
 
-    subject = Scribo::SiteDrop.new(site)
-    content = site.contents.create(kind: 'text', data: '{%for platform in site.social%}{{platform[0]}}:{{platform[1]}}|{%endfor%}')
+    content = site.contents.create(kind: 'text',
+                                   data: '{%for platform in site.social%}{{platform[0]}}:{{platform[1]}}|{%endfor%}')
 
     assert_equal 'twitter:2|facebook:1|', Scribo::ContentRenderService.new(content, self).call
+  end
+
+  test 'iterate over collection and their properties' do
+    # {% assign faqs = site.faqs | where: "categories", include.category %}
+    site = scribo_sites(:collection)
+    site.properties = { 'collections': { 'faqs': { 'output': false } } }
+    site.save
+
+    posts_folder = site.contents.create!(path: '_posts', kind: 'folder')
+
+    content = site.contents.create(kind: 'text',
+                                   data: '{%for staff_member in site.staff_members%}{{staff_member.content}}{%endfor%}')
+    assert_equal "<p>Jane has worked on Jekyll for the past <em>five years</em>.</p>\n",
+                 Scribo::ContentRenderService.new(content, self).call
   end
 end
