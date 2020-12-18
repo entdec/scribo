@@ -15,7 +15,8 @@ module Scribo
       end
 
       def create
-        flash_and_redirect @site.save, admin_site_contents_path(@site), 'Site created successfully', 'There were problems creating the site'
+        flash_and_redirect @site.save, admin_site_contents_path(@site), 'Site created successfully',
+                           'There were problems creating the site'
       end
 
       def index
@@ -24,13 +25,14 @@ module Scribo
 
       def destroy
         @site.contents.rebuild!
-        flash_and_redirect @site.destroy, admin_sites_url, 'Site deleted successfully', 'There were problems deleting the site'
+        flash_and_redirect @site.destroy, admin_sites_url, 'Site deleted successfully',
+                           'There were problems deleting the site'
       end
 
       def import
         @sites = Site.adminable
         params[:files].each do |file|
-          Scribo::SiteImportService.new(file.path).call
+          Scribo::SiteImportService.new(file.path, Scribo.config.current_scribable).call
         end
       end
 
