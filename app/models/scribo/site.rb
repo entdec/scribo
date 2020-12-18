@@ -19,6 +19,10 @@ module Scribo
     scope :owned_by, ->(owner) { where(scribable: owner) }
     scope :titled, ->(title) { where("properties->>'title' = ?", title).first }
 
+    def filter_cache
+      @filter_cache ||= {}
+    end
+
     def self.for_path(path)
       return none if path.blank?
 
@@ -29,7 +33,8 @@ module Scribo
       paths.concat(path.split('/').map.with_index { |_, i| path.split('/')[0..i].join('/') }.reject(&:empty?))
       paths <<= '/'
 
-      where("properties->>'baseurl' IN (?) OR properties->>'baseurl' = '' OR properties->>'baseurl' IS NULL", paths).order(Arel.sql("COALESCE(LENGTH(scribo_sites.properties->>'baseurl'), 0) DESC"))
+      where("properties->>'baseurl' IN (?) OR properties->>'baseurl' = '' OR properties->>'baseurl' IS NULL",
+            paths).order(Arel.sql("COALESCE(LENGTH(scribo_sites.properties->>'baseurl'), 0) DESC"))
     end
 
     class << self

@@ -27,17 +27,27 @@ module Scribo
     # html files should be non-filtered html files
     scope :html_files, -> { where("full_path LIKE '%.html'") }
     scope :include, ->(name) { published.where(full_path: ["/_includes/#{name}"]) }
-    scope :layout, ->(name) { published.where(full_path: %W[/_layouts/#{name}.html /_layouts/#{name}.md /_layouts/#{name}.xml /_layouts/#{name}.css]) }
-    scope :data, ->(name) { published.where(full_path: %W[/_data/#{name}.yml /_data/#{name}.yaml /_data/#{name}.json /_data/#{name}.csv /_data/#{name}]) }
+    scope :layout, lambda { |name|
+                     published.where(full_path: %W[/_layouts/#{name}.html /_layouts/#{name}.md /_layouts/#{name}.xml /_layouts/#{name}.css])
+                   }
+    scope :data, lambda { |name|
+                   published.where(full_path: %W[/_data/#{name}.yml /_data/#{name}.yaml /_data/#{name}.json /_data/#{name}.csv /_data/#{name}])
+                 }
 
     scope :locale, ->(name) { published.where(full_path: "/_locales/#{name}.yml") }
     scope :locales, -> { published.in_folder('_locales') }
 
-    scope :published, -> { where("properties->>'published' = 'true' OR properties->>'published' IS NULL").where("properties->>'published_at' IS NULL OR properties->>'published_at' <= :now", now: Time.current.utc) }
+    scope :published, lambda {
+                        where("properties->>'published' = 'true' OR properties->>'published' IS NULL").where("properties->>'published_at' IS NULL OR properties->>'published_at' <= :now", now: Time.current.utc)
+                      }
     scope :restricted, -> { where("full_path NOT LIKE '/\\_%'") }
 
-    scope :not_in_folder, ->(folder_name) { where('id NOT IN (?)', Scribo::Content.where(kind: 'folder').find_by(path: folder_name)&.descendants&.pluck(:id) || []) }
-    scope :in_folder, ->(folder_name) { where(id: Scribo::Content.where(kind: 'folder').find_by(path: folder_name)&.descendants&.pluck(:id) || []) }
+    scope :not_in_folder, lambda { |folder_name|
+                            where('id NOT IN (?)', Scribo::Content.where(kind: 'folder').find_by(path: folder_name)&.descendants&.pluck(:id) || [])
+                          }
+    scope :in_folder, lambda { |folder_name|
+                        where(id: Scribo::Content.where(kind: 'folder').find_by(path: folder_name)&.descendants&.pluck(:id) || [])
+                      }
 
     scope :permalinked, ->(paths) { where("properties->>'permalink' IN (?)", paths) }
 
@@ -51,7 +61,9 @@ module Scribo
 
     # Uses https://www.postgresql.org/docs/current/textsearch-controls.html
     def self.search(search_string)
-      where("to_tsvector(scribo_contents.data || ' ' || COALESCE(scribo_contents.properties::text, '')) @@ to_tsquery(?)", search_string)
+      where(
+        "to_tsvector(scribo_contents.data || ' ' || COALESCE(scribo_contents.properties::text, '')) @@ to_tsquery(?)", search_string
+      )
     end
 
     # Name of the currently in use layout
@@ -146,13 +158,19 @@ module Scribo
     end
 
     def categories
-      return [] unless post?
-
-      (properties&.[]('categories') || '').split(' ')
+      if properties&.[]('categories').is_a? Array
+        properties&.[]('categories')
+      else
+        (properties&.[]('categories') || '').split(' ')
+      end
     end
 
     def tags
-      (properties&.[]('tags') || '').split(' ')
+      if properties&.[]('tags').is_a? Array
+        properties&.[]('tags')
+      else
+        (properties&.[]('tags') || '').split(' ')
+      end
     end
 
     def content_type

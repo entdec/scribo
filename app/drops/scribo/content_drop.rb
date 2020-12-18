@@ -48,10 +48,17 @@ module Scribo
       Scribo::ContentRenderService.new(@object, @context.registers['controller'], {}).call
     end
 
+    def [](property)
+      if respond_to?(property)
+        send(property)
+      elsif @properties.present?
+        @properties[property]
+      end
+    end
+
     def liquid_method_missing(method)
       return nil unless @properties
 
-      binding.pry
       @properties[method.to_s]
     end
   end

@@ -90,7 +90,7 @@ class SiteDropTest < ActiveSupport::TestCase
 
     content = site.contents.create(kind: 'text',
                                    data: '{% assign faqs = site.faqs | where: "categories", "presale" %}{%for faq in faqs%}{{faq.title}}{%endfor%}')
-    assert_equal "supportrenew\n",
+    assert_equal 'supportrenew',
                  Scribo::ContentRenderService.new(content, self).call
   end
 end

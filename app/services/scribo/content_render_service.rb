@@ -33,7 +33,8 @@ module Scribo
     private
 
     def render_liquor(data, layout)
-      result = Liquor.render(data, assigns: assigns.merge!('content' => data), registers: registers, filter: filter, filter_options: filter_options, layout: layout&.data)
+      result = Liquor.render(data, assigns: assigns.merge!('content' => data), registers: registers, filter: filter,
+                                   filter_options: filter_options, layout: layout&.data)
       result = render_liquor(result, layout.layout) if layout&.layout
       result
     end
@@ -85,7 +86,7 @@ module Scribo
     def registers
       return @registers if @registers
 
-      @registers = { 'controller' => context, 'content' => content }
+      @registers = { 'controller' => context, 'content' => content, 'site' => content.site }
       @registers.merge!(options[:registers]) if options[:registers]
       @registers = @registers.stringify_keys
       @registers
