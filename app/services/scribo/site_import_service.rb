@@ -8,7 +8,7 @@ module Scribo
   class SiteImportService < ApplicationService
     attr_reader :path
 
-    IGNORED_FILES = [%r[^__MACOS/], %r[/\.DS_Store], %r[^/_site]].freeze
+    IGNORED_FILES = [%r[^__MACOSX/], %r[/\.DS_Store], %r[^/_site]].freeze
 
     def initialize(path)
       super()
