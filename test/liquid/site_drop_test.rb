@@ -77,11 +77,20 @@ class SiteDropTest < ActiveSupport::TestCase
     site.properties = { 'collections': { 'faqs': { 'output': false } } }
     site.save
 
-    posts_folder = site.contents.create!(path: '_posts', kind: 'folder')
+    contents = site.contents
+
+    faqs_folder = site.contents.create!(path: '_faqs', kind: 'folder')
+
+    faq1   = contents.create!(parent: faqs_folder, path: '10-support.md', kind: 'text', data: 'post1',
+                              properties: { title: 'support', categories: ['presale'] })
+    faq2   = contents.create!(parent: faqs_folder, path: '20-renew.md', kind: 'text', data: 'post2',
+                              properties: { title: 'renew', categories: ['presale'] })
+    faq3   = contents.create!(parent: faqs_folder, path: '30-quit.md', kind: 'text', data: 'post3',
+                              properties: { title: 'quit', categories: ['aftersale'] })
 
     content = site.contents.create(kind: 'text',
-                                   data: '{%for staff_member in site.staff_members%}{{staff_member.content}}{%endfor%}')
-    assert_equal "<p>Jane has worked on Jekyll for the past <em>five years</em>.</p>\n",
+                                   data: '{% assign faqs = site.faqs | where: "categories", "presale" %}{%for faq in faqs%}{{faq.title}}{%endfor%}')
+    assert_equal "supportrenew\n",
                  Scribo::ContentRenderService.new(content, self).call
   end
 end

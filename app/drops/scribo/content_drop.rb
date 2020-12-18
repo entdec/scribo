@@ -51,6 +51,7 @@ module Scribo
     def liquid_method_missing(method)
       return nil unless @properties
 
+      binding.pry
       @properties[method.to_s]
     end
   end
