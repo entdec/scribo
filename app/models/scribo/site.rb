@@ -79,12 +79,13 @@ module Scribo
       properties['baseurl'] || '/'
     end
 
+    # This returns the full thumbnail URL
     def thumbnail
-      properties['thumbnail']
+      url + baseurl + properties['thumbnail'].to_s
     end
 
     def url
-      properties['url']
+      properties['url'].to_s
     end
 
     def properties
