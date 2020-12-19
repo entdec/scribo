@@ -10,7 +10,7 @@ class Scribo
   def zip_and_upload
     if !config["endpoint"]? || config["api_key"]?
       puts "Please configure an endpoint and api_key in your _config.yml:\n\n"
-      puts "cli:\n  endpoint: https://example.com/scribo\n  api_key: someapikey"
+      puts "cli:\n  endpoint: https://example.com/\n  api_key: someapikey"
       exit
     end
 
@@ -65,7 +65,7 @@ class Scribo
   end
 
   def import_url
-    "#{config["endpoint"]}/import"
+    "#{config["endpoint"]}/api/sites/import"
   end
 end
 
