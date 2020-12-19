@@ -30,7 +30,7 @@ The API uses token authorization, the token is obtained by making an sgid from t
 So for a `scribable` model `Account`, you could create it as follows:
 
 ```ruby
-token = Account.first.to_sgid(for: 'scribo').to_s
+token = Account.first.to_sgid(for: 'scribo', expires_in:nil).to_s
 ```
 
 This token can be used in the below request.
