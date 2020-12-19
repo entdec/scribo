@@ -24,6 +24,13 @@ Scribo::Engine.routes.draw do
       end
     end
   end
+  namespace :api do
+    resources :sites do
+      collection do
+        post 'import'
+      end
+    end
+  end
 
   root to: 'contents#show'
   get '(*path)', to: 'contents#show', as: 'content', constraints: ->(request) { !request.path.starts_with?('/rails') }
