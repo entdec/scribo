@@ -3,7 +3,7 @@ module Scribo
     attr_accessor :admin_authentication_module, :base_controller, :supported_mime_types, :default_404_txt,
                   :default_humans_txt, :default_robots_txt, :default_favicon_ico, :templates
     attr_writer :logger, :scribable_objects, :current_scribable, :after_site_create, :site_for_uri,
-                :admin_mount_point, :current_site, :global_id_locator
+                :admin_mount_point, :current_site
 
     def initialize
       @logger = Logger.new(STDOUT)
@@ -62,7 +62,6 @@ module Scribo
       #
       # The id can be generated using: `SecureRandom.uuid`, or you can use integers
       @templates = []
-      @global_id_locator = -> {}
     end
 
     # logger [Object].
@@ -97,10 +96,6 @@ module Scribo
 
     def current_site(options = {})
       instance_exec(options, &@current_site) if @current_site
-    end
-
-    def global_id_locator
-      instance_exec(&@global_id_locator) if @global_id_locator
     end
   end
 end
