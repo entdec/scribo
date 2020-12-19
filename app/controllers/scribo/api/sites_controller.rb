@@ -9,7 +9,7 @@ module Scribo
         sgid = request.authorization&.split&.last
         head(400) && return unless sgid
 
-        scribable = Scribo.config.global_id_locator.locate_signed(sgid, for: 'scribo')
+        scribable = ::GlobalID::Locator.locate_signed(sgid, for: 'scribo')
 
         head(401) && return unless scribable
 
