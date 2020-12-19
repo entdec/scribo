@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-require_dependency 'scribo/application_admin_controller'
-
+require_dependency 'scribo/application_controller'
 module Scribo
   module Api
     class SitesController < ApplicationController
