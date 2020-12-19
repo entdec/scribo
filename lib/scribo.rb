@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'awesome_nested_set'
+require 'down'
 require 'kaminari'
 require 'liquid'
 require 'liquor'

@@ -27,3 +27,4 @@ gem 'rubocop'
 group :test do
   gem 'pry-rails'
 end
+

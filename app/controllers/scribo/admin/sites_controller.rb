@@ -8,10 +8,20 @@ module Scribo
       before_action :set_objects, except: [:index]
 
       def new
-        @site = Scribo::Site.create!
-        Scribo.config.after_site_create(@site)
-        redirect_to(admin_site_contents_path(@site))
-        nil
+        if params[:template_id]
+          url = Scribo.config.templates.find { |t| t[:id] == params[:template_id] }&.[](:url)
+          redirect_to(admin_sites_path) && return unless url
+
+          file = Down.download(url)
+          @site = Scribo::SiteImportService.new(file.path, Scribo.config.current_scribable).call
+          redirect_to(admin_site_contents_path(@site))
+          nil
+        else
+          @site = Scribo::Site.create!
+          Scribo.config.after_site_create(@site)
+          redirect_to(admin_site_contents_path(@site))
+          nil
+        end
       end
 
       def create

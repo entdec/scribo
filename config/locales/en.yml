@@ -13,6 +13,7 @@ en:
       delete_confirm: Are you sure you want to delete this site?
       upload: Drop a zip to import a site
       create: Create a new site
+      create_from_template: Create from template
     tools:
       new_file: New file
       new_folder: New folder

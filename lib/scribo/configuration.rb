@@ -1,7 +1,9 @@
 module Scribo
   class Configuration
-    attr_accessor :admin_authentication_module, :base_controller, :supported_mime_types, :default_404_txt, :default_humans_txt, :default_robots_txt, :default_favicon_ico
-    attr_writer :logger, :scribable_objects, :current_scribable, :after_site_create, :site_for_uri, :admin_mount_point, :current_site
+    attr_accessor :admin_authentication_module, :base_controller, :supported_mime_types, :default_404_txt,
+                  :default_humans_txt, :default_robots_txt, :default_favicon_ico, :templates
+    attr_writer :logger, :scribable_objects, :current_scribable, :after_site_create, :site_for_uri,
+                :admin_mount_point, :current_site
 
     def initialize
       @logger = Logger.new(STDOUT)
@@ -14,8 +16,10 @@ module Scribo
         script: %w[text/javascript application/javascript application/x-javascript],
         audio: %w[audio/midi audio/mpeg audio/webm audio/ogg audio/wav],
         video: %w[video/webm video/ogg video/mp4],
-        document: %w[application/msword application/vnd.ms-powerpoint application/vnd.ms-excel application/pdf application/zip],
-        font: %w[font/collection font/otf font/sfnt font/ttf font/woff font/woff2 application/font-ttf application/x-font-ttf application/vnd.ms-fontobject application/font-woff],
+        document: %w[application/msword application/vnd.ms-powerpoint application/vnd.ms-excel application/pdf
+                     application/zip],
+        font: %w[font/collection font/otf font/sfnt font/ttf font/woff font/woff2 application/font-ttf
+                 application/x-font-ttf application/vnd.ms-fontobject application/font-woff],
         other: %w[application/octet-stream]
       }
       @default_404_txt = '404 Not Found'
@@ -50,6 +54,14 @@ module Scribo
       # Base64 encoded image/x-icon
       @default_favicon_ico = 'AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEcrEvoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAsHIH/7d2Bv+3dgb/t3YG/7d2Bv0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAt3YG/0crEv+3dgb/t3YG/7d2Bv8AAAAAt3YG/7d2Bv90Vx0DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALd2Bv+3dgb/t3YG/7d2Bv+3dgb/t3YG/7d2Bv+3dgb/t3YG/3VLBEwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC3dgb/t3YG/0crEv+3dgb/t3YG/7d2Bv+3dgb/t3YG/7d2Bv+3dgb+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAt3YG/bd2Bv+3dgb/qGwI/7d2Bv+3dgb/t3YG/7d2Bv8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC3dgb/t3YG/7d2Bv+3dgb/t3YG/7d2Bv+3dgb/t3YG/7d2Bv+3dgb/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAt3YG/7d2Bv+3dgb/lV8K/7d2Bv+3dgb/t3YG/7d2Bv+3dgb/t3YG/7h2B9EAAAAAAAAAAAAAAAAAAAAAAAAAALd2Bv+3dgb/t3YG/7d2Bv+JWAv/t3YG/7d2Bv+3dgb/t3YG/7d2Bv+3dgb/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAt3YG/7d2Bv+3dgb/t3YG/7d2Bv+3dgb/t3YG/7d2Bv+3dgb/t3YG/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALd2Bvi3dgb/t3YG+7d2Bv+3dgb/t3YG/7d2Bv+3dgb/t3YG/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAt3YG/wAAAAC3dgb/t3YG/7d2Bv+3dgb/t3YG/7d2Bv+3dgb/t3YG8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAt3YG/7d2Bv+3dgb/t3YG/7d2Bv+3dgb/t3YG/7d2Bv8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC3dgb/t3YG/2hDA3O3dgb/t3YG/7d2Bv+3dgb/t3YG/QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC4dgeJAAAAALd2Bv+3dgb/t3YG/7d2Bv+zcgZ3//8AAL//AADB/wAAgn8AAIA/AACAHwAAgH8AAMAPAADABwAAwAcAAOAHAADgDwAA9AMAAPwDAAD+QQAA/6EAAA=='
       @current_site = ->(_options) { nil }
+
+      # This needs an array of hashes, each hash MUST include an id, thumbnail and a url:
+      # [
+      #   { id: '7becd952-ae77-43ad-9bf7-ed4f8feb59fa', thumbnail: 'https://mysite.net/template1.png', url: 'https://mysite.net/template1.zip' }
+      # ]
+      #
+      # The id can be generated using: `SecureRandom.uuid`, or you can use integers
+      @templates = []
     end
 
     # logger [Object].
