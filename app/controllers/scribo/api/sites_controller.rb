@@ -12,7 +12,7 @@ module Scribo
 
         scribable = GlobalID::Locator.locate_signed(request.authorization.split.last, for: 'scribo')
 
-        head(401) && unless scribable
+        head(401) && return unless scribable
 
         params[:files].each do |file|
           Scribo::SiteImportService.new(file.path, scribable).call
