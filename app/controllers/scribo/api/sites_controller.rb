@@ -7,11 +7,9 @@ module Scribo
       skip_before_action :verify_authenticity_token
       def import
         sgid = request.authorization&.split&.last
-        Rails.logger.info "sgid: #{sgid}"
         head(400) && return unless sgid
 
-        scribable = GlobalID::Locator.locate_signed(sgid, for: 'scribo')
-        Rails.logger.info "scribable: #{scribable}"
+        scribable = Scribo.config.global_id_locator.locate_signed(sgid, for: 'scribo')
 
         head(401) && return unless scribable
 
