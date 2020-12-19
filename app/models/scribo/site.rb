@@ -81,6 +81,8 @@ module Scribo
 
     # This returns the full thumbnail URL
     def thumbnail
+      return unless properties['thumbnail']
+
       url + baseurl + properties['thumbnail'].to_s
     end
 
