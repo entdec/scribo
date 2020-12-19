@@ -32,3 +32,26 @@
     }
   }
 }
+
+.site {
+  margin: 10px;
+  border: 1px solid #ccc;
+  float: left;
+  width: 200px;
+
+  .title,
+  .title a {
+    text-align: center;
+    font-size: 90%;
+    text-decoration: none;
+    color: #666;
+  }
+}
+
+.site:hover {
+  border: 1px solid #888;
+}
+
+.site.dragover {
+  border: 1px solid #800;
+}
