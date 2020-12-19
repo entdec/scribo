@@ -8,11 +8,11 @@ module Scribo
       skip_before_action :verify_authenticity_token
       def import
         sgid = request.authorization&.split&.last
-        return unless sgid
+        head(400) && return unless sgid
 
         scribable = GlobalID::Locator.locate_signed(request.authorization.split.last, for: 'scribo')
 
-        return unless scribable
+        head(401) && unless scribable
 
         params[:files].each do |file|
           Scribo::SiteImportService.new(file.path, scribable).call
