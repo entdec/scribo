@@ -27,7 +27,8 @@ module Scribo
       when 'application/json'
         ::JSON.parse(content.data)
       when 'text/csv'
-        CSV.parse(content.data, headers: true, liberal_parsing: true, quote_char: '"', col_sep: ';', row_sep: "\r\n").map(&:to_h)
+        CSV.parse(content.data, headers: true, liberal_parsing: true, quote_char: '"', col_sep: ';',
+                                row_sep: "\r\n").map(&:to_h)
       end
     end
   end

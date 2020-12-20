@@ -14,18 +14,17 @@ class CheckBoxTag < LiquorTag
   def render(context)
     super
 
-    @form_model = lookup(context, 'form.model')
-    @form_class_name = lookup(context, 'form.class_name')
-
-    result = []
     if @form_model
-      result << %[<input] + attr_str(:name, named_attr(context, :name), input(:name, argv1(context))) + %[value="0" type="hidden"/>]
+      %[<input ] + attr_str(:name, arg(:name),
+                            input(:name, argv1)) + %[value="0" type="hidden"/>]
+    else
+
+      %[<input ] + attr_str(:name, arg(:name), input(:name, argv1)) +
+        attr_str(:id, arg(:id), input(:id, argv1)) +
+        attr_str(:value, arg(:value), input(:value, argv1) ? 1 : 0) +
+        attr_str(:checked, arg(:checked), input(:checked, argv1)) +
+        attrs_str(:disabled, :maxlength, :placeholder, :class) + %[ type="checkbox"/>]
     end
-    result << %[<input] + attr_str(:name, named_attr(context, :name), input(:name, argv1(context))) +
-              attr_str(:id, named_attr(context, :id), input(:id, argv1(context))) +
-              attr_str(:value, named_attr(context, :value), input(:value, argv1(context)) ? 1 : 0) +
-              attr_str(:checked, named_attr(context, :checked), input(:checked, argv1(context))) +
-              attributes(context, :disabled, :maxlength, :placeholder) + %[ type="checkbox"/>]
   end
 end
 

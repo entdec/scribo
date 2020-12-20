@@ -21,7 +21,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'awesome_nested_set', '~> 3.2'
   s.add_dependency 'babel-transpiler', '~> 0.7'
   s.add_dependency 'down', '~> 5.2'
-  s.add_dependency 'liquor', '~> 0.6.3'
+  s.add_dependency 'liquor', '~> 0.6.5'
   s.add_dependency 'mimemagic'
   s.add_dependency 'mime-types'
   s.add_dependency 'pg'

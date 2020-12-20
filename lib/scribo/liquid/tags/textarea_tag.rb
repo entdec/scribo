@@ -1,20 +1,16 @@
 # frozen_string_literal: true
 
-# Add a text-field, either specifying everything manually or using a model object on the form
+# Add a text-area, either specifying everything manually or using a model object on the form
 #
 # == Basic usage:
-#    {%text_field name:"name" value:"Pencil"%}
+#    {%textarea name:"name"%}{%endtextarea%}
 #
 # == Advanced usage:
-#    {%text_field name%}
+#    {%textarea name%}{%endtextarea%}
 #
 # This last usage requires a model on the form
 #
-class TextareaTag < LiquorTag
-  def initialize(tag, args, tokens)
-    super
-  end
-
+class TextareaTag < LiquorBlock
   def render(context)
     super
 
@@ -22,10 +18,9 @@ class TextareaTag < LiquorTag
              attr_str(:name, arg(:name), input(:name, argv1)) +
              attr_str(:id, arg(:id), input(:id, argv1))
 
-    result += attrs_str(reject: %[name value id])
-    result += %[ />]
-    result += (arg(:value) || input(:value, argv1)).to_s
-    result += %[</textarea>]
+    result += attrs_str(reject: %[name id])
+    result += %[>] + render_body + %[</textarea>]
+
     result
   end
 end
