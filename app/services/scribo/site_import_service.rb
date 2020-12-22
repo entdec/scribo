@@ -6,14 +6,15 @@ require 'yaml'
 
 module Scribo
   class SiteImportService < ApplicationService
-    attr_reader :path, :scribable
+    attr_reader :path, :scribable, :properties_override
 
     IGNORED_FILES = [%r[^__MACOSX/], %r[/\.DS_Store], %r[^/_site]].freeze
 
-    def initialize(path, scribable = nil)
+    def initialize(path, scribable = nil, properties_override = {})
       super()
       @path = path
       @scribable = scribable
+      @properties = properties_override
     end
 
     def perform
@@ -72,7 +73,7 @@ module Scribo
                   .where("properties->>'title' = ?", properties['title'])
                   .where("properties->>'baseurl' = ?", properties['baseurl']).first
 
-      @site ||= Site.create!(properties: properties)
+      @site ||= Site.create!(properties: properties.merge(properties_override))
     end
 
     def properties

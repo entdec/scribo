@@ -14,12 +14,12 @@ export default class extends Controller {
     };
 
     self.element.addEventListener('dragover', function (evt) {
-      self.element.addClass('dragover');
+      self.element.classList.add('dragover');
       evt.preventDefault();
     });
 
     self.element.addEventListener('dragover', function (evt) {
-      self.element.removeClass('dragover');
+      self.element.classList.remove('dragover');
       evt.preventDefault();
     });
 
