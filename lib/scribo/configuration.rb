@@ -3,7 +3,7 @@ module Scribo
     attr_accessor :admin_authentication_module, :base_controller, :supported_mime_types, :default_404_txt,
                   :default_humans_txt, :default_robots_txt, :default_favicon_ico, :templates
     attr_writer :logger, :scribable_objects, :current_scribable, :after_site_create, :site_for_uri,
-                :admin_mount_point, :current_site
+                :admin_mount_point
 
     def initialize
       @logger = Logger.new(STDOUT)
@@ -53,7 +53,6 @@ module Scribo
 
       # Base64 encoded image/x-icon
       @default_favicon_ico = 'AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEcrEvoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAsHIH/7d2Bv+3dgb/t3YG/7d2Bv0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAt3YG/0crEv+3dgb/t3YG/7d2Bv8AAAAAt3YG/7d2Bv90Vx0DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALd2Bv+3dgb/t3YG/7d2Bv+3dgb/t3YG/7d2Bv+3dgb/t3YG/3VLBEwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC3dgb/t3YG/0crEv+3dgb/t3YG/7d2Bv+3dgb/t3YG/7d2Bv+3dgb+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAt3YG/bd2Bv+3dgb/qGwI/7d2Bv+3dgb/t3YG/7d2Bv8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC3dgb/t3YG/7d2Bv+3dgb/t3YG/7d2Bv+3dgb/t3YG/7d2Bv+3dgb/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAt3YG/7d2Bv+3dgb/lV8K/7d2Bv+3dgb/t3YG/7d2Bv+3dgb/t3YG/7h2B9EAAAAAAAAAAAAAAAAAAAAAAAAAALd2Bv+3dgb/t3YG/7d2Bv+JWAv/t3YG/7d2Bv+3dgb/t3YG/7d2Bv+3dgb/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAt3YG/7d2Bv+3dgb/t3YG/7d2Bv+3dgb/t3YG/7d2Bv+3dgb/t3YG/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALd2Bvi3dgb/t3YG+7d2Bv+3dgb/t3YG/7d2Bv+3dgb/t3YG/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAt3YG/wAAAAC3dgb/t3YG/7d2Bv+3dgb/t3YG/7d2Bv+3dgb/t3YG8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAt3YG/7d2Bv+3dgb/t3YG/7d2Bv+3dgb/t3YG/7d2Bv8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC3dgb/t3YG/2hDA3O3dgb/t3YG/7d2Bv+3dgb/t3YG/QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC4dgeJAAAAALd2Bv+3dgb/t3YG/7d2Bv+zcgZ3//8AAL//AADB/wAAgn8AAIA/AACAHwAAgH8AAMAPAADABwAAwAcAAOAHAADgDwAA9AMAAPwDAAD+QQAA/6EAAA=='
-      @current_site = ->(_options) { nil }
 
       # This needs an array of hashes, each hash MUST include an id, thumbnail and a url:
       # [
@@ -80,8 +79,8 @@ module Scribo
     end
 
     # Used to set current scribable, used when creating new sites or importing sites
-    def current_scribable
-      instance_exec(&@current_scribable) if @current_scribable
+    def current_scribable(request)
+      instance_exec(request, &@current_scribable) if @current_scribable
     end
 
     # Which site to use for a certain uri
@@ -92,10 +91,6 @@ module Scribo
     # What to do after a site create (only for new sites, not imported sites)
     def after_site_create(site)
       instance_exec(site, &@after_site_create) if @after_site_create
-    end
-
-    def current_site(options = {})
-      instance_exec(options, &@current_site) if @current_site
     end
   end
 end

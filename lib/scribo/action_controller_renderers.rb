@@ -2,12 +2,26 @@
 
 # Add scribo as a renderer
 module ActionController::Renderers
-  add :scribo do |site, options|
-    options.merge!(site: site, uri: URI.parse(request.original_url))
+  add :scribo do |request, options|
+    options.merge!(request: request, uri: URI.parse(request.original_url), path: URI.parse(request.original_url).path)
 
     site = Scribo::SiteFindService.new(options).call
-    site ||= Scribo::Site.new
-    content = Scribo::ContentFindService.new(site, options).call
+    content = nil
+
+    unless site
+      # If we have no site, see if we have one when we add an /
+      site = Scribo::SiteFindService.new(options.merge(path: "#{options[:path]}/")).call
+      if site
+        content = site.contents.new(kind: 'text', path: 'index.link', full_path: '/index.link', data: "#{options[:path]}/")
+      else
+        # Nope, we still don't just bail out
+        site ||= Scribo::Site.new
+      end
+    end
+
+    options.merge!(site: site)
+
+    content ||= Scribo::ContentFindService.new(site, options).call
 
     if content
       self.content_type ||= Scribo::Utility.output_content_type(content)

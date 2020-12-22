@@ -14,20 +14,9 @@ module Scribo
     def perform
       return options[:site] if options[:site].is_a?(Scribo::Site)
 
-      site ||= Scribo.config.current_site(options)
-      site ||= site_scope(options).first
-      site ||= Scribo.config.site_for_uri(options[:uri]) if options[:uri]
-      site
-    end
-
-    private
-
-    def site_scope(options = {})
-      return Scribo::Site.none if options[:site].blank?
-
-      scope = Scribo::Site.titled(options[:site])
-      scope = scope.owned_by(options[:owner]) if options[:owner]
-      scope
+      scope = Scribo.config.current_scribable(options[:request]).sites
+      scope = scope.for_path(options[:path]) if options[:path]
+      scope.first
     end
   end
 end

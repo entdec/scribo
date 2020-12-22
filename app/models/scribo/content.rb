@@ -341,7 +341,7 @@ module Scribo
     def post_path
       return unless post?
 
-      errors.add(:path, 'path must be of format YYYY-MM-DD-title') unless path.match(/[0-9]{4}-[0-9]{2}-[0-9]{2}-.*/)
+      errors.add(:path, 'path must be of format YYYY-MM-DD-title') unless path.match(/[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}-.*/)
     end
 
     def layout_cant_be_current_content

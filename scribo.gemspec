@@ -38,4 +38,8 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'pry-byebug', '~> 3'
   s.add_development_dependency 'pry-rails', '~> 0.3'
   s.add_development_dependency 'rubocop', '~> 0.60'
+  s.add_development_dependency 'puma'
+  s.add_development_dependency 'capybara'
+  s.add_development_dependency 'selenium-webdriver'
+  s.add_development_dependency 'cuprite'
 end

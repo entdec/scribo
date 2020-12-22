@@ -11,8 +11,6 @@ module Scribo
 
     has_many :contents, class_name: 'Content', foreign_key: 'scribo_site_id', dependent: :destroy
 
-    before_validation :store_scribable
-
     attr_accessor :zip_file
 
     scope :adminable, -> { where(scribable: Scribo.config.scribable_objects) }
@@ -140,14 +138,6 @@ module Scribo
     #
     def total_size
       contents.map { |c| c.data ? c.data.size : c.asset.attachment&.download&.size || 0 }.sum
-    end
-
-    private
-
-    def store_scribable
-      return if scribable
-
-      self.scribable = Scribo.config.current_scribable
     end
   end
 end

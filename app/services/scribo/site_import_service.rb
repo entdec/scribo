@@ -8,13 +8,13 @@ module Scribo
   class SiteImportService < ApplicationService
     attr_reader :path, :scribable, :properties_override
 
-    IGNORED_FILES = [%r[^__MACOSX/], %r[/\.DS_Store], %r[^/_site]].freeze
+    IGNORED_FILES = [%r[^__MACOSX/], %r[/\.DS_Store], %r[^/_site], /^node_modules/].freeze
 
-    def initialize(path, scribable = nil, properties_override = {})
+    def initialize(path, scribable: nil, properties: {})
       super()
       @path = path
       @scribable = scribable
-      @properties_override = properties_override
+      @properties_override = properties
     end
 
     def perform
@@ -22,7 +22,9 @@ module Scribo
         Dir.chdir(dir) do
           unzip(dir)
 
-          Dir.glob('**/*').each do |name|
+          all_files = Dir.glob('**/*')
+          all_files = all_files.reject { |p| p == '_config.yml' } if properties_override.present?
+          all_files.each do |name|
             parent = if File.dirname(name) == name
                        nil
                      else
@@ -42,6 +44,7 @@ module Scribo
           end
         end
       end
+      site.contents.create(path: '_config.yml', data: YAML.dump(site.properties)) if properties_override.present? && properties_override.present?
       site
     end
 
@@ -69,11 +72,11 @@ module Scribo
     def site
       return @site if @site
 
-      @site = Site.where(scribable: scribable || Scribo.config.current_scribable)
+      @site = Site.where(scribable: scribable || Scribo.config.current_scribable(nil))
                   .where("properties->>'title' = ?", properties['title'])
                   .where("properties->>'baseurl' = ?", properties['baseurl']).first
 
-      @site ||= Site.create!(properties: properties.merge(properties_override))
+      @site ||= Site.create!(scribable: scribable || Scribo.config.current_scribable(nil), properties: properties.merge(properties_override))
     end
 
     def properties
