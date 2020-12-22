@@ -55,6 +55,16 @@ module Scribo
       assert_equal '/docs/smurrefluts.md', subject.full_path
     end
 
+    test 'sets full path correctly for _post and post 2020-11-01-test.md' do
+      @site = Scribo::Site.create!
+      blah = @site.contents.create!(kind: 'folder', path: 'blah')
+      folder = @site.contents.create!(parent: blah, kind: 'folder', path: '_posts')
+      subject = @site.contents.create!(parent: folder, kind: 'text', path: '2020-11-01-test.md', data: '# something')
+
+      refute subject.part_of_collection?
+      assert_equal '/blah/_posts/2020-11-01-test.md', subject.full_path
+    end
+
     test 'search based on any word' do
       @site = Scribo::Site.create!
       page1 = @site.contents.create!(kind: 'text', path: 'page1.md', data: 'this is the amazing page 1')
