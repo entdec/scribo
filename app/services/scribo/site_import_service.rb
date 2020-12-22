@@ -14,7 +14,7 @@ module Scribo
       super()
       @path = path
       @scribable = scribable
-      @properties = properties_override
+      @properties_override = properties_override
     end
 
     def perform
