@@ -105,6 +105,7 @@ module Scribo
       site_defaults = properties&.[]('defaults')
       return {} unless site_defaults
       return {} unless content.full_path
+      return {} if !content.page? && !content.collection_name # scoping only possible for pages & collections
 
       props = site_defaults.find do |d|
         s = d['scope']
