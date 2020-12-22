@@ -210,13 +210,13 @@ module Scribo
     def collection_name
       return nil unless part_of_collection?
 
-      parent.path[1..-1]
+      ancestors.first.path[1..-1]
     end
 
     def part_of_collection?
-      return false unless parent&.path&.start_with?('_')
+      return false unless ancestors.first&.path&.start_with?('_')
 
-      site.collections.include?(parent.path[1..-1])
+      site.collections.include?(ancestors.first.path[1..-1])
     end
 
     def redirect?
@@ -229,6 +229,10 @@ module Scribo
 
     def post?
       ancestors.map(&:path).join('/').start_with?('_posts')
+    end
+
+    def page?
+      Scribo::Utility.output_content_type(self) == 'text/html'
     end
 
     def config?
@@ -258,9 +262,7 @@ module Scribo
       search_paths.concat(alternative_paths_for(search_path))
 
       secondary_search_path = path.sub(%r[/$], '')
-      if secondary_search_path != '' && secondary_search_path != search_path
-        search_paths.concat(alternative_paths_for(secondary_search_path))
-      end
+      search_paths.concat(alternative_paths_for(secondary_search_path)) if secondary_search_path != '' && secondary_search_path != search_path
 
       permalink_paths = [path]
 
