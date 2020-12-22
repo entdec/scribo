@@ -152,6 +152,36 @@ module Scribo
       assert_nil subject.properties['layout']
     end
 
+    test 'renders simple text with {%raw%} usage' do
+      markdown = <<~MARKDOWN
+        {%raw%}
+        ```markdown
+        <ul>
+        {%for photo in site.data.photos%}
+        <li>{{photo.url}}</li>
+        {%endfor%}
+        </ul>
+        ```
+        {%endraw%}
+      MARKDOWN
+
+      output = <<~OUTPUT
+
+        <div class=\"language-markdown highlighter-rouge\"><div class=\"highlight\"><pre class=\"highlight\"><code><span class=\"nt\">&lt;ul&gt;</span>
+        {%for photo in site.data.photos%}
+        <span class=\"nt\">&lt;li&gt;</span>{{photo.url}}<span class=\"nt\">&lt;/li&gt;</span>
+        {%endfor%}
+        <span class=\"nt\">&lt;/ul&gt;</span>
+        </code></pre></div></div>
+
+      OUTPUT
+
+      subject = Scribo::Content.create(kind: 'text', data: markdown, path: 'test.md')
+      result = Scribo::ContentRenderService.new(subject, self).call
+
+      assert_equal output, result
+    end
+
     test 'finds all alternatives path for /' do
       subject = Scribo::Content.search_paths_for('/')
 
