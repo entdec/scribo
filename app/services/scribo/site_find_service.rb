@@ -14,7 +14,7 @@ module Scribo
     def perform
       return options[:site] if options[:site].is_a?(Scribo::Site)
 
-      scope = Scribo.config.current_scribable(options[:request]).sites
+      scope = Scribo.config.scribable_for_request(options[:request]).sites
       scope = scope.for_path(options[:path]) if options[:path]
       scope.first
     end

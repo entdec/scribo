@@ -2,8 +2,7 @@ module Scribo
   class Configuration
     attr_accessor :admin_authentication_module, :base_controller, :supported_mime_types, :default_404_txt,
                   :default_humans_txt, :default_robots_txt, :default_favicon_ico, :templates
-    attr_writer :logger, :scribable_objects, :current_scribable, :after_site_create, :site_for_uri,
-                :admin_mount_point
+    attr_writer :logger, :scribable_objects, :scribable_for_request, :after_site_create, :admin_mount_point
 
     def initialize
       @logger = Logger.new(STDOUT)
@@ -78,14 +77,9 @@ module Scribo
       [*instance_exec(&@scribable_objects)] if @scribable_objects
     end
 
-    # Used to set current scribable, used when creating new sites or importing sites
-    def current_scribable(request)
-      instance_exec(request, &@current_scribable) if @current_scribable
-    end
-
-    # Which site to use for a certain uri
-    def site_for_uri(uri)
-      instance_exec(uri, &@site_for_uri) if @site_for_uri
+    # Which scribable to use for the current request, should only return one scribable
+    def scribable_for_request(request)
+      instance_exec(request, &@scribable_for_request) if @scribable_for_request
     end
 
     # What to do after a site create (only for new sites, not imported sites)

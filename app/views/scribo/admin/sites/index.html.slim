@@ -1,7 +1,7 @@
 #sites
   = render partial: 'sites'
 
-- if Scribo.config.current_scribable(request)
+- if Scribo.config.scribable_for_request(request)
   = link_to(scribo.new_admin_site_path, { 'data-turbolinks' => false }) do
     div.site
       img src="https://via.placeholder.com/200x200.png?text=%2B"

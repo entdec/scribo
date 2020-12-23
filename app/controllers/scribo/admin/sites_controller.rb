@@ -13,11 +13,11 @@ module Scribo
           redirect_to(admin_sites_path) && return unless url
 
           file = Down.download(url)
-          @site = Scribo::SiteImportService.new(file.path, scribable: Scribo.config.current_scribable(request)).call
+          @site = Scribo::SiteImportService.new(file.path, scribable: Scribo.config.scribable_for_request(request)).call
           redirect_to(admin_site_contents_path(@site))
           nil
         else
-          @site = Scribo::Site.create!(scribable: Scribo.config.current_scribable(request))
+          @site = Scribo::Site.create!(scribable: Scribo.config.scribable_for_request(request))
           Scribo.config.after_site_create(@site)
           redirect_to(admin_site_contents_path(@site))
           nil
@@ -42,7 +42,7 @@ module Scribo
       def import
         @sites = Site.adminable
         params[:files].each do |file|
-          Scribo::SiteImportService.new(file.path, scribable: Scribo.config.current_scribable(request)).call
+          Scribo::SiteImportService.new(file.path, scribable: Scribo.config.scribable_for_request(request)).call
         end
       end
 

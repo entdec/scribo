@@ -72,11 +72,11 @@ module Scribo
     def site
       return @site if @site
 
-      @site = Site.where(scribable: scribable || Scribo.config.current_scribable(nil))
+      @site = Site.where(scribable: scribable)
                   .where("properties->>'title' = ?", properties['title'])
                   .where("properties->>'baseurl' = ?", properties['baseurl']).first
 
-      @site ||= Site.create!(scribable: scribable || Scribo.config.current_scribable(nil), properties: properties.merge(properties_override))
+      @site ||= Site.create!(scribable: scribable, properties: properties.merge(properties_override))
     end
 
     def properties
