@@ -43,17 +43,13 @@ module Scribo
 
                   result = scope.where(kind: 'folder').first unless scope.present?
 
-                  if result&.folder?
-                    result = Scribo::Content.new(kind: 'text', path: '/directory.link', full_path: '/directory.link', data: "#{options[:path]}/")
-                  end
+                  result = Scribo::Content.new(kind: 'text', path: '/directory.link', full_path: '/directory.link', data: "#{options[:path]}/") if result&.folder?
 
                   result
                 end
 
       # Find by content id
-      if options[:path] && options[:path][1..-1].length == 36
-        content ||= Scribo::Content&.published&.find_by_id(options[:path][1..-1])
-      end
+      content ||= Scribo::Content&.published&.find_by_id(options[:path][1..-1]) if options[:path] && options[:path][1..-1].length == 36
 
       if options[:path] == '/humans.txt'
         content ||= Scribo::Content.new(kind: 'text', path: '/humans.txt', full_path: '/humans.txt', data: Scribo.config.default_humans_txt)

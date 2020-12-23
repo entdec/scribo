@@ -9,14 +9,15 @@ class ThemeTest < ApplicationSystemTestCase
     assert_content '404 Not Found'
   end
 
-  test 'viewing agency' do
-    account = Account.first
+  test 'check all themes' do
+    account = Account.find_by_name('Theme')
     account.current!
     Dir.glob(File.join(Dir.pwd, 'test/files/themes/*.zip')).each do |theme|
       name = File.basename(theme, File.extname(theme))
-      puts "name: #{name}"
-      site = Scribo::SiteImportService.new(theme, scribable: account, properties: { 'baseurl' => "/#{name}" }).call
-      visit "/#{name}/"
+      puts name
+      site = Scribo::SiteImportService.new(theme, scribable: account).call
+      visit (site.baseurl || '/').to_s
+      page.driver.wait_for_network_idle timeout: 60
       page.save_screenshot(File.join(Dir.pwd, "test/files/themes/#{name}.png"), full: true)
       site.destroy
     rescue Psych::DisallowedClass

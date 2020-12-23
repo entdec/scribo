@@ -44,7 +44,7 @@ module Scribo
           end
         end
       end
-      site.contents.create(path: '_config.yml', data: YAML.dump(site.properties)) if properties_override.present? && properties_override.present?
+      site.contents.create(path: '_config.yml', data: YAML.dump(site.properties)) if properties_override.present?
       site
     end
 

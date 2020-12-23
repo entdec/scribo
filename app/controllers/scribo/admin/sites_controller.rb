@@ -42,7 +42,7 @@ module Scribo
       def import
         @sites = Site.adminable
         params[:files].each do |file|
-          Scribo::SiteImportService.new(file.path, Scribo.config.current_scribable(request)).call
+          Scribo::SiteImportService.new(file.path, scribable: Scribo.config.current_scribable(request)).call
         end
       end
 

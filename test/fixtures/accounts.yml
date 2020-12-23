@@ -11,3 +11,5 @@ one:
 two:
   name: Two
 
+theme:
+  name: Theme

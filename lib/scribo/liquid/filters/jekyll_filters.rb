@@ -1,4 +1,4 @@
-module WhereFilter
+module JekyllFilters
   # Filter an array of objects
   #
   # input    - the object array.
@@ -92,4 +92,4 @@ module WhereFilter
   end
 end
 
-Liquid::Template.register_filter(WhereFilter)
+Liquid::Template.register_filter(JekyllFilters)

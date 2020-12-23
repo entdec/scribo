@@ -3,7 +3,7 @@
 module Scribo
   module SassC
     class Importer < ::SassC::Importer
-      def imports(path, _parent_path)
+      def imports(path, parent_path)
         content = options[:content]
 
         import_path = ''
@@ -26,6 +26,12 @@ module Scribo
         unless include_content.present?
           # Look for /_file.ext alternative
           import_path = File.dirname(import_path) + '/_' + File.basename(import_path)
+          include_content = content.site.contents.where(kind: 'text').located(import_path, restricted: false)
+        end
+
+        # Look in parent's folder
+        if include_content.blank? && File.dirname(parent_path) != '.'
+          import_path = content.site.sass_dir + File.dirname(parent_path) + '/' + File.basename(import_path)
           include_content = content.site.contents.where(kind: 'text').located(import_path, restricted: false)
         end
 

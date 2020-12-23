@@ -41,6 +41,25 @@ module Scribo
       assert_equal "body {\n  font-family: Arial;\n  font-size: 2px;\n  font-weight: bold;\n  color: #ff0000; }\n", subject
     end
 
+    test 'renders scss with relative include from a subfolder' do
+      site = scribo_sites(:main)
+
+      sass_folder = scribo_contents(:sass_folder)
+      sub_folder = site.contents.create!(path: '_smurrefluts', parent: sass_folder)
+
+      smalltext = site.contents.create!(path: '_small.scss', parent: sub_folder, data: "@import 'small_mixin';", kind: 'text')
+      smalltext_mixin = site.contents.create!(path: '_small_mixin.scss', parent: sub_folder, data: '@mixin small-text { font: { family: Arial; size: 2px; weight: bold; } color: #ff0000;}', kind: 'text')
+
+      assert_equal '/_sass/_smurrefluts/_small_mixin.scss', smalltext_mixin.full_path
+
+      content = site.contents.create!(path: 'blah.scss', parent: sub_folder, data: "@import '_smurrefluts/_small'; body { @include small-text; }", kind: 'text')
+
+      assert content
+      subject = Scribo::ContentRenderService.new(content, {}).call
+
+      assert_equal "body {\n  font-family: Arial;\n  font-size: 2px;\n  font-weight: bold;\n  color: #ff0000; }\n", subject
+    end
+
     test 'site drop' do
       content = Scribo::Site.titled('second').contents.first
 
