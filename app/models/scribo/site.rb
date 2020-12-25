@@ -105,7 +105,7 @@ module Scribo
       return {} unless content.full_path
       return {} if !content.page? && !content.collection_name # scoping only possible for pages & collections
 
-      props = site_defaults.find do |d|
+      props = site_defaults.select do |d|
         s = d['scope']
         next unless s
 
@@ -127,6 +127,8 @@ module Scribo
 
         result
       end
+      # Sort by longest scope array (ie most specific-ish) and return the first
+      props = props.min_by { |p| -p['scope'].to_a.size }
 
       (props || {}).fetch('values', {})
     end
