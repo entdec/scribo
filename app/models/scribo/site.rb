@@ -59,7 +59,13 @@ module Scribo
     end
 
     def collections
-      properties['collections'].to_h.keys.map(&:to_s) + %w[posts]
+      result = begin
+                 properties['collections'].to_h.keys.map(&:to_s)
+               rescue StandardError
+                 []
+               end
+      result += %w[posts]
+      result
     end
 
     def output_collection?(collection)
@@ -94,7 +100,8 @@ module Scribo
 
     def sass_dir
       result = properties.value_at_keypath('sass.sass_dir') || '/_sass/'
-      result = '/' + result unless result.start_with?('/')
+      result = "/#{result}" unless result.start_with?('/')
+      result = "#{result}/" unless result.ends_with?('/')
 
       result
     end

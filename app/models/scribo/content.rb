@@ -143,6 +143,8 @@ module Scribo
 
     def post_date
       Time.zone.strptime(path[0, 10], '%Y-%m-%d')
+    rescue StandardError
+      nil
     end
 
     def data
@@ -288,7 +290,7 @@ module Scribo
 
       if post?
         result = categories.join('/') + '/'
-        result += date.strftime('%Y/%m/%d/')
+        result += date.strftime('%Y/%m/%d/') if date
         result += path[11..-1]
       elsif part_of_collection? && site.output_collection?(collection_name)
         result = "#{collection_name}/#{path}"
