@@ -17,19 +17,19 @@ module Scribo
     end
 
     test 'should show content' do
-      get '/'
+      get '/', headers: { 'X-ACCOUNT': Account.current.id }
       assert_response :success
       assert_equal 'Hello', @response.body
       assert_equal 'text/html', @response.media_type
     end
 
     test 'should get redirected' do
-      get '/test'
+      get '/test', headers: { 'X-ACCOUNT': Account.current.id }
       assert_redirected_to '/index'
     end
 
     test 'should get asset' do
-      get '/asset.png'
+      get '/asset.png', headers: { 'X-ACCOUNT': Account.current.id }
       assert_equal @png_data, @response.body
       assert_equal 'image/png', @response.media_type
       assert @response.headers['Etag']

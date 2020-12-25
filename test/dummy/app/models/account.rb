@@ -2,16 +2,16 @@ class Account < ApplicationRecord
   scribable
 
   def current!
-    Thread.current[:account] = self
+    self.class.instance_variable_set(:@account, self)
   end
 
   class << self
     def current
-      Thread.current[:account]
+      instance_variable_get(:@account)
     end
 
     def reset_current!
-      Thread.current[:account] = nil
+      instance_variable_set(:@account, nil)
     end
   end
 end

@@ -9,8 +9,8 @@ class ApplicationController < ActionController::Base
   private
 
   def set_current_objects
-    @current_account = Account.find_by_name('Theme')
-    @current_account.current!
+    @current_account = Account.find_by(id: request.headers['X-ACCOUNT'])
+    @current_account&.current!
   end
 
   def cleanup_authentication
