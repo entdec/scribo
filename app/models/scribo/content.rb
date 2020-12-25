@@ -262,6 +262,7 @@ module Scribo
       search_paths.concat(alternative_paths_for(search_path))
 
       secondary_search_path = path.sub(%r[/$], '')
+      secondary_search_path = "/#{secondary_search_path}" unless secondary_search_path.start_with?('/')
       search_paths.concat(alternative_paths_for(secondary_search_path)) if secondary_search_path != '' && secondary_search_path != search_path
 
       permalink_paths = [path]
