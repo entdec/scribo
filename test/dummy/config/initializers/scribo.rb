@@ -12,11 +12,7 @@ Scribo.setup do |config|
     config.logger.level = Logger::DEBUG
   end
 
-  # config.site_for_uri = lambda do |_uri|
-  #   Account.current.sites.first
-  # end
-
-  config.current_scribable = lambda do |_request|
+  config.scribable_for_request = lambda do |_request|
     Account.current
   end
 

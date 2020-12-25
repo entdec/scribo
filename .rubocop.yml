@@ -39,5 +39,5 @@ Style/ClassAndModuleChildren:
 Layout/TrailingEmptyLines:
   Enabled: true
 
-Metrics/LineLength:
+Layout/LineLength:
   Max: 1000
