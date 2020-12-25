@@ -20,7 +20,7 @@ gemspec
 # bundle config local.liquor ../../components/liquor
 
 gem 'key_path', git: 'git@code.entropydecelerator.com:tdegrunt/key_path.git', branch: 'master'
-gem 'liquor', entdec: 'components/liquor', tag: '0.6.5'
+gem 'liquor', entdec: 'components/liquor', tag: '0.6.6'
 
 gem 'rubocop'
 
