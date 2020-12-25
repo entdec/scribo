@@ -35,7 +35,14 @@ module Scribo
     def render_liquor(data, layout)
       result = Liquor.render(data, assigns: assigns.merge!('content' => data), registers: registers, filter: filter,
                                    filter_options: filter_options, layout: layout&.data)
-      result = render_liquor(result, layout.layout) if layout&.layout
+
+      while layout&.layout
+        next unless layout&.layout
+
+        layout = layout.layout
+        result = Liquor.render(layout.data, assigns: assigns.merge('content' => result), registers: registers)
+      end
+
       result
     end
 

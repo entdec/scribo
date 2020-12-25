@@ -11,7 +11,7 @@ module ActionViewHelpers
       Scribo.config.logger.info "Scribo: layout for '#{layout_name}' content #{content.id} identifier #{content.identifier}"
 
       application_js = content_for?(:js) && content_for(:js)
-      registers = { _yield: { '' => yield_content }, controller: controller, application_assets: scribo_application_assets, application_js: application_js, content: content }
+      registers = { controller: controller, application_assets: scribo_application_assets, application_js: application_js, content: content }
       Scribo::ContentRenderService.new(content, self, registers: registers).call.html_safe
     else
       yield_content

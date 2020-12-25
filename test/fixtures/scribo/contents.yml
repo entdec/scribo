@@ -19,7 +19,7 @@ layout_folder:
 layout:
   site: main
   kind: text
-  data: layout{%yield%}layout
+  data: layout{{content}}layout
   path: layout.html
   full_path: /_layouts/layout.html
   parent: layout_folder

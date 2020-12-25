@@ -103,33 +103,6 @@ module Scribo
       assert_equal 'layouttestlayout', result
     end
 
-    test 'renders content_for within layout' do
-      layout1 = scribo_sites(:main).contents.create(kind: 'text', path: 'layout1.html', full_path: '/_layouts/layout1.html', data: "<section>{%yield 'section'%}</section><body>{%yield%}</body>", parent: scribo_contents(:layout_folder))
-      subject = scribo_sites(:main).contents.create(kind: 'text', path: 'test.html', full_path: '/test.html', data: "{%content_for 'section'%}bla{%endcontent_for%}test", properties: { layout: 'layout1' })
-      result = Scribo::ContentRenderService.new(subject, self).call
-
-      assert_equal '<section>bla</section><body>test</body>', result
-    end
-
-    test 'renders content_for within nested layout' do
-      layout1 = scribo_sites(:main).contents.create(kind: 'text', path: 'layout1.html', full_path: '/_layouts/layout1.html', data: "<section>{%yield 'section'%}</section><body>{%yield%}</body>", parent: scribo_contents(:layout_folder))
-      layout2 = scribo_sites(:main).contents.create(kind: 'text', path: 'layout2.html', full_path: '/_layouts/layout2.html', data: '<main>{%yield%}</main>', properties: { layout: 'layout1' }, parent: scribo_contents(:layout_folder))
-      subject = scribo_sites(:main).contents.create(kind: 'text', path: 'test.html', full_path: '/test.html', data: "{%content_for 'section'%}bla{%endcontent_for%}test", properties: { layout: 'layout2' })
-
-      result = Scribo::ContentRenderService.new(subject, self).call
-
-      assert_equal '<section>bla</section><body><main>test</main></body>', result
-    end
-
-    test 'renders content_for within layout, registers not available in template' do
-      layout1 = scribo_sites(:main).contents.create(kind: 'text', path: 'layout1.html', full_path: '/_layouts/layout1.html', data: "{{_yield['']}}<section>{%yield 'section'%}</section><body>{%yield%}</body>{{_yield['section']}}", parent: scribo_contents(:layout_folder))
-      subject = scribo_sites(:main).contents.create(kind: 'text', path: 'test.html', full_path: '/test.html', data: "{%content_for 'section'%}bla{%endcontent_for%}test", properties: { layout: 'layout1' })
-
-      result = Scribo::ContentRenderService.new(subject, self).call
-
-      assert_equal '<section>bla</section><body>test</body>', result
-    end
-
     test 'layout cant be current content' do
       subject = scribo_contents(:layout)
       subject.update(properties: { layout: Scribo::Utility.file_name(scribo_contents(:layout).path) })
@@ -195,7 +168,7 @@ module Scribo
     test 'finds all alternatives path for /' do
       subject = Scribo::Content.search_paths_for('/')
 
-      assert_equal %w[/ /index /index.htm /index.html /index.htmlx /index.htx /index.link /index.markdown /index.md /index.mkd /index.shtml /index.slim], subject.sort
+      assert_equal ['/', '/.html', '/.html.', '/.html.htm', '/.html.html', '/.html.htmlx', '/.html.htx', '/.html.link', '/.html.markdown', '/.html.md', '/.html.mkd', '/.html.shtml', '/.html.slim', '/index', '/index.htm', '/index.html', '/index.htmlx', '/index.htx', '/index.link', '/index.markdown', '/index.md', '/index.mkd', '/index.shtml', '/index.slim'], subject.sort
     end
 
     test 'finds all alternatives path for /index' do

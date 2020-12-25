@@ -78,5 +78,17 @@ module Scribo
 
       assert_includes result, 'Reset some basic elements'
     end
+
+    test 'multiple levels of layout should preserve liquid inside raw' do
+      site = scribo_sites(:main)
+      layout2 = site.contents.create!(path: 'layout2.html', data: '2{{content}}2', kind: 'text', parent: scribo_contents(:layout_folder))
+      layout1 = site.contents.create!(path: 'layout1.html', properties: { layout: 'layout2' }, data: '1{{content}}1', kind: 'text', parent: scribo_contents(:layout_folder))
+      content = site.contents.create!(properties: { title: 'Hello', layout: 'layout1' }, path: 'test.txt', data: '{%raw%}{{title}}{%endraw%}', kind: 'text')
+
+      assert content
+      subject = Scribo::ContentRenderService.new(content, {}).call
+
+      assert_equal '21{{title}}12', subject
+    end
   end
 end
