@@ -14,7 +14,7 @@ module Scribo
         head(401) && return unless scribable
 
         params[:files].each do |file|
-          Scribo::SiteImportService.new(file.path, scribable).call
+          Scribo::SiteImportService.new(file.path, scribable: scribable).call
         end
       end
     end
