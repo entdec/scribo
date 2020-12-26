@@ -87,7 +87,7 @@ module Scribo
       return asset.attachment&.download || data if kind != 'text'
 
       result = ''
-      # User attributes['properties'] here, to always use content-local properties
+      # Use attributes['properties'] here, to always use content-local properties
       result += (YAML.dump(attributes['properties']) + "---\n") if attributes['properties'].present?
 
       result + data.to_s
@@ -163,7 +163,7 @@ module Scribo
       if properties&.[]('categories').is_a? Array
         properties&.[]('categories')
       else
-        (properties&.[]('categories') || '').split(' ')
+        (properties&.[]('categories') || '').split
       end
     end
 
@@ -171,7 +171,7 @@ module Scribo
       if properties&.[]('tags').is_a? Array
         properties&.[]('tags')
       else
-        (properties&.[]('tags') || '').split(' ')
+        (properties&.[]('tags') || '').split
       end
     end
 
