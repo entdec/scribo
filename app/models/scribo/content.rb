@@ -16,8 +16,8 @@ module Scribo
     before_save :store_properties, if: :config?
     before_save :upload_asset
 
-    after_save :set_full_path
-    after_move :set_full_path
+    after_save :store_full_path
+    after_move :store_full_path
 
     scope :layouts, -> { in_folder('_layouts') }
     scope :posts, -> { in_folder('_posts') }
@@ -285,7 +285,7 @@ module Scribo
       search_paths << Scribo::Utility.switch_extension(search_path, 'link')
     end
 
-    def set_full_path(force = false)
+    def store_full_path(force = false)
       return unless !force || saved_changes.include?(:path)
 
       if post?
@@ -301,7 +301,7 @@ module Scribo
 
       update_column(:full_path, result)
 
-      children.each { |child| child.set_full_path(true) }
+      children.each { |child| child.store_full_path(true) }
     end
 
     def tree_path
