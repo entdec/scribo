@@ -40,7 +40,7 @@ import "codemirror/addon/fold/foldgutter.css";
 
 import "codemirror/theme/monokai.css";
 /***
- * IDE - Editor controller
+ * Editor controller
  *
  * Control codemirror
  */

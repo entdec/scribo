@@ -1,9 +1,9 @@
 import { Controller } from "stimulus"
 
 /***
- * IDE controller
+ * Upload controller
  *
- * Used to copy a bit of text
+ * Uploads a file, when you drop a file.
  */
 export default class extends Controller {
 
