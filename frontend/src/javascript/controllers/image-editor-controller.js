@@ -1,3 +1,4 @@
+import { Controller } from "stimulus"
 import Painterro from 'painterro'
 
 export default class extends Controller {
