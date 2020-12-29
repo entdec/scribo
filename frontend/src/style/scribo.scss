@@ -45,6 +45,24 @@
     font-size: 90%;
     text-decoration: none;
     color: #666;
+    height: 20px;
+    line-height: 20px;
+  }
+
+  img {
+    width: 200px;
+    height: 200px;
+  }
+
+  .icon {
+    color: #666;
+    text-align: center;
+    height: 200px;
+    background-color: #ccc;
+
+    i {
+      margin-top: 40px;
+    }
   }
 }
 
