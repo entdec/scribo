@@ -34,6 +34,10 @@
         display: inline;
       }
     }
+
+    .tools {
+      top: 0px;
+    }
   }
 
   .section {
@@ -129,7 +133,7 @@
   display: none;
   position: absolute;
   right: 5px;
-  top: -3px;
+  top: 0px;
 
   i {
     padding: 5px;
