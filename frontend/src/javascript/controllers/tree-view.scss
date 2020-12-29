@@ -96,6 +96,9 @@
 
   a.list-item {
     color: #000;
+    @media screen and (prefers-color-scheme: dark) {
+      color: #fff;
+    }
     display: block;
     padding-left: 4px;
     position: relative;
@@ -103,6 +106,9 @@
 
   a.list-item:hover {
     background-color: #ddd;
+    @media screen and (prefers-color-scheme: dark) {
+      background-color: #666;
+    }
   }
 
   svg.s16 {
@@ -154,6 +160,9 @@
 .tree-view .entry.selected {
   font-weight: bold;
   background-color: lightgray;
+  @media screen and (prefers-color-scheme: dark) {
+    background-color: #333;
+  }
 }
 
 .tree-view .list-item .name {

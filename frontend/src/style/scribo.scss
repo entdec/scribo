@@ -29,6 +29,9 @@
       position: relative;
       text-align: center;
       top: 35%;
+      @media screen and (prefers-color-scheme: dark) {
+        color: #fff;
+      }
     }
   }
 }
@@ -63,6 +66,9 @@
     text-align: center;
     height: 200px;
     background-color: #ccc;
+    @media screen and (prefers-color-scheme: dark) {
+      background-color: #333;
+    }
 
     i {
       margin-top: 40px;
