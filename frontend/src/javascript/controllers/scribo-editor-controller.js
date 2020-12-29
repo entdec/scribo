@@ -38,7 +38,7 @@ import "codemirror/addon/dialog/dialog.css";
 import "codemirror/addon/hint/show-hint.css";
 import "codemirror/addon/fold/foldgutter.css";
 
-import "codemirror/theme/monokai.css";
+import "codemirror/theme/gruvbox-dark.css";
 /***
  * Editor controller
  *
@@ -67,7 +67,7 @@ export default class extends Controller {
     });
 
     if(window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      this.editor.setOption('theme', 'monokai');
+      this.editor.setOption('theme', 'gruvbox-dark');
     }
 
     this.editor.setSize('100%', this.data.get('height') || '100%');
