@@ -17,7 +17,9 @@
           .title = t('scribo.sites.create_from_template')
 
   div.site data-controller="upload" data-upload-url="#{scribo.import_admin_sites_path}" data-upload-param-name="files[]" data-upload-extra-data='{}'
-    .icon
+    .icon.upload
       i.fal.fa-upload.fa-7x
+    .icon.uploading
+      i.fal.fa-circle-notch.fa-7x.fa-spin
     .title
       = t('scribo.sites.upload')

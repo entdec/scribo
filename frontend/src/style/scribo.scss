@@ -68,6 +68,19 @@
       margin-top: 40px;
     }
   }
+
+  .icon.uploading {
+    display: none;
+  }
+}
+
+.site.uploading {
+  .icon.upload {
+    display: none;
+  }
+  .icon.uploading {
+    display: block;
+  }
 }
 
 .site:hover {
