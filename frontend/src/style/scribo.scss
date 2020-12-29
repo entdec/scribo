@@ -39,6 +39,10 @@
   float: left;
   width: 200px;
 
+  &.dragging {
+    border: 1px dashed #f00;
+  }
+
   .title,
   .title a {
     text-align: center;
