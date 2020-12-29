@@ -14,16 +14,17 @@ export default class extends Controller {
     };
 
     self.element.addEventListener('dragover', function (evt) {
-      self.element.classList.add('dragover');
+      self.element.classList.add('dragging');
       evt.preventDefault();
     });
 
-    self.element.addEventListener('dragover', function (evt) {
-      self.element.classList.remove('dragover');
+    self.element.addEventListener('dragleave', function (evt) {
+      self.element.classList.remove('dragging');
       evt.preventDefault();
     });
 
     self.element.addEventListener('dragenter', function (evt) {
+      self.element.classList.add('dragging');
       evt.preventDefault();
     });
 
@@ -32,6 +33,7 @@ export default class extends Controller {
         return;
       }
 
+      self.element.classList.remove('dragging');
       evt.preventDefault();
       evt.cancelBubble = true;
 
@@ -46,6 +48,8 @@ export default class extends Controller {
         formData.append(self.data.get('param-name'), evt.dataTransfer.files[i]);
       }
 
+      self.element.classList.add('uploading');
+
       fetch(self.data.get('url'), {
         method: 'POST',
         headers: {
@@ -54,6 +58,7 @@ export default class extends Controller {
         body: formData
       }).then((response) => {
         response.json().then(function (data) {
+          self.element.classList.remove('uploading');
           let node = document.querySelector(data.selector);
           if (node) {
             node.innerHTML = data.html;
