@@ -6,7 +6,7 @@ export default class extends Controller {
   connect() {
     console.log('connected - image-editor');
     const self = this;
-    Painterro().show(this.data.get('url'))
+    Painterro({id: 'image-editor'}).show(this.data.get('url'))
   }
   disconnect() {
 

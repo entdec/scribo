@@ -3,7 +3,7 @@
       - if @content.kind == 'asset'
           - if @content.media_type == 'image'
             / img src=content_path(@content) style="max-width: 100%; border: 1px dashed #ccc;"
-            div controller="image-editor" data-image-editor-url=content_path(@content) style="max-width: 100%;"
+            div#image-editor data-controller="image-editor" data-image-editor-url=content_url(@content) style="max-width: 100%;"
           - if @content.media_type == 'font' || @content.mime_type == "application/vnd.ms-fontobject"
             css:
               @font-face {
