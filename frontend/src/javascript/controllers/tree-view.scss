@@ -3,8 +3,10 @@
   user-select: none;
   -webkit-user-select: none;
   color: #000;
+  @media screen and (prefers-color-scheme: dark) {
+    color: #fff;
+  }
   padding: 5px;
-
   ul {
     margin: 0;
     padding: 0;
