@@ -20,6 +20,8 @@ en:
       delete_file: Delete file
       delete_folder: Delete folder
       collapse_all: Collapse all
+      close_all: Close all
+      save_all: Save all
       save: Save
     confirm:
       delete_file: Are you sure you want to delete this file?

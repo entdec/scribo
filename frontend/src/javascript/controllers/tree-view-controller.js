@@ -18,7 +18,13 @@ export default class extends Controller {
     self.element.addEventListener("click", (event) => {
       event.stopPropagation()
       let el = event.target.closest("li.entry")
-      if (event.target.closest("li.entry").classList.contains("directory")) {
+      if (!el) {
+        return
+      }
+      if (
+        el &&
+        event.target.closest("li.entry").classList.contains("directory")
+      ) {
         el.classList.toggle("open")
         el.classList.toggle("closed")
       }
@@ -242,6 +248,7 @@ export default class extends Controller {
         window.scriboEditors.open(
           data.content.id,
           data.content.path,
+          data.content.full_path,
           data.content.url,
           data.html
         )
@@ -328,6 +335,7 @@ export default class extends Controller {
               window.scriboEditors.open(
                 data.content.id,
                 data.content.path,
+                data.content.full_path,
                 data.content.url,
                 data.html
               )

@@ -2,7 +2,7 @@ import { Controller } from "stimulus"
 import "./open-editors.scss"
 
 export default class extends Controller {
-  static targets = ["tabs", "contents"]
+  static targets = ["tabs", "list", "contents"]
 
   connect() {
     this.editors = {}
@@ -20,13 +20,13 @@ export default class extends Controller {
     })
   }
 
-  open(id, name, url, data) {
+  open(id, name, path, url, data) {
     let existingEditor = this.editors[id]
 
     if (existingEditor) {
       this._activateEditor(existingEditor.id)
     } else {
-      this._createEditor(id, name, url, data)
+      this._createEditor(id, name, path, url, data)
     }
   }
 
@@ -38,6 +38,7 @@ export default class extends Controller {
   }
 
   clickTabs(event) {
+    console.log("clickTabs")
     let close = event.target.closest("i")
     let tab = event.target.closest(".editor-tab")
 
@@ -50,9 +51,27 @@ export default class extends Controller {
     }
   }
 
-  _createEditor(id, name, url, data) {
-    this.editors[id] = { id: id, name: name, url: url, data: data }
+  clickList(event) {
+    console.log("clickList")
+    // // let close = event.target.closest("i.close")
+    let tab = event.target.closest("li.editor")
+    if (tab) {
+      //   // if (close) {
+      //   //   this._removeEditor(tab.dataset.tab)
+      //   // } else {
+      this._activateEditor(tab.dataset.tab)
+      //   // }
+    }
+  }
+
+  save(event) {
+    console.log("save")
+  }
+
+  _createEditor(id, name, path, url, data) {
+    this.editors[id] = { id: id, name: name, path: path, url: url, data: data }
     this._createTab(id, name)
+    this._createListEntry(id, name, path)
     this._createTabContent(id, url, data)
     this._activateEditor(id)
   }
@@ -64,6 +83,7 @@ export default class extends Controller {
       this._activateEditor(Object.keys(this.editors)[0])
     }
     this._removeTab(id)
+    this._removeItem(id)
     this._removeContent(id)
   }
 
@@ -85,6 +105,41 @@ export default class extends Controller {
     tab.appendChild(icon)
 
     this.tabsTarget.appendChild(tab)
+  }
+
+  _createListEntry(id, name, path) {
+    let entry = document.createElement("li")
+    entry.setAttribute("data-tab", id)
+    entry.setAttribute("class", "editor file")
+
+    let link = document.createElement("a")
+    link.setAttribute("class", "list-item")
+
+    let nameSpan = document.createElement("span")
+    nameSpan.setAttribute("class", "name")
+    nameSpan.setAttribute("data-path", path)
+    nameSpan.appendChild(document.createTextNode(name))
+
+    let nameSmall = document.createElement("small")
+    nameSmall.appendChild(document.createTextNode(path))
+    nameSpan.appendChild(nameSmall)
+
+    link.appendChild(nameSpan)
+
+    entry.appendChild(link)
+
+    let tools = document.createElement("span")
+    tools.setAttribute("class", "tools")
+
+    let saveIcon = document.createElement("i")
+    saveIcon.setAttribute("class", "close fal fa-save")
+    saveIcon.setAttribute("data-action", "click->open-editors#save")
+
+    tools.appendChild(saveIcon)
+
+    link.appendChild(tools)
+
+    this.listTarget.appendChild(entry)
   }
 
   _createTabContent(id, url, data) {
@@ -127,6 +182,11 @@ export default class extends Controller {
     tab.remove()
   }
 
+  _removeItem(id) {
+    let item = this._itemForId(id)
+    item.remove()
+  }
+
   _removeContent(id) {
     let content = this._contentForId(id)
     content.remove()
@@ -134,6 +194,10 @@ export default class extends Controller {
 
   _tabForId(id) {
     return this.tabsTarget.querySelector(".editor-tab[data-tab='" + id + "']")
+  }
+
+  _itemForId(id) {
+    return this.listTarget.querySelector(".editor[data-tab='" + id + "']")
   }
 
   _contentForId(id) {
