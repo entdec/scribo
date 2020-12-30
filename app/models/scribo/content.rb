@@ -206,7 +206,7 @@ module Scribo
     end
 
     def cache_key
-      super + '-' + I18n.locale.to_s
+      "#{super}-#{updated_at}-#{I18n.locale}"
     end
 
     def collection_name
