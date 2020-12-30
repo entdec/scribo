@@ -10,7 +10,7 @@ export default class extends Controller {
     this.editor = Painterro({
       id: "image-editor",
       toolbarPosition: "top",
-      hiddenTools: ["close", "save"],
+      hiddenTools: ["close"], //, "save"],
       hideByEsc: false,
       saveByEnter: false,
       onImageLoaded: (e) => {
