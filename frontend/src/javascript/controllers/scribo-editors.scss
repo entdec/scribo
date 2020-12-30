@@ -11,6 +11,9 @@
     .editor-tab {
       cursor: pointer;
       padding: 8px 0.5rem 4px;
+      border-radius: 4px 4px 0 0;
+      border-top: 1px solid #ddd;
+      border-right: 1px solid #ddd;
 
       i {
         visibility: hidden;
@@ -18,11 +21,11 @@
         margin-left: 0.4rem;
       }
 
-      &.editor-tab--active {
-        border-top: 1px solid #ddd;
+      &:first-child {
         border-left: 1px solid #ddd;
-        border-right: 1px solid #ddd;
-        border-radius: 4px 4px 0 0;
+      }
+
+      &.editor-tab--active {
         background: white;
 
         i {
