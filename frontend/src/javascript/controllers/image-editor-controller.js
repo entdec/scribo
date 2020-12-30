@@ -4,7 +4,6 @@ import Painterro from "painterro"
 export default class extends Controller {
   static targets = ["textarea"]
   connect() {
-    console.log("connected - image-editor")
     const self = this
     this.dirtyTrackingEnabled = false
     this.editor = Painterro({
@@ -15,7 +14,6 @@ export default class extends Controller {
       saveByEnter: false,
       onImageLoaded: (e) => {
         self.dirtyTrackingEnabled = true
-        console.log("image - editor - onImageLoaded called!")
       },
       onChange: (e) => {
         if (self.dirtyTrackingEnabled == false) {
@@ -32,8 +30,6 @@ export default class extends Controller {
         self.element.dispatchEvent(event)
       },
       saveHandler: (image, done) => {
-        console.log("saving", image.getWidth(), image.getHeight())
-
         const formData = new FormData()
         formData.append("_method", "PATCH")
         formData.append(
@@ -51,8 +47,16 @@ export default class extends Controller {
           body: formData,
         }).then((response) => {
           if (response.status == 200) {
+            let event = new CustomEvent("content-editor.changed", {
+              bubbles: true,
+              cancelable: true,
+              detail: {
+                contentId: self.data.get("content-id"),
+                dirty: false,
+              },
+            })
+            self.element.dispatchEvent(event)
             done(false)
-            // Saved - not longer dirty, need to update treeview/openeditors
           }
         })
       },

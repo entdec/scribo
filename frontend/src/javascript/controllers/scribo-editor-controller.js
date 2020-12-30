@@ -77,7 +77,6 @@ export default class extends Controller {
     this.editor.setSize("100%", this.data.get("height") || "100%")
 
     this.editor.on("change", function (editor, evt) {
-      console.log("dirty", !self.editor.getDoc().isClean())
       let event = new CustomEvent("content-editor.changed", {
         bubbles: true,
         cancelable: true,
@@ -110,7 +109,15 @@ export default class extends Controller {
       body: formData,
     }).then((response) => {
       if (response.status == 200) {
-        // Saved - not longer dirty, need to update treeview/openeditors
+        let event = new CustomEvent("content-editor.changed", {
+          bubbles: true,
+          cancelable: true,
+          detail: {
+            contentId: self.data.get("content-id"),
+            dirty: false,
+          },
+        })
+        self.element.dispatchEvent(event)
       }
     })
   }
