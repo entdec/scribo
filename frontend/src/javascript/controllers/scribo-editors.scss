@@ -9,11 +9,13 @@
     margin-left: 39px;
 
     .editor-tab {
-      padding: 8px 1rem 4px;
+      cursor: pointer;
+      padding: 8px 0.5rem 4px;
 
       i {
-        display: none;
-        margin-left: 1rem;
+        visibility: hidden;
+        font-size: smaller;
+        margin-left: 0.4rem;
       }
 
       &.editor-tab--active {
@@ -23,13 +25,13 @@
         background: white;
 
         i {
-          display: inline-block;
+          visibility: visible;
         }
       }
 
       &:hover {
         i {
-          display: inline-block;
+          visibility: visible;
         }
       }
     }
