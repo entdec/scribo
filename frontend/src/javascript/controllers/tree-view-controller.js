@@ -165,62 +165,6 @@ export default class extends Controller {
     event.stopPropagation()
   }
 
-  // Save content
-  save(event) {
-    const self = this
-    const parentContent = event.target.closest("li")
-    const contentId = parentContent.getAttribute("data-content")
-
-    const form = document.querySelector("form#edit_content_" + contentId)
-
-    const formData = new FormData()
-    formData.append("_method", "PATCH")
-    if (form.querySelector('textarea[name="content[properties]"]')) {
-      formData.append(
-        "content[properties]",
-        this._editorControllerForElement(
-          form.querySelector('textarea[name="content[properties]"]')
-        ).editor.getValue()
-      )
-    }
-    if (form.querySelector('textarea[name="content[data_with_frontmatter]"]')) {
-      formData.append(
-        "content[data_with_frontmatter]",
-        this._editorControllerForElement(
-          form.querySelector('textarea[name="content[data_with_frontmatter]"]')
-        ).editor.getValue()
-      )
-    }
-    fetch(parentContent.getAttribute("data-url"), {
-      method: "POST",
-      // headers: {
-      //     'Accept': 'application/json, text/javascript',
-      //     'Content-Type': 'multipart/form-data' // application/x-www-form-urlencoded
-      // },
-      headers: {
-        Accept: "application/json, text/javascript",
-        "X-CSRF-Token": form.querySelector('input[name="authenticity_token"]')
-          .value,
-      },
-      body: formData,
-    }).then((response) => {
-      if (response.status == 200) {
-        response.json().then(function (data) {
-          document.querySelector(".editor-pane").innerHTML = data.html
-          const openEditors = document.querySelector("ul.openEditors")
-          const editorItem = openEditors.querySelector(
-            `li.dirty[data-content="${contentId}"]`
-          )
-          if (editorItem) {
-            editorItem.classList.remove("dirty")
-          }
-        })
-      }
-    })
-
-    event.stopPropagation()
-  }
-
   // Delete content
   delete(event) {
     const self = this
@@ -307,13 +251,6 @@ export default class extends Controller {
   disconnect() {}
 
   // Private
-
-  _editorControllerForElement(elm) {
-    return this.application.getControllerForElementAndIdentifier(
-      elm,
-      "scribo-editor"
-    )
-  }
 
   _open(event) {
     const self = this
