@@ -48,7 +48,7 @@ export default class extends Controller {
           body: formData,
         }).then((response) => {
           if (response.status == 200) {
-            done(true)
+            done(false)
             // Saved - not longer dirty, need to update treeview/openeditors
           }
         })
