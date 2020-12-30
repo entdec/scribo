@@ -18,6 +18,10 @@
     padding-left: 0;
   }
 
+  a.list-item {
+    cursor: pointer;
+  }
+
   ul.openEditors {
     li {
       font-style: italic;
@@ -44,6 +48,7 @@
     display: block;
     padding-left: 4px;
     position: relative;
+    margin-top: 1rem;
 
     .title {
       font-weight: bold;
@@ -66,8 +71,10 @@
     right: 5px;
 
     i {
+      cursor: pointer;
       padding: 5px;
     }
+
     svg {
       margin: 5px;
     }
