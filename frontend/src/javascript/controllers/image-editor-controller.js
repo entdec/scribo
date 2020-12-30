@@ -8,7 +8,7 @@ export default class extends Controller {
     const self = this
     this.dirtyTrackingEnabled = false
     this.editor = Painterro({
-      id: "image-editor",
+      id: self.element.id,
       toolbarPosition: "top",
       hiddenTools: ["close", "save"],
       hideByEsc: false,
