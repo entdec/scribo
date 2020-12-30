@@ -4,12 +4,12 @@
         = render partial: 'scribo/shared/tree-view'
 
   .editors-pane data-controller='scribo-editors'
-    .editors-tabs data-target='scribo-editors.tabs'
+    .editors-tabs data-target='scribo-editors.tabs' data-action="click->scribo-editors#clickTabs"
     .editors-contents data-target='scribo-editors.contents'
-      .editor-pane.welcome
-        p You can drop new files on the treeview to upload them.
-        p
-        | If you hover over
-        b<> style="text-transform: uppercase;" #{@site.title}
-        ' in the treeview, you can add new files and/or folders.
-        p Hovering over files folders will give you additional actions: deleting files and creating files and folders.
+    .editor-pane.welcome
+      p You can drop new files on the treeview to upload them.
+      p
+      | If you hover over
+      b<> style="text-transform: uppercase;" #{@site.title}
+      ' in the treeview, you can add new files and/or folders.
+      p Hovering over files folders will give you additional actions: deleting files and creating files and folders.
