@@ -77,7 +77,9 @@ module Scribo
       end
 
       def content_params
-        params.require(:content).permit(:data_with_frontmatter, :properties)
+        params.require(:content).permit(:data_with_frontmatter).tap do |whitelisted|
+          whitelisted[:data_with_frontmatter] = params[:content][:data_with_frontmatter].read.force_encoding('utf-8') if params[:content][:data_with_frontmatter].respond_to?(:read)
+        end
       end
     end
   end
