@@ -31,10 +31,27 @@ export default class extends Controller {
         })
         self.element.dispatchEvent(event)
       },
-      saveHandler: (saver, done) => {
-        console.log("saving", saver.getWidth(), saver.getHeight())
-        console.log("Base64", saver.asDataURL())
-        done(true)
+      saveHandler: (image, done) => {
+        console.log("saving", image.getWidth(), image.getHeight())
+
+        const formData = new FormData()
+        formData.append("_method", "PATCH")
+        formData.append("content[data_with_frontmatter]", image.asBlob())
+
+        fetch(self.data.get("save-url"), {
+          method: "POST",
+          headers: {
+            Accept: "application/json, text/javascript",
+            "X-CSRF-Token": document.querySelector("meta[name=csrf-token]")
+              .content,
+          },
+          body: formData,
+        }).then((response) => {
+          if (response.status == 200) {
+            done(true)
+            // Saved - not longer dirty, need to update treeview/openeditors
+          }
+        })
       },
     })
     this.editor.toolByKeyCode = {}
@@ -42,4 +59,7 @@ export default class extends Controller {
     this.editor.show(this.data.get("url"))
   }
   disconnect() {}
+  save() {
+    this.editor.save()
+  }
 }
