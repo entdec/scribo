@@ -3,9 +3,9 @@
     .tree-view
         = render partial: 'scribo/shared/tree-view'
 
-  .editors-pane data-controller='scribo-editors'
-    .editors-tabs data-target='scribo-editors.tabs' data-action="click->scribo-editors#clickTabs"
-    .editors-contents data-target='scribo-editors.contents'
+  .editors-pane data-controller='open-editors'
+    .editors-tabs data-target='open-editors.tabs' data-action="click->open-editors#clickTabs"
+    .editors-contents data-target='open-editors.contents'
     /.editor-pane.welcome
       p You can drop new files on the treeview to upload them.
       p

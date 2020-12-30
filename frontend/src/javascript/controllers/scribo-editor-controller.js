@@ -77,12 +77,12 @@ export default class extends Controller {
     this.editor.setSize("100%", this.data.get("height") || "100%")
 
     this.editor.on("change", function (editor, evt) {
-      let event = new CustomEvent("scribo-editor.changed", {
+      console.log("dirty", !self.editor.getDoc().isClean())
+      let event = new CustomEvent("content-editor.changed", {
         bubbles: true,
         cancelable: true,
         detail: {
-          textarea: self.textareaTarget,
-          editor: self.editor,
+          contentId: self.data.get("content-id"),
           dirty: !self.editor.getDoc().isClean(),
         },
       })

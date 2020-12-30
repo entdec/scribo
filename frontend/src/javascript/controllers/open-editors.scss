@@ -16,9 +16,13 @@
       border-right: 1px solid #ddd;
 
       i {
-        visibility: hidden;
-        font-size: smaller;
+        display: inline;
+        font-size: 70%;
         margin-left: 0.4rem;
+        color: black;
+      }
+      i:before {
+        content: "\f00d";
       }
 
       &:first-child {
@@ -29,13 +33,26 @@
         background: white;
 
         i {
-          visibility: visible;
+        }
+      }
+
+      &.editor-tab--dirty {
+        i {
+          color: #03a9f4;
+          font-size: 60%;
+        }
+        i:before {
+          content: "\f111";
         }
       }
 
       &:hover {
         i {
-          visibility: visible;
+          color: black;
+          font-size: 70%;
+        }
+        i:before {
+          content: "\f00d";
         }
       }
     }

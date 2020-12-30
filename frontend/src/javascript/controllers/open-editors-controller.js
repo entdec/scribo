@@ -1,5 +1,5 @@
 import { Controller } from "stimulus"
-import "./scribo-editors.scss"
+import "./open-editors.scss"
 
 export default class extends Controller {
   static targets = ["tabs", "contents"]
@@ -8,6 +8,16 @@ export default class extends Controller {
     this.editors = {}
     this.editorActive = null
     window.scriboEditors = this
+
+    document.addEventListener("content-editor.changed", (event) => {
+      console.log("content changed:", event.detail.contentId)
+      let tab = this._tabForId(event.detail.contentId)
+      if (event.detail.dirty == true) {
+        tab.classList.add("editor-tab--dirty")
+      } else {
+        tab.classList.remove("editor-tab--dirty")
+      }
+    })
   }
 
   open(id, name, url, data) {
@@ -69,7 +79,7 @@ export default class extends Controller {
     tab.setAttribute("class", "editor-tab")
 
     let icon = document.createElement("i")
-    icon.setAttribute("class", "fa fa-times")
+    icon.setAttribute("class", "close fa fa-times")
 
     tab.appendChild(document.createTextNode(name))
     tab.appendChild(icon)

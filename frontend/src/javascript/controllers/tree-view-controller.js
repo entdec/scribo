@@ -24,39 +24,6 @@ export default class extends Controller {
       }
     })
 
-    document.addEventListener("scribo-editor.changed", (event) => {
-      const contentId = event.detail.textarea
-        .closest("form")
-        .getAttribute("id")
-        .split("_")[2]
-
-      const openEditors = document.querySelector("ul.openEditors")
-      const editorItem = openEditors.querySelector(
-        `li[data-content="${contentId}"]`
-      )
-
-      if (editorItem) {
-        editorItem.classList.add("dirty")
-      }
-    })
-
-    document.addEventListener("image-editor.changed", (event) => {
-      console.log("treeview - received image editor changed!")
-      const contentId = event.detail.element
-        .closest("form")
-        .getAttribute("id")
-        .split("_")[2]
-
-      const openEditors = document.querySelector("ul.openEditors")
-      const editorItem = openEditors.querySelector(
-        `li[data-content="${contentId}"]`
-      )
-
-      if (editorItem) {
-        editorItem.classList.add("dirty")
-      }
-    })
-
     document.addEventListener("keydown", (event) => {
       if (event.key == "s" && event.metaKey == true) {
         event.preventDefault()
@@ -260,15 +227,6 @@ export default class extends Controller {
     if (this.clicked == null) {
       return
     }
-
-    // if (document.querySelector("ul.openEditors li.dirty")) {
-    //   let result = confirm(
-    //     "You have unsaved changes, do you want close this editor?"
-    //   )
-    //   if (!result) {
-    //     return
-    //   }
-    // }
 
     this.clicked = null
     event.stopPropagation()

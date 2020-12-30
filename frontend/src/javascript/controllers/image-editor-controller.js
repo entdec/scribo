@@ -21,12 +21,12 @@ export default class extends Controller {
         if (self.dirtyTrackingEnabled == false) {
           return
         }
-        let event = new CustomEvent("image-editor.changed", {
+        let event = new CustomEvent("content-editor.changed", {
           bubbles: true,
           cancelable: true,
           detail: {
-            editor: self.editor,
-            element: self.element,
+            contentId: self.data.get("content-id"),
+            dirty: true,
           },
         })
         self.element.dispatchEvent(event)
