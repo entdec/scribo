@@ -35,6 +35,15 @@ export default class extends Controller {
   close(id) {
     let existingEditor = this.editors[id]
     if (existingEditor) {
+      let tab = this._tabForId(id)
+      if (tab.classList.contains("editor-tab--dirty")) {
+        let result = confirm(
+          "You have unsaved changes, do you want close this editor?"
+        )
+        if (!result) {
+          return
+        }
+      }
       this._removeEditor(id)
     }
   }
@@ -53,7 +62,7 @@ export default class extends Controller {
 
     if (tab) {
       if (close) {
-        this._removeEditor(tab.dataset.tab)
+        this.close(tab.dataset.tab)
       } else {
         this._activateEditor(tab.dataset.tab)
       }
