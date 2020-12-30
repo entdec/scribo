@@ -19,6 +19,38 @@
     }
   }
 
+  .editors-pane {
+    flex: 1;
+    position: relative;
+    min-height: 100vh;
+
+    .editors-tabs {
+      display: flex;
+      flex-direction: row;
+      margin-left: 39px;
+
+      .editor-tab {
+        padding: 8px 1rem 4px;
+
+        i {
+          display: none;
+          margin-left: 1rem;
+        }
+
+        &.editor-tab--active {
+          border-top: 1px solid #ccc;
+          border-left: 1px solid #ccc;
+          border-right: 1px solid #ccc;
+          background: white;
+
+          i {
+            display: inline-block;
+          }
+        }
+      }
+    }
+  }
+
   .editor-pane {
     flex: 1;
     position: relative;

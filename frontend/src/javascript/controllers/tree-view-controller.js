@@ -342,6 +342,7 @@ export default class extends Controller {
       },
     }).then((response) => {
       response.json().then(function (data) {
+        window.scriboEditors.open(data.content.id, data.content.path, data.content.url, data.html);
         self._selectEntry(closestA.closest("li.entry"))
         self._setOpenEditor(data.content)
         document.querySelector(".editor-pane").innerHTML = data.html
