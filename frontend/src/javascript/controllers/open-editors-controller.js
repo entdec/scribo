@@ -12,10 +12,13 @@ export default class extends Controller {
     document.addEventListener("content-editor.changed", (event) => {
       console.log("content changed:", event.detail.contentId)
       let tab = this._tabForId(event.detail.contentId)
+      let item = this._itemForId(event.detail.contentId)
       if (event.detail.dirty == true) {
         tab.classList.add("editor-tab--dirty")
+        item.classList.add("dirty")
       } else {
         tab.classList.remove("editor-tab--dirty")
+        item.classList.remove("dirty")
       }
     })
   }
@@ -65,7 +68,29 @@ export default class extends Controller {
   }
 
   save(event) {
-    console.log("save")
+    event.stopPropagation()
+    let tab = event.target.closest("li.editor")
+    let contentId = tab.dataset.tab
+
+    let elm = document.getElementById("content-editor-" + contentId)
+    let controller = this._editorControllerForElement(elm)
+    controller.save()
+  }
+
+  _editorControllerForElement(elm) {
+    let result = this.application.getControllerForElementAndIdentifier(
+      elm,
+      "scribo-editor"
+    )
+
+    if (!result) {
+      result = this.application.getControllerForElementAndIdentifier(
+        elm,
+        "image-editor"
+      )
+    }
+
+    return result
   }
 
   _createEditor(id, name, path, url, data) {
@@ -147,7 +172,6 @@ export default class extends Controller {
     content.setAttribute("data-tab", id)
     content.setAttribute("class", "editor-content")
 
-    // content.appendChild(document.createTextNode(data))
     content.innerHTML = data
 
     this.contentsTarget.appendChild(content)

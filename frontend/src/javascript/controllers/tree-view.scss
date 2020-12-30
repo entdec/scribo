@@ -22,7 +22,7 @@
     li {
       font-style: italic;
 
-      [data-action="click->tree-view#save"] {
+      [data-action="click->open-editors#save"] {
         display: none;
       }
     }
@@ -30,7 +30,7 @@
     li.dirty {
       font-style: normal;
 
-      [data-action="click->tree-view#save"] {
+      [data-action="click->open-editors#save"] {
         display: inline;
       }
 
