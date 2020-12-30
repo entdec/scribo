@@ -1,25 +1,7 @@
-#sites
+.scribo-sites.scribo-sites--existing
+  h4= t('.existing_sites')
   = render partial: 'sites'
 
-- if Scribo.config.scribable_for_request(request)
-  = link_to(scribo.new_admin_site_path, { 'data-turbolinks' => false }) do
-    div.site
-      .icon
-        i.fal.fa-plus.fa-7x
-      .title = t('scribo.sites.create')
-
-  - if Scribo.config.templates
-    - for template in Scribo.config.templates
-      = link_to(scribo.new_admin_site_path(template_id: template[:id]), { 'data-turbolinks' => false }) do
-        div.site
-          .icon
-            img src=template[:thumbnail]
-          .title = t('scribo.sites.create_from_template')
-
-  div.site data-controller="upload" data-upload-url="#{scribo.import_admin_sites_path}" data-upload-param-name="files[]" data-upload-extra-data='{}'
-    .icon.upload
-      i.fal.fa-upload.fa-7x
-    .icon.uploading
-      i.fal.fa-circle-notch.fa-7x.fa-spin
-    .title
-      = t('scribo.sites.upload')
+.scribo-sites.scribo-sites--create
+  h4= t('.create_site')
+  = render partial: 'create_sites'

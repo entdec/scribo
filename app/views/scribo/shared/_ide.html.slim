@@ -1,4 +1,4 @@
-.ide id="ide" data-controller='open-editors'
+.scribo-ide id="ide" data-controller='open-editors'
   .explorer-pane data-controller="tree-view upload" data-tree-view-update-url="#{move_admin_site_contents_path(@site)}" data-upload-url="#{upload_admin_site_contents_url(@site)}" data-upload-param-name="content[files][]"
     .tree-view
         = render partial: 'scribo/shared/tree-view'
