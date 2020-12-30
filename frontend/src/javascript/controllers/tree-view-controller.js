@@ -30,23 +30,6 @@ export default class extends Controller {
       }
     })
 
-    document.addEventListener("keydown", (event) => {
-      if (event.key == "s" && event.metaKey == true) {
-        event.preventDefault()
-        event.stopPropagation()
-        event.cancelBubble = true
-
-        let selectedItem = document.querySelector(
-          ".tree-view li.entry.selected"
-        )
-        if (selectedItem) {
-          let contentId = selectedItem.getAttribute("data-content")
-          // FIXME: Save open editor
-          // self._saveOpenEditor(contentId)
-        }
-      }
-    })
-
     self.element.querySelectorAll("ul").forEach((el) => {
       new Sortable(el, {
         group: "nested",

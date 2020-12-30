@@ -20,6 +20,28 @@ export default class extends Controller {
         item.classList.remove("dirty")
       }
     })
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key == "s" && event.metaKey == true && event.shiftKey == true) {
+        event.preventDefault()
+        event.stopPropagation()
+        event.cancelBubble = true
+
+        this.saveAll(event)
+      } else if (event.key == "s" && event.metaKey == true) {
+        event.preventDefault()
+        event.stopPropagation()
+        event.cancelBubble = true
+
+        if (this.editorActive) {
+          let elm = document.getElementById(
+            "content-editor-" + this.editorActive
+          )
+          let controller = this._editorControllerForElement(elm)
+          controller.save()
+        }
+      }
+    })
   }
 
   open(id, name, path, url, data) {
