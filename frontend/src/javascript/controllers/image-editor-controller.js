@@ -10,7 +10,7 @@ export default class extends Controller {
     this.editor = Painterro({
       id: "image-editor",
       toolbarPosition: "top",
-      hiddenTools: ["close"], //, "save"],
+      hiddenTools: ["close", "save"],
       hideByEsc: false,
       saveByEnter: false,
       onImageLoaded: (e) => {
@@ -36,7 +36,10 @@ export default class extends Controller {
 
         const formData = new FormData()
         formData.append("_method", "PATCH")
-        formData.append("content[data_with_frontmatter]", image.asBlob())
+        formData.append(
+          "content[data_with_frontmatter]",
+          image.asBlob(self.data.get("mime-type"))
+        )
 
         fetch(self.data.get("save-url"), {
           method: "POST",
