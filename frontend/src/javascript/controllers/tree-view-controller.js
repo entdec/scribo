@@ -193,8 +193,11 @@ export default class extends Controller {
     }).then((response) => {
       if (response.status == 200) {
         const node = elm.closest("li")
+        const contentId = node.getAttribute("data-content")
         if (node.parentNode) {
-          self._closeOpenEditor(node.getAttribute("data-content"))
+          // FIXME: Inform open editors of deletion
+          // self._closeOpenEditor(node.getAttribute("data-content"))
+          window.scriboEditors.close(contentId)
           node.parentNode.removeChild(node)
         }
       }
@@ -259,14 +262,14 @@ export default class extends Controller {
       return
     }
 
-    if (document.querySelector("ul.openEditors li.dirty")) {
-      let result = confirm(
-        "You have unsaved changes, do you want close this editor?"
-      )
-      if (!result) {
-        return
-      }
-    }
+    // if (document.querySelector("ul.openEditors li.dirty")) {
+    //   let result = confirm(
+    //     "You have unsaved changes, do you want close this editor?"
+    //   )
+    //   if (!result) {
+    //     return
+    //   }
+    // }
 
     this.clicked = null
     event.stopPropagation()
@@ -279,10 +282,13 @@ export default class extends Controller {
       },
     }).then((response) => {
       response.json().then(function (data) {
-        window.scriboEditors.open(data.content.id, data.content.path, data.content.url, data.html);
+        window.scriboEditors.open(
+          data.content.id,
+          data.content.path,
+          data.content.url,
+          data.html
+        )
         self._selectEntry(closestA.closest("li.entry"))
-        self._setOpenEditor(data.content)
-        document.querySelector(".editor-pane").innerHTML = data.html
       })
     })
   }
@@ -356,13 +362,20 @@ export default class extends Controller {
             self._cancelCreate(event, newContentContainer)
             newContentContainer.insertAdjacentHTML("afterbegin", data.itemHtml)
             if (data.content.kind != "folder") {
-              document.querySelector(".editor-pane").innerHTML = data.html
+              // document.querySelector(".editor-pane").innerHTML = data.html
               self._selectEntry(
                 newContentContainer.querySelector(
                   "li." + (data.content.kind == "folder" ? "folder" : "file")
                 )
               )
-              self._setOpenEditor(data.content)
+              // FIXME: Open this in a tab
+              window.scriboEditors.open(
+                data.content.id,
+                data.content.path,
+                data.content.url,
+                data.html
+              )
+              // self._setOpenEditor(data.content)
             }
           })
         }
@@ -387,50 +400,47 @@ export default class extends Controller {
   }
 
   _setOpenEditor(dataContent) {
-    const self = this
-
-    const openEditors = document.querySelector("ul.openEditors")
-
-    let content = self.openEditorTemplateTarget.innerHTML
-    for (const [key, value] of Object.entries(dataContent)) {
-      content = content.replace(new RegExp("\\$\\{" + key + "\\}", "g"), value)
-    }
-
-    openEditors.innerHTML = content
+    // const self = this
+    // const openEditors = document.querySelector("ul.openEditors")
+    // let content = self.openEditorTemplateTarget.innerHTML
+    // for (const [key, value] of Object.entries(dataContent)) {
+    //   content = content.replace(new RegExp("\\$\\{" + key + "\\}", "g"), value)
+    // }
+    // openEditors.innerHTML = content
   }
 
-  _closeOpenEditor(contentId) {
-    const openEditors = document.querySelector("ul.openEditors")
-    const editorItem = openEditors.querySelector(
-      `li[data-content="${contentId}"]`
-    )
-    if (editorItem) {
-      openEditors.removeChild(editorItem)
-      document.querySelector(".editor-pane").innerHTML = ""
-    }
-  }
+  // _closeOpenEditor(contentId) {
+  //   const openEditors = document.querySelector("ul.openEditors")
+  //   const editorItem = openEditors.querySelector(
+  //     `li[data-content="${contentId}"]`
+  //   )
+  //   if (editorItem) {
+  //     openEditors.removeChild(editorItem)
+  //     document.querySelector(".editor-pane").innerHTML = ""
+  //   }
+  // }
 
-  _saveOpenEditor(contentId) {
-    const openEditors = document.querySelector("ul.openEditors")
-    const editorItem = openEditors.querySelector(
-      `li.dirty[data-content="${contentId}"]`
-    )
-    if (editorItem) {
-      this._triggerEvent(
-        editorItem.querySelector('[data-action="click->tree-view#save"]'),
-        "click"
-      )
-      editorItem.classList.remove("dirty")
-    }
-  }
+  // _saveOpenEditor(contentId) {
+  //   const openEditors = document.querySelector("ul.openEditors")
+  //   const editorItem = openEditors.querySelector(
+  //     `li.dirty[data-content="${contentId}"]`
+  //   )
+  //   if (editorItem) {
+  //     this._triggerEvent(
+  //       editorItem.querySelector('[data-action="click->tree-view#save"]'),
+  //       "click"
+  //     )
+  //     editorItem.classList.remove("dirty")
+  //   }
+  // }
 
-  _triggerEvent(el, name, data) {
-    if (typeof window.CustomEvent === "function") {
-      var event = new CustomEvent(name, { detail: data })
-    } else {
-      var event = document.createEvent("CustomEvent")
-      event.initCustomEvent(name, true, true, data)
-    }
-    el.dispatchEvent(event)
-  }
+  // _triggerEvent(el, name, data) {
+  //   if (typeof window.CustomEvent === "function") {
+  //     var event = new CustomEvent(name, { detail: data })
+  //   } else {
+  //     var event = document.createEvent("CustomEvent")
+  //     event.initCustomEvent(name, true, true, data)
+  //   }
+  //   el.dispatchEvent(event)
+  // }
 }
