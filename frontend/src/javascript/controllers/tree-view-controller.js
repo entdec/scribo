@@ -10,7 +10,7 @@ import Sortable from "sortablejs"
  * Manages the tree view
  */
 export default class extends Controller {
-  static targets = ["folderTemplate", "entryTemplate", "openEditorTemplate"]
+  static targets = ["folderTemplate", "entryTemplate"]
 
   connect() {
     const self = this
@@ -68,7 +68,8 @@ export default class extends Controller {
         )
         if (selectedItem) {
           let contentId = selectedItem.getAttribute("data-content")
-          self._saveOpenEditor(contentId)
+          // FIXME: Save open editor
+          // self._saveOpenEditor(contentId)
         }
       }
     })
@@ -195,8 +196,6 @@ export default class extends Controller {
         const node = elm.closest("li")
         const contentId = node.getAttribute("data-content")
         if (node.parentNode) {
-          // FIXME: Inform open editors of deletion
-          // self._closeOpenEditor(node.getAttribute("data-content"))
           window.scriboEditors.close(contentId)
           node.parentNode.removeChild(node)
         }
@@ -368,14 +367,12 @@ export default class extends Controller {
                   "li." + (data.content.kind == "folder" ? "folder" : "file")
                 )
               )
-              // FIXME: Open this in a tab
               window.scriboEditors.open(
                 data.content.id,
                 data.content.path,
                 data.content.url,
                 data.html
               )
-              // self._setOpenEditor(data.content)
             }
           })
         }
@@ -398,49 +395,4 @@ export default class extends Controller {
 
     element.classList.add("selected")
   }
-
-  _setOpenEditor(dataContent) {
-    // const self = this
-    // const openEditors = document.querySelector("ul.openEditors")
-    // let content = self.openEditorTemplateTarget.innerHTML
-    // for (const [key, value] of Object.entries(dataContent)) {
-    //   content = content.replace(new RegExp("\\$\\{" + key + "\\}", "g"), value)
-    // }
-    // openEditors.innerHTML = content
-  }
-
-  // _closeOpenEditor(contentId) {
-  //   const openEditors = document.querySelector("ul.openEditors")
-  //   const editorItem = openEditors.querySelector(
-  //     `li[data-content="${contentId}"]`
-  //   )
-  //   if (editorItem) {
-  //     openEditors.removeChild(editorItem)
-  //     document.querySelector(".editor-pane").innerHTML = ""
-  //   }
-  // }
-
-  // _saveOpenEditor(contentId) {
-  //   const openEditors = document.querySelector("ul.openEditors")
-  //   const editorItem = openEditors.querySelector(
-  //     `li.dirty[data-content="${contentId}"]`
-  //   )
-  //   if (editorItem) {
-  //     this._triggerEvent(
-  //       editorItem.querySelector('[data-action="click->tree-view#save"]'),
-  //       "click"
-  //     )
-  //     editorItem.classList.remove("dirty")
-  //   }
-  // }
-
-  // _triggerEvent(el, name, data) {
-  //   if (typeof window.CustomEvent === "function") {
-  //     var event = new CustomEvent(name, { detail: data })
-  //   } else {
-  //     var event = document.createEvent("CustomEvent")
-  //     event.initCustomEvent(name, true, true, data)
-  //   }
-  //   el.dispatchEvent(event)
-  // }
 }
