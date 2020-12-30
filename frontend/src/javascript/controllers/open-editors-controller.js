@@ -10,7 +10,6 @@ export default class extends Controller {
     window.scriboEditors = this
 
     document.addEventListener("content-editor.changed", (event) => {
-      console.log("content changed:", event.detail.contentId)
       let tab = this._tabForId(event.detail.contentId)
       let item = this._itemForId(event.detail.contentId)
       if (event.detail.dirty == true) {
@@ -40,8 +39,15 @@ export default class extends Controller {
     }
   }
 
+  closeAll(event) {
+    this.tabsTarget.querySelectorAll(".editor-tab").forEach((element) => {
+      if (!element.classList.contains("editor-tab--dirty")) {
+        this._removeEditor(element.dataset.tab)
+      }
+    })
+  }
+
   clickTabs(event) {
-    console.log("clickTabs")
     let close = event.target.closest("i")
     let tab = event.target.closest(".editor-tab")
 
@@ -55,15 +61,10 @@ export default class extends Controller {
   }
 
   clickList(event) {
-    console.log("clickList")
-    // // let close = event.target.closest("i.close")
+    // TODO: Include close button and dirty indicator in list too
     let tab = event.target.closest("li.editor")
     if (tab) {
-      //   // if (close) {
-      //   //   this._removeEditor(tab.dataset.tab)
-      //   // } else {
       this._activateEditor(tab.dataset.tab)
-      //   // }
     }
   }
 
@@ -75,6 +76,18 @@ export default class extends Controller {
     let elm = document.getElementById("content-editor-" + contentId)
     let controller = this._editorControllerForElement(elm)
     controller.save()
+  }
+
+  saveAll(event) {
+    this.tabsTarget.querySelectorAll(".editor-tab").forEach((element) => {
+      if (element.classList.contains("editor-tab--dirty")) {
+        let elm = document.getElementById(
+          "content-editor-" + element.dataset.tab
+        )
+        let controller = this._editorControllerForElement(elm)
+        controller.save()
+      }
+    })
   }
 
   _editorControllerForElement(elm) {
