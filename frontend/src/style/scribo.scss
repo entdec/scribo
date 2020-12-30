@@ -37,10 +37,12 @@
 }
 
 .scribo-sites {
+  display: flex;
+
   .site {
     margin: 10px;
     border: 1px solid #444;
-    float: left;
+    flex: 0 0 200px;
     width: 200px;
 
     &.dragging {
