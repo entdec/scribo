@@ -56,7 +56,9 @@ export default class extends Controller {
           'X-CSRF-Token': document.querySelector('meta[name=csrf-token]').content
         },
         body: formData
-      }).then((response) => {
+      })
+      .then(self.handleErrors)
+      .then((response) => {
         response.json().then(function (data) {
           self.element.classList.remove('uploading');
           let node = document.querySelector(data.selector);
@@ -64,7 +66,16 @@ export default class extends Controller {
             node.innerHTML = data.html;
           }
         });
+      })
+      .catch(error => {
+        console.log(error);
+        self.element.classList.remove('uploading');
       });
     });
+  }
+
+  handleErrors(response) {
+    if (!response.ok) throw new Error(response.status);
+    return response;
   }
 }
