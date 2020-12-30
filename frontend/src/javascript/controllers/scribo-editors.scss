@@ -6,7 +6,7 @@
   .editors-tabs {
     display: flex;
     flex-direction: row;
-    margin-left: 39px;
+    margin-left: 38px;
 
     .editor-tab {
       cursor: pointer;
@@ -19,9 +19,10 @@
       }
 
       &.editor-tab--active {
-        border-top: 1px solid #ccc;
-        border-left: 1px solid #ccc;
-        border-right: 1px solid #ccc;
+        border-top: 1px solid #ddd;
+        border-left: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+        border-radius: 4px 4px 0 0;
         background: white;
 
         i {
