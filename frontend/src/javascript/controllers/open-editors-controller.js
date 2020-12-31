@@ -170,7 +170,12 @@ export default class extends Controller {
     let icon = document.createElement("i")
     icon.setAttribute("class", "close fa fa-times")
 
-    tab.appendChild(document.createTextNode(name))
+    let nameSpan = document.createElement("span")
+    nameSpan.setAttribute("class", "name")
+    nameSpan.setAttribute("data-path", name)
+    nameSpan.appendChild(document.createTextNode(name))
+
+    tab.appendChild(nameSpan)
     tab.appendChild(icon)
 
     this.tabsTarget.appendChild(tab)

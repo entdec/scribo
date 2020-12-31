@@ -1,3 +1,5 @@
+@import "file-icons";
+
 .editors-pane {
   flex: 1;
   position: relative;
@@ -55,6 +57,16 @@
           content: "\f00d";
         }
       }
+
+      .name {
+        background-repeat: no-repeat;
+        background-position: 0px 50%;
+        padding-left: 22px;
+        line-height: 18px;
+        height: 18px;
+      }
+
+      @include file-icons;
     }
   }
   .editors-contents {
