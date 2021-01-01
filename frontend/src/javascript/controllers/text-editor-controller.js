@@ -39,7 +39,7 @@ import "codemirror/addon/fold/foldgutter.css"
 
 import "codemirror/theme/gruvbox-dark.css"
 /***
- * Editor controller
+ * Text editor controller
  *
  * Control codemirror
  */

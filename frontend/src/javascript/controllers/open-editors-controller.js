@@ -124,7 +124,7 @@ export default class extends Controller {
   _editorControllerForElement(elm) {
     let result = this.application.getControllerForElementAndIdentifier(
       elm,
-      "scribo-editor"
+      "text-editor"
     )
 
     if (!result) {
