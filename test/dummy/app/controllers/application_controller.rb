@@ -18,6 +18,10 @@ class ApplicationController < ActionController::Base
   end
 
   def default_url_options
-    { host: 'example.com' }
+    if Rails.env.test?
+      { host: 'example.com' }
+    else
+      {}
+    end
   end
 end
