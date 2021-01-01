@@ -12,12 +12,17 @@ export default class extends Controller {
     document.addEventListener("content-editor.changed", (event) => {
       let tab = this._tabForId(event.detail.contentId)
       let item = this._itemForId(event.detail.contentId)
+
       if (event.detail.dirty == true) {
         tab.classList.add("editor-tab--dirty")
         item.classList.add("dirty")
-      } else {
+      } else if (event.detail.dirty == false) {
         tab.classList.remove("editor-tab--dirty")
         item.classList.remove("dirty")
+      } else if (event.detail.path) {
+        tab.querySelector(".name").innerText = event.detail.path
+        // FIXME: Upon file rename this tosses away the full-path
+        item.querySelector(".name").innerText = event.detail.path
       }
     })
 

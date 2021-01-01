@@ -242,6 +242,10 @@ export default class extends Controller {
 
   _renameContent(event) {
     const self = this
+
+    const node = event.target.closest("li")
+    const contentId = node.getAttribute("data-content")
+
     const closestA = event.target.closest("a")
 
     const input = closestA.querySelector("input")
@@ -263,6 +267,15 @@ export default class extends Controller {
         }),
       }).then((response) => {
         self._cancelRename(event)
+        let changeEvent = new CustomEvent("content-editor.changed", {
+          bubbles: true,
+          cancelable: true,
+          detail: {
+            contentId: contentId,
+            path: newName,
+          },
+        })
+        self.element.dispatchEvent(changeEvent)
       })
     } else if (event.key == "Escape") {
       self._cancelRename(event)
