@@ -10,6 +10,7 @@ class ApplicationController < ActionController::Base
 
   def set_current_objects
     @current_account = Account.find_by(id: request.headers['X-ACCOUNT'])
+    @current_account ||= Account.first
     @current_account&.current!
   end
 

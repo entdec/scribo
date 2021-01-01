@@ -12,4 +12,5 @@
 //
 //= require scribo.js
 //= require_tree .
+
 Scribo.Scribo.start()

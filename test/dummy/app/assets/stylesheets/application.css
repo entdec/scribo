@@ -14,3 +14,7 @@
  *= require_self
  *= require scribo.css
  */
+
+body {
+  font-family: "Helvetica";
+}

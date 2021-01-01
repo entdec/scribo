@@ -79,7 +79,7 @@ export default class extends Controller {
   }
 
   clickTabs(event) {
-    let close = event.target.closest("i")
+    let close = event.target.closest(".close")
     let tab = event.target.closest(".editor-tab")
 
     if (tab) {
