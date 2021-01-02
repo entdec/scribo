@@ -80,6 +80,8 @@ bin/rails db:drop
 bin/rails db:create
 bin/rails db:migrate
 
+The admin side of Scribo can be accessed here: https://localhost:3000/sites/
+
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://gitlab.com/entropydecelerator/scribo.

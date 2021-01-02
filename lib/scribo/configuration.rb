@@ -69,7 +69,7 @@ module Scribo
 
     # admin_mount_point [String].
     def admin_mount_point
-      @admin_mount_point ||= '/scribo'
+      @admin_mount_point ||= '/'
     end
 
     # Only used to limit what users can see when using admin
