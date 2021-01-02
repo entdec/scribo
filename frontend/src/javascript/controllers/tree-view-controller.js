@@ -10,7 +10,12 @@ import Sortable from "sortablejs"
  * Manages the tree view
  */
 export default class extends Controller {
-  static targets = ["folderTemplate", "entryTemplate"]
+  static targets = [
+    "folderTemplate",
+    "entryTemplate",
+    "collapseExpand",
+    "contentItems",
+  ]
 
   connect() {
     const self = this
@@ -27,69 +32,31 @@ export default class extends Controller {
       ) {
         el.classList.toggle("open")
         el.classList.toggle("closed")
+
+        self._updateCollapseExpandAll()
       }
     })
 
     self.element.querySelectorAll("ul").forEach((el) => {
-      new Sortable(el, {
-        group: "nested",
-        animation: 150,
-        fallbackOnBody: true,
-        swapThreshold: 0.65,
-        onEnd: (evt) => {
-          const contentId = evt.item.getAttribute("data-content")
-          const parentId = evt.to.getAttribute("data-parent")
-          fetch(self.data.get("update-url"), {
-            method: "PUT",
-            headers: {
-              Accept: "application/json, text/javascript",
-              "Content-Type": "application/json",
-              "X-CSRF-Token": document.querySelector("meta[name=csrf-token]")
-                .content,
-            },
-            body: JSON.stringify({
-              id: contentId,
-              to: parentId,
-              index: evt.newIndex,
-            }),
-          }).then((response) => {
-            response.json().then(function (data) {
-              let changeEvent = new CustomEvent("content-editor.changed", {
-                bubbles: true,
-                cancelable: true,
-                detail: {
-                  contentId: data.content.id,
-                  path: data.content.path,
-                  fullPath: data.content.full_path,
-                },
-              })
-              self.element.dispatchEvent(changeEvent)
-            })
-          })
-        },
-        onMove: function (evt) {
-          const parentId = evt.to.getAttribute("data-parent")
-          if (parentId) {
-            const file = document
-              .querySelector('[data-content="' + parentId + '"]')
-              .classList.contains("file")
-            if (file) {
-              evt.preventDefault()
-              return false
-            }
-          }
-        },
-      })
+      this._addSortable(el)
     })
   }
 
-  // Collapse all folders
-  collapseAll(event) {
+  // Collapse or expand all folders
+  collapseExpandAll(event) {
     const self = this
-    self.element.querySelectorAll("li.directory").forEach((el) => {
-      el.classList.remove("open")
-      el.classList.add("closed")
-    })
+    if (self.collapseExpandTarget.classList.contains("fa-plus-square")) {
+      self.element.querySelectorAll("li.directory").forEach((el) => {
+        el.classList.add("open")
+        el.classList.remove("closed")
+      })
+    } else {
+      self.element.querySelectorAll("li.directory").forEach((el) => {
+        el.classList.remove("open")
+        el.classList.add("closed")
+      })
+    }
+    self._updateCollapseExpandAll()
   }
 
   // Create content
@@ -223,6 +190,18 @@ export default class extends Controller {
 
   // Private
 
+  _updateCollapseExpandAll() {
+    const self = this
+    if (!self.contentItemsTarget.querySelector("li.entry.directory.open")) {
+      // All are closed
+      self.collapseExpandTarget.classList.remove("fa-minus-square")
+      self.collapseExpandTarget.classList.add("fa-plus-square")
+    } else {
+      self.collapseExpandTarget.classList.add("fa-minus-square")
+      self.collapseExpandTarget.classList.remove("fa-plus-square")
+    }
+  }
+
   _open(event) {
     const self = this
 
@@ -351,6 +330,12 @@ export default class extends Controller {
                 data.content.url,
                 data.html
               )
+            } else {
+              // A folder
+              let folderUl = newContentContainer.querySelector(
+                `[data-content="${data.content.id}"] ul`
+              )
+              self._addSortable(folderUl)
             }
           })
         }
@@ -372,5 +357,58 @@ export default class extends Controller {
     }
 
     element.classList.add("selected")
+  }
+
+  _addSortable(el) {
+    const self = this
+    new Sortable(el, {
+      group: "nested",
+      animation: 150,
+      fallbackOnBody: true,
+      swapThreshold: 0.65,
+      onEnd: (evt) => {
+        const contentId = evt.item.getAttribute("data-content")
+        const parentId = evt.to.getAttribute("data-parent")
+        fetch(self.data.get("update-url"), {
+          method: "PUT",
+          headers: {
+            Accept: "application/json, text/javascript",
+            "Content-Type": "application/json",
+            "X-CSRF-Token": document.querySelector("meta[name=csrf-token]")
+              .content,
+          },
+          body: JSON.stringify({
+            id: contentId,
+            to: parentId,
+            index: evt.newIndex,
+          }),
+        }).then((response) => {
+          response.json().then(function (data) {
+            let changeEvent = new CustomEvent("content-editor.changed", {
+              bubbles: true,
+              cancelable: true,
+              detail: {
+                contentId: data.content.id,
+                path: data.content.path,
+                fullPath: data.content.full_path,
+              },
+            })
+            self.element.dispatchEvent(changeEvent)
+          })
+        })
+      },
+      onMove: function (evt) {
+        const parentId = evt.to.getAttribute("data-parent")
+        if (parentId) {
+          const file = document
+            .querySelector('[data-content="' + parentId + '"]')
+            .classList.contains("file")
+          if (file) {
+            evt.preventDefault()
+            return false
+          }
+        }
+      },
+    })
   }
 }

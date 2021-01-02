@@ -11,9 +11,9 @@ div.section
   .tools
     i.fal.fa-file-plus data-action="click->tree-view#create" data-kind="text" data-url="#{admin_site_contents_url(@site)}" title=I18n.t('scribo.tools.new_file')
     i.fal.fa-folder-plus data-action="click->tree-view#create" data-kind="folder" data-url="#{admin_site_contents_url(@site)}" title=I18n.t('scribo.tools.new_folder')
-    i.fal.fa-minus-square data-action="click->tree-view#collapseAll" title=I18n.t('scribo.tools.collapse_all')
+    i.fal.fa-plus-square data-action="click->tree-view#collapseExpandAll" data-target="tree-view.collapseExpand" title=I18n.t('scribo.tools.collapse_all')
 
-  ul
+  ul data-target="tree-view.contentItems"
     - @contents.each do |content|
       = render partial: 'scribo/shared/entry', locals: {content: content, state: 'closed'}
 
