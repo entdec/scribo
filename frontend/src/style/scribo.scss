@@ -19,10 +19,10 @@
     }
   }
 
-  .editor-pane {
+  .editors-pane {
     flex: 1;
     position: relative;
-    min-height: calc(100vh - 31px);
+    min-height: 100vh;
     border-left: 1px solid #ccc;
 
     .welcome {
