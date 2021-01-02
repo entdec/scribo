@@ -13,6 +13,10 @@ export default class extends Controller {
       let tab = this._tabForId(event.detail.contentId)
       let item = this._itemForId(event.detail.contentId)
 
+      if (!tab || !item) {
+        return
+      }
+
       if (event.detail.dirty == true) {
         tab.classList.add("editor-tab--dirty")
         item.classList.add("dirty")
