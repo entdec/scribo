@@ -33,13 +33,10 @@ module Scribo
         else
           @content.update(parent_id: nil)
         end
-
-        head 200
       end
 
       def rename
         @content.update(path: params[:to]) if params[:to]
-        head 200
       end
 
       def create

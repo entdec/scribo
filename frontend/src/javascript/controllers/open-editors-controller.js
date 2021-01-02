@@ -21,8 +21,8 @@ export default class extends Controller {
         item.classList.remove("dirty")
       } else if (event.detail.path) {
         tab.querySelector(".name").innerText = event.detail.path
-        // FIXME: Upon file rename this tosses away the full-path
-        item.querySelector(".name").innerText = event.detail.path
+        item.querySelector(".name").firstChild.innerText = event.detail.path
+        item.querySelector("small").innerText = event.detail.fullPath
       }
     })
 

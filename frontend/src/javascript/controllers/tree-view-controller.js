@@ -52,7 +52,20 @@ export default class extends Controller {
               to: parentId,
               index: evt.newIndex,
             }),
-          }).then((response) => {})
+          }).then((response) => {
+            response.json().then(function (data) {
+              let changeEvent = new CustomEvent("content-editor.changed", {
+                bubbles: true,
+                cancelable: true,
+                detail: {
+                  contentId: data.content.id,
+                  path: data.content.path,
+                  fullPath: data.content.full_path,
+                },
+              })
+              self.element.dispatchEvent(changeEvent)
+            })
+          })
         },
         onMove: function (evt) {
           const parentId = evt.to.getAttribute("data-parent")
@@ -266,16 +279,19 @@ export default class extends Controller {
           to: newName,
         }),
       }).then((response) => {
-        self._cancelRename(event)
-        let changeEvent = new CustomEvent("content-editor.changed", {
-          bubbles: true,
-          cancelable: true,
-          detail: {
-            contentId: contentId,
-            path: newName,
-          },
+        response.json().then(function (data) {
+          let changeEvent = new CustomEvent("content-editor.changed", {
+            bubbles: true,
+            cancelable: true,
+            detail: {
+              contentId: data.content.id,
+              path: data.content.path,
+              fullPath: data.content.full_path,
+            },
+          })
+          self.element.dispatchEvent(changeEvent)
+          self._cancelRename(event)
         })
-        self.element.dispatchEvent(changeEvent)
       })
     } else if (event.key == "Escape") {
       self._cancelRename(event)
