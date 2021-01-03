@@ -51,9 +51,25 @@ export default class extends Controller {
         }
       }
     })
+
+    let welcome = document.getElementById("welcome")
+    if (welcome) {
+      this.open(
+        welcome.getAttribute("data-autoclose") == "true" ? "0" : "1",
+        "welcome.md",
+        "welcome.md",
+        "welcome.md",
+        welcome.innerHTML
+      )
+      welcome.remove()
+    }
   }
 
   open(id, name, path, url, data) {
+    if (id != "0" && id != "1") {
+      this.close(0)
+    }
+
     let existingEditor = this.editors[id]
 
     if (existingEditor) {

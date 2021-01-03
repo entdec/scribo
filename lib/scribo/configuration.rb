@@ -1,7 +1,7 @@
 module Scribo
   class Configuration
     attr_accessor :admin_authentication_module, :base_controller, :supported_mime_types, :default_404_txt,
-                  :default_humans_txt, :default_robots_txt, :default_favicon_ico, :templates
+                  :default_humans_txt, :default_robots_txt, :default_favicon_ico, :templates, :welcome_text
     attr_writer :logger, :scribable_objects, :scribable_for_request, :after_site_create, :admin_mount_point
 
     def initialize
@@ -60,6 +60,36 @@ module Scribo
       #
       # The id can be generated using: `SecureRandom.uuid`, or you can use integers
       @templates = []
+      @welcome_text = <<~WELCOME_TEXT
+        # Welcome
+
+        This is the Scribo IDE, which allows you to edit your site.
+
+        # Explorer
+
+        On the left of the screen is the explorer, which contains all your site's content.
+        It displays a different icon depending on the type of content.
+
+        ## Adding content
+        You can add new files and folders, by using the add-file and add-folder icon.
+        You can drag and drop files from your computer onto the explorer to upload new content to your site.
+
+        ## Moving content around
+        You can drag content in folders and folder in folders.
+
+        ## Deleting content
+        You can delete content by hovering over it and using the trash-can icon.
+
+        # Open editors
+
+        The open editors show the files you have open.
+        This lists shows same files as the tab-bar.
+
+        ## Saving files
+
+        You can save a file by using the open-editors section and hovering over the content to see a save icon, you can also save by pressing meta-s (alt-s or cmd-s).
+
+      WELCOME_TEXT
     end
 
     # logger [Object].

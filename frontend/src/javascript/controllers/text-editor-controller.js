@@ -74,6 +74,10 @@ export default class extends Controller {
       this.editor.setOption("theme", "gruvbox-dark")
     }
 
+    if (this.data.get("readonly")) {
+      this.editor.setOption("readOnly", this.data.get("readonly"))
+    }
+
     this.editor.setSize("100%", this.data.get("height") || "100%")
 
     this.editor.on("change", function (editor, evt) {
