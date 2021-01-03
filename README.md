@@ -81,6 +81,7 @@ bin/rails db:create
 bin/rails db:migrate
 
 The admin side of Scribo can be accessed here: https://localhost:3000/sites/
+Run `yarn watch` and you can develop using the above URL.
 
 ## Contributing
 
