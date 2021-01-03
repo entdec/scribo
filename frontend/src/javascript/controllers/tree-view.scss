@@ -46,6 +46,10 @@
     }
   }
 
+  & .section:first-of-type {
+    margin-top: 0;
+  }
+
   .section {
     display: block;
     padding-left: 4px;
