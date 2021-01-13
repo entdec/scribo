@@ -187,5 +187,15 @@ module Scribo
       subject = Scribo::Content.search_paths_for('/blog/2/')
       assert_equal %w[/blog /blog.htm /blog.html /blog.htmlx /blog.htx /blog.link /blog.markdown /blog.md /blog.mkd /blog.shtml /blog.slim /blog/ /blog/index /blog/index.htm /blog/index.html /blog/index.htmlx /blog/index.htx /blog/index.link /blog/index.markdown /blog/index.md /blog/index.mkd /blog/index.shtml /blog/index.slim], subject.sort
     end
+
+    test 'rename parent folder should rename full_paht of childs' do
+      @site = Scribo::Site.create!
+      folder = @site.contents.create!(kind: 'folder', path: 'bla')
+      subject = @site.contents.create!(parent: folder, kind: 'text', path: 'smurrefluts.md', data: '# smurrefluts')
+
+      assert_equal '/bla/smurrefluts.md', subject.full_path
+      folder.update(path: 'meh')
+      assert_equal '/meh/smurrefluts.md', subject.reload.full_path
+    end
   end
 end
