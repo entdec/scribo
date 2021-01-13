@@ -286,24 +286,27 @@ module Scribo
       search_paths << Scribo::Utility.switch_extension(search_path, 'link')
     end
 
-    def store_full_path(_force = false)
-      # if force || saved_changes.include?(:path) - saved_changes is empty at times
+    def store_full_path(force = false)
+      # TODO: Check why saved_changes is empty at times
+      if force || saved_changes.include?(:path) || saved_changes.empty?
 
-      if post?
-        result = categories.join('/') + '/'
-        result += date.strftime('%Y/%m/%d/') if date
-        result += path[11..-1]
-      elsif part_of_collection? && site.output_collection?(collection_name)
-        result = "#{collection_name}/#{path}"
-      else
-        result = (ancestors.map(&:path) << path).join('/')
-      end
-      result = '/' + result unless result.start_with?('/')
+        if post?
+          result = categories.join('/') + '/'
+          result += date.strftime('%Y/%m/%d/') if date
+          result += path[11..-1]
+        elsif part_of_collection? && site.output_collection?(collection_name)
+          result = "#{collection_name}/#{path}"
+        else
+          result = (ancestors.map(&:path) << path).join('/')
+        end
+        result = '/' + result unless result.start_with?('/')
 
-      update_column(:full_path, result)
+        update_column(:full_path, result)
 
-      children.reload.each do |child|
-        child.store_full_path(true)
+        children.reload.each do |child|
+          child.store_full_path(true)
+        end
+
       end
     end
 
