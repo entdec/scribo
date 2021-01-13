@@ -159,6 +159,10 @@ module Scribo
       Scribo::ContentRenderService.new(self, {}, data: excerpt_part, layout: false).call
     end
 
+    def render(context = {}, options = {})
+      Scribo::ContentRenderService.new(self, context, options).call
+    end
+
     def categories
       if properties&.[]('categories').is_a? Array
         properties&.[]('categories')
