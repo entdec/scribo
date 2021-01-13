@@ -51,7 +51,7 @@ module Scribo
         @parent = Scribo::Content.find(params[:content][:parent_id]) if params[:content][:parent_id]
 
         params[:content][:files]&.each do |file|
-          content = @site.contents.create!(kind: Scribo::Utility.kind_for_content_type(file.content_type),
+          content = @site.contents.create!(kind: Scribo::Utility.kind_for_path(file.original_filename),
                                            path: file.original_filename, data: file.read)
 
           # FIXME: We're moving it here, because we had problems with asset uploading and having a parent
