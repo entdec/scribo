@@ -17,6 +17,7 @@ module Scribo
     before_save :upload_asset
 
     after_save :store_full_path
+    after_update :store_full_path
     after_move :store_full_path
 
     scope :layouts, -> { in_folder('_layouts') }
@@ -290,22 +291,27 @@ module Scribo
     end
 
     def store_full_path(force = false)
-      return unless !force || saved_changes.include?(:path)
+      # TODO: Check why saved_changes is empty at times
+      if force || saved_changes.include?(:path) || saved_changes.empty?
 
-      if post?
-        result = categories.join('/') + '/'
-        result += date.strftime('%Y/%m/%d/') if date
-        result += path[11..-1]
-      elsif part_of_collection? && site.output_collection?(collection_name)
-        result = "#{collection_name}/#{path}"
-      else
-        result = (ancestors.map(&:path) << path).join('/')
+        if post?
+          result = categories.join('/') + '/'
+          result += date.strftime('%Y/%m/%d/') if date
+          result += path[11..-1]
+        elsif part_of_collection? && site.output_collection?(collection_name)
+          result = "#{collection_name}/#{path}"
+        else
+          result = (ancestors.map(&:path) << path).join('/')
+        end
+        result = '/' + result unless result.start_with?('/')
+
+        update_column(:full_path, result)
+
+        children.reload.each do |child|
+          child.store_full_path(true)
+        end
+
       end
-      result = '/' + result unless result.start_with?('/')
-
-      update_column(:full_path, result)
-
-      children.each { |child| child.store_full_path(true) }
     end
 
     def tree_path
