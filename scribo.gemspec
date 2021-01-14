@@ -34,6 +34,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'slim-rails', '~> 3.2'
   s.add_dependency 'kaminari'
 
+  s.add_development_dependency 'auxilium', '~> 0.2'
   s.add_development_dependency 'minitest', '~> 5.11'
   s.add_development_dependency 'minitest-reporters', '~> 1.1'
   s.add_development_dependency 'pry'

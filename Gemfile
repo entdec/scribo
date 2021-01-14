@@ -19,6 +19,7 @@ gemspec
 # bundle config --delete local.liquor
 # bundle config local.liquor ../../components/liquor
 
+gem 'auxilium', '~> 0.2', entdec: 'components/auxilium'
 gem 'key_path', git: 'git@code.entropydecelerator.com:tdegrunt/key_path.git', branch: 'master'
 gem 'liquor', entdec: 'components/liquor', tag: '0.7.0'
 
