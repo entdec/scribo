@@ -27,7 +27,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'mimemagic'
   s.add_dependency 'mime-types'
   s.add_dependency 'pg'
-  s.add_dependency 'rails', '~> 6.0.0'
+  s.add_dependency 'rails', '~> 6.0'
   s.add_dependency 'rouge', '~> 3'
   s.add_dependency 'rubyzip', '> 1.1'
   s.add_dependency 'simple_form', '> 3'
