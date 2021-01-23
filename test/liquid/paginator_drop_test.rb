@@ -6,8 +6,10 @@ class PaginatorDropTest < ActiveSupport::TestCase
   setup do
     @site = Scribo::Site.create!
     posts_folder = @site.contents.create!(path: '_posts', kind: 'folder')
+    creation_time = 1.day.ago
     25.times do |i|
-      @site.contents.create!(kind: 'text', path: "2020-11-17-post#{i + 1}.md", data_with_frontmatter: "---\ntitle: Post #{i + 1}\n---\n# Post #{i + 1}\n\nSome description for post #{i + 1}", parent: posts_folder)
+      @site.contents.create!(kind: 'text', path: "2020-11-17-post#{i + 1}.md", data_with_frontmatter: "---\ntitle: Post #{i + 1}\n---\n# Post #{i + 1}\n\nSome description for post #{i + 1}", parent: posts_folder, created_at: creation_time)
+      creation_time += 1.minute
     end
   end
   test 'should report page' do
