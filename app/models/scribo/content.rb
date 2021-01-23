@@ -243,7 +243,7 @@ module Scribo
     end
 
     def config?
-      full_path == '/_config.yml'
+      path == '_config.yml' && parent.nil?
     end
 
     def asset?

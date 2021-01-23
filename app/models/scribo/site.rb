@@ -25,11 +25,12 @@ module Scribo
       return none if path.blank?
 
       # Remove any segment which does not end in /
-      path = path[0..-(path.reverse.index('/').to_i + 1)]
+      search_path = File.dirname(path)
 
       paths = []
-      paths.concat(path.split('/').map.with_index { |_, i| path.split('/')[0..i].join('/') }.reject(&:empty?))
+      paths.concat(search_path.split('/').map.with_index { |_, i| search_path.split('/')[0..i].join('/') }.reject(&:empty?))
       paths <<= '/'
+      paths <<= path unless path.ends_with?('/')
 
       where("properties->>'baseurl' IN (?) OR properties->>'baseurl' = '' OR properties->>'baseurl' IS NULL",
             paths).order(Arel.sql("COALESCE(LENGTH(scribo_sites.properties->>'baseurl'), 0) DESC"))
@@ -60,10 +61,10 @@ module Scribo
 
     def collections
       result = begin
-                 properties['collections'].to_h.keys.map(&:to_s)
-               rescue StandardError
-                 []
-               end
+        properties['collections'].to_h.keys.map(&:to_s)
+      rescue StandardError
+        []
+      end
       result += %w[posts]
       result
     end
