@@ -14,6 +14,7 @@ module Scribo
       @site.contents.create!(kind: 'text', path: 'index.html', data: 'Hello')
       @site.contents.create!(kind: 'text', path: 'test.link', data: '/index')
       @site.contents.create!(kind: 'asset', path: 'asset.png', data: @png_data)
+      @site.contents.create!(kind: 'text', path: 'some filename with spaces.html', data: 'Spaces?')
     end
 
     test 'should show content' do
@@ -33,6 +34,12 @@ module Scribo
       assert_equal @png_data, @response.body
       assert_equal 'image/png', @response.media_type
       assert @response.headers['Etag']
+    end
+
+    test 'should get filename with spaces' do
+      get '/some%20filename%20with%20spaces.html', headers: { 'X-ACCOUNT': Account.current.id }
+      assert_equal 'Spaces?', @response.body
+      assert_equal 'text/html', @response.media_type
     end
   end
 end

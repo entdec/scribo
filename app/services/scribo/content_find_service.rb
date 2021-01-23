@@ -18,7 +18,7 @@ module Scribo
       scope = site.contents
 
       if options[:path]
-        path = options[:path]
+        path = CGI.unescape(options[:path])
         path = path[site.baseurl.length..-1] if path.start_with?(site.baseurl)
 
         # Deal with collections
