@@ -36,6 +36,10 @@ module Scribo
             paths).order(Arel.sql("COALESCE(LENGTH(scribo_sites.properties->>'baseurl'), 0) DESC"))
     end
 
+    def self.for_host(host)
+      where("properties->>'host' = ? OR properties->>'host' = '' OR properties->>'host' IS NULL", host).order(Arel.sql("COALESCE(LENGTH(scribo_sites.properties->>'host'), 0) DESC"))
+    end
+
     class << self
       def all_translation_keys
         parser = Scribo::LiquidParser.new

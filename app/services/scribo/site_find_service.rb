@@ -18,6 +18,7 @@ module Scribo
       return nil unless scribable
 
       scope = scribable.sites
+      scope = scope.for_host(options[:host])
       scope = scope.for_path(options[:path]) if options[:path]
       scope.first
     end

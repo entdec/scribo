@@ -41,5 +41,23 @@ module Scribo
       assert_equal 'Spaces?', @response.body
       assert_equal 'text/html', @response.media_type
     end
+
+    test 'should show content, for non-apex host' do
+      get '/', headers: { 'X-ACCOUNT': Account.current.id, 'HTTP_HOST': 'blog.example.com' }
+      assert_response :success
+      assert_equal 'Hello', @response.body
+      assert_equal 'text/html', @response.media_type
+    end
+
+    test 'should show content from dedicated site, for non-apex host' do
+      @site = Scribo::Site.create!(scribable: Account.current)
+      @site.contents.create!(kind: 'text', path: '_config.yml', data: 'host: blog.example.com')
+      @site.contents.create!(kind: 'text', path: 'index.html', data: 'Hello from blog')
+
+      get '/', headers: { 'X-ACCOUNT': Account.current.id, 'HTTP_HOST': 'blog.example.com' }
+      assert_response :success
+      assert_equal 'Hello from blog', @response.body
+      assert_equal 'text/html', @response.media_type
+    end
   end
 end
