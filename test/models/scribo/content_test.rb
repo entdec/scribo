@@ -116,14 +116,13 @@ module Scribo
     end
 
     test 'content properties with site defaults' do
-      skip
-
       @site = Scribo::Site.create!(properties: { 'defaults': ['scope': { path: 'section' }, 'values': { layout: 'specific-layout' }] })
       folder = @site.contents.create!(kind: 'folder', path: 'section')
       subject = @site.contents.create!(parent: folder, kind: 'text', path: 'smurrefluts.md', data: '# smurrefluts')
 
-      assert_equal({ 'layout' => 'specific-layout' }, subject.defaults)
-      assert_equal 'specific-layout', subject.properties['layout']
+      defaults = @site.defaults_for(subject)
+      assert_equal({ 'layout' => 'specific-layout' }, defaults)
+      assert_equal 'specific-layout', defaults['layout']
     end
 
     test 'content properties with site defaults, out of scope' do
