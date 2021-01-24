@@ -82,11 +82,11 @@ class SiteDropTest < ActiveSupport::TestCase
     faqs_folder = site.contents.create!(path: '_faqs', kind: 'folder')
 
     faq1   = contents.create!(parent: faqs_folder, path: '10-support.md', kind: 'text', data: 'post1',
-                              properties: { title: 'support', categories: ['presale'] })
+                              properties: { title: 'support', categories: ['presale'] }, created_at: 3.hours.ago)
     faq2   = contents.create!(parent: faqs_folder, path: '20-renew.md', kind: 'text', data: 'post2',
-                              properties: { title: 'renew', categories: ['presale'] })
+                              properties: { title: 'renew', categories: ['presale'] }, created_at: 2.hours.ago)
     faq3   = contents.create!(parent: faqs_folder, path: '30-quit.md', kind: 'text', data: 'post3',
-                              properties: { title: 'quit', categories: ['aftersale'] })
+                              properties: { title: 'quit', categories: ['aftersale'] }, created_at: 1.hours.ago)
 
     content = site.contents.create(kind: 'text',
                                    data: '{% assign faqs = site.faqs | where: "categories", "presale" %}{%for faq in faqs%}{{faq.title}}{%endfor%}')

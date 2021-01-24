@@ -74,7 +74,7 @@ module Scribo
 
     def liquid_method_missing(method)
       if collections.include?(method)
-        @object.contents.in_folder("_#{method}").to_a
+        @object.contents.in_folder("_#{method}").order(:created_at).to_a
       else
         @properties[method.to_s]
       end

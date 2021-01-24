@@ -59,5 +59,25 @@ module Scribo
       assert_equal 'Hello from blog', @response.body
       assert_equal 'text/html', @response.media_type
     end
+
+    test 'should show content from site with baseurl /help with underlying site /' do
+      help_site = Scribo::Site.create!(scribable: Account.current)
+      config = help_site.contents.create!(kind: 'text', path: '_config.yml', data: 'baseurl: "/help"')
+      content = help_site.contents.create!(kind: 'text', path: 'index.html', data: 'Hello from help')
+
+      get '/help/', headers: { 'X-ACCOUNT': Account.current.id }
+      assert_equal 'Hello from help', @response.body
+      assert_equal 'text/html', @response.media_type
+    end
+
+    test 'should show content with index.html from site with baseurl /help with underlying site /' do
+      help_site = Scribo::Site.create!(scribable: Account.current)
+      config = help_site.contents.create!(kind: 'text', path: '_config.yml', data: 'baseurl: "/help"')
+      content = help_site.contents.create!(kind: 'text', path: 'index.html', data: 'Hello from help')
+
+      get '/help/index.html', headers: { 'X-ACCOUNT': Account.current.id }
+      assert_equal 'Hello from help', @response.body
+      assert_equal 'text/html', @response.media_type
+    end
   end
 end

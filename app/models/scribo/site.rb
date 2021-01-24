@@ -30,10 +30,10 @@ module Scribo
       paths = []
       paths.concat(search_path.split('/').map.with_index { |_, i| search_path.split('/')[0..i].join('/') }.reject(&:empty?))
       paths <<= '/'
-      paths <<= path unless path.ends_with?('/')
+      paths <<= path.gsub(%r[/$], '')
 
       where("properties->>'baseurl' IN (?) OR properties->>'baseurl' = '' OR properties->>'baseurl' IS NULL",
-            paths).order(Arel.sql("COALESCE(LENGTH(scribo_sites.properties->>'baseurl'), 0) DESC"))
+            paths.uniq).order(Arel.sql("COALESCE(LENGTH(scribo_sites.properties->>'baseurl'), 0) DESC"))
     end
 
     def self.for_host(host)

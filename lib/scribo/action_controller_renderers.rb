@@ -20,6 +20,7 @@ module ActionController::Renderers
     end
 
     options.merge!(site: site)
+
     content ||= Scribo::ContentFindService.new(site, options).call
 
     if content
