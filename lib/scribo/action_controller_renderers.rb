@@ -21,6 +21,7 @@ module ActionController::Renderers
 
     options.merge!(site: site)
 
+    content = Scribo::Content.new(path: 'index.link', full_path: '/index.link', data: "#{site.baseurl}/") if options[:path] == site.baseurl && options[:path] != '/'
     content ||= Scribo::ContentFindService.new(site, options).call
 
     if content

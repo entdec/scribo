@@ -70,6 +70,15 @@ module Scribo
       assert_equal 'text/html', @response.media_type
     end
 
+    test 'should redirect to site with baseurl /help with underlying site /' do
+      help_site = Scribo::Site.create!(scribable: Account.current)
+      config = help_site.contents.create!(kind: 'text', path: '_config.yml', data: 'baseurl: "/help"')
+      content = help_site.contents.create!(kind: 'text', path: 'index.html', data: 'Hello from help')
+
+      get '/help', headers: { 'X-ACCOUNT': Account.current.id }
+      assert_redirected_to '/help/'
+    end
+
     test 'should show content with index.html from site with baseurl /help with underlying site /' do
       help_site = Scribo::Site.create!(scribable: Account.current)
       config = help_site.contents.create!(kind: 'text', path: '_config.yml', data: 'baseurl: "/help"')
