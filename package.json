@@ -32,7 +32,7 @@
     "element-closest": "^3.0.1",
     "painterro": "^1.2.12",
     "sortablejs": "^1.10.0",
-    "stimulus": "^1.1.0"
+    "stimulus": "^2"
   },
   "devDependencies": {
     "@gitlab/svgs": "^1.68.0",
