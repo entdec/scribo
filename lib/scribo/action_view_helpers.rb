@@ -4,7 +4,9 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'app', 'd
 
 module ActionViewHelpers
   def layout_with_scribo(layout_name, yield_content)
-    site = Scribo::SiteFindService.new(uri: URI.parse(request.url), request: request).call
+    options = { request: request, uri: URI.parse(request.original_url), host: request.host, path: URI.parse(request.original_url).path }
+    site = Scribo::SiteFindService.new(options).call
+
     content = site.contents.layout(layout_name).first
 
     if content
