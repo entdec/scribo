@@ -7,16 +7,11 @@ module ActionViewHelpers
     options = { request: request, uri: URI.parse(request.original_url), host: request.host, path: URI.parse(request.original_url).path }
     site = Scribo::SiteFindService.new(options).call
 
-    content = site.contents.layout(layout_name).first
+    application_js = content_for?(:js) && content_for(:js)
 
-    if content
-      Scribo.config.logger.info "Scribo: layout for '#{layout_name}' content #{content.id} identifier #{content.identifier}"
+    content = site.contents.new(kind: 'text', data: yield_content, properties: { layout: layout_name })
 
-      application_js = content_for?(:js) && content_for(:js)
-      registers = { controller: controller, application_assets: scribo_application_assets, application_js: application_js, content: content }
-      Scribo::ContentRenderService.new(content, self, registers: registers).call.html_safe
-    else
-      yield_content
-    end
+    registers = { controller: controller, application_assets: scribo_application_assets, application_js: application_js }
+    Scribo::ContentRenderService.new(content, self, registers: registers).call.html_safe
   end
 end
