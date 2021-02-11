@@ -73,6 +73,7 @@ module Scribo
       return @site if @site
 
       @site = Site.where(scribable: scribable)
+                  .where("properties->>'host' = ?", properties['host'])
                   .where("properties->>'title' = ?", properties['title'])
                   .where("properties->>'baseurl' = ?", properties['baseurl']).first
 
