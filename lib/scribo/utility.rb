@@ -11,7 +11,7 @@ module Scribo
     }.freeze
 
     KNOWN_TEXT_FILES = %w[Gemfile].freeze
-    KNOWN_TEXT_EXTENSIONS = %w[scss sass less slim es6 babel jsx json].freeze
+    KNOWN_TEXT_EXTENSIONS = %w[scss sass less slim es6 babel jsx json link].freeze
 
     FILTER_FOR_EXTENSION = {
       'scss' => 'scss',
