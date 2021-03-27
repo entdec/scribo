@@ -8,6 +8,5 @@ test/dummy/tmp/
 test/files/themes
 /.idea
 /.idea/*
-Gemfile.lock
 node_modules
 .history/
