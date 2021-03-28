@@ -44,10 +44,10 @@ module Scribo
     scope :restricted, -> { where("full_path NOT LIKE '/\\_%'") }
 
     scope :not_in_folder, lambda { |folder_name|
-                            where('id NOT IN (?)', Scribo::Content.where(kind: 'folder').find_by(path: folder_name)&.descendants&.pluck(:id) || [])
+                            where.not(id: in_folder(folder_name).pluck(:id))
                           }
     scope :in_folder, lambda { |folder_name|
-                        where(id: Scribo::Content.where(kind: 'folder').find_by(path: folder_name)&.descendants&.pluck(:id) || [])
+                        where(kind: 'folder').find_by(path: folder_name)&.descendants || none
                       }
 
     scope :permalinked, ->(paths) { where("properties->>'permalink' IN (?)", paths) }

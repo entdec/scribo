@@ -12,6 +12,13 @@ class PaginatorDropTest < ActiveSupport::TestCase
       creation_time += 1.minute
     end
   end
+
+  test 'should report page 1 if no page given' do
+    subject = create_page('{{paginator.page}}')
+    result = Scribo::ContentRenderService.new(subject, context(nil), { site: @site }).call
+    assert_equal '1', result
+  end
+
   test 'should report page' do
     subject = create_page('{{paginator.page}}')
     result = Scribo::ContentRenderService.new(subject, context(3), { site: @site }).call
@@ -81,7 +88,11 @@ class PaginatorDropTest < ActiveSupport::TestCase
 
   def context(page)
     ac = ApplicationController.new
-    ac.request = ActionDispatch::Request.new({ 'ORIGINAL_FULLPATH' => "/blog/#{page}/" })
+    ac.request = if page.present?
+                   ActionDispatch::Request.new({ 'ORIGINAL_FULLPATH' => "/blog/#{page}/" })
+                 else
+                   ActionDispatch::Request.new({ 'ORIGINAL_FULLPATH' => '/blog/' })
+                 end
     ac
   end
 end
