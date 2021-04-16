@@ -4,11 +4,11 @@
         = render partial: 'scribo/shared/tree-view'
 
   .editors-pane
-    .editors-tabs data-target='open-editors.tabs' data-action="click->open-editors#clickTabs"
-    .editors-contents data-target='open-editors.contents'
+    .editors-tabs data-open-editors-target='tabs' data-action="click->open-editors#clickTabs"
+    .editors-contents data-open-editors-target='contents'
 
 - if Scribo.config.welcome_text
   #welcome style="display: none;" data-autoclose="true"
     div style="position: absolute; width: 100%; height: 100%;"
-      textarea id="content-editor-0" name='content[data_with_frontmatter]' data-controller="text-editor" data-target="text-editor.textarea" data-text-editor-mode="text/markdown" style="display: block; height: 100%;" data-text-editor-readonly="nocursor"
+      textarea id="content-editor-0" name='content[data_with_frontmatter]' data-controller="text-editor" data-text-editor-target="textarea" data-text-editor-mode="text/markdown" style="display: block; height: 100%;" data-text-editor-readonly="nocursor"
         = Scribo.config.welcome_text
