@@ -33,7 +33,7 @@ GIT
 PATH
   remote: .
   specs:
-    scribo (1.0.12)
+    scribo (1.0.13)
       awesome_nested_set (= 3.2.1)
       babel-transpiler (~> 0.7)
       down (~> 5.2)
