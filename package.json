@@ -20,14 +20,12 @@
     "parser": "babel-eslint"
   },
   "browserslist": "> 1%",
-  "dependencies": {
-    "element-closest": "^3.0.1",
-    "painterro": "^1.2.12",
-    "sortablejs": "^1.10.0"
-  },
   "peerDependencies": {
     "codemirror": "^5.48.4",
     "codemirror-liquid": "git+ssh://git@code.entropydecelerator.com/components/codemirror-liquid",
+    "element-closest": "^3.0.1",
+    "painterro": "^1.2.12",
+    "sortablejs": "^1.10.0",
     "stimulus": "^2"
   },
   "devDependencies": {
