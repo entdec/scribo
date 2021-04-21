@@ -1,4 +1,4 @@
-import "../style/scribo.scss";
+import "style/scribo.scss";
 
 import { definitionsFromContext } from "stimulus/webpack-helpers"
 import { Application } from "stimulus"
@@ -10,7 +10,7 @@ export class Scribo {
     }
     console.log("Scribo");
     this.application = application;
-    const context = require.context("./controllers", true, /\.js$/);
+    const context = require.context("./javascript/controllers", true, /\.js$/);
     this.application.load(definitionsFromContext(context));
   }
 }
