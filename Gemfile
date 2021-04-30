@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 source 'https://rubygems.org'
-git_source(:entdec) { |repo_name| "git@code.entropydecelerator.com:#{repo_name}.git" }
+git_source(:entdec) { |repo_name| "git@code.entropydecelerator.com:#{repo_name}" }
 
 # Declare your gem's dependencies in scribo.gemspec.
 # Bundler will treat runtime dependencies like base dependencies, and

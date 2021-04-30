@@ -1,12 +1,15 @@
 GIT
-  remote: git@code.entropydecelerator.com:components/auxilium.git
-  revision: 90a6531ca2ebdf62df3921b6ec3b0bba07b38989
+  remote: git@code.entropydecelerator.com:components/auxilium
+  revision: 00241e8a5f1fde5b5afd1e9a84709d6c399fc9e9
   specs:
-    auxilium (0.2.0)
+    auxilium (3.0.5)
       activesupport (> 5.1)
+      pundit (> 2)
+      responders (> 3)
+      rolify (> 5)
 
 GIT
-  remote: git@code.entropydecelerator.com:components/liquor.git
+  remote: git@code.entropydecelerator.com:components/liquor
   revision: c5472b47315a5fda33e93c2a5f754a250c32b122
   tag: 0.7.0
   specs:
@@ -33,7 +36,7 @@ GIT
 PATH
   remote: .
   specs:
-    scribo (1.0.15)
+    scribo (1.0.16)
       awesome_nested_set (= 3.2.1)
       babel-transpiler (~> 0.7)
       down (~> 5.2)
@@ -137,7 +140,7 @@ GEM
     cuprite (0.11)
       capybara (>= 2.1, < 4)
       ferrum (~> 0.9.0)
-    down (5.2.0)
+    down (5.2.1)
       addressable (~> 2.5)
     erubi (1.10.0)
     execjs (2.7.0)
@@ -211,6 +214,8 @@ GEM
     public_suffix (4.0.6)
     puma (5.1.1)
       nio4r (~> 2.0)
+    pundit (2.1.0)
+      activesupport (>= 3.0.0)
     racc (1.5.2)
     rack (2.2.3)
     rack-test (1.1.0)
@@ -244,7 +249,11 @@ GEM
     rainbow (3.0.0)
     rake (13.0.3)
     regexp_parser (2.0.0)
+    responders (3.0.1)
+      actionpack (>= 5.0)
+      railties (>= 5.0)
     rexml (3.2.5)
+    rolify (6.0.0)
     rouge (3.26.0)
     rubocop (1.6.1)
       parallel (~> 1.10)
@@ -298,7 +307,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  auxilium (~> 0.2)!
+  auxilium (~> 3.0)!
   capybara
   cuprite
   jbuilder
