@@ -72,6 +72,7 @@ module Scribo
                          end
 
         @contents = @site.contents.roots.where(kind: 'folder').reorder(:path) + @site.contents.roots.where("kind <> 'folder'").reorder(:path)
+        @readme = @site.contents.roots.where("path ilike '%readme%'").first
       end
 
       def content_params

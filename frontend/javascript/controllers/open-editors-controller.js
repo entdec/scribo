@@ -50,10 +50,15 @@ export default class extends Controller {
       }
     })
 
-    let welcome = document.getElementById("welcome")
-    if (welcome) {
-      this.open(welcome.getAttribute("data-autoclose") == "true" ? "0" : "1", "welcome.md", "welcome.md", "welcome.md", welcome.innerHTML)
-      welcome.remove()
+    let readme = document.getElementById("readme")
+    if (readme) {
+      let id = readme.getAttribute("data-id")
+      let url = readme.getAttribute("data-url")
+      let path = readme.getAttribute("data-path")
+      let full_path = readme.getAttribute("data-full-path")
+
+      window.scriboEditors.open(id, path, full_path, url, readme.innerHTML)
+      readme.remove()
     }
   }
 
