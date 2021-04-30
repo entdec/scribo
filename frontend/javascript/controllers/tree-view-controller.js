@@ -10,12 +10,7 @@ import Sortable from "sortablejs"
  * Manages the tree view
  */
 export default class extends Controller {
-  static targets = [
-    "folderTemplate",
-    "entryTemplate",
-    "collapseExpand",
-    "contentItems",
-  ]
+  static targets = ["folderTemplate", "entryTemplate", "collapseExpand", "contentItems"]
 
   connect() {
     const self = this
@@ -26,10 +21,7 @@ export default class extends Controller {
       if (!el) {
         return
       }
-      if (
-        el &&
-        event.target.closest("li.entry").classList.contains("directory")
-      ) {
+      if (el && event.target.closest("li.entry").classList.contains("directory")) {
         el.classList.toggle("open")
         el.classList.toggle("closed")
 
@@ -45,7 +37,7 @@ export default class extends Controller {
   // Collapse or expand all folders
   collapseExpandAll(event) {
     const self = this
-    if (self.collapseExpandTarget.classList.contains("fa-plus-square")) {
+    if (self.collapseExpandTarget.classList.contains("clg-fa-plus-square")) {
       self.element.querySelectorAll("li.directory").forEach((el) => {
         el.classList.add("open")
         el.classList.remove("closed")
@@ -72,9 +64,7 @@ export default class extends Controller {
     const newContentNode = document.importNode(this[template].content, true)
 
     const closestDirectory = event.target.closest("li.directory")
-    let newContentContainer = event.target
-      .closest(".section")
-      .querySelector("ul")
+    let newContentContainer = event.target.closest(".section").querySelector("ul")
     if (closestDirectory) {
       newContentContainer = closestDirectory.querySelector("ul")
     }
@@ -194,11 +184,11 @@ export default class extends Controller {
     const self = this
     if (!self.contentItemsTarget.querySelector("li.entry.directory.open")) {
       // All are closed
-      self.collapseExpandTarget.classList.remove("fa-minus-square")
-      self.collapseExpandTarget.classList.add("fa-plus-square")
+      self.collapseExpandTarget.classList.remove("clg-fa-minus-square")
+      self.collapseExpandTarget.classList.add("clg-fa-plus-square")
     } else {
-      self.collapseExpandTarget.classList.add("fa-minus-square")
-      self.collapseExpandTarget.classList.remove("fa-plus-square")
+      self.collapseExpandTarget.classList.add("clg-fa-minus-square")
+      self.collapseExpandTarget.classList.remove("clg-fa-plus-square")
     }
   }
 
@@ -220,13 +210,7 @@ export default class extends Controller {
       },
     }).then((response) => {
       response.json().then(function (data) {
-        window.scriboEditors.open(
-          data.content.id,
-          data.content.path,
-          data.content.full_path,
-          data.content.url,
-          data.html
-        )
+        window.scriboEditors.open(data.content.id, data.content.path, data.content.full_path, data.content.url, data.html)
         self._selectEntry(closestA.closest("li.entry"))
       })
     })
@@ -251,8 +235,7 @@ export default class extends Controller {
         headers: {
           Accept: "application/json, text/javascript",
           "Content-Type": "application/json",
-          "X-CSRF-Token": document.querySelector("meta[name=csrf-token]")
-            .content,
+          "X-CSRF-Token": document.querySelector("meta[name=csrf-token]").content,
         },
         body: JSON.stringify({
           to: newName,
@@ -303,8 +286,7 @@ export default class extends Controller {
         headers: {
           Accept: "application/json, text/javascript",
           "Content-Type": "application/json",
-          "X-CSRF-Token": document.querySelector("meta[name=csrf-token]")
-            .content,
+          "X-CSRF-Token": document.querySelector("meta[name=csrf-token]").content,
         },
         body: JSON.stringify({
           parent: parent,
@@ -318,23 +300,11 @@ export default class extends Controller {
             newContentContainer.insertAdjacentHTML("afterbegin", data.itemHtml)
             if (data.content.kind != "folder") {
               // document.querySelector(".editor-pane").innerHTML = data.html
-              self._selectEntry(
-                newContentContainer.querySelector(
-                  "li." + (data.content.kind == "folder" ? "folder" : "file")
-                )
-              )
-              window.scriboEditors.open(
-                data.content.id,
-                data.content.path,
-                data.content.full_path,
-                data.content.url,
-                data.html
-              )
+              self._selectEntry(newContentContainer.querySelector("li." + (data.content.kind == "folder" ? "folder" : "file")))
+              window.scriboEditors.open(data.content.id, data.content.path, data.content.full_path, data.content.url, data.html)
             } else {
               // A folder
-              let folderUl = newContentContainer.querySelector(
-                `[data-content="${data.content.id}"] ul`
-              )
+              let folderUl = newContentContainer.querySelector(`[data-content="${data.content.id}"] ul`)
               self._addSortable(folderUl)
             }
           })
@@ -374,8 +344,7 @@ export default class extends Controller {
           headers: {
             Accept: "application/json, text/javascript",
             "Content-Type": "application/json",
-            "X-CSRF-Token": document.querySelector("meta[name=csrf-token]")
-              .content,
+            "X-CSRF-Token": document.querySelector("meta[name=csrf-token]").content,
           },
           body: JSON.stringify({
             id: contentId,
@@ -400,9 +369,7 @@ export default class extends Controller {
       onMove: function (evt) {
         const parentId = evt.to.getAttribute("data-parent")
         if (parentId) {
-          const file = document
-            .querySelector('[data-content="' + parentId + '"]')
-            .classList.contains("file")
+          const file = document.querySelector('[data-content="' + parentId + '"]').classList.contains("file")
           if (file) {
             evt.preventDefault()
             return false

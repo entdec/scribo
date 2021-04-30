@@ -43,9 +43,7 @@ export default class extends Controller {
         event.cancelBubble = true
 
         if (this.editorActive) {
-          let elm = document.getElementById(
-            "content-editor-" + this.editorActive
-          )
+          let elm = document.getElementById("content-editor-" + this.editorActive)
           let controller = this._editorControllerForElement(elm)
           controller.save()
         }
@@ -54,13 +52,7 @@ export default class extends Controller {
 
     let welcome = document.getElementById("welcome")
     if (welcome) {
-      this.open(
-        welcome.getAttribute("data-autoclose") == "true" ? "0" : "1",
-        "welcome.md",
-        "welcome.md",
-        "welcome.md",
-        welcome.innerHTML
-      )
+      this.open(welcome.getAttribute("data-autoclose") == "true" ? "0" : "1", "welcome.md", "welcome.md", "welcome.md", welcome.innerHTML)
       welcome.remove()
     }
   }
@@ -84,9 +76,7 @@ export default class extends Controller {
     if (existingEditor) {
       let tab = this._tabForId(id)
       if (tab.classList.contains("editor-tab--dirty")) {
-        let result = confirm(
-          "You have unsaved changes, do you want close this editor?"
-        )
+        let result = confirm("You have unsaved changes, do you want close this editor?")
         if (!result) {
           return
         }
@@ -137,9 +127,7 @@ export default class extends Controller {
   saveAll(event) {
     this.tabsTarget.querySelectorAll(".editor-tab").forEach((element) => {
       if (element.classList.contains("editor-tab--dirty")) {
-        let elm = document.getElementById(
-          "content-editor-" + element.dataset.tab
-        )
+        let elm = document.getElementById("content-editor-" + element.dataset.tab)
         let controller = this._editorControllerForElement(elm)
         controller.save()
       }
@@ -147,16 +135,10 @@ export default class extends Controller {
   }
 
   _editorControllerForElement(elm) {
-    let result = this.application.getControllerForElementAndIdentifier(
-      elm,
-      "text-editor"
-    )
+    let result = this.application.getControllerForElementAndIdentifier(elm, "text-editor")
 
     if (!result) {
-      result = this.application.getControllerForElementAndIdentifier(
-        elm,
-        "image-editor"
-      )
+      result = this.application.getControllerForElementAndIdentifier(elm, "image-editor")
     }
 
     return result
@@ -193,7 +175,7 @@ export default class extends Controller {
     tab.setAttribute("class", "editor-tab")
 
     let icon = document.createElement("i")
-    icon.setAttribute("class", "close fa fa-times")
+    icon.setAttribute("class", "close fa clg-fa-times")
 
     let nameSpan = document.createElement("span")
     nameSpan.setAttribute("class", "name")
@@ -231,7 +213,7 @@ export default class extends Controller {
     tools.setAttribute("class", "tools")
 
     let saveIcon = document.createElement("i")
-    saveIcon.setAttribute("class", "close fal fa-save")
+    saveIcon.setAttribute("class", "close fal clg-fa-save")
     saveIcon.setAttribute("data-action", "click->open-editors#save")
 
     tools.appendChild(saveIcon)
@@ -263,11 +245,9 @@ export default class extends Controller {
   }
 
   _activateContents() {
-    this.contentsTarget
-      .querySelectorAll(".editor-content")
-      .forEach((element) => {
-        element.classList.remove("editor-content--active")
-      })
+    this.contentsTarget.querySelectorAll(".editor-content").forEach((element) => {
+      element.classList.remove("editor-content--active")
+    })
 
     if (this.editorActive) {
       let tabContent = this._contentForId(this.editorActive)
@@ -299,8 +279,6 @@ export default class extends Controller {
   }
 
   _contentForId(id) {
-    return this.contentsTarget.querySelector(
-      ".editor-content[data-tab='" + id + "']"
-    )
+    return this.contentsTarget.querySelector(".editor-content[data-tab='" + id + "']")
   }
 }
