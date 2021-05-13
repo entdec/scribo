@@ -11,17 +11,15 @@ module ActionController::Renderers
     unless site
       # If we have no site, see if we have one when we add an /
       site = Scribo::SiteFindService.new(options.merge(path: "#{options[:path]}/")).call
-      if site
-        content = site.contents.new(kind: 'text', path: 'index.link', full_path: '/index.link', data: "#{options[:path]}/")
-      else
-        # Nope, we still don't just bail out
-        site ||= Scribo::Site.new
-      end
+      redirect_to("#{options[:path]}/") && return if site
+    end
+
+    if options[:path] == site.baseurl && !options[:path].ends_with?('/')
+      redirect_to("#{site.baseurl}/") && return
     end
 
     options.merge!(site: site)
-
-    content = Scribo::Content.new(path: 'index.link', full_path: '/index.link', data: "#{site.baseurl}/") if options[:path] == site.baseurl && options[:path] != '/'
+    site ||= Scribo::Site.default(request: request)
     content ||= Scribo::ContentFindService.new(site, options).call
 
     if content

@@ -2,7 +2,7 @@ module Scribo
   class Configuration
     attr_accessor :admin_authentication_module, :base_controller, :supported_mime_types, :default_404_txt,
                   :default_humans_txt, :default_robots_txt, :default_favicon_ico, :templates
-    attr_writer :logger, :scribable_objects, :scribable_for_request, :after_site_create, :admin_mount_point
+    attr_writer :logger, :scribable_objects, :scribable_for_request, :after_site_create, :admin_mount_point, :default_site
 
     def initialize
       @logger = Logger.new(STDOUT)
@@ -60,11 +60,18 @@ module Scribo
       #
       # The id can be generated using: `SecureRandom.uuid`, or you can use integers
       @templates = []
+
+      # Default site if no site is found, this can be nil, an actual site instance or a proc which will resolve a site instance.
+      @default_site = nil
     end
 
     # logger [Object].
     def logger
       @logger.is_a?(Proc) ? instance_exec(&@logger) : @logger
+    end
+
+    def default_site(request = nil)
+      @default_site.is_a?(Proc) ? instance_exec(request, &@default_site) : @default_site
     end
 
     # admin_mount_point [String].

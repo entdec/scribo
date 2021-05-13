@@ -21,39 +21,6 @@ module Scribo
       @filter_cache ||= {}
     end
 
-    def self.for_path(path)
-      return none if path.blank?
-
-      # Remove any segment which does not end in /
-      search_path = File.dirname(path)
-
-      paths = []
-      paths.concat(search_path.split('/').map.with_index { |_, i| search_path.split('/')[0..i].join('/') }.reject(&:empty?))
-      paths <<= '/'
-      paths <<= path.gsub(%r[/$], '')
-
-      where("properties->>'baseurl' IN (?) OR properties->>'baseurl' = '' OR properties->>'baseurl' IS NULL",
-            paths.uniq).order(Arel.sql("COALESCE(LENGTH(scribo_sites.properties->>'baseurl'), 0) DESC"))
-    end
-
-    def self.for_host(host)
-      where("properties->>'host' = ? OR properties->>'host' = '' OR properties->>'host' IS NULL", host).order(Arel.sql("COALESCE(LENGTH(scribo_sites.properties->>'host'), 0) DESC"))
-    end
-
-    class << self
-      def all_translation_keys
-        parser = Scribo::LiquidParser.new
-        result = {}
-        Scribo::Content.includes(:site).where(content_type: Scribo.config.supported_mime_types[:text]).each do |content|
-          parts = parser.parse(content.data)
-          [*parts].select { |part| part.is_a?(Hash) && part[:filter] == 't' }.each do |part|
-            result[content.translation_scope + part[:value].to_s] = part[:value].to_s[1..-1].humanize
-          end
-        end
-        result
-      end
-    end
-
     def reshuffle!
       contents.roots.each(&:set_full_path)
     end
@@ -152,6 +119,43 @@ module Scribo
     #
     def total_size
       contents.map { |c| c.data ? c.data.size : c.asset.attachment&.download&.size || 0 }.sum
+    end
+
+    class << self
+      def for_path(path)
+        return none if path.blank?
+
+        # Remove any segment which does not end in /
+        search_path = File.dirname(path)
+
+        paths = []
+        paths.concat(search_path.split('/').map.with_index { |_, i| search_path.split('/')[0..i].join('/') }.reject(&:empty?))
+        paths <<= '/'
+        paths <<= path.gsub(%r[/$], '')
+
+        where("properties->>'baseurl' IN (?) OR properties->>'baseurl' = '' OR properties->>'baseurl' IS NULL",
+              paths.uniq).order(Arel.sql("COALESCE(LENGTH(scribo_sites.properties->>'baseurl'), 0) DESC"))
+      end
+
+      def for_host(host)
+        where("properties->>'host' = ? OR properties->>'host' = '' OR properties->>'host' IS NULL", host).order(Arel.sql("COALESCE(LENGTH(scribo_sites.properties->>'host'), 0) DESC"))
+      end
+
+      def all_translation_keys
+        parser = Scribo::LiquidParser.new
+        result = {}
+        Scribo::Content.includes(:site).where(content_type: Scribo.config.supported_mime_types[:text]).each do |content|
+          parts = parser.parse(content.data)
+          [*parts].select { |part| part.is_a?(Hash) && part[:filter] == 't' }.each do |part|
+            result[content.translation_scope + part[:value].to_s] = part[:value].to_s[1..-1].humanize
+          end
+        end
+        result
+      end
+
+      def default(request: nil)
+        Scribo.config.default_site(request) || new
+      end
     end
   end
 end
