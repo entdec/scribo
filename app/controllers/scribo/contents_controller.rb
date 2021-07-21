@@ -10,8 +10,9 @@ module Scribo
     def show
       render scribo: request
     rescue StandardError => e
-      Scribo.config.logger.error '--- Content rendering errors: ' + '-' * 49
-      Scribo.config.logger.error '=> ' + e.backtrace.map(&:to_s).join("\n") + ': ' + e.message
+      Scribo.config.logger.error '-' * 80
+      Scribo.config.logger.error '=> Content rendering errors: ' + e.message
+      Scribo.config.logger.error '=> ' + e.backtrace.map(&:to_s).join("\n")
       Scribo.config.logger.error '-' * 80
       render body: e.message, status: 500
     end
