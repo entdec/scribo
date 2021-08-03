@@ -7,7 +7,6 @@ require 'liquid'
 require 'liquor'
 require 'mime/types'
 require 'rouge'
-require 'simple_form'
 require 'slim-rails'
 require 'zip'
 
