@@ -12,18 +12,24 @@
 
     .editor-tab {
       cursor: pointer;
-      padding: 8px 0.5rem 4px 1rem;
+      padding: 2px 0.5rem 2px 0.5rem;
       border-radius: 4px 4px 0 0;
       border-top: 1px solid #ddd;
       border-right: 1px solid #ddd;
+      font-size: smaller;
+      background: #f9f9f9;
 
-      i {
+      html.dark & {
+        background: rgba(55, 65, 81, var(--tw-bg-opacity));
+      }
+
+      svg, i {
         display: inline;
         font-size: 70%;
         margin-left: 0.4rem;
         color: black;
       }
-      i:before {
+      svg, i:before {
         content: "\f00d";
       }
 
@@ -32,28 +38,26 @@
       }
 
       &.editor-tab--active {
-        background: white;
+        background: #fff;
 
-        i {
+        html.dark & {
+          background: #0a001f;
         }
       }
 
       &.editor-tab--dirty {
-        i {
-          color: #03a9f4;
-          font-size: 60%;
-        }
-        i:before {
-          content: "\f111";
+        font-weight: bold;
+        svg, i {
+          font-size: 80%;
         }
       }
 
       &:hover {
-        i {
+        svg, i {
           color: black;
           font-size: 70%;
         }
-        i:before {
+        svg, i:before {
           content: "\f00d";
         }
       }

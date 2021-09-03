@@ -11,17 +11,20 @@ export default class extends Controller {
 
     document.addEventListener("content-editor.changed", (event) => {
       let tab = this._tabForId(event.detail.contentId)
+      let content = this._contentForId(event.detail.contentId)
       let item = this._itemForId(event.detail.contentId)
 
-      if (!tab || !item) {
+      if (!tab || !content || !item) {
         return
       }
 
       if (event.detail.dirty == true) {
         tab.classList.add("editor-tab--dirty")
+        content.classList.add("dirty")
         item.classList.add("dirty")
       } else if (event.detail.dirty == false) {
         tab.classList.remove("editor-tab--dirty")
+        content.classList.remove("dirty")
         item.classList.remove("dirty")
       } else if (event.detail.path) {
         tab.querySelector(".name").innerText = event.detail.path
@@ -180,7 +183,7 @@ export default class extends Controller {
     tab.setAttribute("class", "editor-tab")
 
     let icon = document.createElement("i")
-    icon.setAttribute("class", "close fa clg-fa-times")
+    icon.setAttribute("class", "close fa fa-xmark")
 
     let nameSpan = document.createElement("span")
     nameSpan.setAttribute("class", "name")
@@ -218,7 +221,7 @@ export default class extends Controller {
     tools.setAttribute("class", "tools")
 
     let saveIcon = document.createElement("i")
-    saveIcon.setAttribute("class", "close fal clg-fa-save")
+    saveIcon.setAttribute("class", "close fal fa-floppy-disk")
     saveIcon.setAttribute("data-action", "click->open-editors#save")
 
     tools.appendChild(saveIcon)

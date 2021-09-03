@@ -1,12 +1,16 @@
 @import "file-icons";
 
 .tree-view {
+  margin-top: 24px;
+  border-right: 1px solid #ccc;
   font-size: 14px;
   user-select: none;
   -webkit-user-select: none;
+  height: 100%;
   color: #000;
-  @media screen and (prefers-color-scheme: dark) {
-    color: #fff;
+
+  html.dark & {
+    color: rgb(209, 213, 219);
   }
   padding: 5px;
   ul {
@@ -42,6 +46,7 @@
 
       .tools {
         top: 2px;
+        display: inline;
       }
     }
   }
@@ -115,8 +120,8 @@
 
   a.list-item {
     color: #000;
-    @media screen and (prefers-color-scheme: dark) {
-      color: #fff;
+    html.dark & {
+      color: rgb(209, 213, 219);
     }
     display: block;
     padding-left: 4px;
@@ -125,7 +130,7 @@
 
   a.list-item:hover {
     background-color: #ddd;
-    @media screen and (prefers-color-scheme: dark) {
+    html.dark & {
       background-color: #666;
     }
   }
@@ -179,7 +184,7 @@
 .tree-view .entry.selected {
   font-weight: bold;
   background-color: lightgray;
-  @media screen and (prefers-color-scheme: dark) {
+  html.dark & {
     background-color: #333;
   }
 }

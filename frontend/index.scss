@@ -23,13 +23,12 @@
     flex: 1;
     position: relative;
     min-height: 100vh;
-    border-left: 1px solid #ccc;
 
     .welcome {
       position: relative;
       text-align: center;
       top: 35%;
-      @media screen and (prefers-color-scheme: dark) {
+      html.dark & {
         color: #fff;
       }
     }
@@ -50,7 +49,7 @@
 
       .icon {
         background-color: #f0f9f0;
-        @media screen and (prefers-color-scheme: dark) {
+        html.dark & {
           background-color: #300;
         }
       }
@@ -76,7 +75,7 @@
       text-align: center;
       height: 200px;
       background-color: #f0f0f0;
-      @media screen and (prefers-color-scheme: dark) {
+      html.dark & {
         background-color: #333;
       }
 

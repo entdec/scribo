@@ -5,14 +5,14 @@
         - if site.thumbnail
           img src=site.thumbnail
         - else
-          i.fal.clg-fa-globe.clg-fa-7x
+          i.fal.fa-globe.fa-7x
       .title
         = site.title
         - if site.url
           =< link_to site.url, title: t('scribo.sites.preview') do
-            i.fal.clg-fa-eye
+            i.fal.fa-eye
         - if site.contents.count > 0
           =< link_to(scribo.export_admin_site_path(site), 'data-turbolinks' => 'false', title: t('scribo.sites.export')) do
-            i.fal.clg-fa-download
+            i.fal.fa-download
         =< link_to scribo.admin_site_path(site), title: t('scribo.sites.delete'), method: :delete, "data-confirm" => t('scribo.sites.delete_confirm') do
-          i.fal.clg-fa-trash-alt
+          i.fal.fa-trash

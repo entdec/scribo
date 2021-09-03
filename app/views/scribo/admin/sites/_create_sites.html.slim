@@ -2,7 +2,7 @@
   = link_to(scribo.new_admin_site_path, { 'data-turbolinks' => false }) do
     .site
       .icon
-        i.fal.clg-fa-plus.clg-fa-7x
+        i.fal.fa-plus.fa-7x
       .title = t('scribo.sites.create')
 
   - if Scribo.config.templates
@@ -15,8 +15,8 @@
 
   .site.site--upload data-controller="upload" data-upload-url="#{scribo.import_admin_sites_path}" data-upload-param-name="files[]" data-upload-extra-data='{}'
     .icon.upload
-      i.fal.clg-fa-upload.clg-fa-7x
+      i.fal.fa-upload.fa-7x
     .icon.uploading
-      i.fal.clg-fa-circle-notch.clg-fa-7x.clg-fa-spin
+      i.fal.fa-circle-notch.fa-7x.fa-spin
     .title
       = t('scribo.sites.upload')

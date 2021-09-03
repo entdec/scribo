@@ -32,12 +32,12 @@ import "codemirror/mode/yaml-frontmatter/yaml-frontmatter"
 
 import "codemirror-liquid"
 
-// import "codemirror/lib/codemirror.css"
-// import "codemirror/addon/dialog/dialog.css"
-// import "codemirror/addon/hint/show-hint.css"
-// import "codemirror/addon/fold/foldgutter.css"
+import "codemirror/lib/codemirror.css"
+import "codemirror/addon/dialog/dialog.css"
+import "codemirror/addon/hint/show-hint.css"
+import "codemirror/addon/fold/foldgutter.css"
 
-// import "codemirror/theme/gruvbox-dark.css"
+import "codemirror/theme/night.css"
 /***
  * Text editor controller
  *
@@ -70,9 +70,27 @@ export default class extends Controller {
       gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
     })
 
-    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-      this.editor.setOption("theme", "gruvbox-dark")
+    let html = document.querySelector("html")
+    if (html.classList.contains('dark')) {
+      this.editor.setOption("theme", "night")
     }
+
+    var prevClassState = html.classList.contains('dark');
+    var observer = new MutationObserver(function(mutations) {
+                        mutations.forEach(function(mutation) {
+                            if(mutation.attributeName == "class"){
+                                var currentClassState = mutation.target.classList.contains('dark');
+                                if(prevClassState !== currentClassState)    {
+                                    prevClassState = currentClassState;
+                                    if (currentClassState)
+                                      self.editor.setOption("theme", "night")
+                                    else
+                                      self.editor.setOption("theme", "default")
+                                }
+                            }
+                        });
+                    });
+    observer.observe(html, {attributes: true});
 
     if (this.data.get("readonly")) {
       this.editor.setOption("readOnly", this.data.get("readonly"))
