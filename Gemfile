@@ -21,7 +21,7 @@ gemspec
 
 gem 'auxilium', '~> 3.0', entdec: 'components/auxilium'
 gem 'key_path', entdec: 'tdegrunt/key_path.git', branch: 'master'
-gem 'liquor', entdec: 'components/liquor', tag: '0.7.0'
+gem 'liquor', entdec: 'components/liquor', tag: '0.7.7'
 
 gem 'rubocop'
 

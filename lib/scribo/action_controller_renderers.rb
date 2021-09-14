@@ -15,10 +15,11 @@ module ActionController::Renderers
     end
 
     if site && options[:path] == site.baseurl && !options[:path].ends_with?('/')
-      redirect_to("#{site.baseurl}/") && return
-      options.merge!(site: site)
+      redirect_to("#{site.baseurl}/")
+      return
     end
 
+    options.merge!(site: site)
     site ||= Scribo::Site.default(request: request)
     content ||= Scribo::ContentFindService.new(site, options).call
 
