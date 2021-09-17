@@ -22,11 +22,9 @@ module JekyllFilters
     @where_filter_cache[input_id][property] ||= {}
 
     # stash or retrive results to return
-    @where_filter_cache[input_id][property][value] ||= begin
-      input.select do |object|
-        compare_property_vs_target(item_property(object, property), value)
-      end.to_a
-    end
+    @where_filter_cache[input_id][property][value] ||= input.select do |object|
+      compare_property_vs_target(item_property(object, property), value)
+    end.to_a
   end
 
   # `where` filter helper
@@ -92,4 +90,5 @@ module JekyllFilters
   end
 end
 
-Liquid::Template.register_filter(JekyllFilters)
+# TDG: Friday Sept 17th 2021 - Removed these, they bite the built-in where filter.
+# Liquid::Template.register_filter(JekyllFilters)
