@@ -12,16 +12,15 @@ GIT
 
 GIT
   remote: git@code.entropydecelerator.com:components/liquor
-  revision: dbff329a8b3dcacfc3e5bad0089ff85eea3424df
-  tag: 0.7.7
+  revision: 8addfb04d0a8194f03387d931fe9c17003273356
   specs:
-    liquor (0.7.7)
+    liquor (1.0.0)
       addressable (~> 2)
       babel-transpiler (~> 0.7)
       i18n (~> 1.8)
       kramdown (~> 2.1)
       kramdown-parser-gfm (~> 1.0)
-      liquid (~> 4.0)
+      liquid (~> 5.0)
       parslet
       pg
       rails (>= 5.2)
@@ -39,12 +38,12 @@ GIT
 PATH
   remote: .
   specs:
-    scribo (1.0.23)
+    scribo (1.0.24)
       awesome_nested_set (= 3.2.1)
       babel-transpiler (~> 0.7)
       down (~> 5.2)
       kaminari
-      liquor (~> 0.7)
+      liquor (~> 1)
       mime-types
       mimemagic
       pg
@@ -175,7 +174,7 @@ GEM
       rexml
     kramdown-parser-gfm (1.1.0)
       kramdown (~> 2.0)
-    liquid (4.0.3)
+    liquid (5.1.0)
     loofah (2.12.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -257,7 +256,7 @@ GEM
       railties (>= 5.0)
     rexml (3.2.5)
     rolify (6.0.0)
-    rouge (3.26.0)
+    rouge (3.26.1)
     rubocop (1.6.1)
       parallel (~> 1.10)
       parser (>= 2.7.1.5)
@@ -312,7 +311,7 @@ DEPENDENCIES
   cuprite
   jbuilder
   key_path!
-  liquor!
+  liquor (~> 1)!
   minitest (~> 5.11)
   minitest-reporters (~> 1.1)
   pry

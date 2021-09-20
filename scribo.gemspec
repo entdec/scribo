@@ -24,7 +24,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'babel-transpiler', '~> 0.7'
   s.add_dependency 'down', '~> 5.2'
   s.add_dependency 'kaminari'
-  s.add_dependency 'liquor', '~> 0.7'
+  s.add_dependency 'liquor', '~> 1'
   s.add_dependency 'mimemagic'
   s.add_dependency 'mime-types'
   s.add_dependency 'pg'

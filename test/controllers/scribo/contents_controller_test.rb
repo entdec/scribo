@@ -43,7 +43,7 @@ module Scribo
     end
 
     test 'should show content, for non-apex host' do
-      get '/', headers: { 'X-ACCOUNT': Account.current.id, 'HTTP_HOST': 'blog.example.com' }
+      get '/', headers: { 'X-ACCOUNT': Account.current.id, HTTP_HOST: 'blog.example.com' }
       assert_response :success
       assert_equal 'Hello', @response.body
       assert_equal 'text/html', @response.media_type
@@ -54,7 +54,7 @@ module Scribo
       @site.contents.create!(kind: 'text', path: '_config.yml', data: 'host: blog.example.com')
       @site.contents.create!(kind: 'text', path: 'index.html', data: 'Hello from blog')
 
-      get '/', headers: { 'X-ACCOUNT': Account.current.id, 'HTTP_HOST': 'blog.example.com' }
+      get '/', headers: { 'X-ACCOUNT': Account.current.id, HTTP_HOST: 'blog.example.com' }
       assert_response :success
       assert_equal 'Hello from blog', @response.body
       assert_equal 'text/html', @response.media_type
@@ -62,8 +62,8 @@ module Scribo
 
     test 'should show content from site with baseurl /help with underlying site /' do
       help_site = Scribo::Site.create!(scribable: Account.current)
-      config = help_site.contents.create!(kind: 'text', path: '_config.yml', data: 'baseurl: "/help"')
-      content = help_site.contents.create!(kind: 'text', path: 'index.html', data: 'Hello from help')
+      _ = help_site.contents.create!(kind: 'text', path: '_config.yml', data: 'baseurl: "/help"')
+      _ = help_site.contents.create!(kind: 'text', path: 'index.html', data: 'Hello from help')
 
       get '/help/', headers: { 'X-ACCOUNT': Account.current.id }
       assert_equal 'Hello from help', @response.body
@@ -72,8 +72,8 @@ module Scribo
 
     test 'should redirect to site with baseurl /help with underlying site /' do
       help_site = Scribo::Site.create!(scribable: Account.current)
-      config = help_site.contents.create!(kind: 'text', path: '_config.yml', data: 'baseurl: "/help"')
-      content = help_site.contents.create!(kind: 'text', path: 'index.html', data: 'Hello from help')
+      _ = help_site.contents.create!(kind: 'text', path: '_config.yml', data: 'baseurl: "/help"')
+      _ = help_site.contents.create!(kind: 'text', path: 'index.html', data: 'Hello from help')
 
       get '/help', headers: { 'X-ACCOUNT': Account.current.id }
       assert_redirected_to '/help/'
@@ -81,8 +81,8 @@ module Scribo
 
     test 'should show content with index.html from site with baseurl /help with underlying site /' do
       help_site = Scribo::Site.create!(scribable: Account.current)
-      config = help_site.contents.create!(kind: 'text', path: '_config.yml', data: 'baseurl: "/help"')
-      content = help_site.contents.create!(kind: 'text', path: 'index.html', data: 'Hello from help')
+      _ = help_site.contents.create!(kind: 'text', path: '_config.yml', data: 'baseurl: "/help"')
+      _ = help_site.contents.create!(kind: 'text', path: 'index.html', data: 'Hello from help')
 
       get '/help/index.html', headers: { 'X-ACCOUNT': Account.current.id }
       assert_equal 'Hello from help', @response.body

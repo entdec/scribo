@@ -11,6 +11,8 @@ module Scribo
       @content = content
       @context = context
       @options = options
+      @assigns = nil
+      @registers = nil
     end
 
     def perform

@@ -10,7 +10,7 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//= require scribo.js
+//= require scribo.js => Still needed to function, but it's no longer there.
 //= require_tree .
 
 Scribo.Scribo.start()

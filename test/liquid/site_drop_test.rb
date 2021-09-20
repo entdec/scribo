@@ -30,7 +30,7 @@ class SiteDropTest < ActiveSupport::TestCase
 
   test 'setting up collections, makes them show up in collections' do
     site = scribo_sites(:collection)
-    site.properties = { 'collections': { 'staff_members': { 'output': true } } }
+    site.properties = { collections: { staff_members: { output: true } } }
 
     subject = Scribo::SiteDrop.new(site)
 
@@ -39,7 +39,7 @@ class SiteDropTest < ActiveSupport::TestCase
 
   test 'setting up collections, allows you to iterate over them' do
     site = scribo_sites(:collection)
-    site.properties = { 'collections': { 'staff_members': { 'output': true } } }
+    site.properties = { collections: { staff_members: { output: true } } }
     site.save
 
     posts_folder = site.contents.create!(path: '_posts', kind: 'folder')
@@ -52,7 +52,7 @@ class SiteDropTest < ActiveSupport::TestCase
 
   test 'setting up collections, allows you to iterate over them and get content' do
     site = scribo_sites(:collection)
-    site.properties = { 'collections': { 'staff_members': { 'output': true } } }
+    site.properties = { collections: { staff_members: { output: true } } }
     site.save
 
     content = site.contents.create(kind: 'text',
@@ -62,7 +62,7 @@ class SiteDropTest < ActiveSupport::TestCase
   end
   test 'iterate over hashes in properties' do
     site = scribo_sites(:empty)
-    site.properties = { 'social': { 'facebook': '1', 'twitter': 2 } }
+    site.properties = { social: { facebook: '1', twitter: 2 } }
     site.save
 
     content = site.contents.create(kind: 'text',
@@ -74,7 +74,7 @@ class SiteDropTest < ActiveSupport::TestCase
   test 'iterate over collection and their properties' do
     # {% assign faqs = site.faqs | where: "categories", include.category %}
     site = scribo_sites(:collection)
-    site.properties = { 'collections': { 'faqs': { 'output': false } } }
+    site.properties = { collections: { faqs: { output: false } } }
     site.save
 
     contents = site.contents

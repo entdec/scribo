@@ -12,7 +12,7 @@
  *
  *= require_tree .
  *= require_self
- *= require scribo.css
+ ** require scribo.css # Still needed to function, but it's no longer there.
  */
 
 body {

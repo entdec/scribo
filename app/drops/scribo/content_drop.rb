@@ -56,6 +56,10 @@ module Scribo
       end
     end
 
+    def categories
+      Scribo::ArrayDrop.new(@properties['categories'])
+    end
+
     def liquid_method_missing(method)
       return nil unless @properties
 
