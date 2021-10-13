@@ -73,9 +73,16 @@ module Scribo
       return @site if @site
 
       @site = Site.where(scribable: scribable)
-                  .where("properties->>'host' = ?", properties['host'])
-                  .where("properties->>'title' = ?", properties['title'])
-                  .where("properties->>'baseurl' = ?", properties['baseurl']).first
+
+      %w[host title baseurl].each do |property|
+        if properties[property].nil?
+          @site = @site.where("properties->>'#{property}' IS NULL")
+        else
+          @site = @site.where("properties->>'#{property}' = ?", properties[property])
+        end
+      end
+
+      @site = @site.first
 
       @site ||= Site.create!(scribable: scribable, properties: properties.merge(properties_override))
     end

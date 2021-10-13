@@ -5,6 +5,7 @@ module Scribo
   module Api
     class SitesController < ApplicationController
       skip_before_action :verify_authenticity_token
+
       def import
         sgid = request.authorization&.split&.last
         head(400) && return unless sgid
