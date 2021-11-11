@@ -1,7 +1,7 @@
 {
-  "name": "@components/scribo",
+  "name": "@entdec/scribo",
   "version": "1.0.26",
-  "repository": "git@code.entropydecelerator.com:components/scribo.git",
+  "repository": "git@github.com:entdec/scribo.git",
   "author": "Tom de Grunt <tom@degrunt.nl>",
   "license": "MIT",
   "files": [

@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 source 'https://rubygems.org'
-git_source(:entdec) { |repo_name| "git@code.entropydecelerator.com:#{repo_name}" }
+git_source(:github) { |repo_name| "git@github.com:#{repo_name}" }
+git_source(:entdec) { |repo_name| "git@github.com:entdec/#{repo_name}" }
 
 # Declare your gem's dependencies in scribo.gemspec.
 # Bundler will treat runtime dependencies like base dependencies, and
@@ -19,9 +20,9 @@ gemspec
 # bundle config --delete local.liquor
 # bundle config local.liquor ../../components/liquor
 
-gem 'auxilium', '~> 3.0', entdec: 'components/auxilium'
-gem 'key_path', entdec: 'tdegrunt/key_path.git', branch: 'master'
-gem 'liquor', '~> 1', entdec: 'components/liquor'
+gem 'auxilium', '~> 3.0', entdec: 'auxilium'
+gem 'key_path', github: 'tdegrunt/key_path.git', branch: 'master'
+gem 'liquor', '~> 1', entdec: 'liquor'
 
 gem 'rubocop'
 

@@ -1,8 +1,8 @@
 GIT
-  remote: git@code.entropydecelerator.com:components/auxilium
-  revision: e4e6933917ec8d920df7b563ebb2126855b9cbff
+  remote: git@github.com:entdec/auxilium
+  revision: b713a5a9a690751e7505a5107f06c6a2b121a845
   specs:
-    auxilium (3.0.13)
+    auxilium (3.0.14)
       actionpack (> 5.1)
       activemodel (> 5.1)
       activesupport (> 5.1)
@@ -11,10 +11,10 @@ GIT
       rolify (> 5)
 
 GIT
-  remote: git@code.entropydecelerator.com:components/liquor
-  revision: 8addfb04d0a8194f03387d931fe9c17003273356
+  remote: git@github.com:entdec/liquor
+  revision: 7d9afc7aed3e0d20f24f7e7800ed55406037c52f
   specs:
-    liquor (1.0.0)
+    liquor (1.0.3)
       addressable (~> 2)
       babel-transpiler (~> 0.7)
       i18n (~> 1.8)
@@ -28,7 +28,7 @@ GIT
       slim-rails (~> 3.2.0)
 
 GIT
-  remote: git@code.entropydecelerator.com:tdegrunt/key_path.git
+  remote: git@github.com:tdegrunt/key_path.git
   revision: 3ff8f550b9f62ddf13ca409e690170f128719b7b
   branch: master
   specs:
@@ -38,7 +38,7 @@ GIT
 PATH
   remote: .
   specs:
-    scribo (1.0.25)
+    scribo (1.0.26)
       awesome_nested_set (= 3.2.1)
       babel-transpiler (~> 0.7)
       down (~> 5.2)
@@ -117,7 +117,7 @@ GEM
     addressable (2.8.0)
       public_suffix (>= 2.0.2, < 5.0)
     ansi (1.5.0)
-    ast (2.4.1)
+    ast (2.4.2)
     awesome_nested_set (3.2.1)
       activerecord (>= 4.0.0, < 7.0)
     babel-source (5.8.35)
@@ -126,27 +126,28 @@ GEM
       execjs (~> 2.0)
     builder (3.2.4)
     byebug (11.1.3)
-    capybara (3.35.3)
+    capybara (3.36.0)
       addressable
+      matrix
       mini_mime (>= 0.1.3)
       nokogiri (~> 1.8)
       rack (>= 1.6.0)
       rack-test (>= 0.6.3)
       regexp_parser (>= 1.5, < 3.0)
       xpath (~> 3.2)
-    childprocess (3.0.0)
+    childprocess (4.1.0)
     cliver (0.3.2)
     coderay (1.1.3)
     concurrent-ruby (1.1.9)
     crass (1.0.6)
-    cuprite (0.11)
+    cuprite (0.13)
       capybara (>= 2.1, < 4)
-      ferrum (~> 0.9.0)
+      ferrum (~> 0.11.0)
     down (5.2.4)
       addressable (~> 2.8)
     erubi (1.10.0)
     execjs (2.8.1)
-    ferrum (0.9)
+    ferrum (0.11)
       addressable (~> 2.5)
       cliver (~> 0.3)
       concurrent-ruby (~> 1.1)
@@ -154,9 +155,9 @@ GEM
     ffi (1.15.4)
     globalid (0.5.2)
       activesupport (>= 5.0)
-    i18n (1.8.10)
+    i18n (1.8.11)
       concurrent-ruby (~> 1.0)
-    jbuilder (2.10.1)
+    jbuilder (2.11.2)
       activesupport (>= 5.0.0)
     kaminari (1.2.1)
       activesupport (>= 4.1.0)
@@ -180,7 +181,8 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.7.1)
       mini_mime (>= 0.1.1)
-    marcel (1.0.1)
+    marcel (1.0.2)
+    matrix (0.4.2)
     method_source (1.0.0)
     mime-types (3.3.1)
       mime-types-data (~> 3.2015)
@@ -188,20 +190,20 @@ GEM
     mimemagic (0.4.3)
       nokogiri (~> 1)
       rake
-    mini_mime (1.1.1)
+    mini_mime (1.1.2)
     mini_portile2 (2.6.1)
     minitest (5.14.4)
-    minitest-reporters (1.4.2)
+    minitest-reporters (1.4.3)
       ansi
       builder
       minitest (>= 5.0)
       ruby-progressbar
     nio4r (2.5.8)
-    nokogiri (1.12.4)
+    nokogiri (1.12.5)
       mini_portile2 (~> 2.6.1)
       racc (~> 1.4)
-    parallel (1.20.1)
-    parser (2.7.2.0)
+    parallel (1.21.0)
+    parser (3.0.2.0)
       ast (~> 2.4.1)
     parslet (2.0.0)
     pg (1.2.3)
@@ -214,11 +216,11 @@ GEM
     pry-rails (0.3.9)
       pry (>= 0.10.4)
     public_suffix (4.0.6)
-    puma (5.1.1)
+    puma (5.5.2)
       nio4r (~> 2.0)
     pundit (2.1.1)
       activesupport (>= 3.0.0)
-    racc (1.5.2)
+    racc (1.6.0)
     rack (2.2.3)
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
@@ -257,23 +259,24 @@ GEM
     rexml (3.2.5)
     rolify (6.0.0)
     rouge (3.26.1)
-    rubocop (1.6.1)
+    rubocop (1.22.3)
       parallel (~> 1.10)
-      parser (>= 2.7.1.5)
+      parser (>= 3.0.0.0)
       rainbow (>= 2.2.2, < 4.0)
       regexp_parser (>= 1.8, < 3.0)
       rexml
-      rubocop-ast (>= 1.2.0, < 2.0)
+      rubocop-ast (>= 1.12.0, < 2.0)
       ruby-progressbar (~> 1.7)
-      unicode-display_width (>= 1.4.0, < 2.0)
-    rubocop-ast (1.3.0)
-      parser (>= 2.7.1.5)
-    ruby-progressbar (1.10.1)
-    rubyzip (2.3.0)
+      unicode-display_width (>= 1.4.0, < 3.0)
+    rubocop-ast (1.13.0)
+      parser (>= 3.0.1.1)
+    ruby-progressbar (1.11.0)
+    rubyzip (2.3.2)
     sassc (2.4.0)
       ffi (~> 1.9)
-    selenium-webdriver (3.142.7)
-      childprocess (>= 0.5, < 4.0)
+    selenium-webdriver (4.0.3)
+      childprocess (>= 0.5, < 5.0)
+      rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2)
     slim (4.1.0)
       temple (>= 0.7.6, < 0.9)
@@ -285,22 +288,22 @@ GEM
     sprockets (4.0.2)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
-    sprockets-rails (3.2.2)
-      actionpack (>= 4.0)
-      activesupport (>= 4.0)
+    sprockets-rails (3.3.0)
+      actionpack (>= 5.2)
+      activesupport (>= 5.2)
       sprockets (>= 3.0.0)
     temple (0.8.2)
     thor (1.1.0)
     tilt (2.0.10)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
-    unicode-display_width (1.7.0)
+    unicode-display_width (2.1.0)
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
     xpath (3.2.0)
       nokogiri (~> 1.8)
-    zeitwerk (2.4.2)
+    zeitwerk (2.5.1)
 
 PLATFORMS
   ruby
