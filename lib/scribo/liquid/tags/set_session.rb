@@ -12,7 +12,7 @@ class SetSessionTag < LiquorTag
     super
 
     context.registers['controller'].session[argv1] = sargs.first
-    nil
+    ''
   end
 end
 
