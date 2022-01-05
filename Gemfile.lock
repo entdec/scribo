@@ -38,8 +38,8 @@ GIT
 PATH
   remote: .
   specs:
-    scribo (1.0.27)
-      awesome_nested_set (= 3.2.1)
+    scribo (1.0.28)
+      awesome_nested_set (~> 3.4)
       babel-transpiler (~> 0.7)
       down (~> 5.2)
       kaminari
@@ -47,7 +47,7 @@ PATH
       mime-types
       mimemagic
       pg
-      rails (~> 6.0)
+      rails (> 6.0)
       rouge (~> 3)
       rubyzip (> 1.1)
       slim-rails (~> 3.2)
@@ -118,7 +118,7 @@ GEM
       public_suffix (>= 2.0.2, < 5.0)
     ansi (1.5.0)
     ast (2.4.2)
-    awesome_nested_set (3.2.1)
+    awesome_nested_set (3.4.0)
       activerecord (>= 4.0.0, < 7.0)
     babel-source (5.8.35)
     babel-transpiler (0.7.0)
@@ -159,18 +159,18 @@ GEM
       concurrent-ruby (~> 1.0)
     jbuilder (2.11.2)
       activesupport (>= 5.0.0)
-    kaminari (1.2.1)
+    kaminari (1.2.2)
       activesupport (>= 4.1.0)
-      kaminari-actionview (= 1.2.1)
-      kaminari-activerecord (= 1.2.1)
-      kaminari-core (= 1.2.1)
-    kaminari-actionview (1.2.1)
+      kaminari-actionview (= 1.2.2)
+      kaminari-activerecord (= 1.2.2)
+      kaminari-core (= 1.2.2)
+    kaminari-actionview (1.2.2)
       actionview
-      kaminari-core (= 1.2.1)
-    kaminari-activerecord (1.2.1)
+      kaminari-core (= 1.2.2)
+    kaminari-activerecord (1.2.2)
       activerecord
-      kaminari-core (= 1.2.1)
-    kaminari-core (1.2.1)
+      kaminari-core (= 1.2.2)
+    kaminari-core (1.2.2)
     kramdown (2.3.1)
       rexml
     kramdown-parser-gfm (1.1.0)
@@ -258,7 +258,7 @@ GEM
       railties (>= 5.0)
     rexml (3.2.5)
     rolify (6.0.0)
-    rouge (3.26.1)
+    rouge (3.27.0)
     rubocop (1.22.3)
       parallel (~> 1.10)
       parser (>= 3.0.0.0)
