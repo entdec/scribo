@@ -131,7 +131,7 @@ module Scribo
     end
 
     def date
-      return nil unless post?
+      # return nil unless post?
 
       prop_date = begin
         Time.zone.parse(properties['date'])

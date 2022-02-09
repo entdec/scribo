@@ -38,7 +38,7 @@ GIT
 PATH
   remote: .
   specs:
-    scribo (1.0.28)
+    scribo (1.0.30)
       awesome_nested_set (~> 3.4)
       babel-transpiler (~> 0.7)
       down (~> 5.2)
@@ -118,8 +118,8 @@ GEM
       public_suffix (>= 2.0.2, < 5.0)
     ansi (1.5.0)
     ast (2.4.2)
-    awesome_nested_set (3.4.0)
-      activerecord (>= 4.0.0, < 7.0)
+    awesome_nested_set (3.5.0)
+      activerecord (>= 4.0.0, < 7.1)
     babel-source (5.8.35)
     babel-transpiler (0.7.0)
       babel-source (>= 4.0, < 6)
@@ -186,7 +186,7 @@ GEM
     method_source (1.0.0)
     mime-types (3.4.1)
       mime-types-data (~> 3.2015)
-    mime-types-data (3.2021.1115)
+    mime-types-data (3.2022.0105)
     mimemagic (0.4.3)
       nokogiri (~> 1)
       rake
@@ -258,7 +258,7 @@ GEM
       railties (>= 5.0)
     rexml (3.2.5)
     rolify (6.0.0)
-    rouge (3.27.0)
+    rouge (3.28.0)
     rubocop (1.22.3)
       parallel (~> 1.10)
       parser (>= 3.0.0.0)
