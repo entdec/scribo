@@ -22,7 +22,7 @@ module Scribo
     end
 
     def reshuffle!
-      contents.roots.each(&:set_full_path)
+      contents.roots.each(&:store_full_path)
     end
 
     # See https://jekyllrb.com/docs/permalinks/
