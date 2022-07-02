@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'i18n/core_ext/hash'
+# require 'i18n/core_ext/hash'
 
 module Scribo
   begin
