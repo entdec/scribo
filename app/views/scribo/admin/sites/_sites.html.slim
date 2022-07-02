@@ -14,5 +14,5 @@
         - if site.contents.count > 0
           =< link_to(scribo.export_admin_site_path(site), 'data-turbolinks' => 'false', title: t('scribo.sites.export')) do
             i.fal.fa-download
-        =< link_to scribo.admin_site_path(site), title: t('scribo.sites.delete'), method: :delete, "data-confirm" => t('scribo.sites.delete_confirm') do
+        =< link_to scribo.admin_site_path(site), title: t('scribo.sites.delete'), data: { turbo_method: :delete, turbo_confirm: t('scribo.sites.delete_confirm') } do
           i.fal.fa-trash
