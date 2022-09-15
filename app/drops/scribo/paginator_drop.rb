@@ -12,7 +12,7 @@ module Scribo
     end
 
     def posts
-      @site.contents.posts.order(created_at: :desc).page(page).per(@per_page).to_a
+      @site.contents.posts.order(created_at: :asc).page(page).per(@per_page).to_a
     end
 
     def page

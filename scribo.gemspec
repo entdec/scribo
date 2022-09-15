@@ -21,7 +21,7 @@ Gem::Specification.new do |s|
   # Pin awesome_nested_set on 3.2.1 because of this bug:
   # https://github.com/collectiveidea/awesome_nested_set/issues/436
   # Reverted the pin since this issue has been resovled and other problems exist in the pinned version (rebuild causes errors)
-  s.add_dependency 'awesome_nested_set', '~> 3.4'
+  s.add_dependency 'ancestry'
   s.add_dependency 'babel-transpiler', '~> 0.7'
   s.add_dependency 'down', '~> 5.2'
   s.add_dependency 'kaminari'

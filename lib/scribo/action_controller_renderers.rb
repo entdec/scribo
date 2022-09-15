@@ -16,7 +16,6 @@ module ActionController::Renderers
 
     if site && options[:path] == site.baseurl && !options[:path].ends_with?('/')
       redirect_to("#{site.baseurl}/")
-      return
     end
 
     options.merge!(site: site)

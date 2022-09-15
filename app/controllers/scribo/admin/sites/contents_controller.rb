@@ -29,7 +29,7 @@ module Scribo
       def move
         if params[:to]
           new_parent = @site.contents.find(params[:to])
-          @content.move_to_child_with_index(new_parent, params[:index])
+          @content.update(parent: new_parent)
         else
           @content.update(parent_id: nil)
         end
@@ -43,7 +43,7 @@ module Scribo
         @content = @site.contents.create(path: params[:path], kind: params[:kind])
         if params[:parent]
           parent = @site.contents.find(params[:parent])
-          @content.move_to_child_with_index(parent, 0)
+          @content.update(parent: parent)
         end
       end
 
@@ -52,10 +52,9 @@ module Scribo
 
         params[:content][:files]&.each do |file|
           content = @site.contents.create!(kind: Scribo::Utility.kind_for_path(file.original_filename),
-                                           path: file.original_filename, data: file.read)
-
-          # FIXME: We're moving it here, because we had problems with asset uploading and having a parent
-          content.move_to_child_with_index(@parent, 0) if @parent
+                                           path: file.original_filename, data_with_frontmatter: file.read)
+          content.update(parent: @parent)  if @parent
+          
         end
 
         @contents = @site.contents.roots.reorder(:path) # unless params[:content][:parent_id]
