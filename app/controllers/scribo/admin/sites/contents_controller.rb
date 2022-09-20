@@ -29,10 +29,12 @@ module Scribo
       def move
         if params[:to]
           new_parent = @site.contents.find(params[:to])
-          @content.move_to_child_with_index(new_parent, params[:index])
+          @content.update!(parent: new_parent)
         else
-          @content.update(parent_id: nil)
+          @content.update!(parent_id: nil)
         end
+      rescue
+        Signum.error(Current.user, text: t('.move_fail'))
       end
 
       def rename
@@ -40,11 +42,10 @@ module Scribo
       end
 
       def create
-        @content = @site.contents.create(path: params[:path], kind: params[:kind])
-        if params[:parent]
-          parent = @site.contents.find(params[:parent])
-          @content.move_to_child_with_index(parent, 0)
-        end
+        parent = params[:parent] ? @site.contents.find(params[:parent]) : nil
+        @content = @site.contents.create!(path: params[:path], kind: params[:kind], parent: parent)
+      rescue  
+        Signum.error(Current.user, text: t('.create_fail', kind: params[:kind]))
       end
 
       def upload
@@ -52,10 +53,10 @@ module Scribo
 
         params[:content][:files]&.each do |file|
           content = @site.contents.create!(kind: Scribo::Utility.kind_for_path(file.original_filename),
-                                           path: file.original_filename, data: file.read)
-
-          # FIXME: We're moving it here, because we had problems with asset uploading and having a parent
-          content.move_to_child_with_index(@parent, 0) if @parent
+                                           path: file.original_filename, data_with_frontmatter: file.read)
+          content.update!(parent: @parent)  if @parent
+        rescue
+          Signum.error(Current.user, text:t('.upload_fail'))
         end
 
         @contents = @site.contents.roots.reorder(:path) # unless params[:content][:parent_id]

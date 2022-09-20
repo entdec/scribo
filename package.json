@@ -16,20 +16,18 @@
     "ignore": [
       "node_modules/**"
     ],
-    "plugins": [
-
-    ],
+    "plugins": [],
     "parser": "babel-eslint"
   },
   "browserslist": "> 1%",
   "peerDependencies": {
+    "@hotwired/stimulus": ">2.0",
+    "@hotwired/stimulus-webpack-helpers": "^1.0.1",
     "codemirror": "^5.48.4",
     "codemirror-liquid": "> 0",
     "element-closest": "^3.0.1",
     "painterro": "^1.2.12",
-    "sortablejs": "^1.10.0",
-    "@hotwired/stimulus": ">2.0",
-    "@hotwired/stimulus-webpack-helpers": "^1.0.1"
+    "sortablejs": "^1.10.0"
   },
   "devDependencies": {
     "@gitlab/svgs": "^1.68.0",
@@ -57,5 +55,8 @@
     "url-loader": "^2.1.0",
     "webpack": "^4.44.2",
     "webpack-cli": "^4.5.0"
+  },
+  "dependencies": {
+    "signum": "^1.0.0"
   }
 }

@@ -30,8 +30,8 @@ module Scribo
                      else
                        site.contents.located(File.dirname(name), restricted: false).first
                      end
-
-            content = site.contents.find_or_create_by(path: File.basename(name), parent: parent)
+            content = parent.children.find_by(path: File.basename(name))  if parent   
+            content = site.contents.create!(path: File.basename(name), parent: parent) if content.nil? 
             if File.directory?(name)
               content.kind = 'folder'
             else

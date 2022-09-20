@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'awesome_nested_set'
+require 'ancestry'
 require 'down'
 require 'kaminari'
 require 'liquid'

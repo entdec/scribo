@@ -5,8 +5,7 @@ require_dependency 'scribo/application_record'
 module Scribo
   # Represents any content in the system
   class Content < ApplicationRecord
-    acts_as_nested_set scope: :scribo_site, counter_cache: :children_count
-
+    has_ancestry(primary_key_format: /\A[\w\-]+(\/[\w\-]+)*\z/, counter_cache: true, cache_depth: true) 
     belongs_to :site, class_name: 'Site', foreign_key: 'scribo_site_id'
     has_one_attached :asset
 
@@ -16,9 +15,8 @@ module Scribo
     before_save :store_properties, if: :config?
     before_save :upload_asset
 
-    after_save :store_full_path
-    after_update :store_full_path
-    after_move :store_full_path
+    after_save -> { store_full_path(true) }
+    after_update -> {store_full_path(true)}
 
     scope :layouts, -> { in_folder('_layouts') }
     scope :posts, -> { in_folder('_posts') }
@@ -58,6 +56,10 @@ module Scribo
       result = published.where(full_path: search_paths_for(path))
       result = result.restricted if restricted
       result.or(published.permalinked(search_paths_for(path)))
+    end
+
+    def path
+      self[:path]
     end
 
     # Uses https://www.postgresql.org/docs/current/textsearch-controls.html
@@ -291,9 +293,8 @@ module Scribo
     end
 
     def store_full_path(force = false)
-      # TODO: Check why saved_changes is empty at times
-      if force || saved_changes.include?(:path) || saved_changes.empty?
-
+     
+      if force || saved_changes.include?(:path) 
         if post?
           result = categories.join('/') + '/'
           result += date.strftime('%Y/%m/%d/') if date
