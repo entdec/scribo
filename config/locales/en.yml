@@ -26,3 +26,14 @@ en:
     confirm:
       delete_file: Are you sure you want to delete this file?
       delete_folder: Are you sure you want to delete this folder (and all it's subfiles and folders)?
+    admin:
+      sites: 
+        contents:
+         create:
+          create_fail: 'Failed to create %{kind}'
+         upload:
+          upload_fail: Failed to upload
+         move: 
+          move_fail: Failed to move file
+          
+

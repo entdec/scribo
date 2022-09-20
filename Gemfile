@@ -25,7 +25,7 @@ gem 'key_path', github: 'tdegrunt/key_path.git', branch: 'master'
 gem 'liquor', '~> 1', entdec: 'liquor'
 
 gem 'rubocop'
-
+gem 'signum'
 group :test do
   gem 'pry-rails'
 end

@@ -1,4 +1,4 @@
-class RemoveParentidFromScriboContents < ActiveRecord::Migration[6.0]
+class RemoveParentIdFromScriboContents < ActiveRecord::Migration[6.0]
   def change
     remove_column :scribo_contents, :parent_id
     remove_column :scribo_contents, :lft

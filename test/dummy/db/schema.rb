@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_13_052559) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_19_124749) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -60,10 +60,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_13_052559) do
     t.datetime "updated_at", null: false
     t.integer "position"
     t.string "full_path"
-    t.string "ancestry"
+    t.text "ancestry"
     t.integer "ancestry_depth", default: 0
     t.integer "children_count", default: 0
-    t.index ["ancestry"], name: "index_scribo_contents_on_ancestry"
+    t.index ["ancestry"], name: "index_scribo_contents_on_ancestry", opclass: :text_pattern_ops
     t.index ["ancestry_depth"], name: "index_scribo_contents_on_ancestry_depth"
     t.index ["children_count"], name: "index_scribo_contents_on_children_count"
     t.index ["scribo_site_id", "full_path"], name: "index_scribo_contents_full_path", unique: true
