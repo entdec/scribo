@@ -14,8 +14,6 @@ module Scribo
     def perform
       return unless site.contents.count.positive?
 
-      site.contents.rebuild!
-
       zip_name = (site.properties['title'] || 'untitled').to_s
       base_path = "#{zip_name}/"
 

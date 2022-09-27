@@ -34,7 +34,6 @@ module Scribo
       end
 
       def destroy
-        # @site.contents.rebuild!
         flash_and_redirect @site.destroy, admin_sites_url, 'Site deleted successfully',
                            'There were problems deleting the site'
       end
