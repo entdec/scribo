@@ -1,6 +1,6 @@
 {
   "name": "@entdec/scribo",
-  "version": "1.0.34",
+  "version": "1.0.35",
   "repository": "git@github.com:entdec/scribo.git",
   "author": "Tom de Grunt <tom@degrunt.nl>",
   "license": "MIT",
@@ -16,7 +16,9 @@
     "ignore": [
       "node_modules/**"
     ],
-    "plugins": [],
+    "plugins": [
+
+    ],
     "parser": "babel-eslint"
   },
   "browserslist": "> 1%",
