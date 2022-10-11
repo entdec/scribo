@@ -57,11 +57,11 @@ module Scribo
     end
 
     def categories
-      Scribo::ArrayDrop.new(@properties['categories'])
+      Scribo::ArrayDrop.new(@properties&.[]('categories'))
     end
 
     def tags
-      Scribo::ArrayDrop.new(@properties['tags'])
+      Scribo::ArrayDrop.new(@properties&.[]('tags'))
     end
 
     def liquid_method_missing(method)

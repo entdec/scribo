@@ -293,8 +293,7 @@ module Scribo
     end
 
     def store_full_path(force = false)
-     
-      if force || saved_changes.include?(:path) 
+      if force || saved_changes.include?(:path) || saved_changes.include?(:ancestry)
         if post?
           result = categories.join('/') + '/'
           result += date.strftime('%Y/%m/%d/') if date
