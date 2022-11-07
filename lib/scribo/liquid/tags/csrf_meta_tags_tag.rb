@@ -5,7 +5,7 @@
 # == Basic usage:
 #    {%csrf_meta_tags%}
 #
-class CsrfMetaTagsTag < LiquorTag
+class CsrfMetaTagsTag < LiquidumTag
   def render(context)
     super
 

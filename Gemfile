@@ -17,15 +17,15 @@ gemspec
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
 
-# bundle config --delete local.liquor
-# bundle config local.liquor ../../components/liquor
+# bundle config --delete local.liquidum
+# bundle config local.liquidum ../../components/liquidum
 
-gem 'auxilium', '~> 3.0', entdec: 'auxilium'
-gem 'key_path', github: 'tdegrunt/key_path.git', branch: 'master'
-gem 'liquor', '~> 1', entdec: 'liquor'
+gem 'auxilium', '~> 3.0'
+gem 'key_path', github: 'entdec/keypath-ruby.git', branch: 'master'
 
 gem 'rubocop'
 gem 'signum'
+
 group :test do
   gem 'pry-rails'
 end

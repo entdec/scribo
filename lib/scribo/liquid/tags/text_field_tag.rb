@@ -10,7 +10,7 @@
 #
 # This last usage requires a model on the form
 #
-class TextFieldTag < LiquorTag
+class TextFieldTag < LiquidumTag
   attr_accessor :field_type
 
   def initialize(tag, args, tokens)

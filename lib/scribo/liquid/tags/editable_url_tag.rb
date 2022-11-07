@@ -5,7 +5,7 @@
 # == Basic usage:
 #    <div {%editable%} data-editable-id='fiets'></div>
 #
-class EditableUrlTag < LiquorTag
+class EditableUrlTag < LiquidumTag
   def render(context)
     super
 

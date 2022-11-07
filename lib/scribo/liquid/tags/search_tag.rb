@@ -8,7 +8,7 @@
 #    {%endsearch%}
 #
 # Note: It will only look at published content
-class SearchTag < LiquorBlock
+class SearchTag < LiquidumBlock
   def render(context)
     super
 

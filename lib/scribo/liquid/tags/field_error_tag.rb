@@ -5,7 +5,7 @@
 # == Basic usage:
 #    {%field_error name%}
 #
-class FieldErrorTag < LiquorTag
+class FieldErrorTag < LiquidumTag
   attr_accessor :field_type
 
   def render(context)

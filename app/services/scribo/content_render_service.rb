@@ -28,21 +28,21 @@ module Scribo
           layout ||= options[:site].contents.layout(layout_name).first if layout_name
         end
 
-        render_liquor(options[:data] || content.data, layout)
+        render_liquidum(options[:data] || content.data, layout)
       end
     end
 
     private
 
-    def render_liquor(data, layout)
-      result = Liquor.render(data, assigns: assigns.merge!('content' => data), registers: registers, filter: filter,
+    def render_liquidum(data, layout)
+      result = Liquidum.render(data, assigns: assigns.merge!('content' => data), registers: registers, filter: filter,
                                    filter_options: filter_options, layout: layout&.data)
 
       while layout&.layout
         next unless layout&.layout
 
         layout = layout.layout
-        result = Liquor.render(layout.data, assigns: assigns.merge('content' => result), registers: registers)
+        result = Liquidum.render(layout.data, assigns: assigns.merge('content' => result), registers: registers)
       end
 
       result

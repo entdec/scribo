@@ -10,7 +10,7 @@
 #
 # This allows you pass variables to the included content, which will only available there
 #
-class IncludeTag < LiquorTag
+class IncludeTag < LiquidumTag
   def render(context)
     super
 
@@ -19,7 +19,7 @@ class IncludeTag < LiquorTag
     result = ''
     context.stack do
       context['include'] = Scribo::IncludeDrop.new(attr_args.deep_stringify_keys)
-      result += Liquor.render(content, context: context, registers: context.registers)
+      result += Liquidum.render(content, context: context, registers: context.registers)
     end
     result
   end

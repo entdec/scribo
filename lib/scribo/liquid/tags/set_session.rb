@@ -7,7 +7,7 @@
 # {%set_session locale request.query_parameters['lang']%}
 # {%set_session locale request.query_parameters['lang']%}
 # {%set_session coupon_code 'beyou'%}
-class SetSessionTag < LiquorTag
+class SetSessionTag < LiquidumTag
   def render(context)
     super
 

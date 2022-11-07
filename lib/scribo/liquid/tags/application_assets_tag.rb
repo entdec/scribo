@@ -4,7 +4,7 @@
 #
 # == Basic usage:
 #    {%application_assets%}
-class ApplicationAssetsTag < LiquorTag
+class ApplicationAssetsTag < LiquidumTag
   def render(context)
     super
     lookup(context.registers, 'application_assets')

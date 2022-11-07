@@ -10,7 +10,7 @@
 #
 # This last usage requires a model on the form
 #
-class TextareaTag < LiquorBlock
+class TextareaTag < LiquidumBlock
   def render(context)
     super
 

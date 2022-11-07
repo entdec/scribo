@@ -9,7 +9,7 @@
 #    {%button button name:'commit' value:'save'%}Save{%endbutton%}
 #    {%button reset name:'commit' value:'save'%}Save{%endbutton%}
 #
-class ButtonTag < LiquorBlock
+class ButtonTag < LiquidumBlock
   def render(context)
     super
 

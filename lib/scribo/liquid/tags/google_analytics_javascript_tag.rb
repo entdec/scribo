@@ -9,7 +9,7 @@
 #    {%google_analytics_javascript retailer.code%}
 #
 # Where 'UA-000000-01' is your analytics id
-class GoogleAnalyticsJavascriptTag < LiquorTag
+class GoogleAnalyticsJavascriptTag < LiquidumTag
   def render(context)
     super
 

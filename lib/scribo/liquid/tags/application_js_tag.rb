@@ -4,7 +4,7 @@
 #
 # == Basic usage:
 #    {%application_js%}
-class ApplicationJsTag < LiquorTag
+class ApplicationJsTag < LiquidumTag
   def render(context)
     super
 

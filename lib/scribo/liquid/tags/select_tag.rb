@@ -8,7 +8,7 @@
 # == Advanced usage:
 #    {%select group%}{%endselect%}
 #
-class SelectTag < LiquorBlock
+class SelectTag < LiquidumBlock
   def render(context)
     super
 

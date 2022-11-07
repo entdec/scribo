@@ -9,7 +9,7 @@
 #    {%google_tag_manager_javascript retailer.code%}
 #
 # Where 'GTM-XXXXXXX' is your container id
-class GoogleTagManagerJavascriptTag < LiquorTag
+class GoogleTagManagerJavascriptTag < LiquidumTag
   def render(context)
     super
 

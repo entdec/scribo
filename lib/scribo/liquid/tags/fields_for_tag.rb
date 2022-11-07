@@ -20,7 +20,7 @@
 #
 # require_relative '../drops/form_drop'
 
-class FieldsForTag < LiquorBlock
+class FieldsForTag < LiquidumBlock
   def render(context)
     super
 

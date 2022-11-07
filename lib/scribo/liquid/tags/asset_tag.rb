@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Add assets (by name) from the current Liquor site
+# Add assets (by name) from the current Liquidum site
 #
 # == Basic usage:
 #    {%asset 'test.png'%}
@@ -10,7 +10,7 @@
 #    {%asset 'test.png' style="height: 72px;"%}
 #
 # Note: It will only look at published assets
-class AssetTag < LiquorTag
+class AssetTag < LiquidumTag
   include Rails.application.routes.url_helpers
 
   def render(context)

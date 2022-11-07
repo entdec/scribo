@@ -5,7 +5,7 @@
 # == Basic usage:
 #    {%feed_meta%}
 #
-class FeedMetaTag < LiquorTag
+class FeedMetaTag < LiquidumTag
   def render(context)
     super
 

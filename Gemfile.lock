@@ -1,35 +1,6 @@
 GIT
-  remote: git@github.com:entdec/auxilium
-  revision: afe71ef4b61089c4b247ab656771b1070b31fd4f
-  specs:
-    auxilium (3.0.22)
-      actionpack (> 5.1)
-      activemodel (> 5.1)
-      activesupport (> 5.1)
-      pundit (> 2)
-      responders (> 3)
-      rolify (> 5)
-
-GIT
-  remote: git@github.com:entdec/liquor
-  revision: df9eee342c84871ca1937156925f19b78ea921b2
-  specs:
-    liquor (1.0.13)
-      addressable (~> 2)
-      babel-transpiler (~> 0.7)
-      i18n (~> 1.8)
-      kramdown (~> 2.1)
-      kramdown-parser-gfm (~> 1.0)
-      liquid (~> 5.0)
-      parslet
-      pg
-      rails (>= 5.2)
-      sassc (~> 2.2)
-      slim-rails (~> 3.2.0)
-
-GIT
-  remote: git@github.com:tdegrunt/key_path.git
-  revision: 3ff8f550b9f62ddf13ca409e690170f128719b7b
+  remote: git@github.com:entdec/keypath-ruby.git
+  revision: c2ce9a5038c48504a113e26defecaf80f6c82bf2
   branch: master
   specs:
     key_path (1.2.0)
@@ -38,12 +9,12 @@ GIT
 PATH
   remote: .
   specs:
-    scribo (1.0.34)
+    scribo (1.0.38)
       ancestry
       babel-transpiler (~> 0.7)
       down (~> 5.2)
       kaminari
-      liquor (~> 1)
+      liquidum (~> 1)
       mime-types
       mimemagic
       pg
@@ -126,6 +97,13 @@ GEM
       activerecord (>= 5.2.6)
     ansi (1.5.0)
     ast (2.4.2)
+    auxilium (3.0.24)
+      actionpack (> 5.1)
+      activemodel (> 5.1)
+      activesupport (> 5.1)
+      pundit (> 2)
+      responders (> 3)
+      rolify (> 5)
     babel-source (5.8.35)
     babel-transpiler (0.7.0)
       babel-source (>= 4.0, < 6)
@@ -184,8 +162,20 @@ GEM
       rexml
     kramdown-parser-gfm (1.1.0)
       kramdown (~> 2.0)
-    liquid (5.3.0)
-    loofah (2.18.0)
+    liquid (5.1.0)
+    liquidum (1.0.17)
+      addressable (~> 2)
+      babel-transpiler (~> 0.7)
+      i18n (~> 1.8)
+      kramdown (~> 2.1)
+      kramdown-parser-gfm (~> 1.0)
+      liquid (= 5.1.0)
+      parslet
+      pg
+      rails (>= 5.2)
+      sassc (~> 2.2)
+      slim-rails (~> 3.2.0)
+    loofah (2.19.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.7.1)
@@ -222,7 +212,7 @@ GEM
       net-protocol
       timeout
     nio4r (2.5.8)
-    nokogiri (1.13.6)
+    nokogiri (1.13.9)
       mini_portile2 (~> 2.8.0)
       racc (~> 1.4)
     parallel (1.22.1)
@@ -281,7 +271,7 @@ GEM
       railties (>= 5.0)
     rexml (3.2.5)
     rolify (6.0.0)
-    rouge (3.29.0)
+    rouge (3.30.0)
     rubocop (1.31.1)
       json (~> 2.3)
       parallel (~> 1.10)
@@ -331,12 +321,11 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  auxilium (~> 3.0)!
+  auxilium (~> 3.0)
   capybara
   cuprite
   jbuilder
   key_path!
-  liquor (~> 1)!
   minitest (~> 5.11)
   minitest-reporters (~> 1.1)
   pry

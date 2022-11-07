@@ -15,7 +15,7 @@
 #
 # This last usage requires a model on the form
 #
-class OptionsForSelectTag < LiquorTag
+class OptionsForSelectTag < LiquidumTag
   def render(context)
     super
 

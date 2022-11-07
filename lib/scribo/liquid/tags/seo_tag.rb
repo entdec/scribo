@@ -5,7 +5,7 @@
 # == Basic usage:
 #    {%seo%}
 #
-class SeoTag < LiquorTag
+class SeoTag < LiquidumTag
   def render(context)
     super
 
