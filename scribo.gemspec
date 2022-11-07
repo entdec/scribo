@@ -25,6 +25,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'babel-transpiler', '~> 0.7'
   s.add_dependency 'down', '~> 5.2'
   s.add_dependency 'kaminari'
+  s.add_dependency 'key_path'
   s.add_dependency 'liquidum', '~> 1'
   s.add_dependency 'mimemagic'
   s.add_dependency 'mime-types'
