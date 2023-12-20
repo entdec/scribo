@@ -26,6 +26,8 @@ module Scribo
 
           zio.put_next_entry(base_path + content_path)
           zio.write content.data_with_frontmatter
+        rescue StandardError => e
+          Rails.logger.error "Error while exporting content #{content.id}: #{e.message}"
         end
       end
 
