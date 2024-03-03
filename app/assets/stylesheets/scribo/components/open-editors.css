@@ -1,5 +1,3 @@
-@import "file-icons";
-
 .editors-pane {
   flex: 1;
   position: relative;
@@ -70,7 +68,7 @@
         height: 18px;
       }
 
-      @include file-icons;
+      @mixin file-icons;
     }
   }
   .editors-contents {

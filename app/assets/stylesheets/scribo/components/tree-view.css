@@ -1,5 +1,3 @@
-@import "file-icons";
-
 .tree-view {
   margin-top: 24px;
   border-right: 1px solid #ccc;
@@ -194,12 +192,12 @@
 }
 
 .tree-view .directory.closed > .list-item .name {
-  background-image: url('icons/folder.svg');
+  background-image: url('scribo/icons/folder.svg');
   background-size: 18px 18px;
 }
 
 .tree-view .directory.open > .list-item .name {
-  background-image: url('icons/folder-open.svg');
+  background-image: url('scribo/icons/folder-open.svg');
   background-size: 18px 18px;
 }
 
@@ -218,97 +216,97 @@
 }
 
 .tree-view .directory.closed > .list-item .name[data-path*="font"] {
-  background-image: url('icons/folder-font.svg');
+  background-image: url('scribo/icons/folder-font.svg');
 }
 .tree-view .directory.open > .list-item .name[data-path*="font"] {
-  background-image: url('icons/folder-font-open.svg');
+  background-image: url('scribo/icons/folder-font-open.svg');
 }
 
 .tree-view .directory.closed > .list-item .name[data-path*="image"] {
-  background-image: url('icons/folder-images.svg');
+  background-image: url('scribo/icons/folder-images.svg');
 }
 .tree-view .directory.open > .list-item .name[data-path*="image"] {
-  background-image: url('icons/folder-images-open.svg');
+  background-image: url('scribo/icons/folder-images-open.svg');
 }
 
 .tree-view .directory.closed > .list-item .name[data-path*="data"] {
-  background-image: url('icons/folder-database.svg');
+  background-image: url('scribo/icons/folder-database.svg');
 }
 .tree-view .directory.open > .list-item .name[data-path*="data"] {
-  background-image: url('icons/folder-database-open.svg');
+  background-image: url('scribo/icons/folder-database-open.svg');
 }
 
 .tree-view .directory.closed > .list-item .name[data-path*="style"] {
-  background-image: url('icons/folder-css.svg');
+  background-image: url('scribo/icons/folder-css.svg');
 }
 .tree-view .directory.open > .list-item .name[data-path*="syle"] {
-  background-image: url('icons/folder-css-open.svg');
+  background-image: url('scribo/icons/folder-css-open.svg');
 }
 
 .tree-view .directory.closed > .list-item .name[data-path*="css"] {
-  background-image: url('icons/folder-css.svg');
+  background-image: url('scribo/icons/folder-css.svg');
 }
 .tree-view .directory.open > .list-item .name[data-path*="css"] {
-  background-image: url('icons/folder-css-open.svg');
+  background-image: url('scribo/icons/folder-css-open.svg');
 }
 
 .tree-view .directory.closed > .list-item .name[data-path*="sass"] {
-  background-image: url('icons/folder-sass.svg');
+  background-image: url('scribo/icons/folder-sass.svg');
 }
 .tree-view .directory.open > .list-item .name[data-path*="sass"] {
-  background-image: url('icons/folder-sass-open.svg');
+  background-image: url('scribo/icons/folder-sass-open.svg');
 }
 
 .tree-view .directory.closed > .list-item .name[data-path*="scripts"] {
-  background-image: url('icons/folder-javascript.svg');
+  background-image: url('scribo/icons/folder-javascript.svg');
 }
 .tree-view .directory.open > .list-item .name[data-path*="scripts"] {
-  background-image: url('icons/folder-javascript-open.svg');
+  background-image: url('scribo/icons/folder-javascript-open.svg');
 }
 
 .tree-view .directory.closed > .list-item .name[data-path*="layout"] {
-  background-image: url('icons/folder-layout.svg');
+  background-image: url('scribo/icons/folder-layout.svg');
 }
 .tree-view .directory.open > .list-item .name[data-path*="layout"] {
-  background-image: url('icons/folder-layout-open.svg');
+  background-image: url('scribo/icons/folder-layout-open.svg');
 }
 
 .tree-view .directory.closed > .list-item .name[data-path*="pages"] {
-  background-image: url('icons/folder-views.svg');
+  background-image: url('scribo/icons/folder-views.svg');
 }
 .tree-view .directory.open > .list-item .name[data-path*="pages"] {
-  background-image: url('icons/folder-views-open.svg');
+  background-image: url('scribo/icons/folder-views-open.svg');
 }
 
 .tree-view .directory.closed > .list-item .name[data-path*="post"] {
-  background-image: url('icons/folder-archive.svg');
+  background-image: url('scribo/icons/folder-archive.svg');
 }
 .tree-view .directory.open > .list-item .name[data-path*="post"] {
-  background-image: url('icons/folder-archive-open.svg');
+  background-image: url('scribo/icons/folder-archive-open.svg');
 }
 
 .tree-view .directory.closed > .list-item .name[data-path*="component"] {
-  background-image: url('icons/folder-components.svg');
+  background-image: url('scribo/icons/folder-components.svg');
 }
 .tree-view .directory.open > .list-item .name[data-path*="component"] {
-  background-image: url('icons/folder-components-open.svg');
+  background-image: url('scribo/icons/folder-components-open.svg');
 }
 
 .tree-view .directory.closed > .list-item .name[data-path*="lib"] {
-  background-image: url('icons/folder-lib.svg');
+  background-image: url('scribo/icons/folder-lib.svg');
 }
 .tree-view .directory.open > .list-item .name[data-path*="lib"] {
-  background-image: url('icons/folder-lib-open.svg');
+  background-image: url('scribo/icons/folder-lib-open.svg');
 }
 
 .tree-view .directory.closed > .list-item .name[data-path*="include"] {
-  background-image: url('icons/folder-include.svg');
-}
-.tree-view .directory.open > .list-item .name[data-path*="include"] {
-  background-image: url('icons/folder-include-open.svg');
+  background-image: url('scribo/icons/folder-include.svg');
 }
 
-// text
+.tree-view .directory.open > .list-item .name[data-path*="include"] {
+  background-image: url('scribo/icons/folder-include-open.svg');
+}
+
 .tree-view .file > .list-item {
-  @include file-icons;
+  @mixin file-icons;
 }
