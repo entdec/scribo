@@ -1,7 +1,7 @@
-div style="position: absolute; width: 100%; height: 100%;" data-controller="text-editor" data-text-editor-content-id=@content.id data-text-editor-height-value="100%" data-text-editor-mode=@content.content_type data-text-editor-save-url=admin_site_content_path(@site, @content)
+div id="content-editor-#{@content.id}" style="position: absolute; width: 100%; height: 100%;" data-controller="text-editor" data-text-editor-content-id=@content.id data-text-editor-height-value="100%" data-text-editor-mode=@content.content_type data-text-editor-save-url=admin_site_content_path(@site, @content)
   - if @content.kind == 'asset'
     - if @content.media_type == 'image'
-      div id="content-editor-#{@content.id}" data-controller="image-editor" data-image-editor-content-id=@content.id data-image-editor-url=content_url(@content) data-image-editor-mime-type=@content.mime_type data-image-editor-save-url=admin_site_content_path(@site, @content) style="max-width: 100%;"
+      div data-controller="image-editor" data-image-editor-content-id=@content.id data-image-editor-url=content_url(@content) data-image-editor-mime-type=@content.mime_type data-image-editor-save-url=admin_site_content_path(@site, @content) style="max-width: 100%;"
     - if @content.media_type == 'font' || @content.mime_type == "application/vnd.ms-fontobject"
       css:
           @font-face {
@@ -13,5 +13,4 @@ div style="position: absolute; width: 100%; height: 100%;" data-controller="text
           | #{i} - THE QUICK BROWN FOX JUMPED OVER THE LAZY DOG. the quick brown fox jumped over the lazy dog.
 
   - else
-    input type="hidden" id="content-editor-#{@content.id}" name='content[data_with_frontmatter]' data-text-editor-target="input"
-      = @content.data_with_frontmatter || 'Start typing here'
+    input type="hidden" name='content[data_with_frontmatter]' data-text-editor-target="input" value=(@content.data_with_frontmatter || 'Start typing here')

@@ -13,7 +13,7 @@ export default class extends EditorComponentController {
 
     const formData = new FormData()
     formData.append("_method", "PATCH")
-    formData.append("content[data_with_frontmatter]", this.editor.getValue())
+    formData.append("content[data_with_frontmatter]", this.inputTarget.value)
 
     fetch(self.data.get("save-url"), {
       method: "POST",

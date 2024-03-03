@@ -1,5 +1,4 @@
 import { Controller } from "@hotwired/stimulus"
-// import "./open-editors.scss"
 
 export default class extends Controller {
   static targets = ["tabs", "list", "contents"]
