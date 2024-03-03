@@ -1,17 +1,17 @@
-div style="position: absolute; width: 100%; height: 100%;"
+div style="position: absolute; width: 100%; height: 100%;" data-controller="text-editor" data-text-editor-content-id=@content.id data-text-editor-height-value="100%" data-text-editor-mode=@content.content_type data-text-editor-save-url=admin_site_content_path(@site, @content)
   - if @content.kind == 'asset'
-      - if @content.media_type == 'image'
-        div id="content-editor-#{@content.id}" data-controller="image-editor" data-image-editor-content-id=@content.id data-image-editor-url=content_url(@content) data-image-editor-mime-type=@content.mime_type data-image-editor-save-url=admin_site_content_path(@site, @content) style="max-width: 100%;"
-      - if @content.media_type == 'font' || @content.mime_type == "application/vnd.ms-fontobject"
-        css:
+    - if @content.media_type == 'image'
+      div id="content-editor-#{@content.id}" data-controller="image-editor" data-image-editor-content-id=@content.id data-image-editor-url=content_url(@content) data-image-editor-mime-type=@content.mime_type data-image-editor-save-url=admin_site_content_path(@site, @content) style="max-width: 100%;"
+    - if @content.media_type == 'font' || @content.mime_type == "application/vnd.ms-fontobject"
+      css:
           @font-face {
-            font-family: 'MyWebFont';
-            src: url(#{"#{content_path(@content)}"}); /* IE9 Compat Modes */
+              font-family: 'MyWebFont';
+              src: url(#{ "#{content_path(@content)}" }); /* IE9 Compat Modes */
           }
-        - for i in [10, 12, 14, 16, 18, 20, 22, 24]
-          div style="font-family: MyWebFont; font-size: #{i}px;"
-            | #{i} - THE QUICK BROWN FOX JUMPED OVER THE LAZY DOG. the quick brown fox jumped over the lazy dog.
+      - for i in [10, 12, 14, 16, 18, 20, 22, 24]
+        div style="font-family: MyWebFont; font-size: #{i}px;"
+          | #{i} - THE QUICK BROWN FOX JUMPED OVER THE LAZY DOG. the quick brown fox jumped over the lazy dog.
 
   - else
-    textarea id="content-editor-#{@content.id}" name='content[data_with_frontmatter]' data-controller="text-editor" data-text-editor-content-id=@content.id data-text-editor-target="textarea" data-text-editor-mode="#{@content.content_type}" data-text-editor-save-url=admin_site_content_path(@site, @content) style="display: block; height: 100%;"
+    input type="hidden" id="content-editor-#{@content.id}" name='content[data_with_frontmatter]' data-text-editor-target="input"
       = @content.data_with_frontmatter || 'Start typing here'

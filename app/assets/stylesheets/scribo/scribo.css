@@ -1,1 +1,107 @@
-../../../../frontend/dist/scribo.css
+@import "components/tree-view.css";
+@import "components/open-editors.css";
+
+.scribo-ide {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+
+  .explorer-pane {
+    display: block;
+    height: 100vh;
+    overflow-y: scroll;
+    flex: 0 0 340px;
+
+    input[type="text"] {
+      display: inline;
+      height: 1.5em;
+      margin: 0;
+      padding: 0;
+      font-size: 1em;
+      line-height: 1;
+    }
+  }
+
+  .editors-pane {
+    flex: 1;
+    position: relative;
+    min-height: 100vh;
+
+    .welcome {
+      position: relative;
+      text-align: center;
+      top: 35%;
+      html.dark & {
+        color: #fff;
+      }
+    }
+  }
+}
+
+.scribo-sites {
+  display: flex;
+
+  .site {
+    margin: 10px;
+    border: 1px solid #444;
+    flex: 0 0 200px;
+    width: 200px;
+
+    &.dragging {
+      border: 1px dashed #080;
+
+      .icon {
+        background-color: #f0f9f0;
+        html.dark & {
+          background-color: #300;
+        }
+      }
+    }
+
+    .title,
+    .title a {
+      text-align: center;
+      font-size: 90%;
+      text-decoration: none;
+      color: #666;
+      height: 20px;
+      line-height: 20px;
+    }
+
+    img {
+      width: 200px;
+      height: 200px;
+    }
+
+    .icon {
+      color: #666;
+      text-align: center;
+      height: 200px;
+      background-color: #f0f0f0;
+      html.dark & {
+        background-color: #333;
+      }
+
+      i {
+        margin-top: 40px;
+      }
+    }
+
+    .icon.uploading {
+      display: none;
+    }
+
+    &.site--upload {
+      border-style: dashed;
+    }
+
+    &.uploading {
+      .icon.upload {
+        display: none;
+      }
+      .icon.uploading {
+        display: block;
+      }
+    }
+  }
+}

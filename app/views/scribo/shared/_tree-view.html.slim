@@ -9,9 +9,9 @@ div.section
 div.section
   span.title = @site.title
   .tools
-    i.fal.fa-file-plus data-action="click->tree-view#create" data-kind="text" data-url="#{admin_site_contents_url(@site)}" title=I18n.t('scribo.tools.new_file')
-    i.fal.fa-folder-plus data-action="click->tree-view#create" data-kind="folder" data-url="#{admin_site_contents_url(@site)}" title=I18n.t('scribo.tools.new_folder')
-    i.fal.fa-square-plus data-action="click->tree-view#collapseExpandAll" data-tree-view-target="collapseExpand" title=I18n.t('scribo.tools.collapse_all')
+    i.fas.fa-file-plus data-action="click->tree-view#create" data-kind="text" data-url="#{admin_site_contents_url(@site)}" title=I18n.t('scribo.tools.new_file')
+    i.fas.fa-folder-plus data-action="click->tree-view#create" data-kind="folder" data-url="#{admin_site_contents_url(@site)}" title=I18n.t('scribo.tools.new_folder')
+    i.fas.fa-square-plus data-action="click->tree-view#collapseExpandAll" data-tree-view-target="collapseExpand" title=I18n.t('scribo.tools.collapse_all')
 
   ul data-tree-view-target="contentItems" data-open-editors-target='contentItems'
     - @contents.each do |content|

@@ -18,9 +18,6 @@ Gem::Specification.new do |s|
 
   s.files = Dir['{app,config,db,lib}/**/*', 'MIT-LICENSE', 'Rakefile', 'README.md']
 
-  # Pin awesome_nested_set on 3.2.1 because of this bug:
-  # https://github.com/collectiveidea/awesome_nested_set/issues/436
-  # Reverted the pin since this issue has been resovled and other problems exist in the pinned version (rebuild causes errors)
   s.add_dependency 'ancestry'
   s.add_dependency 'babel-transpiler', '~> 0.7'
   s.add_dependency 'down', '~> 5.2'
@@ -30,12 +27,17 @@ Gem::Specification.new do |s|
   s.add_dependency 'mimemagic'
   s.add_dependency 'mime-types'
   s.add_dependency 'pg'
-  s.add_dependency 'rails', '> 6.0'
+  s.add_dependency 'rails', '> 7'
   s.add_dependency 'rouge', '~> 3'
   s.add_dependency 'rubyzip', '> 1.1'
-  s.add_dependency 'slim-rails', '~> 3.2'
+  s.add_dependency 'slim-rails', '~> 3'
 
-  s.add_development_dependency 'auxilium', '~> 0.2'
+  s.add_dependency 'tailwindcss-rails'
+  s.add_dependency 'importmap-rails'
+  s.add_dependency 'turbo-rails'
+  s.add_dependency 'stimulus-rails'
+
+  s.add_development_dependency 'auxilium', '~> 0'
   s.add_development_dependency 'capybara'
   s.add_development_dependency 'cuprite'
   s.add_development_dependency 'jbuilder'

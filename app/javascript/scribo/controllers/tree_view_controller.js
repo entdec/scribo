@@ -1,8 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
-import "./tree-view.scss"
-import "element-closest"
-
 import Sortable from "sortablejs"
+
+console.log("TREEVIEW")
 
 /***
  * Treeview controller
@@ -13,6 +12,7 @@ export default class extends Controller {
   static targets = ["folderTemplate", "entryTemplate", "collapseExpand", "contentItems"]
 
   connect() {
+    console.log('hi')
     const self = this
 
     self.element.addEventListener("click", (event) => {
@@ -37,7 +37,7 @@ export default class extends Controller {
   // Collapse or expand all folders
   collapseExpandAll(event) {
     const self = this
-    if (self.collapseExpandTarget.classList.contains("fa-plus-square")) {
+    if (self.collapseExpandTarget.classList.contains("fa-square-plus")) {
       self.element.querySelectorAll("li.directory").forEach((el) => {
         el.classList.add("open")
         el.classList.remove("closed")
@@ -184,11 +184,11 @@ export default class extends Controller {
     const self = this
     if (!self.contentItemsTarget.querySelector("li.entry.directory.open")) {
       // All are closed
-      self.collapseExpandTarget.classList.remove("fa-minus-square")
-      self.collapseExpandTarget.classList.add("fa-plus-square")
+      self.collapseExpandTarget.classList.remove("fa-square-minus")
+      self.collapseExpandTarget.classList.add("fa-square-plus")
     } else {
-      self.collapseExpandTarget.classList.add("fa-minus-square")
-      self.collapseExpandTarget.classList.remove("fa-plus-square")
+      self.collapseExpandTarget.classList.add("fa-square-minus")
+      self.collapseExpandTarget.classList.remove("fa-square-plus")
     }
   }
 

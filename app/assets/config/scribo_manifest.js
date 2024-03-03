@@ -1,2 +1,4 @@
-//= link_directory ../javascripts/scribo .js
-//= link_directory ../stylesheets/scribo .css
+//= link_tree ../images
+//= link_directory ../../javascript/scribo .js
+//= link_directory ../../javascript/scribo/controllers .js
+//= link_tree ../../../vendor/javascript .js

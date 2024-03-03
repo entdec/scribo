@@ -142,7 +142,7 @@
 }
 
 .tree-view .file > span {
-  background-image: url(../../images/file.svg);
+  background-image: url('file.svg');
   background-size: 18px 18px;
   padding-left: 0px;
 }
@@ -194,12 +194,12 @@
 }
 
 .tree-view .directory.closed > .list-item .name {
-  background-image: url(../../images/icons/folder.svg);
+  background-image: url('icons/folder.svg');
   background-size: 18px 18px;
 }
 
 .tree-view .directory.open > .list-item .name {
-  background-image: url(../../images/icons/folder-open.svg);
+  background-image: url('icons/folder-open.svg');
   background-size: 18px 18px;
 }
 
@@ -218,94 +218,94 @@
 }
 
 .tree-view .directory.closed > .list-item .name[data-path*="font"] {
-  background-image: url(../../images/icons/folder-font.svg);
+  background-image: url('icons/folder-font.svg');
 }
 .tree-view .directory.open > .list-item .name[data-path*="font"] {
-  background-image: url(../../images/icons/folder-font-open.svg);
+  background-image: url('icons/folder-font-open.svg');
 }
 
 .tree-view .directory.closed > .list-item .name[data-path*="image"] {
-  background-image: url(../../images/icons/folder-images.svg);
+  background-image: url('icons/folder-images.svg');
 }
 .tree-view .directory.open > .list-item .name[data-path*="image"] {
-  background-image: url(../../images/icons/folder-images-open.svg);
+  background-image: url('icons/folder-images-open.svg');
 }
 
 .tree-view .directory.closed > .list-item .name[data-path*="data"] {
-  background-image: url(../../images/icons/folder-database.svg);
+  background-image: url('icons/folder-database.svg');
 }
 .tree-view .directory.open > .list-item .name[data-path*="data"] {
-  background-image: url(../../images/icons/folder-database-open.svg);
+  background-image: url('icons/folder-database-open.svg');
 }
 
 .tree-view .directory.closed > .list-item .name[data-path*="style"] {
-  background-image: url(../../images/icons/folder-css.svg);
+  background-image: url('icons/folder-css.svg');
 }
 .tree-view .directory.open > .list-item .name[data-path*="syle"] {
-  background-image: url(../../images/icons/folder-css-open.svg);
+  background-image: url('icons/folder-css-open.svg');
 }
 
 .tree-view .directory.closed > .list-item .name[data-path*="css"] {
-  background-image: url(../../images/icons/folder-css.svg);
+  background-image: url('icons/folder-css.svg');
 }
 .tree-view .directory.open > .list-item .name[data-path*="css"] {
-  background-image: url(../../images/icons/folder-css-open.svg);
+  background-image: url('icons/folder-css-open.svg');
 }
 
 .tree-view .directory.closed > .list-item .name[data-path*="sass"] {
-  background-image: url(../../images/icons/folder-sass.svg);
+  background-image: url('icons/folder-sass.svg');
 }
 .tree-view .directory.open > .list-item .name[data-path*="sass"] {
-  background-image: url(../../images/icons/folder-sass-open.svg);
+  background-image: url('icons/folder-sass-open.svg');
 }
 
 .tree-view .directory.closed > .list-item .name[data-path*="scripts"] {
-  background-image: url(../../images/icons/folder-javascript.svg);
+  background-image: url('icons/folder-javascript.svg');
 }
 .tree-view .directory.open > .list-item .name[data-path*="scripts"] {
-  background-image: url(../../images/icons/folder-javascript-open.svg);
+  background-image: url('icons/folder-javascript-open.svg');
 }
 
 .tree-view .directory.closed > .list-item .name[data-path*="layout"] {
-  background-image: url(../../images/icons/folder-layout.svg);
+  background-image: url('icons/folder-layout.svg');
 }
 .tree-view .directory.open > .list-item .name[data-path*="layout"] {
-  background-image: url(../../images/icons/folder-layout-open.svg);
+  background-image: url('icons/folder-layout-open.svg');
 }
 
 .tree-view .directory.closed > .list-item .name[data-path*="pages"] {
-  background-image: url(../../images/icons/folder-views.svg);
+  background-image: url('icons/folder-views.svg');
 }
 .tree-view .directory.open > .list-item .name[data-path*="pages"] {
-  background-image: url(../../images/icons/folder-views-open.svg);
+  background-image: url('icons/folder-views-open.svg');
 }
 
 .tree-view .directory.closed > .list-item .name[data-path*="post"] {
-  background-image: url(../../images/icons/folder-archive.svg);
+  background-image: url('icons/folder-archive.svg');
 }
 .tree-view .directory.open > .list-item .name[data-path*="post"] {
-  background-image: url(../../images/icons/folder-archive-open.svg);
+  background-image: url('icons/folder-archive-open.svg');
 }
 
 .tree-view .directory.closed > .list-item .name[data-path*="component"] {
-  background-image: url(../../images/icons/folder-components.svg);
+  background-image: url('icons/folder-components.svg');
 }
 .tree-view .directory.open > .list-item .name[data-path*="component"] {
-  background-image: url(../../images/icons/folder-components-open.svg);
+  background-image: url('icons/folder-components-open.svg');
 }
 
 .tree-view .directory.closed > .list-item .name[data-path*="lib"] {
-  background-image: url(../../images/icons/folder-lib.svg);
+  background-image: url('icons/folder-lib.svg');
 }
 .tree-view .directory.open > .list-item .name[data-path*="lib"] {
-  background-image: url(../../images/icons/folder-lib-open.svg);
+  background-image: url('icons/folder-lib-open.svg');
 }
 
 .tree-view .directory.closed > .list-item .name[data-path*="include"] {
-  background-image: url(../../images/icons/folder-include.svg);
+  background-image: url('icons/folder-include.svg');
 }
 .tree-view .directory.open > .list-item .name[data-path*="include"] {
-  background-image: url(../../images/icons/folder-include-open.svg);
+  background-image: url('icons/folder-include-open.svg');
 }
 
 // text
