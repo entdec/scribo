@@ -1,8 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
 import Sortable from "sortablejs"
 
-console.log("TREEVIEW")
-
 /***
  * Treeview controller
  *
@@ -12,7 +10,6 @@ export default class extends Controller {
   static targets = ["folderTemplate", "entryTemplate", "collapseExpand", "contentItems"]
 
   connect() {
-    console.log('hi')
     const self = this
 
     self.element.addEventListener("click", (event) => {
