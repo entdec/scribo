@@ -54,17 +54,10 @@ Add this line to your application's Gemfile:
 gem 'scribo'
 ```
 
-Migrate your database:
+Run the installer:
 
 ```bash
-$ bin/rails db:migrate
-```
-
-Then add Scribo to your routes file.
-Scribo consumes all URLs, so make sure you put the following line at the bottom of your routes.rb.
-
-```ruby
-mount Scribo::Engine, at: '/'
+$ bin/rails g scribo:install
 ```
 
 ## Using your controllers with scribo
