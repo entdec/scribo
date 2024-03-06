@@ -25,4 +25,17 @@ namespace :scribo do
 
     `rm -rf jekyllthemes`
   end
+
+  namespace :tailwindcss do
+    desc "Configure your Tailwind CSS"
+    task :config do
+      Rails::Generators.invoke("scribo:tailwind_config", ["--force"])
+    end
+  end
+
+end
+
+if Rake::Task.task_defined?("tailwindcss:build")
+  Rake::Task["tailwindcss:build"].enhance(["scribo:tailwindcss:config"])
+  Rake::Task["tailwindcss:watch"].enhance(["scribo:tailwindcss:config"])
 end
