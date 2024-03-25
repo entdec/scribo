@@ -16,7 +16,9 @@ Gem::Specification.new do |s|
   s.description = 'Scribo is designed to work with your models and renders your content inside customer designed layouts.'
   s.license     = 'MIT'
 
-  s.files = Dir['{app,config,db,lib}/**/*', 'MIT-LICENSE', 'Rakefile', 'README.md']
+  s.files = Dir.chdir(File.expand_path("..", __FILE__)) do
+    `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
+  end
 
   s.add_dependency 'ancestry'
   s.add_dependency 'babel-transpiler', '~> 0.7'
