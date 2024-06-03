@@ -5,7 +5,7 @@ require_dependency 'scribo/application_record'
 module Scribo
   # Represents any content in the system
   class Content < ApplicationRecord
-    has_ancestry(primary_key_format: /\A[\w\-]+(\/[\w\-]+)*\z/, counter_cache: true, cache_depth: true) 
+    has_closure_tree
     belongs_to :site, class_name: 'Site', foreign_key: 'scribo_site_id'
     has_one_attached :asset
 
@@ -293,7 +293,7 @@ module Scribo
     end
 
     def store_full_path(force = false)
-      if force || saved_changes.include?(:path) || saved_changes.include?(:ancestry)
+      if force || saved_changes.include?(:path) || saved_changes.include?(:parent_id)
         if post?
           result = categories.join('/') + '/'
           result += date.strftime('%Y/%m/%d/') if date
@@ -310,9 +310,9 @@ module Scribo
         children.reload.each do |child|
           child.store_full_path(true)
         end
-
       end
     end
+
 
     def tree_path
       result = (ancestors.map(&:path) << path).join('/')
