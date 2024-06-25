@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'ancestry'
+require 'closure_tree'
 require 'down'
 require 'kaminari'
 require 'liquid'

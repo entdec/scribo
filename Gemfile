@@ -26,6 +26,8 @@ gem 'key_path', github: 'entdec/keypath-ruby.git', branch: 'master'
 gem 'rubocop'
 gem 'signum'
 
+gem 'closure_tree'
+
 group :test do
   gem 'pry-rails'
 end

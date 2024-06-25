@@ -31,7 +31,7 @@ module Scribo
                        site.contents.located(File.dirname(name), restricted: false).first
                      end
             content = parent.children.find_by(path: File.basename(name))  if parent  
-            content = site.contents.find_by(path: File.basename(name), ancestry: nil)  if parent.nil? && content.nil? 
+            content = site.contents.find_by(path: File.basename(name), parent_id: nil)  if parent.nil? && content.nil?
             content = site.contents.create!(path: File.basename(name), parent: parent) if content.nil? 
             if File.directory?(name)
               content.kind = 'folder'
