@@ -10,6 +10,7 @@ layout_folder:
   kind: folder
   path: _layouts
   full_path: /_layouts
+  parent_id: null
 
 layout:
   site: main
@@ -17,13 +18,14 @@ layout:
   data: layout{{content}}layout
   path: layout.html
   full_path: /_layouts/layout.html
-  ancestry: <%= ActiveRecord::FixtureSet.identify(:layout_folder, :uuid) %>
+  parent_id: <%= ActiveRecord::FixtureSet.identify(:layout_folder, :uuid) %>
 
 sass_folder:
   site: main
   kind: folder
   path: _sass
   full_path: /_sass
+  parent_id: null
 
 scss_include:
   site: main
@@ -32,8 +34,8 @@ scss_include:
   full_path: /_sass/_scss_include.scss
   data: |
     @mixin large-text { font: { family: Arial; size: 20px; weight: bold; } color: #ff0000;}
-  ancestry: <%= ActiveRecord::FixtureSet.identify(:sass_folder, :uuid) %>
-  
+  parent_id: <%= ActiveRecord::FixtureSet.identify(:sass_folder, :uuid) %>
+
 scss:
   site: main
   kind: text
@@ -44,6 +46,7 @@ scss:
     body {
       @include large-text;
     }
+  parent_id: null
 
 second_index:
   site: second
@@ -52,12 +55,14 @@ second_index:
     {{site.email}},{{site.social_links.rss}},{{site.social_links.github}}
   path: /index.html
   full_path: /index.html
+  parent_id: null
 
 staff_members_folder:
   site: collection
   kind: folder
   path: _staff_members
   full_path: /_staff_members
+  parent_id: null
 
 collection_jane:
   site: collection
@@ -69,13 +74,14 @@ collection_jane:
     position: Developer
   path: jane.md
   full_path: /_staff_members/jane.md
-  ancestry: <%= ActiveRecord::FixtureSet.identify(:staff_members_folder, :uuid) %>
+  parent_id: <%= ActiveRecord::FixtureSet.identify(:staff_members_folder, :uuid) %>
 
 locales_folder:
   site: translate_site
   kind: folder
   path: _locales
   full_path: /_locales
+  parent_id: null
 
 locale_en:
   site: translate_site
@@ -90,4 +96,4 @@ locale_en:
           title: Title here
   path: en.yml
   full_path: /_locales/en.yml
-  ancestry: <%= ActiveRecord::FixtureSet.identify(:locales_folder, :uuid) %>
+  parent_id: <%= ActiveRecord::FixtureSet.identify(:locales_folder, :uuid) %>
