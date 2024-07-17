@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
     `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
   end
 
-  s.add_dependency 'ancestry'
+  s.add_dependency 'closure_tree'
   s.add_dependency 'babel-transpiler', '~> 0.7'
   s.add_dependency 'down', '~> 5.2'
   s.add_dependency 'kaminari'

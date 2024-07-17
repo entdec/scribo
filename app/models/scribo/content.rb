@@ -9,6 +9,8 @@ module Scribo
     belongs_to :site, class_name: 'Site', foreign_key: 'scribo_site_id'
     has_one_attached :asset
 
+
+
     validate :post_path
     validate :layout_cant_be_current_content
 
@@ -17,6 +19,8 @@ module Scribo
 
     after_save -> { store_full_path(true) }
     after_update -> {store_full_path(true)}
+
+
 
     scope :layouts, -> { in_folder('_layouts') }
     scope :posts, -> { in_folder('_posts') }
@@ -301,7 +305,7 @@ module Scribo
         elsif part_of_collection? && site.output_collection?(collection_name)
           result = "#{collection_name}/#{path}"
         else
-          result = (ancestors.map(&:path) << path).join('/')
+          result = (ancestors.reverse.map(&:path) << path).join('/')
         end
         result = '/' + result unless result.start_with?('/')
 
@@ -313,9 +317,8 @@ module Scribo
       end
     end
 
-
     def tree_path
-      result = (ancestors.map(&:path) << path).join('/')
+      result = (ancestors.reverse.map(&:path) << path).join('/')
       result = '/' + result unless result.start_with?('/')
       result
     end
