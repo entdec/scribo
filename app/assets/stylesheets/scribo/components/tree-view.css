@@ -201,15 +201,17 @@
   background-size: 18px 18px;
 }
 
-// .tree-view .entry.selected:before {
-//   content: '';
-//   position: absolute;
-//   left: 0;
-//   right: 0;
-//   height: 25px;
-//   background-color: #f5f5f5;
-//   z-index: -1;
-// }
+/* 
+.tree-view .entry.selected:before {
+   content: '';
+   position: absolute;
+   left: 0;
+   right: 0;
+   height: 25px;
+   background-color: #f5f5f5;
+   z-index: -1;
+ } 
+*/
 
 .tree-view .directory.closed > ul {
   display: none;

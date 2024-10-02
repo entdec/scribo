@@ -40,7 +40,7 @@
   .name[data-path="LICENSE"] {
     background-image: url("scribo/icons/markdown.svg");
   }
-  // script
+  /* script */
   .name[data-path$=".js"] {
     background-image: url("scribo/icons/javascript.svg");
   }
@@ -54,7 +54,7 @@
     background-image: url("scribo/icons/ruby.svg");
   }
 
-  // image
+  /* image */
   .name[data-path$=".png"] {
     background-image: url("scribo/icons/image.svg");
   }
@@ -80,7 +80,7 @@
     background-image: url("scribo/icons/image.svg");
   }
 
-  // video
+  /* video */
   .name[data-path$=".webm"] {
     background-image: url("scribo/icons/video.svg");
   }
@@ -91,7 +91,7 @@
     background-image: url("scribo/icons/video.svg");
   }
 
-  // audio
+  /* audio */
   .name[data-path$=".midi"] {
     background-image: url("scribo/icons/audio.svg");
   }
@@ -105,7 +105,7 @@
     background-image: url("scribo/icons/audio.svg");
   }
 
-  // document
+  /* document */
   .name[data-path$=".doc"] {
     background-image: url("scribo/icons/word.svg");
   }
@@ -134,7 +134,7 @@
     background-image: url("scribo/icons/zip.svg");
   }
 
-  // font
+  /* font */
   .name[data-path$=".eot"] {
     background-image: url("scribo/icons/font.svg");
   }
@@ -151,7 +151,7 @@
     background-image: url("scribo/icons/font.svg");
   }
 
-  // other
+  /* other */
   .name[data-path$=".link"] {
     background-image: url("scribo/icons/http.svg");
   }
