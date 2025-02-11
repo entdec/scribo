@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.version     = Scribo::VERSION
   s.authors     = ['Tom de Grunt']
   s.email       = ['tom@degrunt.nl']
-  s.homepage    = 'https://gitlab.com/tdegrunt/scribo'
+  s.homepage    = 'https://gitlab.com/entdec/scribo'
   s.summary     = 'An easy to use, embeddable CMS for Ruby on Rails'
   s.description = 'Scribo is designed to work with your models and renders your content inside customer designed layouts.'
   s.license     = 'MIT'
