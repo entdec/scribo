@@ -9,7 +9,7 @@ GIT
 PATH
   remote: .
   specs:
-    scribo (1.0.43)
+    scribo (1.0.45)
       babel-transpiler (~> 0.7)
       closure_tree
       down (~> 5.2)
@@ -221,7 +221,7 @@ GEM
       nokogiri (~> 1)
       rake
     mini_mime (1.1.5)
-    mini_portile2 (2.8.5)
+    mini_portile2 (2.8.9)
     minitest (5.22.2)
     minitest-reporters (1.6.1)
       ansi
@@ -239,7 +239,7 @@ GEM
     net-smtp (0.4.0.1)
       net-protocol
     nio4r (2.7.0)
-    nokogiri (1.16.2)
+    nokogiri (1.18.9)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
     parallel (1.24.0)
@@ -263,7 +263,7 @@ GEM
       nio4r (~> 2.0)
     pundit (2.3.1)
       activesupport (>= 3.0.0)
-    racc (1.7.3)
+    racc (1.8.1)
     rack (3.0.9.1)
     rack-session (2.0.0)
       rack (>= 3.0.0)
@@ -400,4 +400,4 @@ DEPENDENCIES
   signum
 
 BUNDLED WITH
-   2.1.4
+   2.6.3
